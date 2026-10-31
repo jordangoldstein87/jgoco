@@ -75,16 +75,26 @@
   .tool p { color: var(--muted); font-size: 14px; }
   .empty { color: var(--muted); }
   .ai-sub { display: none; }
+  .section { display: grid; gap: 6px; text-decoration: none; cursor: pointer; text-align: left; width: 100%; border: 1px solid var(--line); }
+  .section .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .section b.big { font-weight: 900; font-size: 30px; letter-spacing: -.02em; }
+  .section p { color: var(--muted); font-size: 14px; line-height: 1.4; }
+  .section .go { font-weight: 600; font-size: 14px; border-bottom: 2px solid var(--bolt); justify-self: start; }
+  .section.client { border: 2px solid var(--bolt); }
+  .lead { color: var(--muted); font-size: 15px; line-height: 1.45; margin-top: -4px; }
+  .stat { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 4px; }
+  .stat div small { display: block; color: var(--muted); font-size: 13px; }
+  .stat div b { font-weight: 900; font-size: 22px; }
   @media (max-width: 560px) { td.ai { display: none; } .ai-sub { display: inline; } }
 
-  nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--card); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+  nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; display: grid; grid-template-columns: repeat(5, 1fr); background: var(--card); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
   nav.tabs button { border: 0; background: none; padding: 12px 4px 14px; font-weight: 600; font-size: 13px; color: var(--muted); cursor: pointer; border-top: 3px solid transparent; }
   nav.tabs button.on { color: var(--ink); border-top-color: var(--bolt); }
 
   @media (min-width: 900px) {
     :root { --gutter: 32px; }
     .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    nav.tabs { position: sticky; top: 50px; bottom: auto; max-width: 1100px; margin: 0 auto; grid-template-columns: repeat(4, max-content); gap: 6px; background: none; border: 0; padding: 14px var(--gutter) 0; }
+    nav.tabs { position: sticky; top: 50px; bottom: auto; max-width: 1100px; margin: 0 auto; grid-template-columns: repeat(5, max-content); gap: 6px; background: none; border: 0; padding: 14px var(--gutter) 0; }
     nav.tabs button { border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; background: var(--card); }
     nav.tabs button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
     .app { padding-bottom: 40px; }
@@ -112,8 +122,9 @@
   </header>
   <nav class="tabs" id="tabs">
     <button class="on" data-tab="home">Home</button>
-    <button data-tab="time">Time and cost</button>
-    <button data-tab="drafts">Invoices</button>
+    <button data-tab="clients">Clients</button>
+    <button data-tab="expenses">Expenses</button>
+    <button data-tab="reference">Reference</button>
     <button data-tab="work">Projects</button>
   </nav>
   <main id="view"></main>
@@ -224,74 +235,79 @@
   }
 
   const hoursOf = (r) => (data.billHours === "attended" ? r.attendedHours : r.activeHours);
+  const ofType = (t, m = month) => data.rows.filter((r) => r.type === t && (!m || r.month === m));
+  const sum = (list, f) => list.reduce((a, r) => a + f(r), 0);
+  const projectsOf = (client, m = month) => data.byProject.filter((p) => p.client === client && (!m || p.month === m));
+  const label = (client) => (client === "jgoco" ? "JGoCo" : client);
 
   function render() {
     document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === tab));
-    $("#view").innerHTML = { home, time, drafts, work }[tab]();
-    $("#view").querySelectorAll("[data-month]").forEach((b) =>
-      b.addEventListener("click", () => {
-        month = b.dataset.month;
-        render();
-      }),
-    );
+    $("#view").innerHTML = { home, clients, expenses, reference, work }[tab]();
+    $("#view").querySelectorAll("[data-month]").forEach((b) => b.addEventListener("click", () => { month = b.dataset.month; render(); }));
+    $("#view").querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => { tab = b.dataset.go; render(); window.scrollTo({ top: 0 }); }));
+  }
+
+  function months() {
+    const all = [...new Set(data.rows.map((r) => r.month))].sort().reverse();
+    return `<div class="seg">${all.map((m) => `<button data-month="${m}" class="${m === month ? "on" : ""}">${esc(monthName(m))}</button>`).join("")}</div>`;
+  }
+
+  function projectTable(list, withRate) {
+    if (!list.length) return '<p class="empty">Nothing tracked this month.</p>';
+    return `<table>${list.map((p) => `<tr><td>${esc(p.project)}</td><td class="n">${p.hours.toFixed(1)} h</td><td class="n">${money(p.aiCost)}</td>${withRate ? `<td class="n">${p.hours ? money0(p.aiCost / p.hours) + "/h" : "·"}</td>` : ""}</tr>`).join("")}</table>`;
   }
 
   function home() {
-    const rows = data.rows.filter((r) => r.month === month);
-    const billable = rows.filter((r) => r.billable);
-    const hours = rows.reduce((s, r) => s + hoursOf(r), 0);
-    const ai = rows.reduce((s, r) => s + r.aiCost, 0);
-    const toBill = billable.reduce((s, r) => s + r.bill, 0);
-    const draftTotal = data.drafts.reduce((s, d) => s + d.working.totalCents, 0);
-    return `
-      <div class="eyebrow">${esc(monthName(month))}</div>
-      <div class="tiles">
-        <div class="tile"><span>Hours</span><b>${hours.toFixed(1)}</b><span>${rows.length} clients</span></div>
-        <div class="tile"><span>AI cost</span><b>${money0(ai)}</b><span>API list price</span></div>
-        <div class="tile hot"><span>To bill</span><b>${money0(toBill)}</b><span>${billable.map((r) => esc(r.client)).join(", ") || "Nobody yet"}</span></div>
-        <div class="tile"><span>Drafts</span><b>${data.drafts.length}</b><span>${draftTotal ? cents(draftTotal) + " waiting" : "None waiting"}</span></div>
-      </div>
-      <h2>This month</h2>
-      <div class="card list">${rows.map(clientRow).join("") || '<p class="empty">No time tracked yet.</p>'}</div>`;
+    const cl = ofType("client"), ex = ofType("expense"), rf = ofType("reference"), pe = ofType("personal"), un = ofType("unsorted");
+    const card = (go, kind, title, big, text) => `<button class="card section ${kind}" data-go="${go}"><span class="top"><span class="eyebrow">${title}</span><b class="big">${big}</b></span><p>${text}</p><span class="go">Open</span></button>`;
+    return `${months()}
+      ${card("clients", "client", "Clients · to bill", money0(sum(cl, (r) => r.bill)), cl.length ? cl.map((r) => `${esc(label(r.client))}: ${hoursOf(r).toFixed(1)} h, AI usage ${money0(r.aiCost * (1 + r.markup))}`).join("<br>") + (data.drafts.length ? `<br>${data.drafts.length} invoice draft${data.drafts.length > 1 ? "s" : ""} waiting` : "") : "No client work this month.")}
+      ${card("expenses", "", "Expenses · JGoCo", money0(sum(ex, (r) => r.aiCost)), `AI development cost for your own business, at API list price. ${sum(ex, hoursOf).toFixed(1)} h of your time.`)}
+      ${card("reference", "", "Reference · not billed", sum(rf, hoursOf).toFixed(0) + " h", `${rf.map((r) => esc(r.client)).join(", ") || "Nothing"}: ${money0(sum(rf, (r) => r.aiCost))} of AI. Use it to estimate new projects.${pe.length ? `<br>Personal, kept apart: ${sum(pe, hoursOf).toFixed(0)} h, ${money0(sum(pe, (r) => r.aiCost))}.` : ""}${un.length ? `<br>${sum(un, hoursOf).toFixed(1)} h still unsorted.` : ""}`)}`;
   }
 
-  function clientRow(r) {
-    const tag = r.billable ? '<span class="pill bill">Billable</span>' : '<span class="pill">Not billed</span>';
-    return `<div class="row"><span class="name">${esc(r.client)}${tag}</span><span class="num">${r.billable ? money0(r.bill) : hoursOf(r).toFixed(1) + " h"}</span>
-      <span class="sub">${hoursOf(r).toFixed(2)} h · AI ${money(r.aiCost)}${r.projects.length ? " · " + esc(r.projects.join(", ")) : ""}</span></div>`;
+  function clients() {
+    const cl = ofType("client");
+    const names = [...new Set(data.rows.filter((r) => r.type === "client").map((r) => r.client))];
+    const accounts = names.map((name) => {
+      const r = cl.find((x) => x.client === name);
+      const links = data.projects.special.filter((p) => p.client === name).flatMap((p) => p.links);
+      const drafts = data.drafts.filter((d) => d.client === name);
+      return `<div class="card"><div class="eyebrow">Client account</div><h2 style="font-size:26px">${esc(name)}</h2>
+        ${r ? `<div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(2)}</b></div><div><small>AI usage, billed</small><b>${money0(r.aiCost * (1 + r.markup))}</b></div><div><small>To bill</small><b>${money0(r.bill)}</b></div></div>
+        <div class="private">For you only: $${r.rate}/h, AI ${money(r.aiCost)} at list price billed at +${Math.round(r.markup * 100)}%.</div>` : '<p class="empty">No work tracked this month.</p>'}
+        ${links.length ? `<div class="links">${links.map((l) => `<a class="btn ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div>` : ""}
+        ${drafts.map(draftCard).join("")}</div>`;
+    });
+    return `${months()}<h2>Clients</h2><p class="lead">Accounts you bill. Hours times your rate, plus AI usage.</p>${accounts.join("") || '<div class="card"><p class="empty">No client accounts yet.</p></div>'}`;
   }
 
-  function time() {
-    const months = [...new Set(data.rows.map((r) => r.month))].sort().reverse();
-    const rows = data.rows.filter((r) => r.month === month);
-    const body = rows
-      .map((r) => `<tr><td><b>${esc(r.client)}</b>${r.billable ? '<span class="pill bill">Billable</span>' : ""}<br><span class="eyebrow" style="letter-spacing:0;text-transform:none">${r.sessions} sessions · ${r.attendedHours.toFixed(1)} h with you<span class="ai-sub"> · AI ${money(r.aiCost)}</span></span></td>
-        <td class="n">${hoursOf(r).toFixed(2)} h</td><td class="n ai">${money(r.aiCost)}</td><td class="n">${r.billable ? "<b>" + money(r.bill) + "</b>" : "·"}</td></tr>`)
-      .join("");
-    return `
-      <div class="seg">${months.map((m) => `<button data-month="${m}" class="${m === month ? "on" : ""}">${esc(monthName(m))}</button>`).join("")}</div>
-      <h2>Time and cost</h2>
-      <div class="card"><table>
-        <tr><td class="eyebrow">Client</td><td class="n eyebrow">Hours</td><td class="n eyebrow ai">AI cost</td><td class="n eyebrow">Bill</td></tr>
-        ${body}
-      </table></div>`;
+  function draftCard(d) {
+    const w = d.working;
+    return `<div style="margin-top:16px;border-top:1px solid var(--line);padding-top:14px">
+      <div class="eyebrow">Invoice draft · ${esc(d.from)} to ${esc(d.to)} · due ${esc(d.dueDate)}</div>
+      <table>${d.lines.map((l) => `<tr><td>${esc(l.description)}</td><td class="n">${cents(l.amountCents)}</td></tr>`).join("")}<tr class="total"><td>Total</td><td class="n">${cents(w.totalCents)}</td></tr></table>
+      <div class="pay"><div><small>Wire or bank transfer</small><b>${cents(w.payment.wireCents)}</b></div><div><small>Card, plus ${w.payment.feePercent}%</small><b>${cents(w.payment.cardCents)}</b></div></div></div>`;
   }
 
-  function drafts() {
-    if (!data.drafts.length) return '<h2>Invoices</h2><div class="card"><p class="empty">No drafts waiting.</p></div>';
-    return `<h2>Invoice drafts</h2>` + data.drafts
-      .map((d) => {
-        const w = d.working;
-        const lines = d.lines.map((l) => `<tr><td>${esc(l.description)}</td><td class="n">${cents(l.amountCents)}</td></tr>`).join("");
-        return `<div class="card">
-          <div class="eyebrow">${esc(d.from)} to ${esc(d.to)} · due ${esc(d.dueDate)}</div>
-          <h2 style="font-size:24px">${esc(d.client)}</h2>
-          <table>${lines}<tr class="total"><td>Total</td><td class="n">${cents(w.totalCents)}</td></tr></table>
-          <div class="pay"><div><small>Wire or bank transfer</small><b>${cents(w.payment.wireCents)}</b></div><div><small>Card, plus ${w.payment.feePercent}%</small><b>${cents(w.payment.cardCents)}</b></div></div>
-          <div class="private"><b>For you only.</b> ${w.hours} h at $${w.rate}/hr. AI ${money(w.aiCostAtList)} at list price, billed at +${Math.round(w.markup * 100)}%. Import into Money Machine to number and send it.</div>
-        </div>`;
-      })
-      .join("");
+  function expenses() {
+    const ex = ofType("expense");
+    const allTime = ofType("expense", null);
+    return `${months()}<h2>Expenses</h2><p class="lead">Your own JGoCo work, tracked as AI development cost. Priced at API list rates, so it shows what the work is worth, not your subscription bill.</p>
+      <div class="card"><div class="stat"><div><small>${esc(monthName(month))}</small><b>${money0(sum(ex, (r) => r.aiCost))}</b></div><div><small>Your time</small><b>${sum(ex, hoursOf).toFixed(1)} h</b></div><div><small>All time</small><b>${money0(sum(allTime, (r) => r.aiCost))}</b></div></div></div>
+      <div class="card"><div class="eyebrow" style="margin-bottom:6px">By project</div>${projectTable(projectsOf("jgoco"))}</div>`;
+  }
+
+  function reference() {
+    const rf = ofType("reference"), pe = ofType("personal"), un = ofType("unsorted");
+    const allRef = ofType("reference", null);
+    const perHour = sum(allRef, hoursOf) ? sum(allRef, (r) => r.aiCost) / sum(allRef, hoursOf) : 0;
+    const block = (title, list, client) => `<div class="card"><div class="eyebrow">${title}</div><div class="stat"><div><small>Hours</small><b>${sum(list, hoursOf).toFixed(1)}</b></div><div><small>AI cost</small><b>${money0(sum(list, (r) => r.aiCost))}</b></div></div>${projectTable(projectsOf(client), true)}</div>`;
+    return `${months()}<h2>Reference</h2><p class="lead">Work you don't bill. Keep it as a record of what things take, for estimating new projects.</p>
+      ${rf.length || allRef.length ? block("Grenco Science · not billed", rf, "Grenco Science") : ""}
+      ${perHour ? `<div class="card"><div class="eyebrow">For estimates</div><div class="stat"><div><small>AI per hour of work</small><b>${money0(perHour)}</b></div><div><small>All Grenco time</small><b>${sum(allRef, hoursOf).toFixed(0)} h</b></div></div><p class="lead" style="margin-top:8px">A project like this ran about ${money0(perHour)} of AI for every hour you worked on it.</p></div>` : ""}
+      ${pe.length ? block("Personal · kept apart from the business", pe, "Personal") : ""}
+      ${un.length ? block("Unsorted", un, "Unassigned") : ""}`;
   }
 
   function work() {
