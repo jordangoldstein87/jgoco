@@ -40,6 +40,35 @@
   .parts li { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 24px; align-items: baseline; padding: 26px 0; border-bottom: 1px solid var(--line); }
   .parts b { font-weight: 900; font-size: clamp(26px, 3.6vw, 48px); letter-spacing: -.025em; line-height: 1; }
   .parts span { font-size: clamp(17px, 1.6vw, 21px); color: var(--muted); line-height: 1.35; }
+  .plug { padding: 0 var(--gutter) clamp(72px, 12vh, 140px); }
+  .plug h2 { font-weight: 900; font-size: clamp(36px, 5.6vw, 80px); line-height: .98; letter-spacing: -.035em; max-width: 14ch; margin-bottom: clamp(36px, 6vh, 64px); }
+  .plug h2 em { font-style: normal; color: var(--soft); }
+  .map { display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 300px) minmax(0, 1fr); grid-template-rows: repeat(3, auto); gap: 18px clamp(28px, 4vw, 64px); align-items: center; }
+  .app { position: relative; border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; background: var(--paper); }
+  .app b { display: block; font-weight: 900; font-size: 20px; letter-spacing: -.01em; margin-bottom: 6px; }
+  .app span { color: var(--muted); font-size: 15px; line-height: 1.45; }
+  .app.l { grid-column: 1; } .app.r { grid-column: 3; }
+  .app::after { content: ""; position: absolute; top: 50%; height: 2px; width: clamp(28px, 4vw, 64px); background: var(--ink); }
+  .app.l::after { left: 100%; } .app.r::after { right: 100%; }
+  .app::before { content: ""; position: absolute; top: calc(50% - 4px); width: 10px; height: 10px; border-radius: 50%; background: var(--bolt); border: 2px solid var(--ink); }
+  .app.l::before { right: -6px; } .app.r::before { left: -6px; }
+  .core { grid-column: 2; grid-row: 1 / 4; align-self: stretch; background: var(--ink); color: var(--paper); border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; padding: 28px 20px; }
+  .core img { height: 72px; width: auto; }
+  .core b { font-weight: 900; font-size: clamp(24px, 2.4vw, 32px); letter-spacing: -.02em; line-height: 1.05; }
+  .core span { color: #bdbdbd; font-size: 15px; line-height: 1.4; }
+  .plug .more { margin-top: 26px; color: var(--muted); font-size: clamp(17px, 1.6vw, 21px); }
+  .cta { margin-top: clamp(40px, 7vh, 72px); display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; }
+  .btn { display: inline-flex; align-items: center; gap: 12px; background: var(--bolt); color: var(--ink); text-decoration: none; font-weight: 900; font-size: clamp(20px, 2vw, 26px); letter-spacing: -.01em; padding: 18px 28px; border-radius: 999px; }
+  .btn img { height: 1.1em; width: auto; }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .cta span { color: var(--muted); font-size: 17px; }
+  @media (max-width: 860px) {
+    .map { grid-template-columns: 1fr; gap: 12px; }
+    .app.l, .app.r, .core { grid-column: 1; grid-row: auto !important; }
+    .core { order: -1; flex-direction: row; justify-content: flex-start; text-align: left; padding: 20px; }
+    .core img { height: 48px; }
+    .app::after, .app::before { display: none; }
+  }
   .contact { background: var(--ink); color: var(--paper); padding: clamp(64px, 12vh, 140px) var(--gutter); }
   .contact h2 { font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #9a9a9a; margin-bottom: 20px; font-weight: 600; }
   .contact a { display: inline-flex; align-items: center; gap: .3em; color: var(--paper); text-decoration: none; font-weight: 900; font-size: clamp(28px, 6vw, 88px); letter-spacing: -.03em; overflow-wrap: anywhere; }
@@ -51,7 +80,7 @@
 </style>
 </head>
 <body>
-<header><a href="mailto:jordan@jgoco.me">Contact</a></header>
+<header><a href="consult.html">Book a consultation</a></header>
 <main>
   <section class="hero">
     <img class="logo" src="img/jgoco-logo.png" alt="JGoCo">
@@ -75,6 +104,21 @@
       <li><b>Websites</b><span>A new site for every business you run.</span></li>
       <li><b>Team tools</b><span>Orders, schedules, reports and AI on one screen.</span></li>
     </ul>
+  </section>
+  <section class="plug" id="plug" aria-label="What plugs in">
+    <div class="eyebrow">Plug in anything</div>
+    <h2>Works with what you <em>already use.</em></h2>
+    <div class="map">
+      <div class="app l" style="grid-row:1"><b>Sell</b><span>Square, Shopify, Toast, Clover, Stripe</span></div>
+      <div class="app l" style="grid-row:2"><b>Money</b><span>QuickBooks, Xero, Gusto, Bill.com</span></div>
+      <div class="app l" style="grid-row:3"><b>Talk</b><span>Gmail, Outlook, Slack, Teams, text</span></div>
+      <div class="core"><img src="img/bolt-yellow.png" alt=""><div><b>Your business</b><br><span>One screen for your team, with AI built in.</span></div></div>
+      <div class="app r" style="grid-row:1"><b>Market</b><span>Instagram, Facebook, Mailchimp, Google Business, TikTok</span></div>
+      <div class="app r" style="grid-row:2"><b>Book</b><span>Calendly, OpenTable, Resy, Airbnb, Vrbo</span></div>
+      <div class="app r" style="grid-row:3"><b>Run</b><span>Google Drive, Excel, Notion, HubSpot, Airtable</span></div>
+    </div>
+    <p class="more">Don't see yours? Ask. Almost anything can plug in.</p>
+    <div class="cta"><a class="btn" href="consult.html"><img src="img/bolt-black.png" alt="">Book a consultation</a><span>A few questions about your business. About five minutes.</span></div>
   </section>
   <section class="contact">
     <h2>Let's talk</h2>

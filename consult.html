@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a consultation · JGoCo</title>
+<meta name="description" content="A few questions about your business, so the first conversation is about you.">
+<meta property="og:title" content="Book a consultation with JGoCo">
+<meta property="og:description" content="A few questions about your business. About five minutes.">
+<meta property="og:image" content="https://jgoco.me/img/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #111; --paper: #fff; --muted: #6b6b6b; --soft: #c4c4c4; --line: #e3e3e3; --bolt: #ffd400; --gutter: clamp(16px, 5vw, 64px); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+  header { display: flex; align-items: center; justify-content: space-between; padding: 28px var(--gutter); }
+  header img { height: 34px; width: auto; display: block; }
+  header a.back { font-weight: 600; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--bolt); }
+  main { padding: clamp(24px, 6vh, 72px) var(--gutter) 96px; max-width: 980px; }
+  .eyebrow { font-size: 14px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  h1 { font-weight: 900; font-size: clamp(40px, 7vw, 96px); line-height: .95; letter-spacing: -.035em; }
+  h1 em { font-style: normal; color: var(--soft); }
+  .lead { margin-top: 24px; font-size: clamp(19px, 2vw, 24px); line-height: 1.35; max-width: 34ch; }
+  fieldset { border: 0; border-top: 4px solid var(--ink); margin-top: clamp(48px, 8vh, 80px); padding-top: 22px; display: grid; gap: 22px; }
+  fieldset:last-of-type { border-top-color: var(--bolt); }
+  legend { float: left; width: 100%; font-weight: 900; font-size: clamp(28px, 3.4vw, 44px); letter-spacing: -.025em; margin-bottom: 4px; }
+  legend i { font-style: normal; font-weight: 600; font-size: 14px; letter-spacing: .14em; color: var(--muted); display: block; margin-bottom: 8px; }
+  .row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+  label, .q { display: grid; gap: 8px; font-weight: 600; font-size: 17px; }
+  label small, .q small { font-weight: 400; color: var(--muted); font-size: 15px; }
+  input[type=text], input[type=email], input[type=tel], input[type=url], select, textarea {
+    font: 400 18px Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper);
+    border: 1px solid var(--line); border-radius: 12px; padding: 13px 14px; width: 100%; }
+  textarea { min-height: 112px; resize: vertical; line-height: 1.4; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--bolt); outline-offset: 1px; border-color: var(--ink); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips label { display: inline-flex; font-weight: 500; font-size: 16px; }
+  .chips input { position: absolute; opacity: 0; pointer-events: none; }
+  .chips span { border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; cursor: pointer; user-select: none; }
+  .chips input:checked + span { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .chips input:focus-visible + span { outline: 2px solid var(--bolt); outline-offset: 2px; }
+  .send { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 22px; }
+  .btn { display: inline-flex; align-items: center; gap: 12px; background: var(--bolt); color: var(--ink); border: 0; cursor: pointer; font: 900 clamp(20px, 2vw, 26px) Inter, system-ui, sans-serif; letter-spacing: -.01em; padding: 18px 28px; border-radius: 999px; }
+  .btn img { height: 1.1em; width: auto; }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .ghost { background: none; border: 0; font: 600 16px Inter, system-ui, sans-serif; color: var(--ink); border-bottom: 2px solid var(--line); cursor: pointer; padding: 2px 0; }
+  .note { color: var(--muted); font-size: 16px; width: 100%; }
+  .done { display: none; margin-top: 28px; background: #fffbe0; border-radius: 16px; padding: 20px 22px; font-size: 18px; line-height: 1.4; }
+  .done.on { display: block; }
+  .err { color: #b42318; font-size: 16px; width: 100%; display: none; }
+  .err.on { display: block; }
+  footer { padding: 24px var(--gutter); font-size: 14px; color: var(--muted); }
+  @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <a href="./"><img src="img/jgoco-logo.png" alt="JGoCo home"></a>
+  <a class="back" href="./">Back</a>
+</header>
+<main>
+  <div class="eyebrow">Book a consultation</div>
+  <h1>Tell us about<br><em>your business.</em></h1>
+  <p class="lead">A few questions, about five minutes. The first conversation starts with your answers.</p>
+
+  <form id="consult" novalidate>
+    <fieldset>
+      <legend><i>01</i>You</legend>
+      <div class="row">
+        <label>Your name<input type="text" name="name" autocomplete="name" required></label>
+        <label>Business name<input type="text" name="business" autocomplete="organization" required></label>
+      </div>
+      <div class="row">
+        <label>Email<input type="email" name="email" autocomplete="email" required></label>
+        <label>Phone <small>Optional</small><input type="tel" name="phone" autocomplete="tel"></label>
+      </div>
+      <label>Website <small>Or Instagram, if that's your front door</small><input type="text" name="website" placeholder="yourbusiness.com" inputmode="url"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend><i>02</i>Your business</legend>
+      <div class="row">
+        <label>What kind of business?
+          <select name="kind">
+            <option value="">Choose one</option>
+            <option>Restaurant, bar or cafe</option>
+            <option>Shop or retail</option>
+            <option>Hotel, rentals or hospitality</option>
+            <option>Events or venues</option>
+            <option>Products or brand</option>
+            <option>Wholesale or distribution</option>
+            <option>Services or agency</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>How many people work there?
+          <select name="team">
+            <option value="">Choose one</option>
+            <option>Just me</option>
+            <option>2 to 10</option>
+            <option>11 to 50</option>
+            <option>51 to 200</option>
+            <option>More than 200</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <label>How many businesses or locations?
+          <select name="locations">
+            <option value="">Choose one</option>
+            <option>One</option>
+            <option>2 to 5</option>
+            <option>6 to 20</option>
+            <option>More than 20</option>
+          </select>
+        </label>
+        <label>Who would we work with? <small>Name and role</small><input type="text" name="contact" placeholder="Owner, ops manager"></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><i>03</i>What you use today</legend>
+      <div class="q">Pick everything your team uses
+        <div class="chips" id="tools"></div>
+      </div>
+      <label>Anything else? <small>Other programs, spreadsheets, paper</small><input type="text" name="toolsOther"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend><i>04</i>Where it hurts</legend>
+      <label>What eats your team's time every week?<textarea name="time" placeholder="Copying orders between systems, answering the same emails, building reports by hand"></textarea></label>
+      <label>If one thing worked better tomorrow, what would it be?<textarea name="first"></textarea></label>
+      <div class="row">
+        <label>When do you want to start?
+          <select name="when">
+            <option value="">Choose one</option>
+            <option>Right away</option>
+            <option>In the next three months</option>
+            <option>Just exploring</option>
+          </select>
+        </label>
+        <label>Best way to reach you?
+          <select name="reach">
+            <option>Email</option>
+            <option>Phone call</option>
+            <option>Text</option>
+          </select>
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="send">
+      <button class="btn" type="submit"><img src="img/bolt-black.png" alt="">Send my answers</button>
+      <button class="ghost" type="button" id="copy">Copy my answers</button>
+      <p class="err" id="err">Please add your name, business and email.</p>
+      <p class="note">Your email app opens with your answers to jordan@jgoco.me. Press send there.</p>
+    </div>
+    <div class="done" id="done">Thanks. If your email app didn't open, use Copy my answers and email them to <b>jordan@jgoco.me</b>.</div>
+  </form>
+</main>
+<footer>© 2026 JGoCo</footer>
+<script>
+  const TOOLS = ["Square", "Shopify", "Toast", "Clover", "Stripe", "QuickBooks", "Xero", "Gusto",
+    "Gmail or Google Workspace", "Outlook or Microsoft 365", "Slack", "Instagram", "Facebook", "Mailchimp",
+    "Google Business", "Calendly", "OpenTable or Resy", "Airbnb or Vrbo", "Squarespace", "Wix", "WordPress",
+    "HubSpot", "Excel or Google Sheets", "Notion", "Airtable"];
+  const box = document.getElementById("tools");
+  for (const t of TOOLS) {
+    const l = document.createElement("label");
+    l.innerHTML = '<input type="checkbox" name="tools"><span></span>';
+    l.querySelector("input").value = t;
+    l.querySelector("span").textContent = t;
+    box.appendChild(l);
+  }
+
+  const form = document.getElementById("consult");
+  const v = (n) => (form.elements[n]?.value ?? "").trim();
+
+  function answers() {
+    const tools = [...form.querySelectorAll('input[name=tools]:checked')].map((i) => i.value);
+    if (v("toolsOther")) tools.push(v("toolsOther"));
+    const lines = [
+      ["Name", v("name")], ["Business", v("business")], ["Email", v("email")], ["Phone", v("phone")],
+      ["Website", v("website")], ["Kind of business", v("kind")], ["Team size", v("team")],
+      ["Businesses or locations", v("locations")], ["Working with", v("contact")],
+      ["Tools they use", tools.join(", ")], ["What eats their time", v("time")],
+      ["Fix first", v("first")], ["Start", v("when")], ["Best way to reach", v("reach")],
+    ];
+    return lines.filter(([, a]) => a).map(([q, a]) => `${q}: ${a}`).join("\n");
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const ok = v("name") && v("business") && /.+@.+\..+/.test(v("email"));
+    document.getElementById("err").classList.toggle("on", !ok);
+    if (!ok) return;
+    const subject = `Consultation: ${v("business")}`;
+    location.href = `mailto:jordan@jgoco.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(answers() + "\n")}`;
+    document.getElementById("done").classList.add("on");
+  });
+
+  document.getElementById("copy").addEventListener("click", async (e) => {
+    try {
+      await navigator.clipboard.writeText(answers());
+      e.target.textContent = "Copied";
+    } catch {
+      e.target.textContent = "Copy didn't work, select and copy by hand";
+    }
+  });
+</script>
+</body>
+</html>
