@@ -80,6 +80,9 @@
   .fields label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
   .fields input, .fields select { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font-size: 16px; font-weight: 400; }
   .fields label[hidden] { display: none; }
+  .group { display: grid; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .group h3 { font-weight: 900; font-size: 19px; letter-spacing: -.01em; }
+  .group p { color: var(--muted); font-size: 14px; line-height: 1.4; margin-top: -6px; }
   .fields input:focus, .fields select:focus { outline: 2px solid var(--bolt); border-color: var(--ink); }
   @media (max-width: 420px) { .fields { grid-template-columns: 1fr; } }
   .section { display: grid; gap: 6px; text-decoration: none; cursor: pointer; text-align: left; width: 100%; border: 1px solid var(--line); }
@@ -276,7 +279,10 @@
     return hours * d.hourlyRate + ai * (1 + (d.aiMarkup ?? 0));
   }
   // The bill as the account is set up now, so an edit shows right away.
-  const billOf = (r) => hoursOf(r) * rateOf(r.client) + aiBilled(r) + (r.passThrough ?? 0) + (acct(r.client)?.retainer ?? 0);
+  const apiMarkupOf = (name) => acct(name)?.apiMarkup ?? settings.defaults.apiMarkup ?? 0.1;
+  // Their live system's Anthropic bill for the month, passed through with the management markup.
+  const liveOf = (name, m) => (Number(acct(name)?.apiUsage?.[m]) || 0) * (1 + apiMarkupOf(name));
+  const billOf = (r) => hoursOf(r) * rateOf(r.client) + aiBilled(r) + liveOf(r.client, r.month) + (r.passThrough ?? 0) + (acct(r.client)?.retainer ?? 0);
   const ofType = (t, m = month) => data.rows.filter((r) => typeOf(r.client) === t && (!m || r.month === m));
   const sum = (list, f) => list.reduce((a, r) => a + f(r), 0);
   const projectsOf = (client, m = month) => data.byProject.filter((p) => p.client === client && (!m || p.month === m));
@@ -304,21 +310,22 @@
 
 
   function home() {
-    const cl = ofType("client"), ex = ofType("expense"), rf = ofType("reference"), pe = ofType("personal"), un = ofType("unsorted");
+    const cl = ofType("client"), ex = ofType("expense"), rf = ofType("reference");
     const card = (go, kind, title, big, text) => `<button class="card section ${kind}" data-go="${go}"><span class="top"><span class="eyebrow">${title}</span><b class="big">${big}</b></span><p>${text}</p><span class="go">Open</span></button>`;
     return `${months()}
       ${card("accounts", "client", "Clients · to bill", money0(sum(cl, billOf)), cl.length ? cl.map((r) => `${esc(label(r.client))}: ${hoursOf(r).toFixed(1)} h, AI usage ${money0(aiBilled(r))}`).join("<br>") + (data.drafts.length ? `<br>${data.drafts.length} invoice draft${data.drafts.length > 1 ? "s" : ""} waiting` : "") : "No client work this month.")}
       ${card("expenses", "", "Expenses · JGoCo", plan() ? money0(realCost(sum(ex, (r) => r.aiCost), month)) : Math.round((monthAi(month) ? sum(ex, (r) => r.aiCost) / monthAi(month) : 0) * 100) + "%", `${plan() ? "Real cost: " : ""}JGoCo's share of your AI plan this month. ${sum(ex, hoursOf).toFixed(1)} h of your time.`)}
-      ${card("reference", "", "Reference · not billed", sum(rf, hoursOf).toFixed(0) + " h", `${rf.map((r) => esc(r.client)).join(", ") || "Nothing"}: ${money0(sum(rf, (r) => r.aiCost))} of AI. Use it to estimate new projects.${pe.length ? `<br>Personal, kept apart: ${sum(pe, hoursOf).toFixed(0)} h, ${money0(sum(pe, (r) => r.aiCost))}.` : ""}${un.length ? `<br>${sum(un, hoursOf).toFixed(1)} h still unsorted.` : ""}`)}`;
+      ${card("reference", "", "Reference · not billed", sum(rf, hoursOf).toFixed(0) + " h", `${rf.map((r) => esc(r.client)).join(", ") || "Nothing"}: ${money0(sum(rf, (r) => r.aiCost))} of AI. Use it to estimate new projects.`)}`;
   }
 
-  const TYPE_NAMES = { client: "Client, billed", expense: "Business expense", reference: "Reference, not billed", personal: "Personal", unsorted: "Unsorted" };
+  const TYPE_NAMES = { client: "Client, billed", expense: "Business expense", reference: "Reference, not billed", personal: "Personal (hidden)" };
   const pct = (m) => Math.round(m * 1000) / 10;
 
   function accounts() {
     if (editing) return accountForm(editing === "__new" ? null : acct(editing));
     const d = settings.defaults;
-    const groups = ["client", "expense", "reference", "personal", "unsorted"].map((t) => {
+    // Personal and unsorted time still counts toward total AI use, but isn't shown.
+    const groups = ["client", "expense", "reference"].map((t) => {
       const list = settings.accounts.filter((a) => a.type === t);
       if (!list.length) return "";
       return `<div class="eyebrow" style="margin-top:6px">${TYPE_NAMES[t]}</div><div class="list">${list.map((a) => {
@@ -338,6 +345,7 @@
           ${field("Card fee (%)", "d_fee", d.cardFeePercent, "number", "step=0.1 min=0")}
           ${field("My AI plan per month ($)", "d_subs", d.aiSubscriptionMonthly ?? "", "number", 'step=1 min=0 placeholder="Claude plan plus other AI apps"')}
           ${pricingFields("d", d.aiPricing, false)}
+          <label>Live system AI markup<select id="d_apimarkup">${[["0.1", "10%"], ["0.15", "15%"], ["0.2", "20%"]].map(([v, t]) => `<option value="${v}"${String(d.apiMarkup ?? 0.1) === v ? " selected" : ""}>${t}</option>`).join("")}</select></label>
           <label>Hours to bill<select id="d_hours"><option value="active"${d.billHours === "active" ? " selected" : ""}>All active time</option><option value="attended"${d.billHours === "attended" ? " selected" : ""}>Only time with you</option></select></label>
         </div>
         <button class="btn dark" type="submit">Save defaults</button></form>`;
@@ -354,8 +362,8 @@
   // The pricing picker, used on an account (with "Use default") and in the defaults.
   function pricingFields(prefix, p, withDefault) {
     const method = p?.method ?? (withDefault ? "" : "list");
-    return `<label>AI usage priced by<select id="${prefix}_method" data-pricing="${prefix}">
-        ${withDefault ? `<option value=""${method === "" ? " selected" : ""}>Use default (${esc(METHOD_NAMES[(settings.defaults.aiPricing ?? {}).method ?? "list"])})</option>` : ""}
+    return `<label>Price it as<select id="${prefix}_method" data-pricing="${prefix}">
+        ${withDefault ? `<option value=""${method === "" ? " selected" : ""}>Default (${esc(pricingText(settings.defaults.aiPricing ?? { method: "list", percent: 100 }))})</option>` : ""}
         ${Object.entries(METHOD_NAMES).map(([k, v]) => `<option value="${k}"${method === k ? " selected" : ""}>${v}</option>`).join("")}
       </select></label>
       <label data-for="${prefix}" data-method="list">Percent of list price${`<input id="${prefix}_percent" type="number" step="1" min="0" value="${esc(p?.percent ?? 100)}">`}</label>
@@ -383,37 +391,64 @@
     return `<label>${name}<input id="${id}" type="${type}" ${extra} value="${esc(value ?? "")}"></label>`;
   }
 
+  // One titled group of settings, with a sentence saying what it controls.
+  const group = (title, note, body) => `<section class="group"><h3>${title}</h3><p>${note}</p><div class="fields">${body}</div></section>`;
+
+  // This month's invoice for the account, line by line, as the settings stand now.
+  function invoicePreview(a, r) {
+    const hours = r ? hoursOf(r) : 0, rate = rateOf(a.name);
+    const lines = [
+      [`Your time · ${hours.toFixed(2)} h × $${rate}`, hours * rate],
+      [`AI used to build it · ${pricingText(pricingOf(a.name))}${markupOf(a.name) ? ` +${pct(markupOf(a.name))}%` : ""}`, r ? aiBilled(r) : 0],
+      [`AI in their live system · API bill +${pct(apiMarkupOf(a.name))}%`, liveOf(a.name, month)],
+      ["Retainer", a.retainer || 0],
+    ].filter(([, v]) => v > 0);
+    const total = lines.reduce((t, [, v]) => t + v, 0);
+    return `<div class="card"><div class="eyebrow">${esc(monthName(month))} invoice, as set up now</div>
+      ${lines.length ? `<table>${lines.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${money(v)}</td></tr>`).join("")}<tr class="total"><td>Total</td><td class="n">${money(total)}</td></tr></table>` : '<p class="empty">Nothing to bill this month yet.</p>'}
+      ${r ? `<p class="lead" style="margin-top:10px">Your real AI cost for this work: ${plan() ? money(realCost(r.aiCost, r.month)) : "set your plan on Expenses"}. On the API it would be ${money(r.aiCost)}.</p>` : ""}</div>`;
+  }
+
   function accountForm(a) {
     const isNew = !a;
-    a = a ?? { name: "", label: "", type: "client", hourlyRate: null, aiMarkup: null, retainer: 0, cadence: "monthly", termsDays: 15, email: "", address: { line1: "", city: "", state: "", postalCode: "" }, keywords: [] };
+    a = a ?? { name: "", label: "", type: "client", hourlyRate: null, aiMarkup: null, retainer: 0, cadence: "monthly", termsDays: 15, email: "", address: { line1: "", city: "", state: "", postalCode: "" }, keywords: [], apiMarkup: null, apiUsage: {} };
     const r = !isNew && data.rows.find((x) => x.client === a.name && x.month === month);
     const drafts = isNew ? [] : data.drafts.filter((x) => x.client === a.name);
     const links = isNew ? [] : data.projects.special.filter((p) => p.client === a.name).flatMap((p) => p.links);
+    const d = settings.defaults;
     return `<button class="btn ghost" id="back" type="button" style="justify-self:start">Back to accounts</button>
       <h2>${isNew ? "New account" : esc(a.label)}</h2>
       ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
-      ${r ? `<div class="card"><div class="eyebrow">${esc(monthName(month))}</div><div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(2)}</b></div>${a.type === "client" ? `<div><small>AI usage, billed</small><b>${money0(aiBilled(r))}</b></div><div><small>To bill</small><b>${money0(billOf(r))}</b></div>` : ""}<div><small>Your real cost</small><b>${plan() ? money0(realCost(r.aiCost, r.month)) : "Set plan"}</b></div><div><small>On the API it'd cost</small><b>${money0(r.aiCost)}</b></div></div></div>` : ""}
+      ${!isNew && a.type === "client" ? `${months()}${invoicePreview(a, r)}` : ""}
+      ${!isNew && a.type !== "client" && r ? `<div class="card"><div class="eyebrow">${esc(monthName(month))}</div><div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(1)}</b></div><div><small>Your real AI cost</small><b>${plan() ? money0(realCost(r.aiCost, r.month)) : "Set plan"}</b></div><div><small>On the API</small><b>${money0(r.aiCost)}</b></div></div></div>` : ""}
       <form class="card form" id="acct">
-        <div class="fields">
+        ${group("The account", "Its name, and whether you bill it.", `
           ${field("Account name", "a_label", a.label)}
-          <label>Kind of account<select id="a_type">${Object.entries(TYPE_NAMES).map(([k, v]) => `<option value="${k}"${a.type === k ? " selected" : ""}>${v}</option>`).join("")}</select></label>
-          ${field("Hourly rate ($)", "a_rate", a.hourlyRate, "number", `step=1 min=0 placeholder="${settings.defaults.hourlyRate} (default)"`)}
-          ${field("AI markup (%)", "a_markup", a.aiMarkup == null ? "" : pct(a.aiMarkup), "number", `step=1 min=0 placeholder="${pct(settings.defaults.aiMarkup)} (default)"`)}
+          <label>Kind of account<select id="a_type">${Object.entries(TYPE_NAMES).map(([k, v]) => `<option value="${k}"${a.type === k ? " selected" : ""}>${v}</option>`).join("")}</select></label>`)}
+        ${group("Your time", `Hours from your Claude sessions, times this rate. Blank uses your default, $${d.hourlyRate}.`, `
+          ${field("Hourly rate ($)", "a_rate", a.hourlyRate, "number", `step=1 min=0 placeholder="${d.hourlyRate}"`)}`)}
+        ${group("AI you use to build it", "The AI behind your own build work. One line on the invoice, never itemized.", `
           ${pricingFields("a", a.aiPricing, true)}
-          ${field("Monthly retainer ($)", "a_retainer", a.retainer || "", "number", "step=1 min=0 placeholder=0")}
-          <label>Invoice<select id="a_cadence"><option value="monthly"${a.cadence !== "milestone" ? " selected" : ""}>Every month</option><option value="milestone"${a.cadence === "milestone" ? " selected" : ""}>At milestones</option></select></label>
+          ${field("Markup on top (%)", "a_markup", a.aiMarkup == null ? "" : pct(a.aiMarkup), "number", `step=1 min=0 placeholder="${pct(d.aiMarkup ?? 0)}"`)}`)}
+        ${group("AI in their live system", "When their system runs on your Anthropic account: enter that month's API bill and it passes through with your management markup.", `
+          ${field(`API bill for ${esc(monthName(month))} ($)`, "a_api", a.apiUsage?.[month] ?? "", "number", 'step=0.01 min=0 placeholder="0"')}
+          <label>Management markup<select id="a_apimarkup">${[["", `Default (${pct(d.apiMarkup ?? 0.1)}%)`], ["0.1", "10%"], ["0.15", "15%"], ["0.2", "20%"]].map(([v, t]) => `<option value="${v}"${String(a.apiMarkup ?? "") === v ? " selected" : ""}>${t}</option>`).join("")}</select></label>`)}
+        ${group("Retainer", "A set amount every month, on top of everything else.", `
+          ${field("Monthly retainer ($)", "a_retainer", a.retainer || "", "number", "step=1 min=0 placeholder=0")}`)}
+        ${group("Invoicing", "Where the invoice goes and when it's due.", `
+          <label>Send an invoice<select id="a_cadence"><option value="monthly"${a.cadence !== "milestone" ? " selected" : ""}>Every month</option><option value="milestone"${a.cadence === "milestone" ? " selected" : ""}>At milestones</option></select></label>
           ${field("Payment due (days)", "a_terms", a.termsDays, "number", "step=1 min=0")}
           ${field("Billing email", "a_email", a.email, "email")}
           ${field("Street address", "a_line1", a.address.line1)}
           ${field("City", "a_city", a.address.city)}
           ${field("State", "a_state", a.address.state)}
-          ${field("ZIP", "a_zip", a.address.postalCode)}
-          ${field("Track sessions mentioning", "a_keywords", a.keywords.join(", "), "text", 'placeholder="bloomfield, porta via"')}
-        </div>
-        <button class="btn" type="submit"><img src="../img/bolt-black.png" alt="">${isNew ? "Create account" : "Save account"}</button>
+          ${field("ZIP", "a_zip", a.address.postalCode)}`)}
+        ${group("Tracking", "Claude sessions that mention any of these words count toward this account.", `
+          ${field("Words to look for", "a_keywords", a.keywords.join(", "), "text", 'placeholder="bloomfield, porta via"')}`)}
+        <button class="btn" type="submit" style="justify-self:start"><img src="../img/bolt-black.png" alt="">${isNew ? "Create account" : "Save account"}</button>
       </form>
       ${links.length ? `<div class="card"><div class="eyebrow">Live links</div><div class="links">${links.map((l) => `<a class="btn ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div></div>` : ""}
-      ${drafts.length ? `<div class="card">${drafts.map(draftCard).join("")}</div>` : ""}`;
+      ${drafts.length ? `<div class="card"><div class="eyebrow">Invoice draft on your Mac</div>${drafts.map(draftCard).join("")}</div>` : ""}`;
   }
 
   const val = (id) => document.getElementById(id)?.value.trim() ?? "";
@@ -431,7 +466,7 @@
     });
     $("#defaults")?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: numOrNull("d_fee") ?? settings.defaults.cardFeePercent, billHours: val("d_hours"), aiPricing: readPricing("d") ?? settings.defaults.aiPricing, aiSubscriptionMonthly: numOrNull("d_subs") };
+      settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: numOrNull("d_fee") ?? settings.defaults.cardFeePercent, billHours: val("d_hours"), aiPricing: readPricing("d") ?? settings.defaults.aiPricing, aiSubscriptionMonthly: numOrNull("d_subs"), apiMarkup: Number(val("d_apimarkup")) };
       await saveSettings("Defaults saved.");
     });
     $("#acct")?.addEventListener("submit", async (e) => {
@@ -448,6 +483,8 @@
         address: { line1: val("a_line1"), city: val("a_city"), state: val("a_state"), postalCode: val("a_zip") },
         keywords: val("a_keywords").split(",").map((w) => w.trim()).filter(Boolean),
         aiPricing: readPricing("a"),
+        apiMarkup: val("a_apimarkup") === "" ? null : Number(val("a_apimarkup")),
+        apiUsage: { ...(prev.apiUsage ?? {}), [month]: numOrNull("a_api") ?? 0 },
       };
       settings.accounts = isNew ? [...settings.accounts, next] : settings.accounts.map((a) => (a.name === prev.name ? next : a));
       editing = next.name;
@@ -529,7 +566,7 @@
   }
 
   function reference() {
-    const rf = ofType("reference"), pe = ofType("personal"), un = ofType("unsorted");
+    const rf = ofType("reference");
     const allRef = ofType("reference", null);
     const perHour = sum(allRef, hoursOf) ? sum(allRef, (r) => r.aiCost) / sum(allRef, hoursOf) : 0;
     const block = (title, list, client) => { const used = sum(list, (r) => r.aiCost), all = monthAi(month);
@@ -541,9 +578,7 @@
         const total = sum(allRef, valueAtDefaults);
         return `<div class="card"><div class="eyebrow">What Grenco would have paid you</div><div class="stat"><div><small>${esc(monthName(month))}</small><b>${money0(sum(rf, valueAtDefaults))}</b></div><div><small>All time</small><b>${money0(total)}</b></div><div><small>Per month, on average</small><b>${money0(total / ms.length)}</b></div></div><p class="lead" style="margin-top:8px">At your standard terms: $${settings.defaults.hourlyRate}/h plus AI at ${pricingText(settings.defaults.aiPricing ?? { method: "list", percent: 100 })}, over ${ms.length} month${ms.length > 1 ? "s" : ""} and ${sum(allRef, hoursOf).toFixed(0)} hours.</p></div>`;
       })() : ""}
-      ${perHour ? `<div class="card"><div class="eyebrow">For estimates</div><div class="stat"><div><small>API cost per hour of work</small><b>${money0(perHour)}</b></div><div><small>All Grenco time</small><b>${sum(allRef, hoursOf).toFixed(0)} h</b></div></div><p class="lead" style="margin-top:8px">A project like this ran about ${money0(perHour)} of AI for every hour you worked on it.</p></div>` : ""}
-      ${pe.length ? block("Personal · kept apart from the business", pe, "Personal") : ""}
-      ${un.length ? block("Unsorted", un, "Unassigned") : ""}`;
+      ${perHour ? `<div class="card"><div class="eyebrow">For estimates</div><div class="stat"><div><small>API cost per hour of work</small><b>${money0(perHour)}</b></div><div><small>All Grenco time</small><b>${sum(allRef, hoursOf).toFixed(0)} h</b></div></div><p class="lead" style="margin-top:8px">A project like this ran about ${money0(perHour)} of AI for every hour you worked on it.</p></div>` : ""}`;
   }
 
   function work() {
