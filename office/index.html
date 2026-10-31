@@ -269,6 +269,12 @@
     return (r.aiCost * (p.percent ?? 100)) / 100;
   }
   const aiBilled = (r) => aiBaseOf(r) * (1 + markupOf(r.client));
+  // What unbilled work would have cost a company at your standard terms (the defaults).
+  function valueAtDefaults(r) {
+    const d = settings.defaults, p = d.aiPricing ?? { method: "list", percent: 100 }, hours = hoursOf(r);
+    const ai = p.method === "hourly" ? (p.perHour ?? 0) * hours : p.method === "fixed" ? (p.fixed ?? 0) : p.method === "share" ? realCost(r.aiCost, r.month) : (r.aiCost * (p.percent ?? 100)) / 100;
+    return hours * d.hourlyRate + ai * (1 + (d.aiMarkup ?? 0));
+  }
   // The bill as the account is set up now, so an edit shows right away.
   const billOf = (r) => hoursOf(r) * rateOf(r.client) + aiBilled(r) + (r.passThrough ?? 0) + (acct(r.client)?.retainer ?? 0);
   const ofType = (t, m = month) => data.rows.filter((r) => typeOf(r.client) === t && (!m || r.month === m));
@@ -530,6 +536,11 @@
       return `<div class="card"><div class="eyebrow">${title}</div><div class="stat"><div><small>Hours</small><b>${sum(list, hoursOf).toFixed(1)}</b></div><div><small>Share of your AI use</small><b>${all > 0 ? Math.round((used / all) * 100) + "%" : "·"}</b></div><div><small>Real cost</small><b>${plan() ? money0(realCost(used, month)) : "Set plan"}</b></div></div>${projectTable(projectsOf(client))}</div>`; };
     return `${months()}<h2>Reference</h2><p class="lead">Work you don't bill. Keep it as a record of what things take, for estimating new projects.</p>
       ${rf.length || allRef.length ? block("Grenco Science · not billed", rf, "Grenco Science") : ""}
+      ${allRef.length ? (() => {
+        const ms = [...new Set(allRef.map((r) => r.month))];
+        const total = sum(allRef, valueAtDefaults);
+        return `<div class="card"><div class="eyebrow">What Grenco would have paid you</div><div class="stat"><div><small>${esc(monthName(month))}</small><b>${money0(sum(rf, valueAtDefaults))}</b></div><div><small>All time</small><b>${money0(total)}</b></div><div><small>Per month, on average</small><b>${money0(total / ms.length)}</b></div></div><p class="lead" style="margin-top:8px">At your standard terms: $${settings.defaults.hourlyRate}/h plus AI at ${pricingText(settings.defaults.aiPricing ?? { method: "list", percent: 100 })}, over ${ms.length} month${ms.length > 1 ? "s" : ""} and ${sum(allRef, hoursOf).toFixed(0)} hours.</p></div>`;
+      })() : ""}
       ${perHour ? `<div class="card"><div class="eyebrow">For estimates</div><div class="stat"><div><small>API cost per hour of work</small><b>${money0(perHour)}</b></div><div><small>All Grenco time</small><b>${sum(allRef, hoursOf).toFixed(0)} h</b></div></div><p class="lead" style="margin-top:8px">A project like this ran about ${money0(perHour)} of AI for every hour you worked on it.</p></div>` : ""}
       ${pe.length ? block("Personal · kept apart from the business", pe, "Personal") : ""}
       ${un.length ? block("Unsorted", un, "Unassigned") : ""}`;
