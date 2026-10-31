@@ -79,6 +79,7 @@
   .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .fields label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
   .fields input, .fields select { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font-size: 16px; font-weight: 400; }
+  .fields label[hidden] { display: none; }
   .fields input:focus, .fields select:focus { outline: 2px solid var(--bolt); border-color: var(--ink); }
   @media (max-width: 420px) { .fields { grid-template-columns: 1fr; } }
   .section { display: grid; gap: 6px; text-decoration: none; cursor: pointer; text-align: left; width: 100%; border: 1px solid var(--line); }
@@ -252,7 +253,19 @@
   const typeOf = (name) => acct(name)?.type ?? data.rows.find((r) => r.client === name)?.type ?? "unsorted";
   const rateOf = (name) => acct(name)?.hourlyRate ?? settings.defaults.hourlyRate;
   const markupOf = (name) => acct(name)?.aiMarkup ?? settings.defaults.aiMarkup;
-  const aiBilled = (r) => r.aiCost * (1 + markupOf(r.client));
+  const pricingOf = (name) => acct(name)?.aiPricing ?? settings.defaults.aiPricing ?? { method: "list", percent: 100 };
+  // All business hours in the month, for the "share of my subscriptions" method.
+  const businessHours = (m) => data.rows.filter((r) => r.month === m && typeOf(r.client) !== "personal").reduce((a, r) => a + hoursOf(r), 0);
+  // Same rules as aiBase() in tracker/invoice.mjs.
+  function aiBaseOf(r) {
+    const p = pricingOf(r.client), hours = hoursOf(r);
+    if (!(r.aiCost > 0 || hours > 0)) return 0;
+    if (p.method === "share") { const t = businessHours(r.month); return t > 0 ? ((settings.defaults.aiSubscriptionMonthly ?? 0) * hours) / t : 0; }
+    if (p.method === "hourly") return (p.perHour ?? 0) * hours;
+    if (p.method === "fixed") return p.fixed ?? 0;
+    return (r.aiCost * (p.percent ?? 100)) / 100;
+  }
+  const aiBilled = (r) => aiBaseOf(r) * (1 + markupOf(r.client));
   // The bill as the account is set up now, so an edit shows right away.
   const billOf = (r) => hoursOf(r) * rateOf(r.client) + aiBilled(r) + (r.passThrough ?? 0) + (acct(r.client)?.retainer ?? 0);
   const ofType = (t, m = month) => data.rows.filter((r) => typeOf(r.client) === t && (!m || r.month === m));
@@ -263,7 +276,7 @@
   function render() {
     document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === tab));
     $("#view").innerHTML = { home, accounts, expenses, reference, work }[tab]();
-    if (tab === "accounts") wireAccounts();
+    if (tab === "accounts") { wireAccounts(); showPricingFields(); }
     $("#view").querySelectorAll("[data-month]").forEach((b) => b.addEventListener("click", () => { month = b.dataset.month; render(); }));
     $("#view").querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => { tab = b.dataset.go; render(); window.scrollTo({ top: 0 }); }));
   }
@@ -299,7 +312,7 @@
       return `<div class="eyebrow" style="margin-top:6px">${TYPE_NAMES[t]}</div><div class="list">${list.map((a) => {
         const r = data.rows.find((x) => x.client === a.name && x.month === month);
         const right = t === "client" && r ? money0(billOf(r)) : r ? hoursOf(r).toFixed(1) + " h" : "";
-        const terms = t === "client" ? `$${rateOf(a.name)}/h · AI +${pct(markupOf(a.name))}%${a.retainer ? ` · $${a.retainer}/mo retainer` : ""}` : r ? `AI ${money(r.aiCost)} this month` : "Nothing this month";
+        const terms = t === "client" ? `$${rateOf(a.name)}/h · AI ${pricingText(pricingOf(a.name))} +${pct(markupOf(a.name))}%${a.retainer ? ` · $${a.retainer}/mo retainer` : ""}` : r ? `AI ${money(r.aiCost)} this month` : "Nothing this month";
         return `<button class="card section" data-edit="${esc(a.name)}"><span class="top"><b style="font-size:19px">${esc(a.label)}</b><b>${right}</b></span><p>${terms}</p></button>`;
       }).join("")}</div>`;
     }).join("");
@@ -311,9 +324,47 @@
           ${field("Hourly rate ($)", "d_rate", d.hourlyRate, "number", "step=1 min=0")}
           ${field("AI markup (%)", "d_markup", pct(d.aiMarkup), "number", "step=1 min=0")}
           ${field("Card fee (%)", "d_fee", d.cardFeePercent, "number", "step=0.1 min=0")}
+          ${field("My monthly AI subscriptions ($)", "d_subs", d.aiSubscriptionMonthly ?? "", "number", 'step=1 min=0 placeholder="Claude plan plus other AI apps"')}
+          ${pricingFields("d", d.aiPricing, false)}
           <label>Hours to bill<select id="d_hours"><option value="active"${d.billHours === "active" ? " selected" : ""}>All active time</option><option value="attended"${d.billHours === "attended" ? " selected" : ""}>Only time with you</option></select></label>
         </div>
         <button class="btn dark" type="submit">Save defaults</button></form>`;
+  }
+
+  const METHOD_NAMES = { list: "API list price", share: "Share of my AI subscriptions", hourly: "Flat amount per hour", fixed: "Fixed amount per invoice" };
+  function pricingText(p) {
+    if (p.method === "share") return "at my real cost";
+    if (p.method === "hourly") return `$${p.perHour ?? 0}/h`;
+    if (p.method === "fixed") return `$${p.fixed ?? 0} per invoice`;
+    return p.percent && p.percent !== 100 ? `${p.percent}% of list` : "at list price";
+  }
+
+  // The pricing picker, used on an account (with "Use default") and in the defaults.
+  function pricingFields(prefix, p, withDefault) {
+    const method = p?.method ?? (withDefault ? "" : "list");
+    return `<label>AI usage priced by<select id="${prefix}_method" data-pricing="${prefix}">
+        ${withDefault ? `<option value=""${method === "" ? " selected" : ""}>Use default (${esc(METHOD_NAMES[(settings.defaults.aiPricing ?? {}).method ?? "list"])})</option>` : ""}
+        ${Object.entries(METHOD_NAMES).map(([k, v]) => `<option value="${k}"${method === k ? " selected" : ""}>${v}</option>`).join("")}
+      </select></label>
+      <label data-for="${prefix}" data-method="list">Percent of list price${`<input id="${prefix}_percent" type="number" step="1" min="0" value="${esc(p?.percent ?? 100)}">`}</label>
+      <label data-for="${prefix}" data-method="hourly">AI per hour ($)<input id="${prefix}_perHour" type="number" step="1" min="0" value="${esc(p?.perHour ?? "")}"></label>
+      <label data-for="${prefix}" data-method="fixed">AI per invoice ($)<input id="${prefix}_fixed" type="number" step="1" min="0" value="${esc(p?.fixed ?? "")}"></label>`;
+  }
+
+  function readPricing(prefix) {
+    const method = val(`${prefix}_method`);
+    if (!method) return null;
+    if (method === "list") return { method, percent: numOrNull(`${prefix}_percent`) ?? 100 };
+    if (method === "hourly") return { method, perHour: numOrNull(`${prefix}_perHour`) ?? 0 };
+    if (method === "fixed") return { method, fixed: numOrNull(`${prefix}_fixed`) ?? 0 };
+    return { method };
+  }
+
+  function showPricingFields() {
+    document.querySelectorAll("[data-pricing]").forEach((sel) => {
+      const m = sel.value;
+      document.querySelectorAll(`[data-for="${sel.dataset.pricing}"]`).forEach((l) => (l.hidden = l.dataset.method !== m));
+    });
   }
 
   function field(name, id, value, type = "text", extra = "") {
@@ -329,13 +380,14 @@
     return `<button class="btn ghost" id="back" type="button" style="justify-self:start">Back to accounts</button>
       <h2>${isNew ? "New account" : esc(a.label)}</h2>
       ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
-      ${r ? `<div class="card"><div class="eyebrow">${esc(monthName(month))}</div><div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(2)}</b></div><div><small>AI at list price</small><b>${money0(r.aiCost)}</b></div>${a.type === "client" ? `<div><small>To bill</small><b>${money0(billOf(r))}</b></div>` : ""}</div></div>` : ""}
+      ${r ? `<div class="card"><div class="eyebrow">${esc(monthName(month))}</div><div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(2)}</b></div>${a.type === "client" ? `<div><small>AI usage, billed</small><b>${money0(aiBilled(r))}</b></div><div><small>To bill</small><b>${money0(billOf(r))}</b></div>` : ""}<div><small>On the API it'd cost</small><b>${money0(r.aiCost)}</b></div></div></div>` : ""}
       <form class="card form" id="acct">
         <div class="fields">
           ${field("Account name", "a_label", a.label)}
           <label>Kind of account<select id="a_type">${Object.entries(TYPE_NAMES).map(([k, v]) => `<option value="${k}"${a.type === k ? " selected" : ""}>${v}</option>`).join("")}</select></label>
           ${field("Hourly rate ($)", "a_rate", a.hourlyRate, "number", `step=1 min=0 placeholder="${settings.defaults.hourlyRate} (default)"`)}
           ${field("AI markup (%)", "a_markup", a.aiMarkup == null ? "" : pct(a.aiMarkup), "number", `step=1 min=0 placeholder="${pct(settings.defaults.aiMarkup)} (default)"`)}
+          ${pricingFields("a", a.aiPricing, true)}
           ${field("Monthly retainer ($)", "a_retainer", a.retainer || "", "number", "step=1 min=0 placeholder=0")}
           <label>Invoice<select id="a_cadence"><option value="monthly"${a.cadence !== "milestone" ? " selected" : ""}>Every month</option><option value="milestone"${a.cadence === "milestone" ? " selected" : ""}>At milestones</option></select></label>
           ${field("Payment due (days)", "a_terms", a.termsDays, "number", "step=1 min=0")}
@@ -356,12 +408,13 @@
   const numOrNull = (id, scale = 1) => (val(id) === "" ? null : Math.max(0, Number(val(id)) / scale));
 
   function wireAccounts() {
+    document.querySelectorAll("[data-pricing]").forEach((sel) => sel.addEventListener("change", showPricingFields));
     document.querySelectorAll("[data-edit]").forEach((b) => b.addEventListener("click", () => { editing = b.dataset.edit; saveNote = ""; render(); window.scrollTo({ top: 0 }); }));
     $("#newAcct")?.addEventListener("click", () => { editing = "__new"; saveNote = ""; render(); window.scrollTo({ top: 0 }); });
     $("#back")?.addEventListener("click", () => { editing = null; render(); });
     $("#defaults")?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: numOrNull("d_fee") ?? settings.defaults.cardFeePercent, billHours: val("d_hours") };
+      settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: numOrNull("d_fee") ?? settings.defaults.cardFeePercent, billHours: val("d_hours"), aiPricing: readPricing("d") ?? settings.defaults.aiPricing, aiSubscriptionMonthly: numOrNull("d_subs") };
       await saveSettings("Defaults saved.");
     });
     $("#acct")?.addEventListener("submit", async (e) => {
@@ -377,6 +430,7 @@
         cadence: val("a_cadence"), termsDays: numOrNull("a_terms") ?? 15, email: val("a_email"),
         address: { line1: val("a_line1"), city: val("a_city"), state: val("a_state"), postalCode: val("a_zip") },
         keywords: val("a_keywords").split(",").map((w) => w.trim()).filter(Boolean),
+        aiPricing: readPricing("a"),
       };
       settings.accounts = isNew ? [...settings.accounts, next] : settings.accounts.map((a) => (a.name === prev.name ? next : a));
       editing = next.name;
