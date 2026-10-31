@@ -331,7 +331,7 @@
       return `<div class="eyebrow" style="margin-top:6px">${TYPE_NAMES[t]}</div><div class="list">${list.map((a) => {
         const r = data.rows.find((x) => x.client === a.name && x.month === month);
         const right = t === "client" && r ? money0(billOf(r)) : r ? hoursOf(r).toFixed(1) + " h" : "";
-        const terms = t === "client" ? `$${rateOf(a.name)}/h · AI ${pricingText(pricingOf(a.name))} +${pct(markupOf(a.name))}%${a.retainer ? ` · $${a.retainer}/mo retainer` : ""}` : r ? `AI ${money(r.aiCost)} this month` : "Nothing this month";
+        const terms = t === "client" ? `$${rateOf(a.name)}/h · AI ${pricingText(pricingOf(a.name))} +${pct(markupOf(a.name))}%${a.retainer ? ` · $${a.retainer}/mo Service Fee` : ""}` : r ? `AI ${money(r.aiCost)} this month` : "Nothing this month";
         return `<button class="card section" data-edit="${esc(a.name)}"><span class="top"><b style="font-size:19px">${esc(a.label)}</b><b>${right}</b></span><p>${terms}</p></button>`;
       }).join("")}</div>`;
     }).join("");
@@ -401,7 +401,7 @@
       [`Your time · ${hours.toFixed(2)} h × $${rate}`, hours * rate],
       [`AI used to build it · ${pricingText(pricingOf(a.name))}${markupOf(a.name) ? ` +${pct(markupOf(a.name))}%` : ""}`, r ? aiBilled(r) : 0],
       [`AI in their live system · API bill +${pct(apiMarkupOf(a.name))}%`, liveOf(a.name, month)],
-      ["Retainer", a.retainer || 0],
+      ["Service Fee, flat monthly", a.retainer || 0],
     ].filter(([, v]) => v > 0);
     const total = lines.reduce((t, [, v]) => t + v, 0);
     return `<div class="card"><div class="eyebrow">${esc(monthName(month))} invoice, as set up now</div>
@@ -411,7 +411,7 @@
 
   function accountForm(a) {
     const isNew = !a;
-    a = a ?? { name: "", label: "", type: "client", hourlyRate: null, aiMarkup: null, retainer: 0, cadence: "monthly", termsDays: 15, email: "", address: { line1: "", city: "", state: "", postalCode: "" }, keywords: [], apiMarkup: null, apiUsage: {} };
+    a = a ?? { name: "", label: "", type: "client", hourlyRate: null, aiMarkup: null, retainer: 500, cadence: "monthly", termsDays: 15, email: "", address: { line1: "", city: "", state: "", postalCode: "" }, keywords: [], apiMarkup: null, apiUsage: {} };
     const r = !isNew && data.rows.find((x) => x.client === a.name && x.month === month);
     const drafts = isNew ? [] : data.drafts.filter((x) => x.client === a.name);
     const links = isNew ? [] : data.projects.special.filter((p) => p.client === a.name).flatMap((p) => p.links);
@@ -433,8 +433,8 @@
         ${group("AI in their live system", "When their system runs on your Anthropic account: enter that month's API bill and it passes through with your management markup.", `
           ${field(`API bill for ${esc(monthName(month))} ($)`, "a_api", a.apiUsage?.[month] ?? "", "number", 'step=0.01 min=0 placeholder="0"')}
           <label>Management markup<select id="a_apimarkup">${[["", `Default (${pct(d.apiMarkup ?? 0.1)}%)`], ["0.1", "10%"], ["0.15", "15%"], ["0.2", "20%"]].map(([v, t]) => `<option value="${v}"${String(a.apiMarkup ?? "") === v ? " selected" : ""}>${t}</option>`).join("")}</select></label>`)}
-        ${group("Retainer", "A set amount every month, on top of everything else.", `
-          ${field("Monthly retainer ($)", "a_retainer", a.retainer || "", "number", "step=1 min=0 placeholder=0")}`)}
+        ${group("Service Fee", "A flat monthly fee. Development is billed separately at your hourly rate, on top of it.", `
+          ${field("Service Fee per month ($)", "a_retainer", a.retainer || "", "number", "step=1 min=0 placeholder=0")}`)}
         ${group("Invoicing", "Where the invoice goes and when it's due.", `
           <label>Send an invoice<select id="a_cadence"><option value="monthly"${a.cadence !== "milestone" ? " selected" : ""}>Every month</option><option value="milestone"${a.cadence === "milestone" ? " selected" : ""}>At milestones</option></select></label>
           ${field("Payment due (days)", "a_terms", a.termsDays, "number", "step=1 min=0")}
