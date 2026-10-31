@@ -75,6 +75,12 @@
   .tool p { color: var(--muted); font-size: 14px; }
   .empty { color: var(--muted); }
   .ai-sub { display: none; }
+  .form { display: grid; gap: 14px; }
+  .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .fields label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
+  .fields input, .fields select { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font-size: 16px; font-weight: 400; }
+  .fields input:focus, .fields select:focus { outline: 2px solid var(--bolt); border-color: var(--ink); }
+  @media (max-width: 420px) { .fields { grid-template-columns: 1fr; } }
   .section { display: grid; gap: 6px; text-decoration: none; cursor: pointer; text-align: left; width: 100%; border: 1px solid var(--line); }
   .section .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
   .section b.big { font-weight: 900; font-size: 30px; letter-spacing: -.02em; }
@@ -122,7 +128,7 @@
   </header>
   <nav class="tabs" id="tabs">
     <button class="on" data-tab="home">Home</button>
-    <button data-tab="clients">Clients</button>
+    <button data-tab="accounts">Accounts</button>
     <button data-tab="expenses">Expenses</button>
     <button data-tab="reference">Reference</button>
     <button data-tab="work">Projects</button>
@@ -142,11 +148,11 @@
   const monthName = (m) => new Date(m + "-15").toLocaleDateString("en-US", { month: "long", year: "numeric" });
   const fromB64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
 
-  let sealed, data, tab = "home", month;
+  let sealed, data, cryptoKey, settings, editing = null, saveNote = "", tab = "home", month;
 
   async function deriveKey(pass, salt, iterations) {
     const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass), "PBKDF2", false, ["deriveKey"]);
-    return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+    return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
   }
 
   async function open(key) {
@@ -168,8 +174,9 @@
       };
     });
   }
-  const saveKey = (k) => store("readwrite", (s) => s.put(k, sealed.salt)).catch(() => {});
-  const loadKey = () => store("readonly", (s) => s.get(sealed.salt)).catch(() => null);
+  // v2 keys can also encrypt, which saving account settings needs.
+  const saveKey = (k) => store("readwrite", (s) => s.put(k, sealed.salt + ":v2")).catch(() => {});
+  const loadKey = () => store("readonly", (s) => s.get(sealed.salt + ":v2")).catch(() => null);
   const forget = () => store("readwrite", (s) => s.clear()).catch(() => {});
 
   async function start() {
@@ -183,6 +190,7 @@
     if (remembered) {
       try {
         data = await open(remembered);
+        cryptoKey = remembered;
         return show();
       } catch {
         await forget();
@@ -199,6 +207,7 @@
     try {
       const key = await deriveKey($("#pass").value, fromB64(sealed.salt), sealed.iterations);
       data = await open(key);
+      cryptoKey = key;
       if ($("#keep").checked) await saveKey(key);
       $("#pass").value = "";
       show();
@@ -221,6 +230,8 @@
     const b = e.target.closest("button[data-tab]");
     if (!b) return;
     tab = b.dataset.tab;
+    editing = null;
+    saveNote = "";
     render();
     window.scrollTo({ top: 0 });
   });
@@ -231,18 +242,28 @@
     const when = new Date(data.builtAt);
     $("#updated").textContent = "Updated " + when.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
     month = [...new Set(data.rows.map((r) => r.month))].sort().reverse()[0];
+    settings = structuredClone(data.settings);
     render();
+    pullSettings();
   }
 
   const hoursOf = (r) => (data.billHours === "attended" ? r.attendedHours : r.activeHours);
-  const ofType = (t, m = month) => data.rows.filter((r) => r.type === t && (!m || r.month === m));
+  const acct = (name) => settings.accounts.find((a) => a.name === name);
+  const typeOf = (name) => acct(name)?.type ?? data.rows.find((r) => r.client === name)?.type ?? "unsorted";
+  const rateOf = (name) => acct(name)?.hourlyRate ?? settings.defaults.hourlyRate;
+  const markupOf = (name) => acct(name)?.aiMarkup ?? settings.defaults.aiMarkup;
+  const aiBilled = (r) => r.aiCost * (1 + markupOf(r.client));
+  // The bill as the account is set up now, so an edit shows right away.
+  const billOf = (r) => hoursOf(r) * rateOf(r.client) + aiBilled(r) + (r.passThrough ?? 0) + (acct(r.client)?.retainer ?? 0);
+  const ofType = (t, m = month) => data.rows.filter((r) => typeOf(r.client) === t && (!m || r.month === m));
   const sum = (list, f) => list.reduce((a, r) => a + f(r), 0);
   const projectsOf = (client, m = month) => data.byProject.filter((p) => p.client === client && (!m || p.month === m));
-  const label = (client) => (client === "jgoco" ? "JGoCo" : client);
+  const label = (client) => acct(client)?.label ?? (client === "jgoco" ? "JGoCo" : client);
 
   function render() {
     document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === tab));
-    $("#view").innerHTML = { home, clients, expenses, reference, work }[tab]();
+    $("#view").innerHTML = { home, accounts, expenses, reference, work }[tab]();
+    if (tab === "accounts") wireAccounts();
     $("#view").querySelectorAll("[data-month]").forEach((b) => b.addEventListener("click", () => { month = b.dataset.month; render(); }));
     $("#view").querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => { tab = b.dataset.go; render(); window.scrollTo({ top: 0 }); }));
   }
@@ -261,25 +282,151 @@
     const cl = ofType("client"), ex = ofType("expense"), rf = ofType("reference"), pe = ofType("personal"), un = ofType("unsorted");
     const card = (go, kind, title, big, text) => `<button class="card section ${kind}" data-go="${go}"><span class="top"><span class="eyebrow">${title}</span><b class="big">${big}</b></span><p>${text}</p><span class="go">Open</span></button>`;
     return `${months()}
-      ${card("clients", "client", "Clients · to bill", money0(sum(cl, (r) => r.bill)), cl.length ? cl.map((r) => `${esc(label(r.client))}: ${hoursOf(r).toFixed(1)} h, AI usage ${money0(r.aiCost * (1 + r.markup))}`).join("<br>") + (data.drafts.length ? `<br>${data.drafts.length} invoice draft${data.drafts.length > 1 ? "s" : ""} waiting` : "") : "No client work this month.")}
+      ${card("accounts", "client", "Clients · to bill", money0(sum(cl, billOf)), cl.length ? cl.map((r) => `${esc(label(r.client))}: ${hoursOf(r).toFixed(1)} h, AI usage ${money0(aiBilled(r))}`).join("<br>") + (data.drafts.length ? `<br>${data.drafts.length} invoice draft${data.drafts.length > 1 ? "s" : ""} waiting` : "") : "No client work this month.")}
       ${card("expenses", "", "Expenses · JGoCo", money0(sum(ex, (r) => r.aiCost)), `AI development cost for your own business, at API list price. ${sum(ex, hoursOf).toFixed(1)} h of your time.`)}
       ${card("reference", "", "Reference · not billed", sum(rf, hoursOf).toFixed(0) + " h", `${rf.map((r) => esc(r.client)).join(", ") || "Nothing"}: ${money0(sum(rf, (r) => r.aiCost))} of AI. Use it to estimate new projects.${pe.length ? `<br>Personal, kept apart: ${sum(pe, hoursOf).toFixed(0)} h, ${money0(sum(pe, (r) => r.aiCost))}.` : ""}${un.length ? `<br>${sum(un, hoursOf).toFixed(1)} h still unsorted.` : ""}`)}`;
   }
 
-  function clients() {
-    const cl = ofType("client");
-    const names = [...new Set(data.rows.filter((r) => r.type === "client").map((r) => r.client))];
-    const accounts = names.map((name) => {
-      const r = cl.find((x) => x.client === name);
-      const links = data.projects.special.filter((p) => p.client === name).flatMap((p) => p.links);
-      const drafts = data.drafts.filter((d) => d.client === name);
-      return `<div class="card"><div class="eyebrow">Client account</div><h2 style="font-size:26px">${esc(name)}</h2>
-        ${r ? `<div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(2)}</b></div><div><small>AI usage, billed</small><b>${money0(r.aiCost * (1 + r.markup))}</b></div><div><small>To bill</small><b>${money0(r.bill)}</b></div></div>
-        <div class="private">For you only: $${r.rate}/h, AI ${money(r.aiCost)} at list price billed at +${Math.round(r.markup * 100)}%.</div>` : '<p class="empty">No work tracked this month.</p>'}
-        ${links.length ? `<div class="links">${links.map((l) => `<a class="btn ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div>` : ""}
-        ${drafts.map(draftCard).join("")}</div>`;
+  const TYPE_NAMES = { client: "Client, billed", expense: "Business expense", reference: "Reference, not billed", personal: "Personal", unsorted: "Unsorted" };
+  const pct = (m) => Math.round(m * 1000) / 10;
+
+  function accounts() {
+    if (editing) return accountForm(editing === "__new" ? null : acct(editing));
+    const d = settings.defaults;
+    const groups = ["client", "expense", "reference", "personal", "unsorted"].map((t) => {
+      const list = settings.accounts.filter((a) => a.type === t);
+      if (!list.length) return "";
+      return `<div class="eyebrow" style="margin-top:6px">${TYPE_NAMES[t]}</div><div class="list">${list.map((a) => {
+        const r = data.rows.find((x) => x.client === a.name && x.month === month);
+        const right = t === "client" && r ? money0(billOf(r)) : r ? hoursOf(r).toFixed(1) + " h" : "";
+        const terms = t === "client" ? `$${rateOf(a.name)}/h · AI +${pct(markupOf(a.name))}%${a.retainer ? ` · $${a.retainer}/mo retainer` : ""}` : r ? `AI ${money(r.aiCost)} this month` : "Nothing this month";
+        return `<button class="card section" data-edit="${esc(a.name)}"><span class="top"><b style="font-size:19px">${esc(a.label)}</b><b>${right}</b></span><p>${terms}</p></button>`;
+      }).join("")}</div>`;
+    }).join("");
+    return `${months()}<div class="top" style="display:flex;justify-content:space-between;align-items:center"><h2>Accounts</h2><button class="btn" id="newAcct" type="button"><img src="../img/bolt-black.png" alt="">New account</button></div>
+      ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
+      ${groups}
+      <form class="card form" id="defaults"><div class="eyebrow">Defaults for every account</div>
+        <div class="fields">
+          ${field("Hourly rate ($)", "d_rate", d.hourlyRate, "number", "step=1 min=0")}
+          ${field("AI markup (%)", "d_markup", pct(d.aiMarkup), "number", "step=1 min=0")}
+          ${field("Card fee (%)", "d_fee", d.cardFeePercent, "number", "step=0.1 min=0")}
+          <label>Hours to bill<select id="d_hours"><option value="active"${d.billHours === "active" ? " selected" : ""}>All active time</option><option value="attended"${d.billHours === "attended" ? " selected" : ""}>Only time with you</option></select></label>
+        </div>
+        <button class="btn dark" type="submit">Save defaults</button></form>`;
+  }
+
+  function field(name, id, value, type = "text", extra = "") {
+    return `<label>${name}<input id="${id}" type="${type}" ${extra} value="${esc(value ?? "")}"></label>`;
+  }
+
+  function accountForm(a) {
+    const isNew = !a;
+    a = a ?? { name: "", label: "", type: "client", hourlyRate: null, aiMarkup: null, retainer: 0, cadence: "monthly", termsDays: 15, email: "", address: { line1: "", city: "", state: "", postalCode: "" }, keywords: [] };
+    const r = !isNew && data.rows.find((x) => x.client === a.name && x.month === month);
+    const drafts = isNew ? [] : data.drafts.filter((x) => x.client === a.name);
+    const links = isNew ? [] : data.projects.special.filter((p) => p.client === a.name).flatMap((p) => p.links);
+    return `<button class="btn ghost" id="back" type="button" style="justify-self:start">Back to accounts</button>
+      <h2>${isNew ? "New account" : esc(a.label)}</h2>
+      ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
+      ${r ? `<div class="card"><div class="eyebrow">${esc(monthName(month))}</div><div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(2)}</b></div><div><small>AI at list price</small><b>${money0(r.aiCost)}</b></div>${a.type === "client" ? `<div><small>To bill</small><b>${money0(billOf(r))}</b></div>` : ""}</div></div>` : ""}
+      <form class="card form" id="acct">
+        <div class="fields">
+          ${field("Account name", "a_label", a.label)}
+          <label>Kind of account<select id="a_type">${Object.entries(TYPE_NAMES).map(([k, v]) => `<option value="${k}"${a.type === k ? " selected" : ""}>${v}</option>`).join("")}</select></label>
+          ${field("Hourly rate ($)", "a_rate", a.hourlyRate, "number", `step=1 min=0 placeholder="${settings.defaults.hourlyRate} (default)"`)}
+          ${field("AI markup (%)", "a_markup", a.aiMarkup == null ? "" : pct(a.aiMarkup), "number", `step=1 min=0 placeholder="${pct(settings.defaults.aiMarkup)} (default)"`)}
+          ${field("Monthly retainer ($)", "a_retainer", a.retainer || "", "number", "step=1 min=0 placeholder=0")}
+          <label>Invoice<select id="a_cadence"><option value="monthly"${a.cadence !== "milestone" ? " selected" : ""}>Every month</option><option value="milestone"${a.cadence === "milestone" ? " selected" : ""}>At milestones</option></select></label>
+          ${field("Payment due (days)", "a_terms", a.termsDays, "number", "step=1 min=0")}
+          ${field("Billing email", "a_email", a.email, "email")}
+          ${field("Street address", "a_line1", a.address.line1)}
+          ${field("City", "a_city", a.address.city)}
+          ${field("State", "a_state", a.address.state)}
+          ${field("ZIP", "a_zip", a.address.postalCode)}
+          ${field("Track sessions mentioning", "a_keywords", a.keywords.join(", "), "text", 'placeholder="bloomfield, porta via"')}
+        </div>
+        <button class="btn" type="submit"><img src="../img/bolt-black.png" alt="">${isNew ? "Create account" : "Save account"}</button>
+      </form>
+      ${links.length ? `<div class="card"><div class="eyebrow">Live links</div><div class="links">${links.map((l) => `<a class="btn ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div></div>` : ""}
+      ${drafts.length ? `<div class="card">${drafts.map(draftCard).join("")}</div>` : ""}`;
+  }
+
+  const val = (id) => document.getElementById(id)?.value.trim() ?? "";
+  const numOrNull = (id, scale = 1) => (val(id) === "" ? null : Math.max(0, Number(val(id)) / scale));
+
+  function wireAccounts() {
+    document.querySelectorAll("[data-edit]").forEach((b) => b.addEventListener("click", () => { editing = b.dataset.edit; saveNote = ""; render(); window.scrollTo({ top: 0 }); }));
+    $("#newAcct")?.addEventListener("click", () => { editing = "__new"; saveNote = ""; render(); window.scrollTo({ top: 0 }); });
+    $("#back")?.addEventListener("click", () => { editing = null; render(); });
+    $("#defaults")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: numOrNull("d_fee") ?? settings.defaults.cardFeePercent, billHours: val("d_hours") };
+      await saveSettings("Defaults saved.");
     });
-    return `${months()}<h2>Clients</h2><p class="lead">Accounts you bill. Hours times your rate, plus AI usage.</p>${accounts.join("") || '<div class="card"><p class="empty">No client accounts yet.</p></div>'}`;
+    $("#acct")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const label = val("a_label");
+      if (!label) return toast("Give the account a name.");
+      const isNew = editing === "__new";
+      if (isNew && settings.accounts.some((a) => a.name.toLowerCase() === label.toLowerCase())) return toast("There's already an account with that name.");
+      const prev = isNew ? { name: label } : acct(editing);
+      const next = {
+        ...prev, label, type: val("a_type"),
+        hourlyRate: numOrNull("a_rate"), aiMarkup: numOrNull("a_markup", 100), retainer: numOrNull("a_retainer") ?? 0,
+        cadence: val("a_cadence"), termsDays: numOrNull("a_terms") ?? 15, email: val("a_email"),
+        address: { line1: val("a_line1"), city: val("a_city"), state: val("a_state"), postalCode: val("a_zip") },
+        keywords: val("a_keywords").split(",").map((w) => w.trim()).filter(Boolean),
+      };
+      settings.accounts = isNew ? [...settings.accounts, next] : settings.accounts.map((a) => (a.name === prev.name ? next : a));
+      editing = next.name;
+      await saveSettings(isNew ? `${label} created.` : `${label} saved.`);
+    });
+  }
+
+  // Encrypts the whole settings object with the back office key and stores it in the sheet.
+  async function saveSettings(note) {
+    if (!cryptoKey) return toast("Unlock again to save.");
+    settings.updatedAt = new Date().toISOString();
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    let ct;
+    try {
+      ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, cryptoKey, new TextEncoder().encode(JSON.stringify(settings)));
+    } catch {
+      return toast("Lock and unlock once more, then save again.");
+    }
+    const b64 = (u) => btoa(String.fromCharCode(...new Uint8Array(u)));
+    try {
+      const res = await (await fetch(data.sheetUrl, { method: "POST", body: JSON.stringify({ action: "settings", iv: b64(iv), data: b64(ct) }) })).json();
+      if (!res.ok) throw new Error(res.why);
+      saveNote = `${note} Invoices and totals update on your Mac's next refresh.`;
+    } catch {
+      saveNote = "That didn't save. Check your connection and try again.";
+    }
+    render();
+  }
+
+  // The newest settings saved from any device, if newer than the published ones.
+  async function pullSettings() {
+    try {
+      const res = await (await fetch(data.sheetUrl + "?action=settings", { cache: "no-store" })).json();
+      for (const b of res.blobs ?? []) {
+        try {
+          const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(b.iv) }, cryptoKey, fromB64(b.data));
+          const s = JSON.parse(new TextDecoder().decode(plain));
+          if (s?.accounts && (!settings.updatedAt || s.updatedAt > settings.updatedAt)) {
+            settings = s;
+            if (!editing) render();
+          }
+          break;
+        } catch {}
+      }
+    } catch {}
+  }
+
+  function toast(msg) {
+    saveNote = msg;
+    render();
   }
 
   function draftCard(d) {
