@@ -401,7 +401,7 @@
       [`Your time · ${hours.toFixed(2)} h × $${rate}`, hours * rate],
       [`AI used to build it · ${pricingText(pricingOf(a.name))}${markupOf(a.name) ? ` +${pct(markupOf(a.name))}%` : ""}`, r ? aiBilled(r) : 0],
       [`AI in their live system · API bill +${pct(apiMarkupOf(a.name))}%`, liveOf(a.name, month)],
-      ["Service Fee, flat monthly", a.retainer || 0],
+      ["Service Fee · upkeep, minor bugs and fixes", a.retainer || 0],
     ].filter(([, v]) => v > 0);
     const total = lines.reduce((t, [, v]) => t + v, 0);
     return `<div class="card"><div class="eyebrow">${esc(monthName(month))} invoice, as set up now</div>
@@ -433,7 +433,7 @@
         ${group("AI in their live system", "When their system runs on your Anthropic account: enter that month's API bill and it passes through with your management markup.", `
           ${field(`API bill for ${esc(monthName(month))} ($)`, "a_api", a.apiUsage?.[month] ?? "", "number", 'step=0.01 min=0 placeholder="0"')}
           <label>Management markup<select id="a_apimarkup">${[["", `Default (${pct(d.apiMarkup ?? 0.1)}%)`], ["0.1", "10%"], ["0.15", "15%"], ["0.2", "20%"]].map(([v, t]) => `<option value="${v}"${String(a.apiMarkup ?? "") === v ? " selected" : ""}>${t}</option>`).join("")}</select></label>`)}
-        ${group("Service Fee", "A flat monthly fee. Development is billed separately at your hourly rate, on top of it.", `
+        ${group("Service Fee", "A flat monthly fee that covers upkeep, minor bugs and fixes. New development is billed separately at your hourly rate.", `
           ${field("Service Fee per month ($)", "a_retainer", a.retainer || "", "number", "step=1 min=0 placeholder=0")}`)}
         ${group("Invoicing", "Where the invoice goes and when it's due.", `
           <label>Send an invoice<select id="a_cadence"><option value="monthly"${a.cadence !== "milestone" ? " selected" : ""}>Every month</option><option value="milestone"${a.cadence === "milestone" ? " selected" : ""}>At milestones</option></select></label>
