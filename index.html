@@ -20,9 +20,14 @@
   :root { --ink: #111; --paper: #fff; --muted: #6b6b6b; --soft: #c4c4c4; --line: #e9e9e9; --bolt: #ffd400; --gutter: clamp(16px, 5vw, 64px); }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+  /* The top of the page is black so logo B (white outline, white bolt) sits on it. */
+  .top { background: var(--ink); color: var(--paper); }
   header { display: flex; justify-content: flex-end; padding: 28px var(--gutter) 0; }
-  header a { font-weight: 600; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--bolt); }
+  header a { font-weight: 600; color: var(--paper); text-decoration: none; border-bottom: 2px solid var(--bolt); }
   .hero { padding: clamp(32px, 8vh, 96px) var(--gutter) clamp(64px, 12vh, 140px); }
+  .top .eyebrow { color: #9a9a9a; }
+  .top .hero h1 em { color: #6f6f6f; }
+  .steps { padding-top: clamp(64px, 10vh, 120px) !important; }
   .logo { display: block; width: min(560px, 80vw); height: auto; margin-bottom: clamp(48px, 10vh, 112px); }
   .eyebrow { font-size: 14px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
   .hero h1 { font-weight: 900; font-size: clamp(44px, 8.5vw, 124px); line-height: .95; letter-spacing: -.035em; max-width: 12ch; }
@@ -80,14 +85,16 @@
 </style>
 </head>
 <body>
-<header><a href="consult.html">Book a consultation</a></header>
 <main>
+<div class="top">
+<header><a href="consult.html">Book a consultation</a></header>
   <section class="hero">
-    <img class="logo" src="img/jgoco-logo.png" alt="JGoCo">
+    <img class="logo" src="img/jgoco-logo-b.png" alt="JGoCo">
     <div class="eyebrow">Tailored to your business</div>
     <h1>Your business,<br><em>at full speed.</em></h1>
     <p>We optimize the systems you already run, rebuild the ones holding you back, and put the power of AI in your team's hands.</p>
   </section>
+</div>
   <section class="steps" aria-label="How it works">
     <ol>
       <li><i>01</i><b>Optimize</b><span>We start with what you already use and make it work harder.</span></li>
