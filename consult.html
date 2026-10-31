@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
 <style>
   :root { --ink: #111; --paper: #fff; --muted: #6b6b6b; --soft: #c4c4c4; --line: #e3e3e3; --bolt: #ffd400; --gutter: clamp(16px, 5vw, 64px); }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
   header { display: flex; align-items: center; justify-content: space-between; padding: 28px var(--gutter); }
   header img { height: 34px; width: auto; display: block; }
@@ -50,6 +50,13 @@
   .btn:hover { background: var(--ink); color: var(--paper); }
   .ghost { background: none; border: 0; font: 600 16px Inter, system-ui, sans-serif; color: var(--ink); border-bottom: 2px solid var(--line); cursor: pointer; padding: 2px 0; }
   .note { color: var(--muted); font-size: 16px; width: 100%; }
+  .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .thanks { display: none; margin-top: clamp(48px, 8vh, 80px); border-top: 4px solid var(--bolt); padding-top: 28px; }
+  .thanks.on { display: block; }
+  .thanks h2 { font-weight: 900; font-size: clamp(40px, 6vw, 80px); letter-spacing: -.035em; line-height: .95; }
+  .thanks p { margin-top: 18px; font-size: clamp(19px, 2vw, 24px); line-height: 1.35; max-width: 34ch; }
+  .thanks a { color: var(--ink); font-weight: 600; }
+  .btn[disabled] { opacity: .6; cursor: wait; }
   .done { display: none; margin-top: 28px; background: #fffbe0; border-radius: 16px; padding: 20px 22px; font-size: 18px; line-height: 1.4; }
   .done.on { display: block; }
   .err { color: #b42318; font-size: 16px; width: 100%; display: none; }
@@ -79,6 +86,7 @@
         <label>Email<input type="email" name="email" autocomplete="email" required></label>
         <label>Phone <small>Optional</small><input type="tel" name="phone" autocomplete="tel"></label>
       </div>
+      <label class="trap" aria-hidden="true">Company site<input type="text" name="company_site" tabindex="-1" autocomplete="off"></label>
       <label>Website <small>Or Instagram, if that's your front door</small><input type="text" name="website" placeholder="yourbusiness.com" inputmode="url"></label>
     </fieldset>
 
@@ -156,12 +164,14 @@
 
     <div class="send">
       <button class="btn" type="submit"><img src="img/bolt-black.png" alt="">Send my answers</button>
-      <button class="ghost" type="button" id="copy">Copy my answers</button>
       <p class="err" id="err">Please add your name, business and email.</p>
-      <p class="note">Your email app opens with your answers to jordan@jgoco.me. Press send there.</p>
     </div>
-    <div class="done" id="done">Thanks. If your email app didn't open, use Copy my answers and email them to <b>jordan@jgoco.me</b>.</div>
+    <div class="done" id="done">That didn't go through. <a id="fallback" href="mailto:jordan@jgoco.me">Email your answers instead</a>, or try again in a minute.</div>
   </form>
+  <section class="thanks" id="thanks" aria-live="polite">
+    <h2 id="thanksTitle">Thanks.</h2>
+    <p>Jordan will reach out by email within one business day. Questions before then: <a href="mailto:jordan@jgoco.me">jordan@jgoco.me</a></p>
+  </section>
 </main>
 <footer>© 2026 JGoCo</footer>
 <script>
@@ -194,22 +204,39 @@
     return lines.filter(([, a]) => a).map(([q, a]) => `${q}: ${a}`).join("\n");
   }
 
-  form.addEventListener("submit", (e) => {
+  // The JGoCo Consultations Google Sheet (tools/consult-sheet.gs). Answers go there, never to the visitor.
+  const SHEET_URL = "https://script.google.com/macros/s/AKfycbw4vSWuqiNiEPP4DDematxgcepF3twbcm9x7d5Qiy3zzLiuo1vaL9C7bL_xK8SCAAEu/exec";
+
+  function payload() {
+    const tools = [...form.querySelectorAll('input[name=tools]:checked')].map((i) => i.value);
+    if (v("toolsOther")) tools.push(v("toolsOther"));
+    const keys = ["name", "business", "email", "phone", "website", "kind", "team", "locations", "contact", "time", "first", "when", "reach", "company_site"];
+    return { ...Object.fromEntries(keys.map((k) => [k, v(k)])), tools: tools.join(", ") };
+  }
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const ok = v("name") && v("business") && /.+@.+\..+/.test(v("email"));
     document.getElementById("err").classList.toggle("on", !ok);
     if (!ok) return;
-    const subject = `Consultation: ${v("business")}`;
-    location.href = `mailto:jordan@jgoco.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(answers() + "\n")}`;
-    document.getElementById("done").classList.add("on");
-  });
-
-  document.getElementById("copy").addEventListener("click", async (e) => {
+    const button = form.querySelector("button[type=submit]");
+    button.disabled = true;
+    document.getElementById("done").classList.remove("on");
     try {
-      await navigator.clipboard.writeText(answers());
-      e.target.textContent = "Copied";
+      // Sent as plain text so the browser makes one simple request.
+      const res = await fetch(SHEET_URL, { method: "POST", body: JSON.stringify(payload()) });
+      const out = await res.json();
+      if (!out.ok) throw new Error(out.why || "not saved");
+      form.style.display = "none";
+      document.getElementById("thanksTitle").textContent = `Thanks, ${v("name").split(" ")[0]}.`;
+      document.getElementById("thanks").classList.add("on");
+      window.scrollTo({ top: document.getElementById("thanks").offsetTop - 40, behavior: "smooth" });
     } catch {
-      e.target.textContent = "Copy didn't work, select and copy by hand";
+      const subject = `Consultation: ${v("business")}`;
+      document.getElementById("fallback").href = `mailto:jordan@jgoco.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(answers() + "\n")}`;
+      document.getElementById("done").classList.add("on");
+    } finally {
+      button.disabled = false;
     }
   });
 </script>
