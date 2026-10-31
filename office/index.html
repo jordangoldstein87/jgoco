@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="JGoCo Office">
+<title>JGoCo Office</title>
+<link rel="icon" type="image/png" href="../img/favicon.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #111; --paper: #fafafa; --card: #fff; --muted: #6b6b6b; --soft: #c4c4c4; --line: #e8e8e8; --bolt: #ffd400; --go: #0a7d3c; --gutter: 16px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; font-size: 16px; }
+  button, input, select { font: inherit; color: inherit; }
+  a { color: inherit; }
+
+  /* Lock screen */
+  .lock { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px var(--gutter); background: var(--ink); color: #fff; }
+  .lock form { width: min(380px, 100%); display: grid; gap: 16px; }
+  .lock .logo { width: 180px; filter: invert(1); margin-bottom: 12px; }
+  .lock h1 { font-weight: 900; font-size: 36px; letter-spacing: -.03em; }
+  .lock input[type=password] { width: 100%; padding: 15px 16px; border-radius: 14px; border: 1px solid #333; background: #1c1c1c; font-size: 18px; }
+  .lock input:focus { outline: 2px solid var(--bolt); }
+  .lock label.keep { display: flex; gap: 10px; align-items: center; color: #bbb; font-size: 15px; }
+  .lock .err { color: #ff8a80; font-size: 15px; min-height: 20px; }
+  .btn { display: inline-flex; justify-content: center; align-items: center; gap: 10px; border: 0; border-radius: 999px; padding: 14px 22px; font-weight: 900; background: var(--bolt); color: var(--ink); cursor: pointer; text-decoration: none; }
+  .btn.dark { background: var(--ink); color: #fff; }
+  .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); font-weight: 600; }
+  .btn img { height: 1.1em; }
+  .btn[disabled] { opacity: .6; }
+
+  /* App */
+  .app { display: none; padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+  .app.on { display: block; }
+  header { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; padding: 14px var(--gutter); background: var(--ink); color: #fff; }
+  header img { height: 22px; filter: invert(1); }
+  header .meta { font-size: 13px; color: #aaa; }
+  header button { background: none; border: 0; color: #fff; font-weight: 600; font-size: 14px; border-bottom: 2px solid var(--bolt); cursor: pointer; }
+  main { padding: 18px var(--gutter); max-width: 1100px; margin: 0 auto; display: grid; gap: 14px; }
+  h2 { font-weight: 900; font-size: 28px; letter-spacing: -.025em; margin: 8px 0 2px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .tile, .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .tile b { display: block; font-weight: 900; font-size: 28px; letter-spacing: -.02em; margin: 6px 0 2px; }
+  .tile span { color: var(--muted); font-size: 14px; }
+  .tile.hot { border: 2px solid var(--bolt); }
+  .list { display: grid; gap: 10px; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; }
+  .row .name { font-weight: 700; }
+  .row .sub { grid-column: 1 / -1; color: var(--muted); font-size: 14px; }
+  .row .num { font-weight: 900; font-variant-numeric: tabular-nums; }
+  .pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: #eee; color: #555; vertical-align: 2px; margin-left: 6px; }
+  .pill.bill { background: #e3f4ea; color: var(--go); }
+  .pill.mac { background: #fff4bf; color: #6b5800; }
+  .seg { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+  .seg button { flex: none; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 8px 14px; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .seg button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  td { padding: 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; padding-left: 12px; }
+  tr:last-child td { border-bottom: 0; }
+  tr.total td { font-weight: 900; border-top: 2px solid var(--ink); }
+  .pay { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .pay div { border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  .pay small { color: var(--muted); font-size: 13px; display: block; }
+  .pay b { font-weight: 900; font-size: 20px; }
+  .private { margin-top: 12px; background: #fffbe0; border-radius: 12px; padding: 12px; font-size: 14px; line-height: 1.45; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .tool { display: grid; gap: 4px; }
+  .tool p { color: var(--muted); font-size: 14px; }
+  .empty { color: var(--muted); }
+  .ai-sub { display: none; }
+  .form { display: grid; gap: 14px; }
+  .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .fields label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
+  .fields input, .fields select { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font-size: 16px; font-weight: 400; }
+  .fields input:focus, .fields select:focus { outline: 2px solid var(--bolt); border-color: var(--ink); }
+  @media (max-width: 420px) { .fields { grid-template-columns: 1fr; } }
+  .section { display: grid; gap: 6px; text-decoration: none; cursor: pointer; text-align: left; width: 100%; border: 1px solid var(--line); }
+  .section .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .section b.big { font-weight: 900; font-size: 30px; letter-spacing: -.02em; }
+  .section p { color: var(--muted); font-size: 14px; line-height: 1.4; }
+  .section .go { font-weight: 600; font-size: 14px; border-bottom: 2px solid var(--bolt); justify-self: start; }
+  .section.client { border: 2px solid var(--bolt); }
+  .lead { color: var(--muted); font-size: 15px; line-height: 1.45; margin-top: -4px; }
+  .stat { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 4px; }
+  .stat div small { display: block; color: var(--muted); font-size: 13px; }
+  .stat div b { font-weight: 900; font-size: 22px; }
+  @media (max-width: 560px) { td.ai { display: none; } .ai-sub { display: inline; } }
+
+  nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; display: grid; grid-template-columns: repeat(5, 1fr); background: var(--card); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+  nav.tabs button { border: 0; background: none; padding: 12px 4px 14px; font-weight: 600; font-size: 13px; color: var(--muted); cursor: pointer; border-top: 3px solid transparent; }
+  nav.tabs button.on { color: var(--ink); border-top-color: var(--bolt); }
+
+  @media (min-width: 900px) {
+    :root { --gutter: 32px; }
+    .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    nav.tabs { position: sticky; top: 50px; bottom: auto; max-width: 1100px; margin: 0 auto; grid-template-columns: repeat(5, max-content); gap: 6px; background: none; border: 0; padding: 14px var(--gutter) 0; }
+    nav.tabs button { border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; background: var(--card); }
+    nav.tabs button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .app { padding-bottom: 40px; }
+  }
+</style>
+</head>
+<body>
+<section class="lock" id="lock">
+  <form id="unlock" autocomplete="on">
+    <img class="logo" src="../img/jgoco-logo.png" alt="JGoCo">
+    <h1>Back office</h1>
+    <input type="text" name="username" value="jordan" autocomplete="username" hidden>
+    <input type="password" id="pass" autocomplete="current-password" placeholder="Password" required>
+    <label class="keep"><input type="checkbox" id="keep" checked> Keep me signed in on this device</label>
+    <button class="btn" type="submit" id="go"><img src="../img/bolt-black.png" alt="">Unlock</button>
+    <div class="err" id="err" role="alert"></div>
+  </form>
+</section>
+
+<div class="app" id="app">
+  <header>
+    <img src="../img/jgoco-logo.png" alt="JGoCo">
+    <span class="meta" id="updated"></span>
+    <button type="button" id="lockBtn">Lock</button>
+  </header>
+  <nav class="tabs" id="tabs">
+    <button class="on" data-tab="home">Home</button>
+    <button data-tab="accounts">Accounts</button>
+    <button data-tab="expenses">Expenses</button>
+    <button data-tab="reference">Reference</button>
+    <button data-tab="work">Projects</button>
+  </nav>
+  <main id="view"></main>
+</div>
+
+<script>
+  // The data is AES-256-GCM encrypted with a key derived from Jordan's password (PBKDF2-SHA256).
+  // Nothing readable is on the server; the page decrypts it here. "Keep me signed in" stores the
+  // derived key in this browser as a key that can be used but not read back out.
+  const $ = (s) => document.querySelector(s);
+  const money = (n) => "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const money0 = (n) => "$" + Math.round(Number(n)).toLocaleString("en-US");
+  const cents = (c) => money(c / 100);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+  const monthName = (m) => new Date(m + "-15").toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  const fromB64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+  let sealed, data, cryptoKey, settings, editing = null, saveNote = "", tab = "home", month;
+
+  async function deriveKey(pass, salt, iterations) {
+    const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass), "PBKDF2", false, ["deriveKey"]);
+    return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+  }
+
+  async function open(key) {
+    const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(sealed.iv) }, key, fromB64(sealed.data));
+    return JSON.parse(new TextDecoder().decode(plain));
+  }
+
+  // A tiny IndexedDB store for the remembered key.
+  function store(mode, fn) {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open("jgoco-office", 1);
+      req.onupgradeneeded = () => req.result.createObjectStore("keys");
+      req.onerror = () => reject(req.error);
+      req.onsuccess = () => {
+        const tx = req.result.transaction("keys", mode);
+        const r = fn(tx.objectStore("keys"));
+        tx.oncomplete = () => resolve(r && r.result);
+        tx.onerror = () => reject(tx.error);
+      };
+    });
+  }
+  // v2 keys can also encrypt, which saving account settings needs.
+  const saveKey = (k) => store("readwrite", (s) => s.put(k, sealed.salt + ":v2")).catch(() => {});
+  const loadKey = () => store("readonly", (s) => s.get(sealed.salt + ":v2")).catch(() => null);
+  const forget = () => store("readwrite", (s) => s.clear()).catch(() => {});
+
+  async function start() {
+    try {
+      sealed = await (await fetch("data.enc.json", { cache: "no-store" })).json();
+    } catch {
+      $("#err").textContent = "Couldn't load the office data. Check your connection.";
+      return;
+    }
+    const remembered = await loadKey();
+    if (remembered) {
+      try {
+        data = await open(remembered);
+        cryptoKey = remembered;
+        return show();
+      } catch {
+        await forget();
+      }
+    }
+    $("#pass").focus();
+  }
+
+  $("#unlock").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!sealed) return;
+    $("#go").disabled = true;
+    $("#err").textContent = "";
+    try {
+      const key = await deriveKey($("#pass").value, fromB64(sealed.salt), sealed.iterations);
+      data = await open(key);
+      cryptoKey = key;
+      if ($("#keep").checked) await saveKey(key);
+      $("#pass").value = "";
+      show();
+    } catch {
+      $("#err").textContent = "That password didn't open it.";
+    } finally {
+      $("#go").disabled = false;
+    }
+  });
+
+  $("#lockBtn").addEventListener("click", async () => {
+    await forget();
+    data = null;
+    $("#app").classList.remove("on");
+    $("#lock").style.display = "";
+    $("#view").innerHTML = "";
+  });
+
+  $("#tabs").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-tab]");
+    if (!b) return;
+    tab = b.dataset.tab;
+    editing = null;
+    saveNote = "";
+    render();
+    window.scrollTo({ top: 0 });
+  });
+
+  function show() {
+    $("#lock").style.display = "none";
+    $("#app").classList.add("on");
+    const when = new Date(data.builtAt);
+    $("#updated").textContent = "Updated " + when.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+    month = [...new Set(data.rows.map((r) => r.month))].sort().reverse()[0];
+    settings = structuredClone(data.settings);
+    render();
+    pullSettings();
+  }
+
+  const hoursOf = (r) => (data.billHours === "attended" ? r.attendedHours : r.activeHours);
+  const acct = (name) => settings.accounts.find((a) => a.name === name);
+  const typeOf = (name) => acct(name)?.type ?? data.rows.find((r) => r.client === name)?.type ?? "unsorted";
+  const rateOf = (name) => acct(name)?.hourlyRate ?? settings.defaults.hourlyRate;
+  const markupOf = (name) => acct(name)?.aiMarkup ?? settings.defaults.aiMarkup;
+  const aiBilled = (r) => r.aiCost * (1 + markupOf(r.client));
+  // The bill as the account is set up now, so an edit shows right away.
+  const billOf = (r) => hoursOf(r) * rateOf(r.client) + aiBilled(r) + (r.passThrough ?? 0) + (acct(r.client)?.retainer ?? 0);
+  const ofType = (t, m = month) => data.rows.filter((r) => typeOf(r.client) === t && (!m || r.month === m));
+  const sum = (list, f) => list.reduce((a, r) => a + f(r), 0);
+  const projectsOf = (client, m = month) => data.byProject.filter((p) => p.client === client && (!m || p.month === m));
+  const label = (client) => acct(client)?.label ?? (client === "jgoco" ? "JGoCo" : client);
+
+  function render() {
+    document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === tab));
+    $("#view").innerHTML = { home, accounts, expenses, reference, work }[tab]();
+    if (tab === "accounts") wireAccounts();
+    $("#view").querySelectorAll("[data-month]").forEach((b) => b.addEventListener("click", () => { month = b.dataset.month; render(); }));
+    $("#view").querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => { tab = b.dataset.go; render(); window.scrollTo({ top: 0 }); }));
+  }
+
+  function months() {
+    const all = [...new Set(data.rows.map((r) => r.month))].sort().reverse();
+    return `<div class="seg">${all.map((m) => `<button data-month="${m}" class="${m === month ? "on" : ""}">${esc(monthName(m))}</button>`).join("")}</div>`;
+  }
+
+  function projectTable(list, withRate) {
+    if (!list.length) return '<p class="empty">Nothing tracked this month.</p>';
+    return `<table>${list.map((p) => `<tr><td>${esc(p.project)}</td><td class="n">${p.hours.toFixed(1)} h</td><td class="n">${money(p.aiCost)}</td>${withRate ? `<td class="n">${p.hours ? money0(p.aiCost / p.hours) + "/h" : "·"}</td>` : ""}</tr>`).join("")}</table>`;
+  }
+
+  function home() {
+    const cl = ofType("client"), ex = ofType("expense"), rf = ofType("reference"), pe = ofType("personal"), un = ofType("unsorted");
+    const card = (go, kind, title, big, text) => `<button class="card section ${kind}" data-go="${go}"><span class="top"><span class="eyebrow">${title}</span><b class="big">${big}</b></span><p>${text}</p><span class="go">Open</span></button>`;
+    return `${months()}
+      ${card("accounts", "client", "Clients · to bill", money0(sum(cl, billOf)), cl.length ? cl.map((r) => `${esc(label(r.client))}: ${hoursOf(r).toFixed(1)} h, AI usage ${money0(aiBilled(r))}`).join("<br>") + (data.drafts.length ? `<br>${data.drafts.length} invoice draft${data.drafts.length > 1 ? "s" : ""} waiting` : "") : "No client work this month.")}
+      ${card("expenses", "", "Expenses · JGoCo", money0(sum(ex, (r) => r.aiCost)), `AI development cost for your own business, at API list price. ${sum(ex, hoursOf).toFixed(1)} h of your time.`)}
+      ${card("reference", "", "Reference · not billed", sum(rf, hoursOf).toFixed(0) + " h", `${rf.map((r) => esc(r.client)).join(", ") || "Nothing"}: ${money0(sum(rf, (r) => r.aiCost))} of AI. Use it to estimate new projects.${pe.length ? `<br>Personal, kept apart: ${sum(pe, hoursOf).toFixed(0)} h, ${money0(sum(pe, (r) => r.aiCost))}.` : ""}${un.length ? `<br>${sum(un, hoursOf).toFixed(1)} h still unsorted.` : ""}`)}`;
+  }
+
+  const TYPE_NAMES = { client: "Client, billed", expense: "Business expense", reference: "Reference, not billed", personal: "Personal", unsorted: "Unsorted" };
+  const pct = (m) => Math.round(m * 1000) / 10;
+
+  function accounts() {
+    if (editing) return accountForm(editing === "__new" ? null : acct(editing));
+    const d = settings.defaults;
+    const groups = ["client", "expense", "reference", "personal", "unsorted"].map((t) => {
+      const list = settings.accounts.filter((a) => a.type === t);
+      if (!list.length) return "";
+      return `<div class="eyebrow" style="margin-top:6px">${TYPE_NAMES[t]}</div><div class="list">${list.map((a) => {
+        const r = data.rows.find((x) => x.client === a.name && x.month === month);
+        const right = t === "client" && r ? money0(billOf(r)) : r ? hoursOf(r).toFixed(1) + " h" : "";
+        const terms = t === "client" ? `$${rateOf(a.name)}/h · AI +${pct(markupOf(a.name))}%${a.retainer ? ` · $${a.retainer}/mo retainer` : ""}` : r ? `AI ${money(r.aiCost)} this month` : "Nothing this month";
+        return `<button class="card section" data-edit="${esc(a.name)}"><span class="top"><b style="font-size:19px">${esc(a.label)}</b><b>${right}</b></span><p>${terms}</p></button>`;
+      }).join("")}</div>`;
+    }).join("");
+    return `${months()}<div class="top" style="display:flex;justify-content:space-between;align-items:center"><h2>Accounts</h2><button class="btn" id="newAcct" type="button"><img src="../img/bolt-black.png" alt="">New account</button></div>
+      ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
+      ${groups}
+      <form class="card form" id="defaults"><div class="eyebrow">Defaults for every account</div>
+        <div class="fields">
+          ${field("Hourly rate ($)", "d_rate", d.hourlyRate, "number", "step=1 min=0")}
+          ${field("AI markup (%)", "d_markup", pct(d.aiMarkup), "number", "step=1 min=0")}
+          ${field("Card fee (%)", "d_fee", d.cardFeePercent, "number", "step=0.1 min=0")}
+          <label>Hours to bill<select id="d_hours"><option value="active"${d.billHours === "active" ? " selected" : ""}>All active time</option><option value="attended"${d.billHours === "attended" ? " selected" : ""}>Only time with you</option></select></label>
+        </div>
+        <button class="btn dark" type="submit">Save defaults</button></form>`;
+  }
+
+  function field(name, id, value, type = "text", extra = "") {
+    return `<label>${name}<input id="${id}" type="${type}" ${extra} value="${esc(value ?? "")}"></label>`;
+  }
+
+  function accountForm(a) {
+    const isNew = !a;
+    a = a ?? { name: "", label: "", type: "client", hourlyRate: null, aiMarkup: null, retainer: 0, cadence: "monthly", termsDays: 15, email: "", address: { line1: "", city: "", state: "", postalCode: "" }, keywords: [] };
+    const r = !isNew && data.rows.find((x) => x.client === a.name && x.month === month);
+    const drafts = isNew ? [] : data.drafts.filter((x) => x.client === a.name);
+    const links = isNew ? [] : data.projects.special.filter((p) => p.client === a.name).flatMap((p) => p.links);
+    return `<button class="btn ghost" id="back" type="button" style="justify-self:start">Back to accounts</button>
+      <h2>${isNew ? "New account" : esc(a.label)}</h2>
+      ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
+      ${r ? `<div class="card"><div class="eyebrow">${esc(monthName(month))}</div><div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(2)}</b></div><div><small>AI at list price</small><b>${money0(r.aiCost)}</b></div>${a.type === "client" ? `<div><small>To bill</small><b>${money0(billOf(r))}</b></div>` : ""}</div></div>` : ""}
+      <form class="card form" id="acct">
+        <div class="fields">
+          ${field("Account name", "a_label", a.label)}
+          <label>Kind of account<select id="a_type">${Object.entries(TYPE_NAMES).map(([k, v]) => `<option value="${k}"${a.type === k ? " selected" : ""}>${v}</option>`).join("")}</select></label>
+          ${field("Hourly rate ($)", "a_rate", a.hourlyRate, "number", `step=1 min=0 placeholder="${settings.defaults.hourlyRate} (default)"`)}
+          ${field("AI markup (%)", "a_markup", a.aiMarkup == null ? "" : pct(a.aiMarkup), "number", `step=1 min=0 placeholder="${pct(settings.defaults.aiMarkup)} (default)"`)}
+          ${field("Monthly retainer ($)", "a_retainer", a.retainer || "", "number", "step=1 min=0 placeholder=0")}
+          <label>Invoice<select id="a_cadence"><option value="monthly"${a.cadence !== "milestone" ? " selected" : ""}>Every month</option><option value="milestone"${a.cadence === "milestone" ? " selected" : ""}>At milestones</option></select></label>
+          ${field("Payment due (days)", "a_terms", a.termsDays, "number", "step=1 min=0")}
+          ${field("Billing email", "a_email", a.email, "email")}
+          ${field("Street address", "a_line1", a.address.line1)}
+          ${field("City", "a_city", a.address.city)}
+          ${field("State", "a_state", a.address.state)}
+          ${field("ZIP", "a_zip", a.address.postalCode)}
+          ${field("Track sessions mentioning", "a_keywords", a.keywords.join(", "), "text", 'placeholder="bloomfield, porta via"')}
+        </div>
+        <button class="btn" type="submit"><img src="../img/bolt-black.png" alt="">${isNew ? "Create account" : "Save account"}</button>
+      </form>
+      ${links.length ? `<div class="card"><div class="eyebrow">Live links</div><div class="links">${links.map((l) => `<a class="btn ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div></div>` : ""}
+      ${drafts.length ? `<div class="card">${drafts.map(draftCard).join("")}</div>` : ""}`;
+  }
+
+  const val = (id) => document.getElementById(id)?.value.trim() ?? "";
+  const numOrNull = (id, scale = 1) => (val(id) === "" ? null : Math.max(0, Number(val(id)) / scale));
+
+  function wireAccounts() {
+    document.querySelectorAll("[data-edit]").forEach((b) => b.addEventListener("click", () => { editing = b.dataset.edit; saveNote = ""; render(); window.scrollTo({ top: 0 }); }));
+    $("#newAcct")?.addEventListener("click", () => { editing = "__new"; saveNote = ""; render(); window.scrollTo({ top: 0 }); });
+    $("#back")?.addEventListener("click", () => { editing = null; render(); });
+    $("#defaults")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: numOrNull("d_fee") ?? settings.defaults.cardFeePercent, billHours: val("d_hours") };
+      await saveSettings("Defaults saved.");
+    });
+    $("#acct")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const label = val("a_label");
+      if (!label) return toast("Give the account a name.");
+      const isNew = editing === "__new";
+      if (isNew && settings.accounts.some((a) => a.name.toLowerCase() === label.toLowerCase())) return toast("There's already an account with that name.");
+      const prev = isNew ? { name: label } : acct(editing);
+      const next = {
+        ...prev, label, type: val("a_type"),
+        hourlyRate: numOrNull("a_rate"), aiMarkup: numOrNull("a_markup", 100), retainer: numOrNull("a_retainer") ?? 0,
+        cadence: val("a_cadence"), termsDays: numOrNull("a_terms") ?? 15, email: val("a_email"),
+        address: { line1: val("a_line1"), city: val("a_city"), state: val("a_state"), postalCode: val("a_zip") },
+        keywords: val("a_keywords").split(",").map((w) => w.trim()).filter(Boolean),
+      };
+      settings.accounts = isNew ? [...settings.accounts, next] : settings.accounts.map((a) => (a.name === prev.name ? next : a));
+      editing = next.name;
+      await saveSettings(isNew ? `${label} created.` : `${label} saved.`);
+    });
+  }
+
+  // Encrypts the whole settings object with the back office key and stores it in the sheet.
+  async function saveSettings(note) {
+    if (!cryptoKey) return toast("Unlock again to save.");
+    settings.updatedAt = new Date().toISOString();
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    let ct;
+    try {
+      ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, cryptoKey, new TextEncoder().encode(JSON.stringify(settings)));
+    } catch {
+      return toast("Lock and unlock once more, then save again.");
+    }
+    const b64 = (u) => btoa(String.fromCharCode(...new Uint8Array(u)));
+    try {
+      const res = await (await fetch(data.sheetUrl, { method: "POST", body: JSON.stringify({ action: "settings", iv: b64(iv), data: b64(ct) }) })).json();
+      if (!res.ok) throw new Error(res.why);
+      saveNote = `${note} Invoices and totals update on your Mac's next refresh.`;
+    } catch {
+      saveNote = "That didn't save. Check your connection and try again.";
+    }
+    render();
+  }
+
+  // The newest settings saved from any device, if newer than the published ones.
+  async function pullSettings() {
+    try {
+      const res = await (await fetch(data.sheetUrl + "?action=settings", { cache: "no-store" })).json();
+      for (const b of res.blobs ?? []) {
+        try {
+          const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(b.iv) }, cryptoKey, fromB64(b.data));
+          const s = JSON.parse(new TextDecoder().decode(plain));
+          if (s?.accounts && (!settings.updatedAt || s.updatedAt > settings.updatedAt)) {
+            settings = s;
+            if (!editing) render();
+          }
+          break;
+        } catch {}
+      }
+    } catch {}
+  }
+
+  function toast(msg) {
+    saveNote = msg;
+    render();
+  }
+
+  function draftCard(d) {
+    const w = d.working;
+    return `<div style="margin-top:16px;border-top:1px solid var(--line);padding-top:14px">
+      <div class="eyebrow">Invoice draft · ${esc(d.from)} to ${esc(d.to)} · due ${esc(d.dueDate)}</div>
+      <table>${d.lines.map((l) => `<tr><td>${esc(l.description)}</td><td class="n">${cents(l.amountCents)}</td></tr>`).join("")}<tr class="total"><td>Total</td><td class="n">${cents(w.totalCents)}</td></tr></table>
+      <div class="pay"><div><small>Wire or bank transfer</small><b>${cents(w.payment.wireCents)}</b></div><div><small>Card, plus ${w.payment.feePercent}%</small><b>${cents(w.payment.cardCents)}</b></div></div></div>`;
+  }
+
+  function expenses() {
+    const ex = ofType("expense");
+    const allTime = ofType("expense", null);
+    return `${months()}<h2>Expenses</h2><p class="lead">Your own JGoCo work, tracked as AI development cost. Priced at API list rates, so it shows what the work is worth, not your subscription bill.</p>
+      <div class="card"><div class="stat"><div><small>${esc(monthName(month))}</small><b>${money0(sum(ex, (r) => r.aiCost))}</b></div><div><small>Your time</small><b>${sum(ex, hoursOf).toFixed(1)} h</b></div><div><small>All time</small><b>${money0(sum(allTime, (r) => r.aiCost))}</b></div></div></div>
+      <div class="card"><div class="eyebrow" style="margin-bottom:6px">By project</div>${projectTable(projectsOf("jgoco"))}</div>`;
+  }
+
+  function reference() {
+    const rf = ofType("reference"), pe = ofType("personal"), un = ofType("unsorted");
+    const allRef = ofType("reference", null);
+    const perHour = sum(allRef, hoursOf) ? sum(allRef, (r) => r.aiCost) / sum(allRef, hoursOf) : 0;
+    const block = (title, list, client) => `<div class="card"><div class="eyebrow">${title}</div><div class="stat"><div><small>Hours</small><b>${sum(list, hoursOf).toFixed(1)}</b></div><div><small>AI cost</small><b>${money0(sum(list, (r) => r.aiCost))}</b></div></div>${projectTable(projectsOf(client), true)}</div>`;
+    return `${months()}<h2>Reference</h2><p class="lead">Work you don't bill. Keep it as a record of what things take, for estimating new projects.</p>
+      ${rf.length || allRef.length ? block("Grenco Science · not billed", rf, "Grenco Science") : ""}
+      ${perHour ? `<div class="card"><div class="eyebrow">For estimates</div><div class="stat"><div><small>AI per hour of work</small><b>${money0(perHour)}</b></div><div><small>All Grenco time</small><b>${sum(allRef, hoursOf).toFixed(0)} h</b></div></div><p class="lead" style="margin-top:8px">A project like this ran about ${money0(perHour)} of AI for every hour you worked on it.</p></div>` : ""}
+      ${pe.length ? block("Personal · kept apart from the business", pe, "Personal") : ""}
+      ${un.length ? block("Unsorted", un, "Unassigned") : ""}`;
+  }
+
+  function work() {
+    const p = data.projects;
+    const special = p.special
+      .map((s) => `<div class="card"><div class="eyebrow">${esc(s.client)} · ${esc(s.status)}</div><h2 style="font-size:24px">${esc(s.name)}</h2>
+        <div class="links">${s.links.map((l) => `<a class="btn ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div></div>`)
+      .join("");
+    const tools = p.tools
+      .map((t) => `<a class="card tool" href="${esc(t.url)}" target="_blank" rel="noopener" style="text-decoration:none"><b>${esc(t.name)}${t.macOnly ? '<span class="pill mac">On your Mac</span>' : ""}</b><p>${esc(t.note)}</p></a>`)
+      .join("");
+    return `<h2>Special projects</h2>${special}<h2>Tools</h2><div class="list">${tools}</div>`;
+  }
+
+  start();
+</script>
+</body>
+</html>
