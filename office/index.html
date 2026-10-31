@@ -254,13 +254,16 @@
   const rateOf = (name) => acct(name)?.hourlyRate ?? settings.defaults.hourlyRate;
   const markupOf = (name) => acct(name)?.aiMarkup ?? settings.defaults.aiMarkup;
   const pricingOf = (name) => acct(name)?.aiPricing ?? settings.defaults.aiPricing ?? { method: "list", percent: 100 };
-  // All business hours in the month, for the "share of my subscriptions" method.
-  const businessHours = (m) => data.rows.filter((r) => r.month === m && typeOf(r.client) !== "personal").reduce((a, r) => a + hoursOf(r), 0);
+  // All AI usage in the month, everything the plan paid for.
+  const monthAi = (m) => data.rows.filter((r) => r.month === m).reduce((a, r) => a + r.aiCost, 0);
+  const plan = () => settings.defaults.aiSubscriptionMonthly ?? 0;
+  // What a slice of AI usage really cost: its share of the month's usage times the plan price.
+  const realCost = (aiCost, m) => (monthAi(m) > 0 ? (plan() * aiCost) / monthAi(m) : 0);
   // Same rules as aiBase() in tracker/invoice.mjs.
   function aiBaseOf(r) {
     const p = pricingOf(r.client), hours = hoursOf(r);
     if (!(r.aiCost > 0 || hours > 0)) return 0;
-    if (p.method === "share") { const t = businessHours(r.month); return t > 0 ? ((settings.defaults.aiSubscriptionMonthly ?? 0) * hours) / t : 0; }
+    if (p.method === "share") return realCost(r.aiCost, r.month);
     if (p.method === "hourly") return (p.perHour ?? 0) * hours;
     if (p.method === "fixed") return p.fixed ?? 0;
     return (r.aiCost * (p.percent ?? 100)) / 100;
@@ -276,7 +279,7 @@
   function render() {
     document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === tab));
     $("#view").innerHTML = { home, accounts, expenses, reference, work }[tab]();
-    if (tab === "accounts") { wireAccounts(); showPricingFields(); }
+    if (tab === "accounts" || tab === "expenses") { wireAccounts(); showPricingFields(); }
     $("#view").querySelectorAll("[data-month]").forEach((b) => b.addEventListener("click", () => { month = b.dataset.month; render(); }));
     $("#view").querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => { tab = b.dataset.go; render(); window.scrollTo({ top: 0 }); }));
   }
@@ -286,17 +289,20 @@
     return `<div class="seg">${all.map((m) => `<button data-month="${m}" class="${m === month ? "on" : ""}">${esc(monthName(m))}</button>`).join("")}</div>`;
   }
 
-  function projectTable(list, withRate) {
+  // Every project as a share of the month's AI use, and what that share of the plan costs.
+  function projectTable(list) {
     if (!list.length) return '<p class="empty">Nothing tracked this month.</p>';
-    return `<table>${list.map((p) => `<tr><td>${esc(p.project)}</td><td class="n">${p.hours.toFixed(1)} h</td><td class="n">${money(p.aiCost)}</td>${withRate ? `<td class="n">${p.hours ? money0(p.aiCost / p.hours) + "/h" : "·"}</td>` : ""}</tr>`).join("")}</table>`;
+    const all = monthAi(month);
+    return `<table>${list.map((p) => `<tr><td>${esc(p.project)}</td><td class="n">${p.hours.toFixed(1)} h</td><td class="n">${all > 0 ? Math.round((p.aiCost / all) * 1000) / 10 + "%" : "·"}</td><td class="n">${plan() ? money(realCost(p.aiCost, month)) : "·"}</td></tr>`).join("")}</table>`;
   }
+
 
   function home() {
     const cl = ofType("client"), ex = ofType("expense"), rf = ofType("reference"), pe = ofType("personal"), un = ofType("unsorted");
     const card = (go, kind, title, big, text) => `<button class="card section ${kind}" data-go="${go}"><span class="top"><span class="eyebrow">${title}</span><b class="big">${big}</b></span><p>${text}</p><span class="go">Open</span></button>`;
     return `${months()}
       ${card("accounts", "client", "Clients · to bill", money0(sum(cl, billOf)), cl.length ? cl.map((r) => `${esc(label(r.client))}: ${hoursOf(r).toFixed(1)} h, AI usage ${money0(aiBilled(r))}`).join("<br>") + (data.drafts.length ? `<br>${data.drafts.length} invoice draft${data.drafts.length > 1 ? "s" : ""} waiting` : "") : "No client work this month.")}
-      ${card("expenses", "", "Expenses · JGoCo", money0(sum(ex, (r) => r.aiCost)), `AI development cost for your own business, at API list price. ${sum(ex, hoursOf).toFixed(1)} h of your time.`)}
+      ${card("expenses", "", "Expenses · JGoCo", plan() ? money0(realCost(sum(ex, (r) => r.aiCost), month)) : Math.round((monthAi(month) ? sum(ex, (r) => r.aiCost) / monthAi(month) : 0) * 100) + "%", `${plan() ? "Real cost: " : ""}JGoCo's share of your AI plan this month. ${sum(ex, hoursOf).toFixed(1)} h of your time.`)}
       ${card("reference", "", "Reference · not billed", sum(rf, hoursOf).toFixed(0) + " h", `${rf.map((r) => esc(r.client)).join(", ") || "Nothing"}: ${money0(sum(rf, (r) => r.aiCost))} of AI. Use it to estimate new projects.${pe.length ? `<br>Personal, kept apart: ${sum(pe, hoursOf).toFixed(0)} h, ${money0(sum(pe, (r) => r.aiCost))}.` : ""}${un.length ? `<br>${sum(un, hoursOf).toFixed(1)} h still unsorted.` : ""}`)}`;
   }
 
@@ -324,14 +330,14 @@
           ${field("Hourly rate ($)", "d_rate", d.hourlyRate, "number", "step=1 min=0")}
           ${field("AI markup (%)", "d_markup", pct(d.aiMarkup), "number", "step=1 min=0")}
           ${field("Card fee (%)", "d_fee", d.cardFeePercent, "number", "step=0.1 min=0")}
-          ${field("My monthly AI subscriptions ($)", "d_subs", d.aiSubscriptionMonthly ?? "", "number", 'step=1 min=0 placeholder="Claude plan plus other AI apps"')}
+          ${field("My AI plan per month ($)", "d_subs", d.aiSubscriptionMonthly ?? "", "number", 'step=1 min=0 placeholder="Claude plan plus other AI apps"')}
           ${pricingFields("d", d.aiPricing, false)}
           <label>Hours to bill<select id="d_hours"><option value="active"${d.billHours === "active" ? " selected" : ""}>All active time</option><option value="attended"${d.billHours === "attended" ? " selected" : ""}>Only time with you</option></select></label>
         </div>
         <button class="btn dark" type="submit">Save defaults</button></form>`;
   }
 
-  const METHOD_NAMES = { list: "API list price", share: "Share of my AI subscriptions", hourly: "Flat amount per hour", fixed: "Fixed amount per invoice" };
+  const METHOD_NAMES = { list: "API list price", share: "My real cost (share of my AI plan)", hourly: "Flat amount per hour", fixed: "Fixed amount per invoice" };
   function pricingText(p) {
     if (p.method === "share") return "at my real cost";
     if (p.method === "hourly") return `$${p.perHour ?? 0}/h`;
@@ -380,7 +386,7 @@
     return `<button class="btn ghost" id="back" type="button" style="justify-self:start">Back to accounts</button>
       <h2>${isNew ? "New account" : esc(a.label)}</h2>
       ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
-      ${r ? `<div class="card"><div class="eyebrow">${esc(monthName(month))}</div><div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(2)}</b></div>${a.type === "client" ? `<div><small>AI usage, billed</small><b>${money0(aiBilled(r))}</b></div><div><small>To bill</small><b>${money0(billOf(r))}</b></div>` : ""}<div><small>On the API it'd cost</small><b>${money0(r.aiCost)}</b></div></div></div>` : ""}
+      ${r ? `<div class="card"><div class="eyebrow">${esc(monthName(month))}</div><div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(2)}</b></div>${a.type === "client" ? `<div><small>AI usage, billed</small><b>${money0(aiBilled(r))}</b></div><div><small>To bill</small><b>${money0(billOf(r))}</b></div>` : ""}<div><small>Your real cost</small><b>${plan() ? money0(realCost(r.aiCost, r.month)) : "Set plan"}</b></div><div><small>On the API it'd cost</small><b>${money0(r.aiCost)}</b></div></div></div>` : ""}
       <form class="card form" id="acct">
         <div class="fields">
           ${field("Account name", "a_label", a.label)}
@@ -412,6 +418,11 @@
     document.querySelectorAll("[data-edit]").forEach((b) => b.addEventListener("click", () => { editing = b.dataset.edit; saveNote = ""; render(); window.scrollTo({ top: 0 }); }));
     $("#newAcct")?.addEventListener("click", () => { editing = "__new"; saveNote = ""; render(); window.scrollTo({ top: 0 }); });
     $("#back")?.addEventListener("click", () => { editing = null; render(); });
+    $("#planForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      settings.defaults = { ...settings.defaults, aiSubscriptionMonthly: numOrNull("p_plan") };
+      await saveSettings("Plan price saved.");
+    });
     $("#defaults")?.addEventListener("submit", async (e) => {
       e.preventDefault();
       settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: numOrNull("d_fee") ?? settings.defaults.cardFeePercent, billHours: val("d_hours"), aiPricing: readPricing("d") ?? settings.defaults.aiPricing, aiSubscriptionMonthly: numOrNull("d_subs") };
@@ -492,21 +503,34 @@
   }
 
   function expenses() {
+    const accts = settings.accounts.filter((a) => a.type === "expense");
     const ex = ofType("expense");
-    const allTime = ofType("expense", null);
-    return `${months()}<h2>Expenses</h2><p class="lead">Your own JGoCo work, tracked as AI development cost. Priced at API list rates, so it shows what the work is worth, not your subscription bill.</p>
-      <div class="card"><div class="stat"><div><small>${esc(monthName(month))}</small><b>${money0(sum(ex, (r) => r.aiCost))}</b></div><div><small>Your time</small><b>${sum(ex, hoursOf).toFixed(1)} h</b></div><div><small>All time</small><b>${money0(sum(allTime, (r) => r.aiCost))}</b></div></div></div>
-      <div class="card"><div class="eyebrow" style="margin-bottom:6px">By project</div>${projectTable(projectsOf("jgoco"))}</div>`;
+    const used = sum(ex, (r) => r.aiCost), all = monthAi(month);
+    const share = all > 0 ? used / all : 0;
+    const allMonths = [...new Set(data.rows.map((r) => r.month))];
+    const allTime = allMonths.reduce((a, m) => a + realCost(sum(ofType("expense", m), (r) => r.aiCost), m), 0);
+    const projects = accts.flatMap((a) => projectsOf(a.name));
+    return `${months()}<h2>Expenses</h2><p class="lead">What your own JGoCo work really costs: its share of your monthly AI plan.</p>
+      ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
+      <form class="card form" id="planForm"><div class="fields">
+        ${field("My AI plan per month ($)", "p_plan", settings.defaults.aiSubscriptionMonthly ?? "", "number", 'step=1 min=0 placeholder="Claude plan plus other AI apps"')}
+      </div><button class="btn dark" type="submit" style="justify-self:start">Save plan price</button></form>
+      <div class="card"><div class="eyebrow">${esc(monthName(month))}</div>
+        <div class="stat"><div><small>Share of your AI use</small><b>${Math.round(share * 100)}%</b></div><div><small>Real cost</small><b>${plan() ? money(plan() * share) : "Set plan"}</b></div><div><small>Your time</small><b>${sum(ex, hoursOf).toFixed(1)} h</b></div></div>
+        ${plan() ? `<p class="lead" style="margin-top:8px">All time: ${money(allTime)}.</p>` : ""}</div>
+      <div class="card"><div class="eyebrow" style="margin-bottom:6px">By project</div>${projectTable(projects)}</div>
+      <p class="lead">On the API this month's JGoCo work would have cost ${money(used)}.</p>`;
   }
 
   function reference() {
     const rf = ofType("reference"), pe = ofType("personal"), un = ofType("unsorted");
     const allRef = ofType("reference", null);
     const perHour = sum(allRef, hoursOf) ? sum(allRef, (r) => r.aiCost) / sum(allRef, hoursOf) : 0;
-    const block = (title, list, client) => `<div class="card"><div class="eyebrow">${title}</div><div class="stat"><div><small>Hours</small><b>${sum(list, hoursOf).toFixed(1)}</b></div><div><small>AI cost</small><b>${money0(sum(list, (r) => r.aiCost))}</b></div></div>${projectTable(projectsOf(client), true)}</div>`;
+    const block = (title, list, client) => { const used = sum(list, (r) => r.aiCost), all = monthAi(month);
+      return `<div class="card"><div class="eyebrow">${title}</div><div class="stat"><div><small>Hours</small><b>${sum(list, hoursOf).toFixed(1)}</b></div><div><small>Share of your AI use</small><b>${all > 0 ? Math.round((used / all) * 100) + "%" : "·"}</b></div><div><small>Real cost</small><b>${plan() ? money0(realCost(used, month)) : "Set plan"}</b></div></div>${projectTable(projectsOf(client))}</div>`; };
     return `${months()}<h2>Reference</h2><p class="lead">Work you don't bill. Keep it as a record of what things take, for estimating new projects.</p>
       ${rf.length || allRef.length ? block("Grenco Science · not billed", rf, "Grenco Science") : ""}
-      ${perHour ? `<div class="card"><div class="eyebrow">For estimates</div><div class="stat"><div><small>AI per hour of work</small><b>${money0(perHour)}</b></div><div><small>All Grenco time</small><b>${sum(allRef, hoursOf).toFixed(0)} h</b></div></div><p class="lead" style="margin-top:8px">A project like this ran about ${money0(perHour)} of AI for every hour you worked on it.</p></div>` : ""}
+      ${perHour ? `<div class="card"><div class="eyebrow">For estimates</div><div class="stat"><div><small>API cost per hour of work</small><b>${money0(perHour)}</b></div><div><small>All Grenco time</small><b>${sum(allRef, hoursOf).toFixed(0)} h</b></div></div><p class="lead" style="margin-top:8px">A project like this ran about ${money0(perHour)} of AI for every hour you worked on it.</p></div>` : ""}
       ${pe.length ? block("Personal · kept apart from the business", pe, "Personal") : ""}
       ${un.length ? block("Unsorted", un, "Unassigned") : ""}`;
   }
