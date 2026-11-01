@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started · JGoCo</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="A short voice conversation about how your business runs.">
+<meta property="og:title" content="Getting started with JGoCo">
+<meta property="og:description" content="A short voice conversation about how your business runs.">
+<meta property="og:image" content="https://jgoco.me/img/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #111; --paper: #fff; --muted: #6b6b6b; --soft: #c4c4c4; --bolt: #ffd400; --gutter: clamp(16px, 5vw, 64px); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+  header { display: flex; align-items: center; justify-content: space-between; padding: 22px var(--gutter); background: var(--ink); }
+  header img { height: 34px; width: auto; display: block; }
+  main { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 5vw, 72px); padding: clamp(32px, 7vh, 80px) var(--gutter) 80px; max-width: 1300px; margin: 0 auto; align-items: center; }
+  .eyebrow { font-size: 14px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-weight: 900; font-size: clamp(40px, 6vw, 84px); letter-spacing: -.035em; line-height: .95; margin: 14px 0 22px; }
+  h1 em { font-style: normal; color: var(--soft); }
+  .lead { font-size: clamp(19px, 2vw, 23px); line-height: 1.38; max-width: 34ch; }
+  ol { list-style: none; margin-top: 28px; display: grid; gap: 14px; }
+  ol li { display: flex; gap: 14px; align-items: center; font-size: 18px; }
+  ol b { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--bolt); display: grid; place-items: center; font-size: 14px; }
+  .private { margin-top: 26px; font-size: 17px; line-height: 1.45; max-width: 44ch; }
+  .talk { background: var(--ink); color: var(--paper); border-radius: 28px; padding: clamp(28px, 4vw, 44px); display: grid; justify-items: center; gap: 18px; text-align: center; }
+  .face { width: 168px; height: 168px; border-radius: 50%; background: radial-gradient(circle at 50% 40%, #333, #1a1a1a 72%); border: 4px solid var(--bolt); display: grid; place-items: center; transition: transform .2s; }
+  .face img { width: 64px; }
+  .face.speaking { animation: pulse 1.1s ease-in-out infinite; }
+  @keyframes pulse { 50% { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(255, 212, 0, .14); } }
+  .talk h2 { font-weight: 900; font-size: clamp(26px, 2.6vw, 32px); letter-spacing: -.02em; }
+  .talk p { color: #c9c9c9; font-size: 18px; line-height: 1.4; max-width: 32ch; }
+  button { border: 0; border-radius: 999px; cursor: pointer; font: 900 24px Inter, system-ui, sans-serif; padding: 20px 52px; }
+  .go { background: var(--bolt); color: var(--ink); }
+  .stop { background: #2a2a2a; color: var(--paper); font-size: 19px; padding: 15px 36px; }
+  button:disabled { opacity: .5; cursor: default; }
+  .summary { background: #1c1c1c; border-radius: 18px; padding: 22px; text-align: left; color: #e6e6e6; font-size: 17px; line-height: 1.5; max-width: 46ch; white-space: pre-wrap; }
+  [hidden] { display: none !important; }
+  @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header><a href="/"><img src="img/jgoco-logo-b.png" alt="JGoCo"></a></header>
+<main>
+  <section>
+    <div class="eyebrow">Getting started with JGoCo</div>
+    <h1 id="hi">Tell us how your <em>business runs.</em></h1>
+    <p class="lead">A short voice conversation, so we can plan your site and tools around how your team really works.</p>
+    <ol>
+      <li><b>1</b>Your business, your team and your customers</li>
+      <li><b>2</b>The software and apps you use today</li>
+      <li><b>3</b>What eats your week, and what you'd fix first</li>
+      <li><b>4</b>Timing and what success looks like</li>
+    </ol>
+    <p class="private">Only Jordan reads your answers. You'll get a short summary at the end. Stop anytime and pick up where you left off from this same link.</p>
+  </section>
+
+  <section class="talk">
+    <div class="face" id="face"><img src="img/bolt-yellow.png" alt=""></div>
+    <h2 id="title">Talk with Ava</h2>
+    <p id="say">She asks one question at a time. Skip anything you're not sure about.</p>
+    <button class="go" id="go" type="button">Start</button>
+    <button class="stop" id="stop" type="button" hidden>End the call</button>
+    <div class="summary" id="summary" hidden></div>
+  </section>
+</main>
+
+<script type="module">
+  // The one-time token comes from the onboarding script (tools/onboarding-sheet.gs), which keeps
+  // the ElevenLabs key. This page only ever holds the client's link, a token and their own summary.
+  const SCRIPT = "https://script.google.com/macros/s/AKfycbyR6DNkxGjEpLr56VBQMB_9HDKmVgr3YnFGhqguR9_KTmnniUDI3KuyMF65BJBMWxmG/exec";
+  const k = new URLSearchParams(location.search).get("k") || "";
+  const $ = (id) => document.getElementById(id);
+  const go = $("go"), stop = $("stop"), face = $("face"), title = $("title"), say = $("say"), summary = $("summary");
+  let call = null, callId = null;
+
+  const ask = (action, extra = "") =>
+    fetch(`${SCRIPT}?action=${action}&k=${encodeURIComponent(k)}${extra}`).then((r) => r.json());
+
+  const show = (h, p) => { title.textContent = h; say.textContent = p; };
+  const broken = () => { show("This link isn't working", "Ask Jordan for a new one."); go.hidden = true; };
+
+  if (!/^[a-f0-9]{40}$/.test(k)) broken();
+  else ask("hello").then((r) => {
+    if (!r.ok) return broken();
+    const first = String(r.name || "").trim().split(/\s+/)[0];
+    if (first) $("hi").innerHTML = `Hi ${first.replace(/[<>&"]/g, "")}. <em>Tell us how your business runs.</em>`;
+    if (r.returning) { go.textContent = "Pick up where we left off"; say.textContent = "Ava remembers what you covered last time."; }
+  }).catch(() => {});
+
+  go.addEventListener("click", async () => {
+    go.disabled = true;
+    show("Connecting", "Allow the microphone when your browser asks.");
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true }).then((s) => s.getTracks().forEach((t) => t.stop()));
+    } catch {
+      go.disabled = false;
+      return show("We need your microphone", "Allow it in your browser, then press Start again.");
+    }
+    const r = await ask("start").catch(() => ({ ok: false }));
+    if (!r.ok) {
+      go.disabled = false;
+      const why = { busy: "Too many tries for now. Try again in an hour.", setup: "Ava isn't set up yet. Jordan will let you know when she's ready.", link: "This link isn't working. Ask Jordan for a new one." };
+      return show("We couldn't connect", why[r.why] || "Try again in a minute.");
+    }
+    callId = r.conversationId;
+    try {
+      const { Conversation } = await import("https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.27.0/+esm");
+      call = await Conversation.startSession({
+        conversationToken: r.conversationToken,
+        connectionType: "webrtc",
+        onConnect: ({ conversationId }) => { callId = conversationId || callId; },
+        onModeChange: ({ mode }) => {
+          face.classList.toggle("speaking", mode === "speaking");
+          say.textContent = mode === "speaking" ? "Ava is talking." : "Ava is listening.";
+        },
+        onDisconnect: () => finished(),
+        onError: (message) => console.warn(message),
+      });
+      go.hidden = true;
+      stop.hidden = false;
+      show("You're talking with Ava", "Ava is talking.");
+    } catch (err) {
+      console.warn(err);
+      go.disabled = false;
+      show("We couldn't connect", "Try again in a minute.");
+    }
+  });
+
+  stop.addEventListener("click", () => { stop.disabled = true; call && call.endSession(); });
+
+  let done = false;
+  async function finished() {
+    if (done) return;
+    done = true;
+    call = null;
+    face.classList.remove("speaking");
+    stop.hidden = true;
+    show("Thank you", "Writing up your summary. This takes about a minute.");
+    if (!callId) return show("Thank you", "Jordan has your answers and will be in touch.");
+    for (let i = 0; i < 24; i++) {
+      await new Promise((ok) => setTimeout(ok, 5000));
+      const r = await ask("summary", `&id=${encodeURIComponent(callId)}`).catch(() => ({}));
+      if (r.ok && r.ready && r.summary) {
+        show("Thank you", "Here's what we covered. Jordan will be in touch.");
+        summary.textContent = r.summary;
+        summary.hidden = false;
+        return;
+      }
+    }
+    show("Thank you", "Jordan has your answers and will send your summary.");
+  }
+</script>
+</body>
+</html>
