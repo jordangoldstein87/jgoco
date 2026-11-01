@@ -52,7 +52,7 @@
 <header><a href="/"><img src="img/jgoco-logo-yellow.png" alt="JGoCo"></a></header>
 <main>
   <section>
-    <div class="eyebrow">Getting started with JGoCo</div>
+    <div class="eyebrow" id="eyebrow">Getting started with JGoCo</div>
     <h1 id="hi">Tell us how your <em>business runs.</em></h1>
     <p class="lead">A short voice conversation, so we can plan your site and tools around how your team really works.</p>
     <ol>
@@ -61,7 +61,7 @@
       <li><b>3</b>What eats your week, and what you'd fix first</li>
       <li><b>4</b>Timing and what success looks like</li>
     </ol>
-    <p class="private">Only Jordan reads your answers. You'll get a short summary at the end. Stop anytime and pick up where you left off from this same link.</p>
+    <p class="private">Only Jordan reads your answers, and they're only used to learn how your business operates. You'll get a short summary at the end.<span id="resume"> Stop anytime and pick up where you left off from this same link.</span></p>
   </section>
 
   <section class="talk">
@@ -94,6 +94,7 @@
     if (!r.ok) return broken();
     const first = String(r.name || "").trim().split(/\s+/)[0];
     if (first) $("hi").innerHTML = `Hi ${first.replace(/[<>&"]/g, "")}. <em>Tell us how your business runs.</em>`;
+    if (r.open) { $("eyebrow").textContent = "Book a consultation"; $("resume").hidden = true; }
     if (r.returning) { go.textContent = "Pick up where we left off"; say.textContent = "Ava remembers what you covered last time."; }
   }).catch(() => {});
 

@@ -47,6 +47,13 @@
   .send { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 22px; }
   .btn { display: inline-flex; align-items: center; gap: 12px; background: var(--bolt); color: var(--ink); border: 0; cursor: pointer; font: 900 clamp(20px, 2vw, 26px) Inter, system-ui, sans-serif; letter-spacing: -.01em; padding: 18px 28px; border-radius: 999px; }
   .btn img { height: 1.1em; width: auto; }
+  .voice { margin-top: 36px; display: flex; align-items: center; gap: 18px 22px; flex-wrap: wrap; background: var(--ink); color: var(--paper); text-decoration: none; border-radius: 24px; padding: 20px 24px; max-width: 760px; font-size: 18px; line-height: 1.4; }
+  .voice .face { flex: none; width: 64px; height: 64px; border-radius: 50%; border: 3px solid var(--bolt); display: grid; place-items: center; background: #1c1c1c; }
+  .voice .face img { width: 24px; }
+  .voice b { font-weight: 900; font-size: 22px; letter-spacing: -.01em; }
+  .voice > span:nth-child(2) { flex: 1 1 260px; color: #d0d0d0; }
+  .voice .go { background: var(--bolt); color: var(--ink); font-weight: 900; font-size: 19px; padding: 14px 24px; border-radius: 999px; white-space: nowrap; }
+  .voice:hover .go { box-shadow: 0 0 0 4px rgba(255, 212, 0, .25); }
   .btn:hover { background: var(--ink); color: var(--paper); }
   .ghost { background: none; border: 0; font: 600 16px Inter, system-ui, sans-serif; color: var(--ink); border-bottom: 2px solid var(--line); cursor: pointer; padding: 2px 0; }
   .note { color: var(--muted); font-size: 16px; width: 100%; }
@@ -74,6 +81,12 @@
   <div class="eyebrow">Book a consultation</div>
   <h1>Tell us about<br><em>your business.</em></h1>
   <p class="lead">A few questions, about five minutes. The first conversation starts with your answers.</p>
+
+  <a class="voice" href="start.html?k=af6d865bbb9f45e99a2508b5b76b978c3fceefa3">
+    <span class="face"><img src="img/bolt-yellow.png" alt=""></span>
+    <span><b>Rather talk it through?</b><br>Answer out loud with Ava, our voice assistant. One question at a time.</span>
+    <span class="go">Talk with Ava</span>
+  </a>
 
   <form id="consult" novalidate>
     <fieldset>
