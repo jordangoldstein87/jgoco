@@ -41,7 +41,9 @@
   .go { background: var(--bolt); color: var(--ink); }
   .stop { background: #2a2a2a; color: var(--paper); font-size: 19px; padding: 15px 36px; }
   button:disabled { opacity: .5; cursor: default; }
-  .summary { background: #1c1c1c; border-radius: 18px; padding: 22px; text-align: left; color: #e6e6e6; font-size: 17px; line-height: 1.5; max-width: 46ch; white-space: pre-wrap; }
+  .summary { background: #1c1c1c; border-radius: 18px; padding: 22px; text-align: left; color: #e6e6e6; font-size: 17px; line-height: 1.45; max-width: 46ch; list-style: none; display: grid; gap: 10px; }
+  .summary li { padding-left: 22px; position: relative; }
+  .summary li::before { content: ""; position: absolute; left: 0; top: .5em; width: 8px; height: 8px; border-radius: 50%; background: var(--bolt); }
   [hidden] { display: none !important; }
   @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
 </style>
@@ -68,7 +70,7 @@
     <p id="say">She asks one question at a time. Skip anything you're not sure about.</p>
     <button class="go" id="go" type="button">Start</button>
     <button class="stop" id="stop" type="button" hidden>End the call</button>
-    <div class="summary" id="summary" hidden></div>
+    <ul class="summary" id="summary" hidden></ul>
   </section>
 </main>
 
@@ -150,7 +152,8 @@
       const r = await ask("summary", `&id=${encodeURIComponent(callId)}`).catch(() => ({}));
       if (r.ok && r.ready && r.summary) {
         show("Thank you", "Here's what we covered. Jordan will be in touch.");
-        summary.textContent = r.summary;
+        const bullets = r.summary.split("\n").map((l) => l.replace(/^\s*[-•*]\s*/, "").trim()).filter(Boolean);
+        summary.replaceChildren(...bullets.map((b) => Object.assign(document.createElement("li"), { textContent: b })));
         summary.hidden = false;
         return;
       }
