@@ -310,28 +310,30 @@
 
 
   function home() {
-    const cl = ofType("client"), ex = ofType("expense"), rf = ofType("reference");
+    const cl = ofType("client"), pt = ofType("pitch"), ex = ofType("expense"), rf = ofType("reference");
     const card = (go, kind, title, big, text) => `<button class="card section ${kind}" data-go="${go}"><span class="top"><span class="eyebrow">${title}</span><b class="big">${big}</b></span><p>${text}</p><span class="go">Open</span></button>`;
     return `${months()}
       ${card("accounts", "client", "Clients · to bill", money0(sum(cl, billOf)), cl.length ? cl.map((r) => `${esc(label(r.client))}: ${hoursOf(r).toFixed(1)} h, AI usage ${money0(aiBilled(r))}`).join("<br>") + (data.drafts.length ? `<br>${data.drafts.length} invoice draft${data.drafts.length > 1 ? "s" : ""} waiting` : "") : "No client work this month.")}
       ${card("expenses", "", "Expenses · JGoCo", plan() ? money0(realCost(sum(ex, (r) => r.aiCost), month)) : Math.round((monthAi(month) ? sum(ex, (r) => r.aiCost) / monthAi(month) : 0) * 100) + "%", `${plan() ? "Real cost: " : ""}JGoCo's share of your AI plan this month. ${sum(ex, hoursOf).toFixed(1)} h of your time.`)}
+      ${pt.length ? card("accounts", "", "Pitches · not signed yet", sum(pt, hoursOf).toFixed(1) + " h", pt.map((r) => `${esc(label(r.client))}: ${hoursOf(r).toFixed(1)} h, real AI cost ${plan() ? money(realCost(r.aiCost, month)) : money0(r.aiCost)}, would bill ${money0(billOf(r))}`).join("<br>")) : ""}
       ${card("reference", "", "Reference · not billed", sum(rf, hoursOf).toFixed(0) + " h", `${rf.map((r) => esc(r.client)).join(", ") || "Nothing"}: ${money0(sum(rf, (r) => r.aiCost))} of AI. Use it to estimate new projects.`)}`;
   }
 
-  const TYPE_NAMES = { client: "Client, billed", expense: "Business expense", reference: "Reference, not billed", personal: "Personal (hidden)" };
+  const TYPE_NAMES = { client: "Client, billed", pitch: "Pitch, not signed yet", expense: "Business expense", reference: "Reference, not billed", personal: "Personal (hidden)" };
   const pct = (m) => Math.round(m * 1000) / 10;
 
   function accounts() {
     if (editing) return accountForm(editing === "__new" ? null : acct(editing));
     const d = settings.defaults;
     // Personal and unsorted time still counts toward total AI use, but isn't shown.
-    const groups = ["client", "expense", "reference"].map((t) => {
+    const groups = ["client", "pitch", "expense", "reference"].map((t) => {
       const list = settings.accounts.filter((a) => a.type === t);
       if (!list.length) return "";
       return `<div class="eyebrow" style="margin-top:6px">${TYPE_NAMES[t]}</div><div class="list">${list.map((a) => {
         const r = data.rows.find((x) => x.client === a.name && x.month === month);
-        const right = t === "client" && r ? money0(billOf(r)) : r ? hoursOf(r).toFixed(1) + " h" : "";
-        const terms = t === "client" ? `$${rateOf(a.name)}/h · AI ${pricingText(pricingOf(a.name))} +${pct(markupOf(a.name))}%${a.retainer ? ` · $${a.retainer}/mo Service Fee` : ""}` : r ? `AI ${money(r.aiCost)} this month` : "Nothing this month";
+        // a pitch carries proposed terms: what the work so far would bill if they sign, and nothing is drafted
+        const right = t === "client" && r ? money0(billOf(r)) : t === "pitch" && r ? `${hoursOf(r).toFixed(1)} h` : r ? hoursOf(r).toFixed(1) + " h" : "";
+        const terms = t === "client" || t === "pitch" ? `${t === "pitch" ? "Proposed: " : ""}$${rateOf(a.name)}/h · AI ${pricingText(pricingOf(a.name))} +${pct(markupOf(a.name))}%${a.retainer ? ` · $${a.retainer}/mo Service Fee` : ""}` : r ? `AI ${money(r.aiCost)} this month` : "Nothing this month";
         return `<button class="card section" data-edit="${esc(a.name)}"><span class="top"><b style="font-size:19px">${esc(a.label)}</b><b>${right}</b></span><p>${terms}</p></button>`;
       }).join("")}</div>`;
     }).join("");
@@ -404,7 +406,7 @@
       ["Service Fee · upkeep, minor bugs and fixes", a.retainer || 0],
     ].filter(([, v]) => v > 0);
     const total = lines.reduce((t, [, v]) => t + v, 0);
-    return `<div class="card"><div class="eyebrow">${esc(monthName(month))} invoice, as set up now</div>
+    return `<div class="card"><div class="eyebrow">${a.type === "pitch" ? `What ${esc(monthName(month))} would bill if they sign` : `${esc(monthName(month))} invoice, as set up now`}</div>
       ${lines.length ? `<table>${lines.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${money(v)}</td></tr>`).join("")}<tr class="total"><td>Total</td><td class="n">${money(total)}</td></tr></table>` : '<p class="empty">Nothing to bill this month yet.</p>'}
       ${r ? `<p class="lead" style="margin-top:10px">Your real AI cost for this work: ${plan() ? money(realCost(r.aiCost, r.month)) : "set your plan on Expenses"}. On the API it would be ${money(r.aiCost)}.</p>` : ""}</div>`;
   }
@@ -419,8 +421,8 @@
     return `<button class="btn ghost" id="back" type="button" style="justify-self:start">Back to accounts</button>
       <h2>${isNew ? "New account" : esc(a.label)}</h2>
       ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
-      ${!isNew && a.type === "client" ? `${months()}${invoicePreview(a, r)}` : ""}
-      ${!isNew && a.type !== "client" && r ? `<div class="card"><div class="eyebrow">${esc(monthName(month))}</div><div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(1)}</b></div><div><small>Your real AI cost</small><b>${plan() ? money0(realCost(r.aiCost, r.month)) : "Set plan"}</b></div><div><small>On the API</small><b>${money0(r.aiCost)}</b></div></div></div>` : ""}
+      ${!isNew && (a.type === "client" || a.type === "pitch") ? `${months()}${invoicePreview(a, r)}` : ""}
+      ${!isNew && a.type !== "client" && a.type !== "pitch" && r ? `<div class="card"><div class="eyebrow">${esc(monthName(month))}</div><div class="stat"><div><small>Hours</small><b>${hoursOf(r).toFixed(1)}</b></div><div><small>Your real AI cost</small><b>${plan() ? money0(realCost(r.aiCost, r.month)) : "Set plan"}</b></div><div><small>On the API</small><b>${money0(r.aiCost)}</b></div></div></div>` : ""}
       <form class="card form" id="acct">
         ${group("The account", "Its name, and whether you bill it.", `
           ${field("Account name", "a_label", a.label)}
