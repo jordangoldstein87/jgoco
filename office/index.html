@@ -22,7 +22,7 @@
   /* Lock screen */
   .lock { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px var(--gutter); background: var(--ink); color: #fff; }
   .lock form { width: min(380px, 100%); display: grid; gap: 16px; }
-  .lock .logo { width: 180px; filter: invert(1); margin-bottom: 12px; }
+  .lock .logo { width: 180px; margin-bottom: 12px; }
   .lock h1 { font-weight: 900; font-size: 36px; letter-spacing: -.03em; }
   .lock input[type=password] { width: 100%; padding: 15px 16px; border-radius: 14px; border: 1px solid #333; background: #1c1c1c; font-size: 18px; }
   .lock input:focus { outline: 2px solid var(--bolt); }
@@ -38,7 +38,7 @@
   .app { display: none; padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
   .app.on { display: block; }
   header { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; padding: 14px var(--gutter); background: var(--ink); color: #fff; }
-  header img { height: 22px; filter: invert(1); }
+  header img { height: 22px; }
   header .meta { font-size: 13px; color: #aaa; }
   header button { background: none; border: 0; color: #fff; font-weight: 600; font-size: 14px; border-bottom: 2px solid var(--bolt); cursor: pointer; }
   main { padding: 18px var(--gutter); max-width: 1100px; margin: 0 auto; display: grid; gap: 14px; }
@@ -114,7 +114,7 @@
 <body>
 <section class="lock" id="lock">
   <form id="unlock" autocomplete="on">
-    <img class="logo" src="../img/jgoco-logo.png" alt="JGoCo">
+    <img class="logo" src="../img/jgoco-logo-yellow.png" alt="JGoCo">
     <h1>Back office</h1>
     <input type="text" name="username" value="jordan" autocomplete="username" hidden>
     <input type="password" id="pass" autocomplete="current-password" placeholder="Password" required>
@@ -126,7 +126,7 @@
 
 <div class="app" id="app">
   <header>
-    <img src="../img/jgoco-logo.png" alt="JGoCo">
+    <img src="../img/jgoco-logo-yellow.png" alt="JGoCo">
     <span class="meta" id="updated"></span>
     <button type="button" id="lockBtn">Lock</button>
   </header>
