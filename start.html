@@ -98,8 +98,53 @@
     if (r.returning) { go.textContent = "Pick up where we left off"; say.textContent = "Ava remembers what you covered last time."; }
   }).catch(() => {});
 
+  // Hotel Wi-Fi and phone hotspots often block the usual voice connection (WebRTC). As on the
+  // NexEros page: try it for 15 seconds, then carry on over a secure web connection on port 443,
+  // and remember that for the rest of this visit. A session that opens after we gave up on it
+  // is closed at once.
+  const SDK = "https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.27.0/+esm";
+  const NET = "This network is blocking the call. Try another Wi-Fi or your phone's data, then press Start again.";
+  const store = (v) => { try { sessionStorage.setItem("talk-ws", v); } catch {} };
+  let viaWs = (() => { try { return sessionStorage.getItem("talk-ws") === "1"; } catch { return false; } })();
+  let attempt = 0;
+  const handlers = (n) => ({
+    onConnect: ({ conversationId }) => { if (n === attempt) callId = conversationId || callId; },
+    onModeChange: ({ mode }) => {
+      if (n !== attempt) return;
+      face.classList.toggle("speaking", mode === "speaking");
+      say.textContent = mode === "speaking" ? "Ava is talking." : "Ava is listening.";
+    },
+    onDisconnect: (d) => { if (n === attempt) finished(d); },
+    onError: (message) => console.warn(message),
+  });
+  const within = (p, ms, n) => new Promise((ok, no) => {
+    const t = setTimeout(() => { if (n === attempt) attempt++; no(new Error("timeout")); }, ms);
+    p.then((c) => { clearTimeout(t); if (n === attempt) ok(c); else { c.endSession(); no(new Error("late")); } }, (e) => { clearTimeout(t); no(e); });
+  });
+  async function connect() {
+    const { Conversation } = await import(SDK);
+    if (!viaWs) {
+      const r = await ask("start").catch(() => ({ ok: false }));
+      if (!r.ok) return r;
+      callId = r.conversationId;
+      const n = ++attempt;
+      try {
+        return { ok: true, call: await within(Conversation.startSession({ conversationToken: r.conversationToken, connectionType: "webrtc", ...handlers(n) }), 15000, n) };
+      } catch (err) {
+        console.warn("The voice connection didn't open; trying the secure web connection.", err);
+        viaWs = true; store("1");
+        say.textContent = "This network blocks the usual voice connection. Switching to a secure web connection.";
+      }
+    }
+    const r = await ask("start", "&via=ws").catch(() => ({ ok: false }));
+    if (!r.ok) return r;
+    callId = null;
+    const n = ++attempt;
+    return { ok: true, call: await within(Conversation.startSession({ signedUrl: r.signedUrl, connectionType: "websocket", ...handlers(n) }), 20000, n) };
+  }
+
   go.addEventListener("click", async () => {
-    go.disabled = true;
+    go.disabled = true; done = false;
     show("Connecting", "Allow the microphone when your browser asks.");
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true }).then((s) => s.getTracks().forEach((t) => t.stop()));
@@ -107,45 +152,35 @@
       go.disabled = false;
       return show("We need your microphone", "Allow it in your browser, then press Start again.");
     }
-    const r = await ask("start").catch(() => ({ ok: false }));
+    let r;
+    try { r = await connect(); } catch (err) { console.warn(err); r = { ok: false, why: "net" }; }
     if (!r.ok) {
       go.disabled = false;
       const why = { busy: "Too many tries for now. Try again in an hour.", setup: "Ava isn't set up yet. Jordan will let you know when she's ready.", link: "This link isn't working. Ask Jordan for a new one." };
-      return show("We couldn't connect", why[r.why] || "Try again in a minute.");
+      return show("We couldn't connect", why[r.why] || NET);
     }
-    callId = r.conversationId;
-    try {
-      const { Conversation } = await import("https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.27.0/+esm");
-      call = await Conversation.startSession({
-        conversationToken: r.conversationToken,
-        connectionType: "webrtc",
-        onConnect: ({ conversationId }) => { callId = conversationId || callId; },
-        onModeChange: ({ mode }) => {
-          face.classList.toggle("speaking", mode === "speaking");
-          say.textContent = mode === "speaking" ? "Ava is talking." : "Ava is listening.";
-        },
-        onDisconnect: () => finished(),
-        onError: (message) => console.warn(message),
-      });
-      go.hidden = true;
-      stop.hidden = false;
-      show("You're talking with Ava", "Ava is talking.");
-    } catch (err) {
-      console.warn(err);
-      go.disabled = false;
-      show("We couldn't connect", "Try again in a minute.");
-    }
+    call = r.call;
+    go.hidden = true;
+    stop.hidden = false; stop.disabled = false;
+    show("You're talking with Ava", "Ava is talking.");
   });
 
   stop.addEventListener("click", () => { stop.disabled = true; call && call.endSession(); });
 
   let done = false;
-  async function finished() {
+  async function finished(d) {
     if (done) return;
     done = true;
     call = null;
     face.classList.remove("speaking");
     stop.hidden = true;
+    if (d && d.reason === "error") {
+      // Signal lost or the network dropped: keep what was said, and Start picks up where it left off.
+      if (callId) ask("summary", `&id=${encodeURIComponent(callId)}`).catch(() => {});
+      done = false;
+      go.hidden = false; go.disabled = false; go.textContent = "Pick up where we left off";
+      return show("The connection dropped", "Press Pick up where we left off to carry on.");
+    }
     show("Thank you", "Writing up your summary. This takes about a minute.");
     if (!callId) return show("Thank you", "Jordan has your answers and will be in touch.");
     for (let i = 0; i < 24; i++) {
