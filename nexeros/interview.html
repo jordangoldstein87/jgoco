@@ -49,6 +49,16 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
 .alt { text-align: center; display: grid; gap: 8px; justify-items: center }
 .alt a { color: var(--hub); font-weight: 600 }
 .private { text-align: center; color: var(--ink-2); font-size: 14.5px }
+.safe { display: grid; gap: 14px }
+.safe h2 { font-size: 28px; text-align: center }
+.safe > p { text-align: center; color: var(--ink-2); font-size: 15.5px }
+.safe ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+.safe li { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; align-content: start; grid-template-columns: 26px 1fr; gap: 4px 12px; font-size: 14.5px; color: var(--ink-2); line-height: 1.5 }
+.safe li svg { grid-row: span 2; width: 22px; height: 22px; margin-top: 2px; color: var(--hub) }
+.safe li b { color: var(--ink); font-size: 15.5px; font-weight: 600 }
+@media (max-width: 560px) { .safe ul { grid-template-columns: 1fr } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .safe li svg { color: var(--honey) } }
+:root[data-theme="dark"] .safe li svg { color: var(--honey) }
 @media (prefers-reduced-motion: reduce) { .face.speaking::before, .face.speaking::after, .face.speaking svg { animation: none } }
 /* The mutual NDA, opened by Sage right before the money questions */
 .nda { position: fixed; inset: 0; z-index: 10; background: #0f1611b3; display: grid; place-items: center; padding: 16px; overflow-y: auto }
@@ -109,9 +119,20 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
     <li><b>4</b>Your week and your tools: what eats your time, what to hand off first</li>
     <li><b>5</b>The brand and your goals for the next 12 months</li>
   </ol>
-  <p class="private" id="ndanote" hidden>Before any numbers like sales, costs or inventory, Sage puts a short mutual NDA on your screen to sign. It protects what you share.</p>
+  <section class="safe" aria-labelledby="safeh">
+    <h2 id="safeh">Private and secure</h2>
+    <p>What you share about NexEros stays between you and the people building your Hub.</p>
+    <ul>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><b>Encrypted on every connection</b>The page, your voice and your answers travel over encrypted connections, so no one else on hotel or public Wi-Fi can see or hear them.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="3.5"/><path d="M10.5 12.5 19 4M16 7l2.5 2.5M14 9l2 2"/></svg><b>A link that only works for you</b>Your private link carries its own key, and your interviewer is set up just for you. It never hears anyone else's call.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 11 4.7M12 17.5V21M4 4l16 16"/></svg><b>Your voice isn't recorded</b>Only the written notes from the call are kept, so Jordan can plan from them.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 13h6M9.5 16.5h4"/></svg><b>A mutual NDA before any numbers</b>Sales, costs and inventory wait until you've signed it on screen, confirmed with a code sent to your email. You both get a signed copy.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/></svg><b>Stored privately, deleted on request</b>Your notes sit in Jordan's private Google account, encrypted by Google. Ask and your call and notes are deleted.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a13 13 0 0 1 18 0M6 12.5a8.5 8.5 0 0 1 12 0M9 16a4 4 0 0 1 6 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg><b>Works on hotel Wi-Fi and hotspots</b>If a network blocks the usual voice connection, the call switches to a standard secure web connection by itself. If it drops, your progress is saved.</li>
+    </ul>
+  </section>
   <div class="alt"><p>Rather type than talk?</p><a href="index.html#questions">Answer the written questions instead</a></div>
-  <p class="private">Your answers are only used to plan your NexEros Operations Hub. Only Jordan reads them. You'll see a short summary at the end, and you can pick up where you left off from this same link.</p>
+  <p class="private">Your answers are only used to plan your NexEros Operations Hub. Jordan reads them. You'll see a short summary at the end, and you can pick up where you left off from this same link.</p>
 </main>
 
 <div class="nda" id="nda" hidden role="dialog" aria-modal="true" aria-labelledby="ndah"><div class="nda-box">
@@ -132,6 +153,8 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
   const ask = (action, extra = "") =>
     fetch(`${SCRIPT}?action=${action}&k=${encodeURIComponent(k)}${extra}`).then((r) => r.json());
   const show = (h, p) => { title.textContent = h; say.textContent = p; };
+  // hotel and public Wi-Fi often hold every request until its sign-in page is done
+  const NET = "Check your connection. On hotel or public Wi-Fi, open any website first to finish the Wi-Fi sign-in, or switch to your phone's hotspot, then try again.";
   const waiting = () => { show(`${host} is almost ready`, "Jordan will send your private link. Or answer in writing below, it takes about 10 minutes."); go.disabled = true; };
 
   if (!/^[a-f0-9]{40}$/.test(k)) waiting();
@@ -144,8 +167,8 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
     if (first) $("hi").innerHTML = `Hi ${first.replace(/[<>&"]/g, "")}. Tell us how <em>NexEros</em> runs.`;
     if (r.returning) { go.textContent = "Pick up where we left off"; say.textContent = `${host} remembers what you covered last time.`; }
     ndaState = r.nda || "none";
-    if (ndaState === "needed") { $("ndanote").hidden = false; ask("nda").then((d) => { if (d.ok) ndaDoc = d; }).catch(() => {}); }
-  }).catch(() => {});
+    if (ndaState === "needed") ask("nda").then((d) => { if (d.ok) ndaDoc = d; }).catch(() => {});
+  }).catch(() => show("We can't reach the interview", NET));
 
   // ── The mutual NDA ──
   // Sage calls show_nda right before the money questions; the call waits on this promise.
@@ -171,7 +194,7 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
     const { resolve } = ndaOpen; ndaOpen = null;
     $("nda").hidden = true; document.body.style.overflow = "";
     if (call && call.setMicMuted) call.setMicMuted(false);
-    if (result === "signed") { ndaState = "signed"; $("ndanote").hidden = true; }
+    if (result === "signed") ndaState = "signed";
     resolve(result);
   }
 
@@ -180,7 +203,7 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
     head("Before the numbers", "A mutual NDA", `It protects what you share about your business, and what we share with you. ${host} waits while you read and sign.`);
     const doc = el("div", { className: "nda-doc", tabIndex: 0 });
     if (ndaDoc) {
-      doc.append(el("p", { className: "ttl", textContent: ndaDoc.nda.title }), el("p", { className: "ver", textContent: `${ndaDoc.nda.us} and ${ndaDoc.nda.them} · version ${ndaDoc.nda.version}` }));
+      doc.append(el("p", { className: "ttl", textContent: ndaDoc.nda.title }), el("p", { className: "ver", textContent: `${ndaDoc.nda.parties || ndaDoc.nda.us + " and " + ndaDoc.nda.them} · version ${ndaDoc.nda.version}` }));
       ndaDoc.nda.sections.forEach(([h, p], i) => doc.append(el("h3", { textContent: `${i + 1}. ${h}` }), el("p", { textContent: p })));
     } else doc.append(el("p", { textContent: "The agreement didn't load. Close this and try again in a minute." }));
     const field = (label, key, type = "text", wide = false, extra = {}) => {
@@ -243,8 +266,55 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
   }
   window.openNda = openNda; // lets Jordan check the NDA screen without starting a call
 
+  const SDK = window.SAGE_SDK || "https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.27.0/+esm"; // SAGE_SDK: a stand-in for testing
+  const sleep = (ms) => new Promise((ok) => setTimeout(ok, ms));
+  const store = (v) => { try { sessionStorage.setItem("sage-ws", v); } catch {} };
+  let viaWs = (() => { try { return sessionStorage.getItem("sage-ws") === "1"; } catch { return false; } })();
+  let attempt = 0, userEnded = false, done = false;
+
+  // Events from an attempt we gave up on (a slow WebRTC try) are ignored.
+  const handlers = (n) => ({
+    clientTools: { show_nda: () => openNda() },
+    onConnect: ({ conversationId }) => { if (n === attempt) callId = conversationId || callId; },
+    onModeChange: ({ mode }) => {
+      if (n !== attempt) return;
+      face.classList.toggle("speaking", mode === "speaking");
+      say.textContent = mode === "speaking" ? `${host} is talking.` : `${host} is listening.`;
+    },
+    onDisconnect: (d) => { if (n === attempt) finished(d); },
+    onError: (message) => console.warn(message),
+  });
+  // A session that starts after we stopped waiting for it is closed at once.
+  const within = (p, ms, n) => new Promise((ok, no) => {
+    const t = setTimeout(() => { if (n === attempt) attempt++; no(new Error("timeout")); }, ms);
+    p.then((c) => { clearTimeout(t); if (n === attempt) ok(c); else { c.endSession(); no(new Error("late")); } }, (e) => { clearTimeout(t); no(e); });
+  });
+
+  async function connect() {
+    const { Conversation } = await import(SDK);
+    if (!viaWs) {
+      const r = await ask("start");
+      if (!r.ok) return r;
+      callId = r.conversationId;
+      const n = ++attempt;
+      try {
+        return { ok: true, call: await within(Conversation.startSession({ conversationToken: r.conversationToken, connectionType: "webrtc", ...handlers(n) }), 15000, n) };
+      } catch (err) {
+        console.warn("The voice connection didn't open; trying the secure web connection.", err);
+        viaWs = true; store("1");
+        say.textContent = "This network blocks the usual voice connection. Switching to a secure web connection.";
+      }
+    }
+    const r = await ask("start", "&via=ws");
+    if (!r.ok) return r;
+    callId = null;
+    const n = ++attempt;
+    return { ok: true, call: await within(Conversation.startSession({ signedUrl: r.signedUrl, connectionType: "websocket", ...handlers(n) }), 20000, n) };
+  }
+
   go.addEventListener("click", async () => {
-    go.disabled = true;
+    go.disabled = true; done = false; userEnded = false;
+    go.className = "go"; summary.hidden = true;
     show("Connecting", "Allow the microphone when your browser asks.");
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true }).then((s) => s.getTracks().forEach((t) => t.stop()));
@@ -252,61 +322,48 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
       go.disabled = false;
       return show("We need your microphone", "Allow it in your browser, then press Start again.");
     }
-    const r = await ask("start").catch(() => ({ ok: false }));
+    let r;
+    try { r = await connect(); } catch (err) { console.warn(err); r = { ok: false, why: "net" }; }
     if (!r.ok) {
       go.disabled = false;
       if (["setup", "link", "eleven"].includes(r.why)) return waiting();
-      return show("We couldn't connect", r.why === "busy" ? "Too many tries for now. Try again in an hour." : "Try again in a minute.");
+      return show("We couldn't connect", r.why === "busy" ? "Too many tries for now. Try again in an hour." : NET);
     }
-    callId = r.conversationId;
-    try {
-      const { Conversation } = await import("https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.27.0/+esm");
-      call = await Conversation.startSession({
-        conversationToken: r.conversationToken,
-        connectionType: "webrtc",
-        clientTools: { show_nda: () => openNda() },
-        onConnect: ({ conversationId }) => { callId = conversationId || callId; },
-        onModeChange: ({ mode }) => {
-          face.classList.toggle("speaking", mode === "speaking");
-          say.textContent = mode === "speaking" ? `${host} is talking.` : `${host} is listening.`;
-        },
-        onDisconnect: () => finished(),
-        onError: (message) => console.warn(message),
-      });
-      go.hidden = true;
-      stop.hidden = false;
-      show(`You're talking with ${host}`, `${host} is talking.`);
-    } catch (err) {
-      console.warn(err);
-      go.disabled = false;
-      show("We couldn't connect", "Try again in a minute.");
-    }
+    call = r.call;
+    go.hidden = true;
+    stop.hidden = false; stop.disabled = false;
+    show(`You're talking with ${host}`, `${host} is talking.`);
   });
 
-  stop.addEventListener("click", () => { stop.disabled = true; call && call.endSession(); });
+  stop.addEventListener("click", () => { stop.disabled = true; userEnded = true; call && call.endSession(); });
 
-  let done = false;
-  async function finished() {
+  // After any ending: save the call so Sage remembers it, then show the summary. A dropped call
+  // (signal lost, network gone) offers to pick up where it left off instead.
+  async function finished(d) {
     if (done) return;
     done = true;
     call = null;
-    if (ndaOpen) closeNda("not_signed");
     face.classList.remove("speaking");
     stop.hidden = true;
-    show("Thank you", "Writing up your summary. This takes about a minute.");
-    if (!callId) return show("Thank you", "Jordan has your answers and will be in touch.");
-    for (let i = 0; i < 24; i++) {
-      await new Promise((ok) => setTimeout(ok, 5000));
+    const why = String((d && (d.reason || (d.context && d.context.type))) || "");
+    const dropped = !userEnded && (navigator.onLine === false || /error|network|timeout/i.test(why));
+    show(dropped ? "The connection dropped" : "Thank you", dropped ? "Saving what you've covered so you can pick up where you left off." : "Writing up your summary. This takes about a minute.");
+    let text = "";
+    if (callId) for (let i = 0; i < 24; i++) {
+      await sleep(5000);
       const r = await ask("summary", `&id=${encodeURIComponent(callId)}`).catch(() => ({}));
-      if (r.ok && r.ready && r.summary) {
-        show("Thank you", "Here's what we covered. Jordan will be in touch.");
-        const bullets = r.summary.split("\n").map((l) => l.replace(/^\s*[-•*]\s*/, "").trim()).filter(Boolean);
-        summary.replaceChildren(...bullets.map((b) => Object.assign(document.createElement("li"), { textContent: b })));
-        summary.hidden = false;
-        return;
-      }
+      if (r.ok && r.ready && r.summary) { text = r.summary; break; }
+      if (dropped && i >= 8) break;
     }
-    show("Thank you", "Jordan has your answers and will send your summary.");
+    // the button that starts a call doubles as the way back in
+    go.textContent = "Pick up where we left off"; go.hidden = false; go.disabled = false;
+    if (dropped) return show("The connection dropped", `Your progress is saved. Pick up where you left off whenever you're ready, on this network or another. ${host} carries on from the last topic.`);
+    go.className = "stop";
+    if (!text) return show("Thank you", "Jordan has your answers and will send your summary. If the call cut off early, you can pick up where you left off.");
+    show("Thank you", "Here's what we covered. Jordan will be in touch. If the call cut off early, you can pick up where you left off.");
+    const bullets = text.split("\n").map((l) => l.replace(/^\s*[-•*]\s*/, "").trim()).filter(Boolean);
+    summary.replaceChildren(...bullets.map((b) => Object.assign(document.createElement("li"), { textContent: b })));
+    summary.hidden = false;
   }
 </script>
 </body>
