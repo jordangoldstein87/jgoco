@@ -184,8 +184,8 @@
   let PATHS = null;
   async function loadMap() {
     try {
-      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793752949").then(r => r.json()); PATHS = topoPaths(US); }
-      if (!STORES) { const d = await fetch("img/stores.json?v=1793752949").then(r => r.json()); STORES = d.stores; PER = d.per; }
+      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793753620").then(r => r.json()); PATHS = topoPaths(US); }
+      if (!STORES) { const d = await fetch("img/stores.json?v=1793753620").then(r => r.json()); STORES = d.stores; PER = d.per; }
     } catch (e) { const c = APP.$("#sl-count"); if (c) c.textContent = "The store list didn't load."; return; }
     drawMap(); renderQ("leads");
   }
@@ -351,7 +351,8 @@
   /* ---------- your turn: the AI interview (recommended) or the written questions ---------- */
   const QS = [
     ["Your business", [["team", "Is NexEros just you today, or does anyone help? Packing, a manufacturer contact, a contractor, a partner."], ["orders", "Which products sell best, and about how many orders a month?"], ["aov", "What does an average order look like, and how many customers come back?"]]],
-    ["Making it", [["maker", "Who makes the capsules? Do you have the full label with each botanical's amount? Are STAMINA and FEMINA the same formula?"], ["lab", "Do you get lab reports for each batch? Would you be open to an outside test that also screens for hidden drugs?"], ["cogs", "Roughly what does a 5-pack cost you to make and ship? (It decides which store and distributor deals can work.)"]]],
+    ["Making it", [["maker", "Who makes the capsules? Do you have the full label with each botanical's amount? Are STAMINA and FEMINA the same formula?"], ["lab", "Do you get lab reports for each batch? Would you be open to an outside test that also screens for hidden drugs?"]]],
+    ["Where you are today", [["revenue", "About what does NexEros bring in a month right now, and how has that moved over the last six months?"], ["cogs", "What does it cost you to make one capsule and one 5-pack, packaging included? And what does it cost to ship an order? (It decides which store and distributor deals can work.)"], ["stock", "How much inventory are you holding: how many units, about what it cost you, and how much of it is in the current packaging?"], ["reorder", "What's your manufacturer's minimum order and lead time, and when would you need to reorder at today's pace?"], ["costs", "Beyond product, what are your biggest monthly costs right now: ads, software, shipping supplies, anything else?"], ["base", "About how many customers have you had, and how many are on auto-ship or in the membership?"], ["margin", "After product, shipping and ads, roughly what do you keep on a typical order?"], ["money", "Is anyone else invested or owed money, and is there budget set aside for this next stage?"]]],
     ["Where you sell", [["stores", "Are you in any stores today? How many, what kind, and how did they find you?"], ["dist", "Any distributors or wholesale accounts? Have you tried Amazon or another marketplace?"], ["events", "How did the event booths go? Worth doing again?"]]],
     ["Marketing", [["spend", "About how much do you spend on marketing a month, and where does it go? (Ad networks, Meta, Google, creators, events.)"], ["works", "What has brought in the most customers so far, and what hasn't worked?"], ["content", "Who writes your emails, posts and product pages today, and how often do they go out?"]]],
     ["Your tools and your week", [["tools", "Which tools do you log into every week? Where do you track stock?"], ["week", "What eats most of your week, and what would you hand off first?"]]],
