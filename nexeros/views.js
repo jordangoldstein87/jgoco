@@ -78,7 +78,7 @@
     ${sec("What a 5-pack earns where", `<div class="g4">${C.whole.map(([a, b]) => `<div class="card mini"><span>${esc(a)}</span><b>${b}</b></div>`).join("")}</div><p class="note">Distributors work only if the product costs about $4 to $5 a 5-pack or less. That's the first number we'd want from you.</p>`)}
     ${next("marketing", "Marketing")}</div>`;
   function hubFlow() {
-    const L = ["nexeros.com", "Amazon", "Walmart", "iHerb", "Google Shopping"], R = ["Distributors", "Wholesale portal", "Boutiques", "Pharmacies", "Affiliates"];
+    const L = ["nexeros.com", "Amazon", "Walmart", "iHerb", "Google Shopping"], R = ["Distributors", "Wholesale portal", "Faire", "Boutiques", "Pharmacies", "Affiliates"];
     return `<div class="hf"><div class="hf-col">${L.map(x => `<span>${x}</span>`).join("")}</div><div class="hf-mid">${NX.mark("rooted", 42)}<b>NexEros Hub</b><small>One catalog · one inventory · every order</small></div><div class="hf-col">${R.map(x => `<span>${x}</span>`).join("")}</div></div>`;
   }
 
@@ -208,7 +208,12 @@
     ${sec("How many shops there are", bars(C.universe.map(r => [r[0], r[1], r[2]])) , "Independent stores in the US that could carry your products.")}
     ${sec("Your lists", `<div class="q-tabs"><button data-q="leads" class="on">New leads <em id="qn-leads"></em></button><button data-q="email">Email queue <em id="qn-email"></em></button><button data-q="call">Call queue <em id="qn-call"></em></button></div><div id="q-body" class="q-body"></div><p class="note">Real store names and public phone numbers from OpenStreetMap. The scores, the owner names and the emails are samples until the paid steps run. Nothing sends from this page.</p>`)}
     ${sec("The wholesale portal", portal(), "Where stores order once they say yes. Their own login, their price, the lab report, reorder in two taps.")}
+    ${sec("Faire, wired into the Hub", faire(), "Boutiques, gift shops and spas already shop for wholesale on Faire. The oils go there, and the Hub runs it for you.")}
     ${next("hq", "The NexEros Hub")}</div>`;
+  function faire() {
+    return `<div class="so-flow fa-flow">${[["Listed from the Hub", "Velvet Fire and O-YEA!, with photos and wholesale prices, sent from the master database through Faire's API"], ["Stock in step", "One count for every channel. A sale on Faire comes off your site and the portal too"], ["Orders in one queue", "Faire orders land next to site and portal orders, packed and shipped the same way, tracking sent back to Faire"], ["Stores into the CRM", "Every shop that orders on Faire shows up in the Hub, so Trae knows who already carries NexEros"]].map(([a, b], i) => `<div><span>0${i + 1}</span><b>${a}</b><small>${b}</small></div>`).join("")}</div>
+      <div class="ang fa-why">${[["Shops already browse it", "Small shops find new brands on Faire by category. Intimacy oils from Foria, Dame and Coconu are already there, so the shelf exists."], ["Easy for a small shop to say yes", "Faire gives shops payment terms and handles the billing, so a first order from a shop that's never heard of you is low risk for them."], ["The capsules stay yours", "Faire doesn't allow dietary supplements. STAMINA and FEMINA sell through your own wholesale portal, with the lab report."], ["Set up once", "Faire approves the brand, then the API key. After that it runs from the Hub like any other channel."]].map(([a, b]) => `<div><b>${a}</b><span>${b}</span></div>`).join("")}</div>`;
+  }
   function portal() {
     return `<div class="wp"><div class="wp-bar"><b>NexEros Wholesale</b><span>Root &amp; Remedy · Asheville, NC · sample</span></div><div class="wp-grid"><div class="wp-cat">${[["Stamina, 5-pack", "$24.98", "MSRP $49.95"], ["Femina, 5-pack", "$24.98", "MSRP $49.95"], ["Counter display, 24 singles", "$198.00", "MSRP $406.80"], ["Velvet Fire, 4 oz", "$24.98", "MSRP $49.95"]].map(([a, b, c]) => `<div class="wp-p"><span>${a}</span><small>${c}</small><b>${b}</b><span class="wp-qty">− 6 +</span></div>`).join("")}</div><div class="wp-side"><div><span>Your terms</span><b>Net 30</b></div><div><span>Last order</span><b>Oct 14 · 36 units</b></div><div><span>Lab report</span><b><a href="#site-ingredients">Batch NX-2611</a></b></div><button class="cta-sm">Reorder last order</button></div></div><p class="note">Sample terms and store.</p></div>`;
   }
@@ -273,8 +278,8 @@
   let PATHS = null;
   async function loadMap() {
     try {
-      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793760033").then(r => r.json()); PATHS = topoPaths(US); }
-      if (!STORES) { const d = await fetch("img/stores.json?v=1793760033").then(r => r.json()); STORES = d.stores; PER = d.per; }
+      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793772048").then(r => r.json()); PATHS = topoPaths(US); }
+      if (!STORES) { const d = await fetch("img/stores.json?v=1793772048").then(r => r.json()); STORES = d.stores; PER = d.per; }
     } catch (e) { const c = APP.$("#sl-count"); if (c) c.textContent = "The store list didn't load."; return; }
     drawMap(); renderQ("leads");
   }
@@ -480,7 +485,7 @@
     <section class="pg-sec rise hq-cta"><span class="eyebrow">Next step</span><h2>Tell us how NexEros runs.</h2><p>A 15-minute talk with Sage, our AI interviewer, about your stores, your marketing spend, what a 5-pack costs you and where you want to be in a year. Then a 30-minute call on which piece to build first. There's no build fee: Ryan and Jordan build it for equity and a commission on sales, and you cover the running costs in your plan.</p><div class="hq-two"><a class="cta-big" href="interview.html">Talk with Sage <span aria-hidden="true">→</span></a><a class="cta-ghost" href="#questions">Rather type? Answer in writing</a></div><p class="hq-or">Or skip ahead:</p><a class="cta-big" href="mailto:jordan@jgoco.me?subject=${encodeURIComponent("NexEros: let's talk")}&body=${encodeURIComponent("Hi Jordan,\n\nI looked through the NexEros pitch. A few times that work for a call:\n\n\n- Oliver")}">Schedule a call <span aria-hidden="true">→</span></a><small>Opens your email with the note written. You press send. Or write to jordan@jgoco.me.</small></section>
   </div>`;
   function hqDiagram() {
-    const L = [["Your store", "WooCommerce or Shopify"], ["Amazon", "orders, ads"], ["Walmart", "orders, ads"], ["Email", "your list, flows, reviews"], ["Google", "search, shopping, ads"], ["Meta", "ads, pixel"]];
+    const L = [["Your store", "WooCommerce or Shopify"], ["Amazon", "orders, ads"], ["Walmart", "orders, ads"], ["Email", "your list, flows, reviews"], ["Google", "search, shopping, ads"], ["Meta", "ads, pixel"], ["Faire", "wholesale orders, stock"]];
     const R = [["PaymentCloud", "card payments"], ["Wholesale portal", "store orders"], ["Store engine", "leads, email, calls"], ["QuickBooks", "books, payouts"], ["Shipping", "3PL and labels"], ["Lab reports", "by batch"], ["AI", "writes, answers, checks"]];
     const col = (a, side) => `<div class="hd-col ${side}">${a.map(([t, s]) => `<div class="hd-n"><b>${t}</b><span>${s}</span></div>`).join("")}</div>`;
     return `${col(L, "l")}<div class="hd-core"><div class="hd-ring">${NX.mark("rooted", 50)}<b>NexEros Hub</b><span>One master database</span><ul><li>Products and doses</li><li>Stock by channel</li><li>Every order</li><li>Every customer</li><li>Every store</li></ul></div></div>${col(R, "r")}`;
