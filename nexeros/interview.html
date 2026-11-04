@@ -49,6 +49,36 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
 .alt a { color: var(--hub); font-weight: 600 }
 .private { text-align: center; color: var(--ink-2); font-size: 14.5px }
 @media (prefers-reduced-motion: reduce) { .face.speaking::before, .face.speaking::after, .face.speaking svg { animation: none } }
+/* The mutual NDA, opened by Sage right before the money questions */
+.nda { position: fixed; inset: 0; z-index: 10; background: #0f1611b3; display: grid; place-items: center; padding: 16px; overflow-y: auto }
+.nda[hidden] { display: none }
+.nda-box { background: var(--card); border: 1px solid var(--line); border-radius: 22px; width: min(640px, 100%); max-height: calc(100dvh - 32px); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 30px 80px #0006 }
+.nda-head { padding: 26px 26px 14px; display: grid; gap: 6px }
+.nda-head .k { font: 600 12px var(--body); letter-spacing: .2em; text-transform: uppercase; color: var(--clay) }
+.nda-head h2 { font-size: 30px }
+.nda-head p { color: var(--ink-2); font-size: 15.5px }
+.nda-body { overflow-y: auto; padding: 0 26px 24px; display: grid; grid-auto-rows: max-content; gap: 16px }
+.nda-doc { border: 1px solid var(--line); border-radius: 14px; background: var(--paper); padding: 16px 18px; max-height: 34vh; overflow-y: auto; font-size: 14.5px; line-height: 1.55 }
+.nda-doc:focus { outline: none; border-color: var(--hub) }
+.nda-doc h3 { font: 600 14.5px var(--body); margin: 14px 0 3px } .nda-doc h3:first-of-type { margin-top: 0 }
+.nda-doc .ttl { font: 400 20px var(--display); margin: 0 0 4px }
+.nda-doc .ver { color: var(--ink-2); font-size: 13px; margin-bottom: 12px }
+.nda-f { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+.nda-f label { display: grid; gap: 5px; font-size: 13.5px; font-weight: 600; color: var(--ink-2) }
+.nda-f label.w { grid-column: 1 / -1 }
+.nda input[type=text], .nda input[type=email], .nda input[inputmode] { font: 400 16px var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 11px; padding: 11px 13px; width: 100% }
+.nda input:focus { outline: 2px solid var(--hub); outline-offset: 1px }
+.nda input.sig { font: italic 400 26px var(--display) }
+.nda input.code { font: 600 28px var(--body); letter-spacing: .4em; text-align: center; max-width: 260px; justify-self: center }
+.nda-ok { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; color: var(--ink) }
+.nda-ok input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--hub); flex: none }
+.nda-act { display: flex; gap: 14px; align-items: center; flex-wrap: wrap }
+.nda-act .go { padding: 14px 24px; font-size: 16px }
+.nda .link { background: none; border: 0; color: var(--hub); font: 600 15px var(--body); cursor: pointer; padding: 6px 2px; text-decoration: underline; text-underline-offset: 3px }
+.nda-err { color: var(--clay); font-size: 14.5px; min-height: 1.2em }
+.nda-done { text-align: center; justify-items: center }
+.nda-done .tick { width: 64px; height: 64px; border-radius: 50%; background: var(--hub); color: #fff; display: grid; place-items: center; font-size: 30px }
+@media (max-width: 560px) { .nda { padding: 0; place-items: stretch } .nda-box { border-radius: 0; max-height: none; min-height: 100dvh; border: 0 } .nda-f { grid-template-columns: 1fr } .nda-head { padding: calc(20px + env(safe-area-inset-top, 0px)) 18px 12px } .nda-body { padding: 0 18px 28px } .nda-doc { max-height: 44vh } }
 </style>
 </head>
 <body>
@@ -78,9 +108,15 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
     <li><b>4</b>Your week and your tools: what eats your time, what to hand off first</li>
     <li><b>5</b>The brand and your goals for the next 12 months</li>
   </ol>
+  <p class="private" id="ndanote" hidden>Before any numbers like sales, costs or inventory, Sage puts a short mutual NDA on your screen to sign. It protects what you share.</p>
   <div class="alt"><p>Rather type than talk?</p><a href="index.html#questions">Answer the written questions instead</a></div>
   <p class="private">Your answers are only used to plan your NexEros Operations Hub. Only Jordan reads them. You'll see a short summary at the end, and you can pick up where you left off from this same link.</p>
 </main>
+
+<div class="nda" id="nda" hidden role="dialog" aria-modal="true" aria-labelledby="ndah"><div class="nda-box">
+  <div class="nda-head"><span class="k" id="ndak">Before the numbers</span><h2 id="ndah">A mutual NDA</h2><p id="ndap"></p></div>
+  <div class="nda-body" id="ndab"></div>
+</div></div>
 
 <script type="module">
   // Three calls: hello, start, summary. The link token picks Oliver's agent
@@ -106,7 +142,105 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
     const first = String(r.name || "").trim().split(/\s+/)[0];
     if (first) $("hi").innerHTML = `Hi ${first.replace(/[<>&"]/g, "")}. Tell us how <em>NexEros</em> runs.`;
     if (r.returning) { go.textContent = "Pick up where we left off"; say.textContent = `${host} remembers what you covered last time.`; }
+    ndaState = r.nda || "none";
+    if (ndaState === "needed") { $("ndanote").hidden = false; ask("nda").then((d) => { if (d.ok) ndaDoc = d; }).catch(() => {}); }
   }).catch(() => {});
+
+  // ── The mutual NDA ──
+  // Sage calls show_nda right before the money questions; the call waits on this promise.
+  // It resolves "signed" once the emailed code checks out, or "not_signed" if they choose Not now.
+  let ndaState = "none", ndaDoc = null, ndaOpen = null;
+  const send = (body) => fetch(SCRIPT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ k, ...body }) }).then((r) => r.json());
+  const el = (tag, props = {}, kids = []) => { const e = Object.assign(document.createElement(tag), props); e.append(...[].concat(kids)); return e; };
+  const ERR = { form: "Fill in your name, company, email and signature, and check the box.", busy: "Too many codes for now. Try again in an hour.",
+    code: "That code doesn't match. Check the email and try again.", expired: "That code has expired. Send a new one." };
+  const head = (k, h, p) => { $("ndak").textContent = k; $("ndah").textContent = h; $("ndap").textContent = p; };
+
+  function openNda() {
+    if (ndaOpen) return ndaOpen.promise;
+    let resolve; const promise = new Promise((ok) => (resolve = ok));
+    ndaOpen = { promise, resolve, form: { name: "", title: "", company: (ndaDoc && ndaDoc.company) || "NexEros", email: "", signature: "", agree: false } };
+    if (call && call.setMicMuted) call.setMicMuted(true);
+    $("nda").hidden = false; document.body.style.overflow = "hidden";
+    (ndaDoc ? Promise.resolve(ndaDoc) : ask("nda")).then((d) => { if (d && d.ok) ndaDoc = d; signStep(); }).catch(() => signStep());
+    return promise;
+  }
+  function closeNda(result) {
+    if (!ndaOpen) return;
+    const { resolve } = ndaOpen; ndaOpen = null;
+    $("nda").hidden = true; document.body.style.overflow = "";
+    if (call && call.setMicMuted) call.setMicMuted(false);
+    if (result === "signed") { ndaState = "signed"; $("ndanote").hidden = true; }
+    resolve(result);
+  }
+
+  function signStep() {
+    const f = ndaOpen.form, b = $("ndab");
+    head("Before the numbers", "A mutual NDA", `It protects what you share about your business, and what we share with you. ${host} waits while you read and sign.`);
+    const doc = el("div", { className: "nda-doc", tabIndex: 0 });
+    if (ndaDoc) {
+      doc.append(el("p", { className: "ttl", textContent: ndaDoc.nda.title }), el("p", { className: "ver", textContent: `${ndaDoc.nda.us} and ${ndaDoc.nda.them} · version ${ndaDoc.nda.version}` }));
+      ndaDoc.nda.sections.forEach(([h, p], i) => doc.append(el("h3", { textContent: `${i + 1}. ${h}` }), el("p", { textContent: p })));
+    } else doc.append(el("p", { textContent: "The agreement didn't load. Close this and try again in a minute." }));
+    const field = (label, key, type = "text", wide = false, extra = {}) => {
+      const input = el("input", { type, value: f[key], required: true, ...extra }); input.addEventListener("input", () => (f[key] = input.value));
+      return el("label", { className: wide ? "w" : "" }, [label, input]);
+    };
+    const agree = el("input", { type: "checkbox", checked: f.agree }); agree.addEventListener("change", () => (f.agree = agree.checked));
+    const err = el("p", { className: "nda-err", role: "alert" });
+    const sign = el("button", { className: "go", type: "button", textContent: "Sign and email me a code", disabled: !ndaDoc });
+    const later = el("button", { className: "link", type: "button", textContent: "Not now" });
+    sign.addEventListener("click", async () => {
+      err.textContent = ""; sign.disabled = true; sign.textContent = "Sending your code…";
+      const r = await send({ action: "nda_sign", ...f, device: navigator.userAgent.slice(0, 200) }).catch(() => ({ ok: false }));
+      sign.disabled = false; sign.textContent = "Sign and email me a code";
+      if (r.ok) return codeStep();
+      err.textContent = ERR[r.why] || "We couldn't reach the server. Try again in a moment.";
+    });
+    later.addEventListener("click", () => closeNda("not_signed"));
+    b.replaceChildren(doc, el("div", { className: "nda-f" }, [
+      field("Full name", "name", "text", false, { autocomplete: "name" }), field("Title", "title", "text", false, { autocomplete: "organization-title", placeholder: "Founder" }),
+      field("Company's legal name", "company", "text", false, { autocomplete: "organization" }), field("Email for your signed copy", "email", "email", false, { autocomplete: "email" }),
+      field("Type your full name to sign", "signature", "text", true, { className: "sig", autocomplete: "off" }),
+    ]), el("label", { className: "nda-ok" }, [agree, "I agree to this mutual NDA and to signing it electronically."]), err, el("div", { className: "nda-act" }, [sign, later]));
+    b.scrollTop = 0; doc.focus({ preventScroll: true });
+  }
+
+  function codeStep() {
+    const f = ndaOpen.form, b = $("ndab");
+    head("Almost done", "Check your email", `We sent a 6-digit code to ${f.email}. Enter it here to finish signing.`);
+    const code = el("input", { inputMode: "numeric", autocomplete: "one-time-code", maxLength: 6, className: "code", ariaLabel: "6-digit code" });
+    const err = el("p", { className: "nda-err", role: "alert" });
+    const ok = el("button", { className: "go", type: "button", textContent: "Confirm and sign" });
+    const again = el("button", { className: "link", type: "button", textContent: "Send a new code" });
+    const back = el("button", { className: "link", type: "button", textContent: "Use a different email" });
+    const confirm = async () => {
+      if (code.value.replace(/\D/g, "").length !== 6) { err.textContent = "Enter all 6 digits."; return; }
+      err.textContent = ""; ok.disabled = true; ok.textContent = "Checking…";
+      const r = await send({ action: "nda_confirm", code: code.value }).catch(() => ({ ok: false }));
+      ok.disabled = false; ok.textContent = "Confirm and sign";
+      if (r.ok) return doneStep();
+      err.textContent = ERR[r.why] || "We couldn't reach the server. Try again in a moment.";
+    };
+    ok.addEventListener("click", confirm);
+    code.addEventListener("input", () => { code.value = code.value.replace(/\D/g, "").slice(0, 6); if (code.value.length === 6) confirm(); });
+    again.addEventListener("click", async () => {
+      err.textContent = ""; again.disabled = true;
+      const r = await send({ action: "nda_sign", ...f, device: navigator.userAgent.slice(0, 200) }).catch(() => ({ ok: false }));
+      again.disabled = false;
+      err.textContent = r.ok ? "A new code is on its way." : ERR[r.why] || "We couldn't reach the server. Try again in a moment.";
+    });
+    back.addEventListener("click", signStep);
+    b.replaceChildren(code, err, el("div", { className: "nda-act" }, [ok, again, back]));
+    code.focus();
+  }
+
+  function doneStep() {
+    head("Signed", "Thank you", `A signed copy is on its way to ${ndaOpen.form.email}. ${host} will pick back up.`);
+    $("ndab").replaceChildren(el("div", { className: "nda-done" }, [el("span", { className: "tick", textContent: "✓", ariaHidden: "true" })]));
+    setTimeout(() => closeNda("signed"), 2200);
+  }
+  window.openNda = openNda; // lets Jordan check the NDA screen without starting a call
 
   go.addEventListener("click", async () => {
     go.disabled = true;
@@ -129,6 +263,7 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
       call = await Conversation.startSession({
         conversationToken: r.conversationToken,
         connectionType: "webrtc",
+        clientTools: { show_nda: () => openNda() },
         onConnect: ({ conversationId }) => { callId = conversationId || callId; },
         onModeChange: ({ mode }) => {
           face.classList.toggle("speaking", mode === "speaking");
@@ -154,6 +289,7 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
     if (done) return;
     done = true;
     call = null;
+    if (ndaOpen) closeNda("not_signed");
     face.classList.remove("speaking");
     stop.hidden = true;
     show("Thank you", "Writing up your summary. This takes about a minute.");

@@ -183,8 +183,8 @@
   let PATHS = null;
   async function loadMap() {
     try {
-      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793754982").then(r => r.json()); PATHS = topoPaths(US); }
-      if (!STORES) { const d = await fetch("img/stores.json?v=1793754982").then(r => r.json()); STORES = d.stores; PER = d.per; }
+      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793755856").then(r => r.json()); PATHS = topoPaths(US); }
+      if (!STORES) { const d = await fetch("img/stores.json?v=1793755856").then(r => r.json()); STORES = d.stores; PER = d.per; }
     } catch (e) { const c = APP.$("#sl-count"); if (c) c.textContent = "The store list didn't load."; return; }
     drawMap(); renderQ("leads");
   }
