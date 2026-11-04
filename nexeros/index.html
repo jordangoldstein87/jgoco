@@ -99,8 +99,8 @@ body[data-view=welcome] #hd{display:none!important}
 .wh-win.site .ww-in{animation:scrolldown 9s ease-in-out forwards}
 @keyframes scrolldown{0%,20%{translate:0 0}100%{translate:0 -420px}}
 .ww-in .st-switch,.ww-in .st-url{display:none}
-.wh-today{width:min(980px,90vw,calc(52vh * 1.6));border-radius:12px;overflow:hidden;box-shadow:0 30px 80px #0008;position:relative}
-.wh-today img{display:block;width:100%;max-height:52vh;object-fit:cover;object-position:top}
+.wh-today{width:min(980px,90vw,calc(52vh * 1.6));aspect-ratio:16/10;border-radius:12px;overflow:hidden;box-shadow:0 30px 80px #0008;position:relative;background:#f4efe6}
+.wh-today img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
 .wh-ring7{position:relative;width:min(560px,80vw,60vh);aspect-ratio:1}
 .wh-ring7 span{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px;--ln:#dfe9d6;--fl:#2f4a3a;opacity:0;animation:popc .5s ease forwards;animation-delay:calc(.3s + var(--i)*.22s)}
 .wh-ring7 span svg{width:clamp(56px,9vh,96px);height:auto}
@@ -568,12 +568,12 @@ body[data-view=welcome] #hd{display:none!important}
 <header id="hd"><a href="#welcome" id="hd-logo" style="text-decoration:none"></a><button id="menu-btn" aria-label="Menu">Menu</button></header>
 <nav id="mnav" hidden aria-label="Pitch menu"></nav>
 <main id="view"></main>
-<script src="art.js?v=1793754338"></script>
-<script src="content.js?v=1793754338"></script>
-<script src="app.js?v=1793754338"></script>
-<script src="store.js?v=1793754338"></script>
-<script src="views.js?v=1793754338"></script>
-<script src="music.js?v=1793754338"></script>
+<script src="art.js?v=1793754982"></script>
+<script src="content.js?v=1793754982"></script>
+<script src="app.js?v=1793754982"></script>
+<script src="store.js?v=1793754982"></script>
+<script src="views.js?v=1793754982"></script>
+<script src="music.js?v=1793754982"></script>
 <script>
 document.getElementById("lnav-mark").innerHTML = NX.logo("rooted", 30);
 document.getElementById("hd-logo").innerHTML = NX.logo("rooted", 24);
