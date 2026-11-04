@@ -568,14 +568,14 @@ body[data-view=welcome] #hd{display:none!important}
 <header id="hd"><a href="#welcome" id="hd-logo" style="text-decoration:none"></a><button id="menu-btn" aria-label="Menu">Menu</button></header>
 <nav id="mnav" hidden aria-label="Pitch menu"></nav>
 <main id="view"></main>
-<script src="art.js?v=1793755856"></script>
-<script src="content.js?v=1793755856"></script>
-<script src="app.js?v=1793755856"></script>
-<script src="store.js?v=1793755856"></script>
-<script src="views.js?v=1793755856"></script>
-<script src="music.js?v=1793755856"></script>
+<script src="art.js?v=1793756271"></script>
+<script src="content.js?v=1793756271"></script>
+<script src="app.js?v=1793756271"></script>
+<script src="store.js?v=1793756271"></script>
+<script src="views.js?v=1793756271"></script>
+<script src="music.js?v=1793756271"></script>
 <script>
-document.getElementById("lnav-mark").innerHTML = NX.logo("rooted", 30);
+document.getElementById("lnav-mark").innerHTML = NX.logo("rooted", 30).replace(/<svg[\s\S]*?<\/svg>/, NX.ginkgoArt(40, "lnav"));
 document.getElementById("hd-logo").innerHTML = NX.logo("rooted", 24);
 </script>
 </body></html>
