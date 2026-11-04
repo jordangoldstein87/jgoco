@@ -23,7 +23,6 @@
       ${sec("Where NexEros fits", posMap(M.map), M.mapP)}
       ${sec("What's missing in the industry", `<div class="gap-list">${M.gaps.map(([t, w, h], i) => `<div class="gap"><span class="gap-n">0${i + 1}</span><div><b>${esc(t)}</b><p>${esc(w)}</p><p class="gap-how"><em>How NexEros owns it:</em> ${esc(h)}</p></div></div>`).join("")}</div>`)}
       ${sec("Brands that rebuilt their look, and what happened", `<div class="rb-grid">${M.rebrands.map(r => `<article class="rb"><b>${esc(r[0])}</b><div class="rb-ba"><span><small>Before</small>${esc(r[1])}</span><span><small>The move</small>${esc(r[2])}</span><span class="rb-after"><small>After</small>${esc(r[3])}</span></div>${r[4] ? `<small class="src">${esc(r[4])}</small>` : ""}</article>`).join("")}</div>`)}
-      ${M.scenario ? sec("What the next 24 months could look like", scenario(M.scenario), "An estimate, with every assumption shown. Not a promise.") : ""}
       ${next("brand", "Four quick ideas for the look")}</div>`;
   };
   function donut(rows) {
@@ -184,8 +183,8 @@
   let PATHS = null;
   async function loadMap() {
     try {
-      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793753954").then(r => r.json()); PATHS = topoPaths(US); }
-      if (!STORES) { const d = await fetch("img/stores.json?v=1793753954").then(r => r.json()); STORES = d.stores; PER = d.per; }
+      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793754132").then(r => r.json()); PATHS = topoPaths(US); }
+      if (!STORES) { const d = await fetch("img/stores.json?v=1793754132").then(r => r.json()); STORES = d.stores; PER = d.per; }
     } catch (e) { const c = APP.$("#sl-count"); if (c) c.textContent = "The store list didn't load."; return; }
     drawMap(); renderQ("leads");
   }
