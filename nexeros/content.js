@@ -66,6 +66,46 @@ window.C = {
 
   /* ---------- the market (research/market.md); filled from the market research ---------- */
   market: {
+    her: {
+      h: "Her side of the aisle",
+      p: "Smaller today, growing faster, harder to win, and the most open gap in the category.",
+      stats: [
+        ["63%", "of US sexual-health supplement sales were men's products", "Nutrition Business Journal, 2019 data, published 2025"],
+        ["7.7%", "growth for women's products, against 6.3% for men's", "Nutrition Business Journal, 2025"],
+        ["38.7%", "of US women report low desire. About 1 in 10 is distressed by it", "PRESIDE survey of 31,581 women"],
+        ["$425M", "Pharmavite paid for Bonafide, a menopause brand now in 1,800+ Target stores", "Business Wire 2023; Pharmavite 2025"]
+      ],
+      read: [
+        ["Bigger? Not yet.", "Men's products are still most of the category. The number of women with the problem is large; the money spent on it is smaller."],
+        ["Faster? Yes, a little.", "Women's products grow faster than men's, and menopause supplements grow faster than supplements overall."],
+        ["Harder? Yes.", "Desire takes weeks to change, not an hour. Placebo effects are strong, Meta rejects more women's ads, and buyers want a clinician's word."],
+        ["The opening", "A man has a cheap generic pill that works within the hour. A woman has two prescription options, and neither has caught on. A credible plant option has room here that STAMINA doesn't have against cheap sildenafil."]
+      ],
+      rx: [
+        ["Him", "Generic sildenafil", "About $2 a tablet, works within an hour", "GoodRx average, via EurekaHealth 2025"],
+        ["Her", "Addyi, a daily pill", "About half a satisfying event more a month than placebo, an alcohol warning, and about $2,355 cash. Approved after menopause in Dec 2025", "JAMA Internal Medicine 2016; AP 2025"],
+        ["Her", "Vyleesi, an injection before sex", "40% of users got nausea. Sold to a new owner for $12M upfront", "FDA trial snapshot; Fierce Pharma 2024"]
+      ],
+      plants: [
+        ["Tribulus", "good", "Studied in women", "Placebo-controlled trials before and after menopause. A 2020 review of five trials and 279 women found sexual function improved."],
+        ["Korean ginseng", "supp", "One small trial", "28 menopausal women: arousal improved, desire didn't change."],
+        ["Tongkat ali", "supp", "One trial, maker-funded", "138 women in midlife: menopause symptoms improved, including the sexual ones."],
+        ["Muira puama", "", "No placebo trial", "One open study, with ginkgo, with no placebo group."],
+        ["Epimedium, Rehmannia", "", "Not studied in women", "No placebo-controlled trial in women found."],
+        ["Ginkgo", "bad", "No better than placebo", "Two trials in women found no difference."]
+      ],
+      plantsNote: "No trial has tested the FEMINA blend itself, so claims stay with single plants. Tribulus is the one to lead with. If FEMINA is ever reformulated, plants studied in women, like maca, are worth a look.",
+      moves: [
+        ["Lead with menopause", "That's where the money and the momentum are, and where FEMINA's best studies were done: Tribulus and ginseng were tested after menopause."],
+        ["A clinician on the page", "A menopause clinician or OB-GYN as an advisor. Bonafide's own survey: 66% of women are more likely to buy from a research-backed brand."],
+        ["Teach before you advertise", "Women's ads get rejected, so content, search and creators come first. Ads framed around menopause get through where \"libido\" gets blocked."],
+        ["The oil as the first try", "Desire takes weeks; the oil is felt the same night. Bonafide pairs an arousal product with its menopause line for the same reason."],
+        ["FEMINA's own story", "Today the site says it's the same formula, for her. Give her a page of her own: her studies, her life stage, her reasons."],
+        ["Price against the shelf", "OLLY's women's libido capsules are $16.89 at Target, and Irwin's are $28.99. FEMINA's 5-pack fits next to them."]
+      ],
+      money: ["Bonafide: bought for $425M (2023), in 1,800+ Target stores with an arousal product (2025)", "Midi Health, menopause care: valued above $1B (Feb 2026)", "Hers: a menopause specialty, aiming for $1B in revenue in 2026", "Lemme Play, a women's libido gummy: about 2,000 Walmart stores (Jan 2026)", "Addyi: approved after menopause (Dec 2025)"],
+      moneyNote: "One caution: venture money for women's health fell 56% in 2025 (Deloitte, from PitchBook). Big companies are buying; investors are pickier."
+    },
  "h": "A supplement brand in a $74 billion aisle, with one corner nobody owns.",
  "p": "NexEros is a dietary supplement first. Three in four Americans take supplements, and the aisle rewards clean labels, named plants and outside testing. Inside it, sexual health is the corner nobody trusts: about $1.25 billion a year in the US, with the plant-based shelf for men and couples still held by the gas-station pills. That's the opening.",
  "stats": [

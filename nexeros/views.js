@@ -24,6 +24,7 @@
       ${sec("Who's winning", `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Brand</th><th>Revenue</th><th>Look</th><th>Sells through</th><th>Why it matters</th></tr></thead><tbody>${M.comps.map(r => `<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td><span class="tag ${{ modern: "good", rx: "", supp: "supp" }[r[2]] ?? "bad"}">${{ modern: "Modern, trusted", rx: "Prescription", supp: "Mainstream supplement" }[r[2]] || "Gas station"}</span></td><td>${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join("")}</tbody></table></div><p class="note">${M.compNote || "Revenue is reported where a company publishes it, otherwise a third-party estimate. Sources in the research file."}</p>`)}
       ${sec("Where NexEros fits", posMap(M.map), M.mapP)}
       ${sec("What's missing in the industry", `<div class="gap-list">${M.gaps.map(([t, w, h], i) => `<div class="gap"><span class="gap-n">0${i + 1}</span><div><b>${esc(t)}</b><p>${esc(w)}</p><p class="gap-how"><em>How NexEros owns it:</em> ${esc(h)}</p></div></div>`).join("")}</div>`)}
+      ${M.her ? herSec(M.her) : ""}
       ${sec("Brands that rebuilt their look, and what happened", `<div class="rb-grid">${M.rebrands.map(r => `<article class="rb"><b>${esc(r[0])}</b><div class="rb-ba"><span><small>Before</small>${esc(r[1])}</span><span><small>The move</small>${esc(r[2])}</span><span class="rb-after"><small>After</small>${esc(r[3])}</span></div>${r[4] ? `<small class="src">${esc(r[4])}</small>` : ""}</article>`).join("")}</div>`)}
       ${next("brand", "Four quick ideas for the look")}</div>`;
   };
@@ -177,6 +178,14 @@
     <div class="so"><div class="so-week" id="so-week">${soWeek()}</div><div class="so-prev" id="so-prev">${soPreview()}</div></div>
     <div class="so-flow">${[["Monday", "Drafts the week from five themes and what sold last week"], ["Checked", "Claims rules, Meta's rules, the brand voice"], ["You approve", "One tap each, or approve the whole week"], ["Posts and listens", "Comments and messages come back to one inbox"]].map(([a, b], i) => `<div><span>0${i + 1}</span><b>${a}</b><small>${b}</small></div>`).join("")}</div>
     <p class="note">Sample posts in the brand look you've picked, so switching looks on the Brand page changes them too. Posts go to Instagram, Facebook and Threads through Meta's own publishing tools. TikTok and Pinterest don't allow this category's ads, so organic posts there wait for a stricter check.</p></section>`;
+  function herSec(H) {
+    return sec(H.h, `<div class="stat-grid">${H.stats.map(([b, l, s]) => `<div class="stat"><b>${b}</b><span>${l}</span><small>${esc(s)}</small></div>`).join("")}</div>
+      <div class="ang her-read">${H.read.map(([a, b]) => `<div><b>${a}</b><span>${b}</span></div>`).join("")}</div>
+      <h3 class="c-h her-h">The prescription gap</h3><div class="tbl-wrap"><table class="tbl"><thead><tr><th>For</th><th>Option</th><th>What it does</th><th>Source</th></tr></thead><tbody>${H.rx.map(r => `<tr><td><b>${r[0]}</b></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td><small>${esc(r[3])}</small></td></tr>`).join("")}</tbody></table></div>
+      <h3 class="c-h her-h">FEMINA's plants, in women</h3><div class="her-pl">${H.plants.map(([n, t, l, d]) => `<div><b>${n}</b><span class="tag ${t}">${l}</span><p>${d}</p></div>`).join("")}</div><p class="note">${H.plantsNote}</p>
+      <h3 class="c-h her-h">How to win her side</h3><div class="ang">${H.moves.map(([a, b]) => `<div><b>${a}</b><span>${b}</span></div>`).join("")}</div>
+      <h3 class="c-h her-h">Money moving in</h3><ul class="her-m">${H.money.map(x => `<li>${esc(x)}</li>`).join("")}</ul><p class="note">${H.moneyNote}</p>`, H.p);
+  }
   APP.views.marketing = () => {
     const tot = AD.reduce((a, r) => a + r.spend, 0), sal = AD.reduce((a, r) => a + r.sales, 0);
     return `<div class="pg">${hero("Marketing", "Connect what's there. Build what's missing. Let it run.", "You can't write emails, post, run ads on four platforms and answer reviews by yourself. The Hub does the work and brings you the decisions.")}
@@ -278,8 +287,8 @@
   let PATHS = null;
   async function loadMap() {
     try {
-      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793772048").then(r => r.json()); PATHS = topoPaths(US); }
-      if (!STORES) { const d = await fetch("img/stores.json?v=1793772048").then(r => r.json()); STORES = d.stores; PER = d.per; }
+      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793810474").then(r => r.json()); PATHS = topoPaths(US); }
+      if (!STORES) { const d = await fetch("img/stores.json?v=1793810474").then(r => r.json()); STORES = d.stores; PER = d.per; }
     } catch (e) { const c = APP.$("#sl-count"); if (c) c.textContent = "The store list didn't load."; return; }
     drawMap(); renderQ("leads");
   }
