@@ -67,6 +67,19 @@
   }
   APP.rise = rise;
 
+  /* ---------- the opening: who else is natural and for him and her, and what each one lacks ---------- */
+  // columns: plants, him and her, a couples story, a trusted modern look. 1 yes, 0.5 partly, 0 no.
+  const GAP_COLS = ["Plant-made", "For him and her", "A couples story", "Trusted, modern look"];
+  const GAP = APP.gap = [
+    ["Gaia Herbs", "Male and Women's Libido", [1, 1, 0, 0], "The natural credibility, but no brand"],
+    ["ArginMax", "For Men and for Women", [0.5, 1, 0, 0.5], "Real studies, but a clinical look"],
+    ["Libido-Max", "Red and Pink", [0, 1, 0, 0], "The shelf space, but neither trust nor clean ingredients"],
+    ["Lemme", "Play gummies", [1, 0, 0, 1], "Modern and trusted, but for women only"],
+    ["NexEros, rebuilt", "STAMINA, FEMINA, Velvet Fire", [1, 1, 1, 1], "The only one with all four", true],
+  ];
+  const gapMark = v => v === 1 ? `<i class="gp-y" aria-label="yes">✓</i>` : v ? `<i class="gp-p" aria-label="partly">½</i>` : `<i class="gp-n" aria-label="no">–</i>`;
+  APP.gapTable = () => `<div class="gp"><div class="gp-r gp-h"><span></span>${GAP_COLS.map(c => `<b>${c}</b>`).join("")}</div>${GAP.map(([n, l, v, w, us]) => `<div class="gp-r${us ? " gp-us" : ""}"><span><b>${n}</b><small>${l}</small><em>${w}</em></span>${v.map(gapMark).join("")}</div>`).join("")}</div>`;
+
   /* ---------- welcome: the opening video, then the way in ---------- */
   function bgPlants() {
     // the backdrop for the opening: the seven botanicals, large and dim, drifting
@@ -85,6 +98,9 @@
         <button class="wh-skip" data-skip>Skip</button>
         <div class="wh-endcue"><span>Scroll down for more</span>${svgI("M6 9l6 6 6-6")}</div>
       </section>
+      <section class="wel-sect wel-gap"><div class="wrap"><span class="eyebrow">The opening</span><h2>Nobody else is plant-made, for both of you, and trusted.</h2>
+        <p class="wel-p">A few brands sell natural formulas for him and for her. Each one is missing something. Gaia Herbs has the natural credibility but no brand. ArginMax has studies but a clinical look. Libido-Max has the shelf space but neither the trust nor clean ingredients. Nobody pairs plants, him-and-her formulas, a couples story and a trusted modern look. That's the gap NexEros can own.</p>
+        ${APP.gapTable()}<p class="wel-note">Ratings are our read of each brand's own label and site, Nov 2026. "Partly" plant-made means amino acids alongside the herbs. More on the Market page.</p></div></section>
       <section class="wel-sect"><div class="wrap"><span class="eyebrow">Your turn</span><h2>Now see it for yourself.</h2><p class="wel-p">Everything in the video is on this page. Start with the new website, then the menu has a page for each part of the plan.</p>
         <a class="cta-big" href="#site">Take a look around <span aria-hidden="true">→</span></a></div></section>
       <section class="wel-sect alt"><div class="wrap"><span class="eyebrow">What's inside</span><h2>You, plus a whole team's worth of tools.</h2>
@@ -101,8 +117,9 @@
     const S = window.C || {};
     const tool = S.hqRing || ["Your store", "PaymentCloud", "Amazon", "Walmart", "iHerb", "Email", "Meta ads", "Google", "QuickBooks", "Shipping", "Store finder", "Lab reports", "AI"];
     return [
-      { k: "Where you are today", h: "Great plants inside. The outside doesn't show it yet.", html: `<div class="wh-today"><img src="img/today/home.jpg?v=1793759329" alt="nexeros.com today"></div>`, t: 6 },
-      { k: "The market", h: "A $4 billion category nobody trusts, and no brand owns.", html: `<div class="wh-mk3">${[["441", "products on the FDA's hidden-drug list since 2012"], ["11.6%", "a year: how fast sexual health supplements are growing"], ["4%", "the most any one brand holds on Amazon"]].map(([a, b], i) => `<div style="--i:${i}"><b>${a}</b><span>${b}</span></div>`).join("")}</div>`, t: 6.5 },
+      { k: "Where you are today", h: "Great plants inside. The outside doesn't show it yet.", html: `<div class="wh-today"><img src="img/today/home.jpg?v=1793760033" alt="nexeros.com today"></div>`, t: 6 },
+      { k: "The market", h: "A $74 billion aisle, and one corner nobody owns.", html: `<div class="wh-mk3">${[["$74B", "a year on supplements in the US, growing 7%"], ["441", "sexual-enhancement products on the FDA's hidden-drug list"], ["4%", "the most any one brand holds on Amazon"]].map(([a, b], i) => `<div style="--i:${i}"><b>${a}</b><span>${b}</span></div>`).join("")}</div>`, t: 6.5 },
+      { k: "The opening", h: "Nobody else has all four.", html: `<div class="wh-gap">${APP.gapTable()}</div>`, t: 7 },
       { title: "Four quick ideas for the look.", logos: NX.order, t: 4.6 },
       ...NX.order.map(k => ({ dir: k, t: 3.4 })),
       { k: "What's inside", h: "The plants are what set it apart. Put them up front.", html: `<div class="wh-ring7">${NX.plants.map((p, i) => `<span style="--i:${i};left:${(50 + 40 * Math.sin(i * 2 * Math.PI / 7)).toFixed(1)}%;top:${(50 - 40 * Math.cos(i * 2 * Math.PI / 7)).toFixed(1)}%">${NX.plant(p, 96)}<b>${esc(p.name)}</b></span>`).join("")}<div class="wh-jar">${NX.jar("rooted", "him", 120)}</div></div>`, t: 6 },
@@ -188,7 +205,7 @@
     const C = window.C || {};
     return `<div class="pg">
       <header class="pg-hero rise"><span class="eyebrow">Brand</span><h1>Stop looking like the gas station. Look like the garden.</h1><p class="lede">What sets NexEros apart is inside the capsule: seven plants with centuries of use. Today the look hides that behind dark gold and shirtless couples, the same look as the pills by the register. Here are four quick ideas for a new direction. They're starting points, not finished brands: each one is a different way to look at the same plant story. Any of them can be tweaked, mixed with another, and taken all the way.</p></header>
-      <section class="pg-sec rise"><div class="b-today"><div class="b-shot"><img src="img/today/home.jpg?v=1793759329" alt="nexeros.com today"><span>nexeros.com today</span></div>
+      <section class="pg-sec rise"><div class="b-today"><div class="b-shot"><img src="img/today/home.jpg?v=1793760033" alt="nexeros.com today"><span>nexeros.com today</span></div>
         <div><h2>What the look says today</h2><ul class="b-list">${(C.todaySays || [["Dark and gold", "Reads like the gas station shelf your own founder's note says you set out to beat."], ["Shirtless couples, mid-embrace", "Feels like a stock-photo ad. It also gets ads rejected: Meta and Google limit sexual imagery for this category."], ["STAMINA and FEMINA in caps", "Sound like energy shots. Nothing says plant, couple or care."], ["The good stuff is buried", "Seven botanicals and your warm founder's note sit halfway down the page, under the stock photos."]]).map(([a, b]) => `<li><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join("")}</ul></div></div></section>
       ${NX.order.map((k, i) => dirCard(k, i, pick)).join("")}
       <section class="pg-sec rise"><h2>Pictures: less of this, more of this</h2><div class="b-dd"><div class="b-dont"><b>Less of this</b><ul>${["Bare chests and lingerie", "Mid-kiss, eyes closed, dark backdrop", "Gold on black, glowing type", "Stock models in their twenties", "Anything that would need a blur on Instagram"].map(x => `<li>${x}</li>`).join("")}</ul></div><div class="b-do"><b>More of this</b><ul>${["Real couples 35 to 65, dressed, laughing", "Hands: coffee, a car door, a dog leash", "The plants themselves, shot like specimens", "Morning light, linen, a kitchen, a porch", "The lab report, printed and real"].map(x => `<li>${x}</li>`).join("")}</ul></div></div>

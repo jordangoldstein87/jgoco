@@ -66,23 +66,38 @@ window.C = {
 
   /* ---------- the market (research/market.md); filled from the market research ---------- */
   market: {
- "h": "A $4 billion category that nobody trusts, and no brand owns.",
- "p": "Sexual health supplements are growing about 11% a year. The modern brands won prescriptions and women's intimacy. The plant-based shelf for men and couples still belongs to the gas-station pills. That's the opening.",
+ "h": "A supplement brand in a $74 billion aisle, with one corner nobody owns.",
+ "p": "NexEros is a dietary supplement first. Three in four Americans take supplements, and the aisle rewards clean labels, named plants and outside testing. Inside it, sexual health is the corner nobody trusts: about $1.25 billion a year in the US, with the plant-based shelf for men and couples still held by the gas-station pills. That's the opening.",
  "stats": [
+  [
+   "$74B",
+   "US supplement sales in 2025, up 7.1%, on track for $100B by 2029",
+   "Nutrition Business Journal, June 2026"
+  ],
+  [
+   "75%",
+   "of US adults take supplements. 77% say independent verification would raise their confidence",
+   "CRN Consumer Survey, Oct 2026"
+  ],
+  [
+   "$1.25B",
+   "US sexual health supplements, growing about 7% a year",
+   "Nutrition Business Journal, 2024 estimate"
+  ],
   [
    "441",
    "sexual-enhancement products on the FDA's hidden-drug list since 2012, 46 of them in 2025 and 2026",
    "FDA, counted Nov 2026"
   ],
   [
-   "$4.2B",
-   "sexual health supplements worldwide in 2025, growing 11.6% a year. About $1.2B of it in the US",
-   "Grand View Research, 2026 (US share derived)"
+   "67%",
+   "of sexual-enhancement products bought at 28 Sacramento-area stores held hidden prescription ED drugs",
+   "California Dept. of Public Health, 2023"
   ],
   [
    "62%",
-   "of Americans trust the supplement industry, down from 74% in 2023. 76% want products registered with the FDA",
-   "CRN consumer survey, Oct 2026"
+   "of Americans trust the supplement industry, down from 74% in 2023. 76% say an FDA listing rule would raise their confidence",
+   "CRN Consumer Survey, Oct 2026"
   ],
   [
    "4%",
@@ -90,27 +105,30 @@ window.C = {
    "YipitData, Sep 2026"
   ],
   [
-   "2",
-   "FDA-approved libido drugs for women, both for before menopause only. Men have more than two dozen",
-   "UChicago Medicine; Advisory Board"
-  ],
-  [
-   "$74B",
-   "US supplement sales in 2025, up 7.1%, on track for $100B by 2029",
-   "Nutrition Business Journal, 2026"
-  ],
-  [
-   "$83M → $2.35B",
-   "Hims' revenue, 2019 to 2025, after it made ED something you could talk about",
-   "Hims & Hers filings"
-  ],
-  [
-   "$425M",
-   "what Pharmavite paid for Bonafide, a hormone-free menopause and intimacy brand",
-   "NutraIngredients, 2023"
+   "$680M → $3.9B",
+   "Thorne's value, 2023 to 2026, when P&G bought the science-led, third-party-tested brand",
+   "Natural Products Insider; P&G filing"
   ]
  ],
  "size": [
+  [
+   "US supplements, all",
+   "$74B",
+   "+7.1% a year",
+   "2025. Nutrition Business Journal, June 2026. On track for $100B by 2029"
+  ],
+  [
+   "Herbal supplements, US retail",
+   "$13.2B",
+   "+5.4% a year",
+   "2024, NBJ and SPINS via the American Botanical Council"
+  ],
+  [
+   "Sexual health supplements, US",
+   "~$1.25B",
+   "+6.7% a year",
+   "2024 estimate, Nutrition Business Journal; forecast 7.7% by 2027"
+  ],
   [
    "Sexual health supplements, worldwide",
    "$4.2B",
@@ -118,22 +136,10 @@ window.C = {
    "2025. Estimates run $2.9B to $4.2B (Grand View, Market.us, Credence)"
   ],
   [
-   "Sexual health supplements, US",
-   "~$1.2B",
-   "+10 to 12% a year",
-   "Derived from Grand View's North America share"
-  ],
-  [
    "Women's libido supplements, worldwide",
    "$1.8B",
    "+8.9% a year",
    "2025, one publisher (Market Intelo). Women's is the faster-growing half"
-  ],
-  [
-   "Herbal supplements, US retail",
-   "$13.2B",
-   "+5.4% a year",
-   "2024, NBJ and SPINS via the American Botanical Council"
   ],
   [
    "Menopause products and supplements",
@@ -276,6 +282,34 @@ window.C = {
    "Self-funded and profitable on a jokey brand."
   ],
   [
+   "Thorne",
+   "$500M+ (2025); sold to P&G for $3.9B (2026)",
+   "supp",
+   "Practitioners, Amazon, its own site",
+   "Science-led and third-party certified. Testing as the brand, then a strategic buyer."
+  ],
+  [
+   "Grüns",
+   "$300M a year by its second year",
+   "supp",
+   "Target, Walmart, Sprouts, 6,000+ doors",
+   "Bought by Unilever in 2026. Clean design and one simple daily habit."
+  ],
+  [
+   "AG1",
+   "$600M (2024, company)",
+   "supp",
+   "Its own site, Amazon, Costco, Target",
+   "Subscription first, then every Target store in 2026."
+  ],
+  [
+   "Garden of Life",
+   "Parent sold to Nestlé for $2.3B (2017)",
+   "supp",
+   "Natural and mass retail",
+   "The top natural-channel brand, built on clean, traceable ingredients."
+  ],
+  [
    "Lemme (Kourtney Kardashian)",
    ">$30M in its first 16 months; $13M on TikTok Shop in one month",
    "modern",
@@ -318,6 +352,27 @@ window.C = {
    "Took sex products from neon to design object."
   ],
   [
+   "Gaia Herbs (Male and Women's Libido)",
+   "Not published",
+   "supp",
+   "Whole Foods, Vitacost, practitioners",
+   "The closest natural rival for him and her. Herbal credibility, a generic look, no couples story."
+  ],
+  [
+   "ArginMax (for Men and for Women)",
+   "Not published",
+   "supp",
+   "GNC, online",
+   "A placebo-controlled study for the women's version. Partly amino acids, and a clinical look."
+  ],
+  [
+   "Libido-Max (Red and Pink)",
+   "Not published",
+   "old",
+   "Walmart, Target, grocery",
+   "Him and her on mass shelves, but dyes and talc, and a gas-station look."
+  ],
+  [
    "Nugenix",
    "Not published",
    "old",
@@ -339,7 +394,7 @@ window.C = {
    "Plants inside, gas-station look outside. The rebrand moves it into the first group."
   ]
  ],
- "compNote": "Revenue is reported where a company publishes it, otherwise a third-party estimate. No public source splits category dollars between modern brands and gas-station pills.",
+ "compNote": "Revenue is reported where a company publishes it, otherwise a third-party estimate. No public source splits category dollars between modern brands and gas-station pills. Gaia Herbs, ArginMax and Libido-Max are the direct rivals: natural formulas sold separately for him and for her.",
  "map": [
   [
    "Ro",
@@ -402,9 +457,24 @@ window.C = {
    0.9,
    0.9,
    true
+  ],
+  [
+   "Gaia Herbs",
+   0.85,
+   0.45
+  ],
+  [
+   "ArginMax",
+   0.45,
+   0.62
+  ],
+  [
+   "Libido-Max",
+   0.3,
+   0.18
   ]
  ],
- "mapP": "Natural and trusted, for couples, is empty. Moon Juice and Foria are natural but unproven. Hims, Ro and Bonafide are trusted but clinical. Lemme is closest, and it sells to women only. Placements are our judgment, not measured data.",
+ "mapP": "Natural and trusted, for couples, is empty. Gaia Herbs is natural for him and her, but plain. Moon Juice and Foria are natural but unproven. Hims, Ro and Bonafide are trusted but clinical. Lemme is closest, and it sells to women only. Placements are our judgment, not measured data.",
  "gaps": [
   [
    "Trust",
@@ -533,32 +603,6 @@ window.C = {
    "Business Wire, 2024"
   ]
  ],
- "scenario": {
-  "rows": [
-   [
-    "Conservative",
-    "~$480K a year",
-    "By month 24: about 400 site orders and 300 Amazon orders a month, 20 stores."
-   ],
-   [
-    "Base",
-    "~$1.4M a year",
-    "By month 24: about 900 site orders and 900 Amazon orders a month, Walmart and iHerb, 60 stores."
-   ],
-   [
-    "Stretch",
-    "~$3.2M a year",
-    "By month 24: about 1,800 site orders and 2,000 Amazon orders a month, 150 stores."
-   ]
-  ],
-  "assume": [
-   "Today's revenue isn't public, so these start from category benchmarks, not your numbers. The AI interview fixes that.",
-   "Assumes the rebrand is done, the claims are cleaned up, every batch is lab tested and Amazon's testing check is passed.",
-   "Average order: $55 to $60 on the site, about $42 on Amazon. Stores reorder about $300 to $400 a month.",
-   "Base case needs roughly $9 to 11K a month in ads at month 12 and $19 to 24K at month 24.",
-   "Amazon may not allow sponsored ads for this category; Amazon rows assume mostly organic and outside traffic until that's confirmed."
-  ]
- },
  "ads": {
   "tools": [
    [
@@ -593,6 +637,62 @@ window.C = {
    ]
   ],
   "note": "At $10K a month in ad spend, a typical tool stack runs about $300 to $1,100 a month, and none of them covers Amazon, Google, Meta and Walmart together below enterprise pricing. Amazon may not allow sponsored ads for this category; that's checked in Seller Central before any Amazon budget moves."
+ },
+ "shelf": {
+  "h": "Where it sits on the shelf",
+  "p": "A retail buyer files a capsule like NexEros under supplements, next to brands shoppers already trust. That's the shelf the rebrand is built for, and these are the things that buyer checks.",
+  "from": [
+   "Next to the gas-station pills",
+   "Sold on a promise and a loud box, in the corner shoppers trust least."
+  ],
+  "to": [
+   "The supplement aisle",
+   "Men's and women's health, next to Thorne, OLLY and Ritual. Judged on the label, the plants and the testing."
+  ],
+  "checks": [
+   [
+    "Outside testing",
+    "77%",
+    "of supplement users say independent verification would raise their confidence",
+    "CRN Consumer Survey, 2026",
+    "a lab report for every batch, with a hidden-drug screen, one scan from the box."
+   ],
+   [
+    "Amazon's rule",
+    "Since 2024",
+    "sexual enhancement has been one of the categories Amazon makes prove third-party testing. In Dec 2025 that spread to every supplement",
+    "NutraIngredients, 2024 and 2025",
+    "with batch testing built into the plan, an Amazon listing goes live without a scramble."
+   ],
+   [
+    "Seals",
+    "63%",
+    "of shoppers call third-party certifications influential. Men are three times more likely to care",
+    "Nutrition Business Journal, 2025",
+    "a recognized seal, like NSF or USP, is worth pursuing for STAMINA first."
+   ],
+   [
+    "Science",
+    "81%",
+    "of supplement users say scientific evidence matters",
+    "CRN Consumer Survey, 2026",
+    "every plant shown with what tradition says and what studies show, cited."
+   ],
+   [
+    "Plants are growing",
+    "+5.8%",
+    "growth for herbs and botanicals, now 19.2% of all supplement sales",
+    "Nutrition Business Journal, 2026",
+    "the plants named on the front of the box, not buried on the back."
+   ],
+   [
+    "Format",
+    "24.6%",
+    "of 2025 supplement sales were gummies, the top format. Capsules were 10.3%",
+    "Nutrition Business Journal, 2026",
+    "the capsule stays the hero. A gummy is an easy line extension later."
+   ]
+  ]
  }
 },
   seo: {

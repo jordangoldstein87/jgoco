@@ -14,7 +14,7 @@
   /* ---------- the market ---------- */
   APP.views.market = () => {
     const M = C.market;
-    if (!M) return `<div class="pg">${hero("The market", "A big, growing category with a trust problem.", "How big it is, who's winning, what's missing, and the brands that rebuilt their look and grew.")}${pending("The market research")}</div>`;
+    if (!M) return `<div class="pg">${hero("The market", "A supplement brand in a big, growing aisle.", "How big it is, who's winning, what's missing, and the brands that rebuilt their look and grew.")}${pending("The market research")}</div>`;
     return `<div class="pg">${hero("The market", M.h, M.p)}
       <section class="pg-sec rise"><div class="stat-grid">${M.stats.map(([b, l, s]) => `<div class="stat"><b>${b}</b><span>${l}</span><small>${esc(s)}</small></div>`).join("")}</div></section>
       ${sec("How big, and how fast", `<div class="mk-size">${M.size.map(r => `<div class="mk-sz"><span>${esc(r[0])}</span><b>${esc(r[1])}</b><em>${esc(r[2])}</em><small>${esc(r[3])}</small></div>`).join("")}</div>${M.sizeNote ? `<p class="note">${M.sizeNote}</p>` : ""}`)}
@@ -35,9 +35,7 @@
   function posMap(pts) {
     return `<div class="pm"><div class="pm-box">${pts.map(([n, x, y, me]) => `<span class="pm-pt ${me ? "me" : ""} ${x > .8 ? "lft" : ""}" style="left:${x * 100}%;top:${(1 - y) * 100}%"><i></i>${esc(n)}</span>`).join("")}<em class="pm-ax pm-l">Clinical</em><em class="pm-ax pm-r">Natural</em><em class="pm-ax pm-t">Trusted</em><em class="pm-ax pm-b">Gas station</em></div></div>`;
   }
-  function scenario(S) {
-    return `<div class="g3">${S.rows.map(r => `<div class="card sc"><span class="eyebrow">${esc(r[0])}</span><b class="sc-b">${esc(r[1])}</b><p>${esc(r[2])}</p></div>`).join("")}</div><div class="card sc-as"><b>Assumptions</b><ul>${S.assume.map(a => `<li>${esc(a)}</li>`).join("")}</ul></div>`;
-  }
+
 
   /* ---------- deep read ---------- */
   APP.views.read = () => `<div class="pg">${hero("Deep read", "What sets NexEros apart is inside the capsule.", "Seven plants with centuries of use. Today your brand hides them behind the same look as the pills by the register. Here's who buys, how you reach them now, and how to tell the plant story so it sells and holds up.")}
@@ -92,11 +90,101 @@
     { ch: "Walmart Connect", spend: 400, sales: 900, tgt: 2.5, note: "New, still learning: hold for 2 weeks" },
     { ch: "Amazon Sponsored Brands", spend: 500, sales: 950, tgt: 2.5, note: "Below target, cut 30%" },
   ];
+  /* ---------- social: a week of posts in the new look, drafted, checked, scheduled ---------- */
+  // Sample week. Captions follow the claims rules: what the plants are traditionally used for, never a disease or a cure.
+  const SO_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const SO_POSTS = [
+    { d: 0, t: "8:30 AM", k: "Plant of the week", art: "plant:ginseng", s: "live", pl: ["IG", "FB", "Threads"] },
+    { d: 1, t: "7:00 PM", k: "For the two of you", art: "scene:mugs", s: "live", pl: ["IG", "FB"],
+      cap: "Coffee first. The rest of the day can wait.\n\nPlant-made, for the two of you." },
+    { d: 2, t: "12:15 PM", k: "Myth or fact", art: "type:Myth: natural means untested.|Fact: every batch goes to an outside lab, and the report is one scan away.", s: "wait", pl: ["IG", "Threads"],
+      cap: "Natural shouldn't mean \"trust us.\" Every NexEros batch is tested by an outside lab, including a screen for hidden drugs. Scan the code on the box to read yours.", fix: "\"Clinically proven to boost testosterone\" rewritten as \"traditionally taken for vitality.\" No study on the finished capsule backs the first." },
+    { d: 3, t: "8:00 PM", k: "Slow evenings", art: "scene:porch", s: "wait", pl: ["IG", "FB"],
+      cap: "Phones down. Porch light on.\n\nMake room for each other this week." },
+    { d: 4, t: "9:00 AM", k: "Lab report Friday", art: "type:Batch 26-114|Back from the lab. Hidden-drug screen: none found. Full report in bio.", s: "wait", pl: ["IG", "FB", "Threads"],
+      cap: "Batch 26-114 is back from the lab. Identity confirmed for every plant on the label, and the hidden-drug screen found nothing. The full report is linked in our bio, like every batch before it." },
+    { d: 5, t: "10:00 AM", k: "Ask a clinician", art: "type:Desire changes. That's normal.|This week a menopause clinician answers your questions. Send yours.", s: "draft", pl: ["IG", "FB"],
+      cap: "Desire shifts with age, stress and hormones, and it's one of the most common things women ask about after 40. This week a menopause clinician answers your questions. Send yours by Thursday." },
+    { d: 6, t: "6:00 PM", k: "In your words", art: "scene:weekend", s: "draft", pl: ["IG", "FB"],
+      cap: "\"We take ours together on Sunday mornings. It's become our thing.\"\n\nSample review. Real ones replace it once the review engine is running." },
+  ];
+  const SO_STATE = { "live": ["Scheduled", "good"], "wait": ["Waiting for you", "warn"], "draft": ["Draft", ""] };
+  let soPick = 2;
+  function soArt(p) {
+    const [kind, v] = p.art.split(/:(.*)/s), k = APP.dir();
+    if (kind === "plant") { const pl = NX.plants.find(x => x.k === v) || NX.plants[0]; return `<div class="so-art so-plant" style="${NX.vars(k)}">${NX.plant(pl, 150)}<b>${esc(pl.name)}</b><small>${esc(pl.latin)} · ${esc(pl.tag)}</small></div>`; }
+    if (kind === "scene") return `<div class="so-art so-scene" style="${NX.vars(k)}">${(NX.scene[v] || "").replace("<svg", '<svg preserveAspectRatio="xMidYMid slice"')}</div>`;
+    const [a, b] = v.split("|");
+    return `<div class="so-art so-type" style="${NX.vars(k)}"><b>${esc(a)}</b><span>${esc(b)}</span>${NX.mark(k, 26)}</div>`;
+  }
+  function soCaption(p) {
+    if (p.cap) return p.cap;
+    const pl = NX.plants.find(x => "plant:" + x.k === p.art) || NX.plants[0];
+    return `Plant of the week: ${pl.name} (${pl.latin}), from ${pl.from}.\n\n${pl.use}\n\nOne of the plants on the NexEros label. What the research says, with sources, is on our plant page.`;
+  }
+  function soWeek() {
+    return SO_DAYS.map((d, i) => `<div class="so-day"><span>${d}</span>${SO_POSTS.map((p, j) => p.d !== i ? "" : `<button type="button" class="so-chip${j === soPick ? " on" : ""}" data-so="${j}"><small>${p.t}</small><b>${esc(p.k)}</b><em class="tag ${SO_STATE[p.s][1]}">${SO_STATE[p.s][0]}</em></button>`).join("")}</div>`).join("");
+  }
+  function soPreview() {
+    const p = SO_POSTS[soPick], k = APP.dir();
+    return `<div class="so-phone"><div class="so-ph-top"><span class="so-av" style="${NX.vars(k)}">${NX.ginkgoArt(22, "soav")}</span><b>nexeros</b><small>${SO_DAYS[p.d]} · ${p.t}</small></div>${soArt(p)}<p class="so-cap">${esc(soCaption(p)).replace(/\n/g, "<br>")}</p></div>
+      <div class="so-meta"><div class="so-pl">${p.pl.map(x => `<span>${x}</span>`).join("")}</div>
+        <p class="so-chk"><b>Claims check: passed.</b> No disease or cure claims, nothing promised, product claims match the label${p.pl.includes("FB") ? ", fits Meta's rules for this category" : ""}.</p>
+        ${p.fix ? `<p class="so-fix"><b>Rewritten before it reached you:</b> ${esc(p.fix)}</p>` : ""}
+        ${p.s === "live" ? `<p class="so-done">Scheduled. Goes out ${SO_DAYS[p.d]} at ${p.t}, the time your posts get the most saves.</p>` : `<div class="so-btns"><button type="button" class="cta-sm" data-so-ok="${soPick}">Approve</button><button type="button" class="so-edit" data-so-edit>Ask for another version</button></div>`}</div>`;
+  }
+  function soRefresh() { const w = APP.$("#so-week"), v = APP.$("#so-prev"); if (w) w.innerHTML = soWeek(); if (v) v.innerHTML = soPreview(); }
+  document.addEventListener("click", e => {
+    const c = e.target.closest("[data-so]"), ok = e.target.closest("[data-so-ok]"), ed = e.target.closest("[data-so-edit]");
+    if (c) { soPick = +c.dataset.so; soRefresh(); }
+    else if (ok) { SO_POSTS[+ok.dataset.soOk].s = "live"; const n = SO_POSTS.findIndex(p => p.s !== "live"); if (n >= 0) soPick = n; soRefresh(); }
+    else if (ed) { const v = APP.$("#so-prev .so-cap"); if (v) v.classList.add("so-redo"), setTimeout(() => v.classList.remove("so-redo"), 900); }
+  });
+  // Engaged and newlywed couples: an audience that already thinks of itself as "the two of us"
+  const weddingSec = () => sec("An easy audience to start with: couples getting married", `<div class="wed"><div class="wed-n"><b>2.1 million</b><span>US weddings in 2024, so about 4.2 million people a year who are planning, gifting and honeymooning as two.</span><small>CDC, National Center for Health Statistics, 2024 (provisional)</small></div>
+    <div class="wed-g">${[
+      ["The Couples Ritual, gift-wrapped", "STAMINA, FEMINA and Velvet Fire in one box, made for showers, honeymoons and the first anniversary. \"For the two of you,\" taken literally. The gift nobody else at the shower brings."],
+      ["On the registry", "An \"Add to your registry\" button on the product page. Zola already lets couples add items from any store, so it works on day one."],
+      ["Wedding pros as partners", "Planners, bridal shops, honeymoon travel agents and photographers get their own code and earn on every box. Set up in the creator program below."],
+      ["Engaged and newlywed creators", "Wedding and engagement creators talk to exactly this audience, months before the day. They get a sample box and a code, like every other creator."],
+      ["Gift searches, not sex searches", "Ads on terms like \"honeymoon gift for couples\" and \"bridal shower gift ideas\" reach people shopping for a present, not a fix, and keep the ads in gift territory the platforms are comfortable with."],
+      ["The first anniversary", "Couples who buy around the wedding get a note before their first anniversary with a refill. It's already one of the emails the Hub sends."],
+    ].map(([a, b]) => `<div class="card"><b class="c-h">${a}</b><p>${b}</p></div>`).join("")}</div></div>`, "Engaged couples already think of themselves as \"the two of us,\" they're buying gifts for each other, and their friends are buying gifts for them. Kept tasteful and discreet, it's the most natural way into the couples market.");
+  // The creator program: find, invite, code and sample, check posts, pay. Sample creators are described, never named.
+  const CR_COLS = [
+    ["Found and scored", [["Couples lifestyle", "38K · Instagram", "Fit 92"], ["Plant-based wellness", "54K · YouTube", "Fit 88"], ["Men's health over 40", "16K · podcast", "Fit 81"]]],
+    ["Invited", [["Menopause clinician", "21K · Instagram", "Invite drafted, waiting for you"], ["Wedding planning", "72K · Instagram", "Sent Tuesday"]]],
+    ["Sample on the way", [["Slow-living couple", "29K · Instagram", "Code SLOWMORNING15 · arrives Fri"]]],
+    ["Posted", [["Herbalist", "12K · newsletter", "#ad shown · claims check passed"], ["Fitness couple", "44K · Instagram", "Flagged \"cures ED\", asked to edit"]]],
+    ["Earning", [["Naturopath", "9K · Instagram", "31 orders this month"], ["Honeymoon travel", "18K · YouTube", "12 orders this month"]]],
+  ];
+  const creatorSec = () => {
+    const j = JOBS.find(x => x.k === "creators"), mo = j ? fmtMo(j.cost(j.qty)) : "";
+    return sec("A creator program that runs itself", `<div class="cr-board">${CR_COLS.map(([h, cs]) => `<div class="cr-col"><span>${h} <i>${cs.length}</i></span>${cs.map(([a, b, c]) => `<div class="cr-card"><b>${a}</b><small>${b}</small><em class="${/Flagged/.test(c) ? "bad" : /waiting/.test(c) ? "warn" : ""}">${esc(c)}</em></div>`).join("")}</div>`).join("")}</div>
+      <div class="cr-steps">${[
+        ["Find", "Searches Instagram, YouTube, podcasts and newsletters in your niches: couples, menopause, men's health, plant wellness, weddings. Scores each on fit, real engagement and audience age."],
+        ["Invite", "Writes a personal invite that mentions their actual content. You approve it with one tap."],
+        ["Code and sample", "Makes their discount code in your store, buys the shipping label and adds the box to tomorrow's packing list."],
+        ["Check every post", "Looks for the #ad the FTC requires and for any health claim the label can't back. Anything wrong gets flagged before a commission is paid."],
+        ["Track and pay", "Sales by code, live. Commissions paid monthly by PayPal, and a W-9 collected before anyone passes $2,000 in a year."],
+      ].map(([a, b], i) => `<div><span>0${i + 1}</span><b>${a}</b><p>${b}</p></div>`).join("")}</div>
+      <div class="g3 cr-facts"><div class="card"><b class="c-h">You set the commission</b><p>15 to 20% of each sale is the usual starting rate for supplement programs, with higher tiers for top sellers. Codes cost nothing to make on WooCommerce or Shopify.</p></div>
+        <div class="card"><b class="c-h">What a creator costs you</b><p>The sample, its postage (about $7 to $9 a box at USPS rates this season) and the commission once they sell. Finding, inviting and tracking runs about ${mo} a month for ${j ? j.qty : 100} creators, in your plan.</p></div>
+        <div class="card"><b class="c-h">Where they post</b><p>Instagram, YouTube, podcasts and newsletters. TikTok doesn't allow paid creator posts for sexual products, so the Hub doesn't recruit there.</p></div></div><p class="note">Sample creators, described rather than named, with sample numbers.</p>`,
+      "Creators are how Lemme and AG1 grew. The hard part is the busywork: finding the right people, writing to each one, sending samples, chasing posts and paying out. The Hub does all of it; you pick who gets a box.");
+  };
+  const socialSec = () => `<section class="pg-sec rise"><h2>Social, planned a week at a time</h2><p>Every Monday the Hub drafts the week in the brand's look and voice: a plant, a moment for two, a lab report, a question answered. Every caption is checked against the supplement claims rules and each platform's rules, and anything risky is rewritten before you see it. You approve from your phone; it posts at the times your audience saves the most.</p>
+    <div class="so"><div class="so-week" id="so-week">${soWeek()}</div><div class="so-prev" id="so-prev">${soPreview()}</div></div>
+    <div class="so-flow">${[["Monday", "Drafts the week from five themes and what sold last week"], ["Checked", "Claims rules, Meta's rules, the brand voice"], ["You approve", "One tap each, or approve the whole week"], ["Posts and listens", "Comments and messages come back to one inbox"]].map(([a, b], i) => `<div><span>0${i + 1}</span><b>${a}</b><small>${b}</small></div>`).join("")}</div>
+    <p class="note">Sample posts in the brand look you've picked, so switching looks on the Brand page changes them too. Posts go to Instagram, Facebook and Threads through Meta's own publishing tools. TikTok and Pinterest don't allow this category's ads, so organic posts there wait for a stricter check.</p></section>`;
   APP.views.marketing = () => {
     const tot = AD.reduce((a, r) => a + r.spend, 0), sal = AD.reduce((a, r) => a + r.sales, 0);
     return `<div class="pg">${hero("Marketing", "Connect what's there. Build what's missing. Let it run.", "You can't write emails, post, run ads on four platforms and answer reviews by yourself. The Hub does the work and brings you the decisions.")}
     ${sec("What you have today, and where it goes", `<div class="stk">${[["Shopify", "Orders, customers, subscriptions", "rebuilt or moved to Woo"], ["Klaviyo", "Email lists and reviews", "moves into the Hub"], ["Meta pixel", "Who visits, who buys", "connect"], ["Google Analytics", "Where traffic comes from", "connect"], ["Merchant Center", "The product feed for Google", "connect"]].map(([a, b, t]) => `<div><b>${a}</b><span>${b}</span><em class="tag ${t === "connect" ? "good" : "warn"}">${t}</em></div>`).join("")}</div>`, "Your store gets rebuilt on Shopify or moved to WooCommerce, with cards through PaymentCloud, and your list and reviews move into the Hub. The tracking you already have stays and gets connected.")}
-    ${sec("What we build", `<div class="g3">${[["Emails that send themselves", "Welcome, the day-25 reorder nudge, win-back, the anniversary gift. Written once, in the new voice, then running."], ["A review engine", "Asks at the right day, posts answers, and shows the real number everywhere. Feeds Amazon and Google too."], ["One plant a week", "An ingredient guide built to rank, drafted by AI, checked against the claims rules, approved in a tap."], ["Creators and practitioners", "Affiliate links for menopause creators, couples therapists and naturopaths. Payouts tracked in the Hub."], ["A creative studio", "New ads in the brand's look, each checked against Meta's and Google's rules before it ships."], ["The ad optimizer", "Every platform's spend and sales in one place, rebalanced every morning. Below."]].map(([a, b]) => `<div class="card"><b class="c-h">${a}</b><p>${b}</p></div>`).join("")}</div>`)}
+    ${sec("What we build", `<div class="g3">${[["Emails that send themselves", "Welcome, the day-25 reorder nudge, win-back, the anniversary gift. Written once, in the new voice, then running."], ["A review engine", "Asks at the right day, posts answers, and shows the real number everywhere. Feeds Amazon and Google too."], ["One plant a week", "An ingredient guide built to rank, drafted by AI, checked against the claims rules, approved in a tap."], ["Creators and practitioners", "Menopause creators, couples therapists, naturopaths and wedding pros, each with a code and a sample. The full program is below."], ["A creative studio", "New ads in the brand's look, each checked against Meta's and Google's rules before it ships."], ["The ad optimizer", "Every platform's spend and sales in one place, rebalanced every morning. Below."]].map(([a, b]) => `<div class="card"><b class="c-h">${a}</b><p>${b}</p></div>`).join("")}</div>`)}
+    ${weddingSec()}
+    ${socialSec()}
+    ${creatorSec()}
     <section class="pg-sec rise"><h2>The ad optimizer</h2><p>Every morning the Hub pulls spend and sales from Amazon, Google, Meta and Walmart through their own connections, works out what each dollar is earning, and drafts the moves. You approve them from your phone.</p>
       <div class="ao"><div class="ao-top"><div><span>Spend this week</span><b>$${fmt(tot)}</b></div><div><span>Ad sales</span><b>$${fmt(sal)}</b></div><div><span>Return on spend</span><b>${(sal / tot).toFixed(1)}x</b></div><div><span>Ad cost of sales, all channels</span><b>${(tot / sal * 100).toFixed(0)}%</b></div></div>
         <div class="tbl-wrap"><table class="tbl ao-t"><thead><tr><th>Channel</th><th>Spend</th><th>Sales</th><th>Return</th><th>Target</th><th>The Hub suggests</th></tr></thead><tbody>${AD.map(r => { const ro = r.sales / r.spend, up = ro >= r.tgt; return `<tr><td><b>${r.ch}</b></td><td>$${fmt(r.spend)}</td><td>$${fmt(r.sales)}</td><td><span class="tag ${up ? "good" : "bad"}">${ro.toFixed(1)}x</span></td><td>${r.tgt}x</td><td>${r.note}</td></tr>`; }).join("")}</tbody></table></div>
@@ -185,8 +273,8 @@
   let PATHS = null;
   async function loadMap() {
     try {
-      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793759329").then(r => r.json()); PATHS = topoPaths(US); }
-      if (!STORES) { const d = await fetch("img/stores.json?v=1793759329").then(r => r.json()); STORES = d.stores; PER = d.per; }
+      if (!PATHS) { US = US || await fetch("img/us-states.json?v=1793760033").then(r => r.json()); PATHS = topoPaths(US); }
+      if (!STORES) { const d = await fetch("img/stores.json?v=1793760033").then(r => r.json()); STORES = d.stores; PER = d.per; }
     } catch (e) { const c = APP.$("#sl-count"); if (c) c.textContent = "The store list didn't load."; return; }
     drawMap(); renderQ("leads");
   }
@@ -221,6 +309,8 @@
     { k: "chat", name: "Website chat", what: "Answers label and shipping questions; sends anything medical to a doctor", unit: "chats a month", qty: 500, min: 100, max: 5000, step: 100, cost: q => q * tok(0.008, 0.0005, "h") },
     { k: "stock", name: "Stock and reorder forecast", what: "Watches every channel's sales and warns before Amazon runs dry", unit: "every night", qty: 30, fixed: true, cost: q => q * tok(0.01, 0.0005, "h") },
     { k: "books", name: "Bookkeeping match", what: "Every payout and fee sorted into QuickBooks", unit: "every night", qty: 30, fixed: true, cost: q => q * tok(0.005, 0.0005, "h") },
+    { k: "social", name: "Social posts", what: "A week of posts drafted in the brand voice, checked, and scheduled to Instagram, Facebook and Threads", unit: "posts a month", qty: 28, min: 8, max: 60, step: 4, cost: q => q * tok(0.006, 0.0008, "s") },
+    { k: "creators", name: "Creator program", what: "Finds and scores creators, drafts each invite, makes the code, buys the sample label, checks every post and tracks sales. Samples, postage and commissions are yours, paid directly", unit: "creators a month", qty: 100, min: 25, max: 500, step: 25, cost: q => q * (0.065 + tok(0.01, 0.0015, "s") + tok(0.004, 0.0003, "h")) },
     { k: "host", name: "Hosting the Hub", what: "The Hub app, the master database and logins, text alerts", unit: "every month", qty: 1, fixed: true, cost: q => q * 65 },
     { k: "woo", name: "Your store on WooCommerce", what: "Store and subscriptions on WooCommerce, cards through PaymentCloud. Switch off to keep Shopify, rebuilt in the new look, and pay Shopify directly", unit: "every month", qty: 1, fixed: true, cost: q => q * 64 },
   ];
