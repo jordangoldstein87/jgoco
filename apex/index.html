@@ -295,6 +295,43 @@ html.cap .wh-scene *,html.cap .wh-stage,html.cap .wh-front{animation:none!import
 .bar-h{display:grid;grid-template-columns:200px 1fr 90px;gap:12px;align-items:center;font-size:15px;margin:8px 0}
 .bar-h i{display:block;height:12px;border-radius:9px;background:linear-gradient(90deg,var(--blue2),var(--sky))}
 .bar-h i.r{background:linear-gradient(90deg,var(--race),#ff9a6b)}
+/* ---------- from your phone ---------- */
+.ph-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.ph{display:grid;gap:12px;justify-items:center}
+.ph-in{width:100%;max-width:330px;background:#0b0f24;border-radius:36px;padding:14px 12px 20px;border:1px solid var(--line2);box-shadow:0 30px 80px -30px #000;min-height:440px;display:flex;flex-direction:column;gap:9px}
+.ph-top{display:grid;justify-items:center;gap:2px;padding:4px 0 10px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.ph-av{width:34px;height:34px;border-radius:50%;background:var(--blue);display:grid;place-items:center;color:#fff}
+.ph-top b{font-size:14px}.ph-top small{font-size:11.5px;color:#9aa3bd;letter-spacing:.06em;text-transform:uppercase}
+.ph-b{max-width:84%;padding:10px 13px;border-radius:18px;font-size:14.5px;line-height:1.4}
+.ph-b.in{background:#262a3d;color:#fff;border-bottom-left-radius:5px;align-self:flex-start}
+.ph-b.me{background:#2a4bff;color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+.ph-rc{background:#fbf8f0;color:#222;font:11.5px/1.35 ui-monospace,Menlo,monospace;padding:10px;border-radius:6px;transform:rotate(-2deg)}
+.ph>p{font-size:15px;color:var(--mute);text-align:center;margin:0;max-width:330px}
+.gpt{background:#fff;color:#1f2330;border-radius:18px;padding:18px 20px;box-shadow:0 40px 100px -30px #000}
+.gpt-top{display:flex;align-items:center;gap:8px;font-size:14px;border-bottom:1px solid #eceef3;padding-bottom:10px;margin-bottom:14px}
+.gpt-top i{width:22px;height:22px;border-radius:50%;background:#10a37f}
+.gpt-top span{margin-left:auto;font-size:12px;color:#1d8a57;background:#e3f7ee;padding:3px 9px;border-radius:99px;font-weight:700}
+.gpt-u{background:#f2f3f6;border-radius:16px;padding:10px 14px;margin-left:auto;max-width:85%;width:fit-content;font-size:15px}
+.gpt-a{font-size:15px;margin-top:14px}.gpt-a p{margin:0}
+.gpt-ch{margin:12px 0 6px;display:grid;gap:7px}
+.gpt-ch div{display:grid;grid-template-columns:170px 1fr 72px;gap:10px;align-items:center;font-size:13px}
+.gpt-ch i{display:block;height:12px;border-radius:6px;background:#0018b2}
+.gpt-ch b{text-align:right}
+.gpt-a small{color:#7a829c;font-size:12px}
+.gpt-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.gpt-tabs button{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;border:1px solid var(--line2);background:rgba(255,255,255,.05);color:#fff;font-weight:700;font-size:15px}
+.gpt-tabs button.on{background:#fff;color:var(--ink);border-color:#fff}
+.gpt-k{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 0}
+.gpt-k div{border:1px solid #eceef3;border-radius:10px;padding:9px 10px}
+.gpt-k small{display:block;font-size:11px;color:#7a829c;text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.gpt-k b{display:block;font-size:18px;margin:2px 0}.gpt-k span{font-size:12px;font-weight:700}
+.gpt-t{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0 4px}
+.gpt-t th{text-align:left;font-size:11px;color:#7a829c;text-transform:uppercase;letter-spacing:.05em;padding:5px 6px;border-bottom:1px solid #eceef3}
+.gpt-t td{padding:7px 6px;border-bottom:1px solid #f3f4f7}
+.gpt-rc{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-top:12px;border:1px solid #eceef3;border-radius:12px;padding:12px}
+.gpt-rc>div:first-child{background:#fbf8f0;font:11.5px/1.4 ui-monospace,Menlo,monospace;padding:10px;border-radius:6px;border:1px solid #ece6d6}
+.gpt-rc b{display:block}.gpt-rc small{display:block;color:#7a829c;font-size:12.5px}
+@media (max-width:900px){.ph-row{grid-template-columns:1fr}.ph-in{min-height:0}.gpt-ch div{grid-template-columns:110px 1fr 64px}.gpt-k{grid-template-columns:1fr 1fr}.gpt-rc{grid-template-columns:1fr}}
 /* ---------- phones ---------- */
 @media (max-width:900px),(orientation:portrait) and (max-width:1100px){
   :root{--nav:0px}
@@ -343,16 +380,16 @@ html.cap .wh-scene *,html.cap .wh-stage,html.cap .wh-front{animation:none!import
 }
 </style>
 
-<nav id="lnav"><a class="brandmk" href="#welcome"><img src="img/mark-white.png" alt=""><span><b>APEX</b><small>REBUILT</small></span></a><div id="lnav-links"></div><div class="foot">Prepared for William and Kameron Suoja</div></nav>
+<nav id="lnav"><a class="brandmk" href="#welcome"><img src="img/mark-white.png" alt=""><span><b>APEX</b><small>REBUILT</small></span></a><div id="lnav-links"></div><div class="foot">Prepared for Kameron Suoja</div></nav>
 <header id="top"><img src="img/mark-white.png" alt=""><b>APEX</b><button id="menu-btn">Menu</button></header>
 <nav id="mnav" hidden></nav>
 <main id="view"></main>
 
-<script src="data.js?v=1793926751"></script>
-<script src="app.js?v=1793926751"></script>
-<script src="music.js?v=1793926751"></script>
-<script src="site.js?v=1793926751"></script>
-<script src="hub.js?v=1793926751"></script>
-<script src="views.js?v=1793926751"></script>
+<script src="data.js?v=1793928429"></script>
+<script src="app.js?v=1793928429"></script>
+<script src="music.js?v=1793928429"></script>
+<script src="site.js?v=1793928429"></script>
+<script src="hub.js?v=1793928429"></script>
+<script src="views.js?v=1793928429"></script>
 <script>APP.render()</script>
 </body></html>
