@@ -9,7 +9,7 @@
   const bar = (p, over) => `<div class="pbar"><i class="${over ? "over" : ""}" style="width:${Math.min(100, p)}%"></i></div>`;
 
   const MODS = [
-    ["today", "Today", "bolt", 5], ["schedule", "Calendar", "cal"], ["projects", "Projects", "folder"], ["estimate", "Estimator", "est"], ["bids", "Bid engine", "bid", 3],
+    ["today", "Today", "bolt", 5], ["schedule", "Calendar", "cal"], ["crew", "Crew and texts", "chat"], ["projects", "Projects", "folder"], ["inbox", "Auto-filed", "mail", 4], ["estimate", "Estimator", "est"], ["bids", "Bid engine", "bid", 3],
     ["receipts", "Receipts", "receipt", 1], ["billing", "Billing", "money"], ["books", "Books and payroll", "book"], ["subs", "Subs and vendors", "users", 2],
     ["paperwork", "Liens and permits", "shield", 1], ["field", "Field", "camera"], ["reinspect", "Repeat work", "repeat"], ["listings", "Listings", "star"], ["ask", "Ask Apex", "chat"],
   ];
@@ -57,7 +57,7 @@
 
   M.projects = () => {
     const j = AX.jobs[0];
-    const files = [["plan", "A-201 Balcony framing plan, rev 3", "Architect · PDF · today"], ["plan", "S-1 Structural details", "Engineer · PDF"], ["img/work/balcony-reframe-lift.jpg?v=1793926051", "Bldg C, unit 4 opened up", "Luis · photo · 7:42 a.m."], ["img/work/beam-walkway.jpg?v=1793926051", "Ledger rot at unit 6", "Luis · photo"], ["doc", "SB-326 inspection report", "Inspector · PDF"], ["doc", "Contract and scope, signed", "PDF"], ["doc", "Change order #2, signed", "$14,200"], ["img/work/balcony-reframe.jpg?v=1793926051", "Bldg A finished", "Kameron · photo"]];
+    const files = [["plan", "A-201 Balcony framing plan, rev 3", "Architect · PDF · today"], ["plan", "S-1 Structural details", "Engineer · PDF"], ["img/work/balcony-reframe-lift.jpg?v=1793926645", "Bldg C, unit 4 opened up", "Luis · photo · 7:42 a.m."], ["img/work/beam-walkway.jpg?v=1793926645", "Ledger rot at unit 6", "Luis · photo"], ["doc", "SB-326 inspection report", "Inspector · PDF"], ["doc", "Contract and scope, signed", "PDF"], ["doc", "Change order #2, signed", "$14,200"], ["img/work/balcony-reframe.jpg?v=1793926645", "Bldg A finished", "Kameron · photo"]];
     const mail = [["DF", "Diaz Framing", "RE: Bayview Bldg C, joist count", "Filed here because Diaz is on this job and the email says Bayview", "8:02"], ["PC", "Pacific Coatings", "Quote: walkable membrane, 540 SF", "Quote pulled out: $9,045. Added to the estimate", "Tue"], ["AR", "Architect, Rivera Studio", "Rev 3 drawings attached", "A-201 rev 3 replaced rev 2. Changes highlighted", "Mon"], ["HM", "HOA manager", "Board approved change order #2", "Change order marked approved", "Mon"]];
     return H(`${esc(j.name)} <span style="font-weight:600;color:#7a829c;font-size:16px">${j.id}</span>`, `${esc(j.kind)} · ${esc(j.city)} · ${money(j.contract + j.co)} with changes · ${j.pct}% done`, `<button class="hb-b g">All projects</button><button class="hb-b">Add files</button>`)
       + `<div class="hb-kpis"><div class="hb-kpi"><small>Contract + changes</small><b>${money(j.contract + j.co)}</b><span>2 change orders</span></div><div class="hb-kpi"><small>Spent</small><b>${money(j.spent)}</b><span>${Math.round(j.spent / ((j.contract + j.co) * .78) * 100)}% of budget</span></div><div class="hb-kpi"><small>Billed</small><b>${money(j.billed)}</b><span>Draw #4 due today</span></div><div class="hb-kpi"><small>Retention held</small><b>${money(j.billed * j.ret / 100)}</b><span>${j.ret}%</span></div></div>
@@ -137,11 +137,64 @@
   M.ask = () => H("Ask Apex", "Ask the business anything, by typing or from your phone")
     + `<div class="hb-card"><div class="hb-chat"><div class="m u">What did we spend at Home Depot on Bayview?</div><div class="m a">${money(14862.31)} across 23 receipts since Sept 8. The biggest was ${money(1284.66)} on Nov 4 (joists and hangers). That's 12% of Bayview's material budget.</div><div class="m u">Who's free Monday?</div><div class="m a">Marco is off Friday and open Monday, and Eli finishes at Lakeshore Thursday. Want me to put either of them on the Davis St restroom?</div><div class="m u">Yes, Eli. And tell the tenant.</div><div class="m a">Done. Eli is on Davis St Monday at 7. I drafted a text to the tenant for you to send: "Hi, this is Kameron at Apex. Eli starts your restroom Monday at 7 a.m."</div></div><div class="hb-in"><input placeholder="Ask about any job, receipt, sub or bid"><button class="hb-b">Ask</button></div></div>`;
 
+  /* ---------- Auto-filed: emails from people on a job file themselves ---------- */
+  let mailSel = 0;
+  M.inbox = () => {
+    const m = AX.inbox[mailSel], j = J(m.job);
+    const step = (ic, h, body, tg) => `<div class="hb-alert"><span class="dot" style="background:${tg || "#0018b2"}"></span><div style="flex:1"><b>${svgI(ic, 15)} ${h}</b><small>${body}</small></div></div>`;
+    return H("Auto-filed", "Email from anyone already on a job is read, filed and acted on. Nothing to drag, nothing to retype", `<button class="hb-b g">Rules</button>`)
+      + `<div class="hb-kpis"><div class="hb-kpi"><small>Emails this week</small><b>63</b><span>from 19 people on jobs</span></div><div class="hb-kpi"><small>Filed by itself</small><b>61</b><span>97%</span></div><div class="hb-kpi"><small>Deadlines found</small><b>9</b><span>all on the calendar</span></div><div class="hb-kpi"><small>Attachments saved</small><b>34</b><span>plans, quotes, photos</span></div></div>
+      <div class="hb-2" style="grid-template-columns:1fr 1.25fr"><div class="hb-card" style="padding:8px">${AX.inbox.map((x, i) => `<div class="hb-mail" data-mail="${i}" style="cursor:pointer;border-radius:10px;padding:10px;${i === mailSel ? "background:#eef1fa" : ""}"><span class="av">${x.av}</span><div><b>${esc(x.from)}</b> · ${esc(x.subj)}<small>Filed to ${esc(J(x.job).name)} · ${x.att.length} attachment${x.att.length > 1 ? "s" : ""}${x.due ? " · deadline found" : ""}</small></div><small>${esc(x.time)}</small></div>`).join("")}</div>
+      <div class="hb-card"><h4>${svgI("mail", 18)} ${esc(m.subj)}</h4><p style="font-size:13px;color:#6b7390;margin:-4px 0 8px">${esc(m.who)} · ${esc(m.from)} · ${esc(m.time)}</p>
+        <p style="font-size:14px;background:#f7f8fc;border-radius:10px;padding:10px 12px;margin:0 0 12px;color:#2a3150">${esc(m.body)}</p>
+        <h4 style="margin-top:4px">What the Field Office did ${tag("automatic", "ok")}</h4>
+        ${step("folder", `Filed to ${esc(j.name)}`, esc(m.why), j.color)}
+        ${step("file", `Saved ${m.att.length} attachment${m.att.length > 1 ? "s" : ""} to the job file`, m.att.map(a => `${esc(a[0])} (${esc(a[1])})`).join(" · "))}
+        ${step("book", "Added a note to the job log", esc(m.note))}
+        ${m.due ? step("cal", `Put the deadline on the calendar: ${esc(m.due[1])}`, `${esc(m.due[0])} · ${esc(m.due[2])}`, "#ff4a1c") : ""}
+        ${m.task ? step("users", `Made a task for ${esc(m.task[1])}, and texted them`, esc(m.task[0]), "#f5a623") : ""}
+        ${m.money ? step("money", `${esc(m.money[0])}: ${esc(m.money[1])}`, esc(m.money[2]), "#2fd389") : ""}
+      </div></div>`;
+  };
+
+  /* ---------- Crew and texts: the roster, who's free, texting, everyone's week ---------- */
+  const NEXT = { job: "Seven Hills Rd ADU", when: "Mon Nov 16, 7 a.m.", where: "Castro Valley", need: "2 carpenters and a laborer for foundation forms" };
+  const crew = { pick: new Set(["Marco Diaz", "Dave Kim", "Sam Patel"]), asked: false, sent: false, tab: "roster" };
+  const REPLY = { "Marco Diaz": ["YES", "Yes, I'm in. Need the address."], "Dave Kim": ["YES", "Yes after Marina wraps Friday."], "Sam Patel": ["YES", "Yes"], "Eli Brooks": ["NO", "Can't Monday, doctor. Tuesday works."], "Tony Ruiz": ["NO", "Still on Davis St."], "Luis Ortega": ["NO", "On Bayview all week."], "Kameron Suoja": ["YES", "👍"] };
+  const first = n => n.split(" ")[0];
+  const stTag = p => p.st === "free" ? tag(p.free || "Free", "ok") : p.st === "soon" ? tag(p.free, "warn") : tag("On " + p.on, "bl");
+  M.crew = () => {
+    const tabs = `<div class="hb-tabs">${[["roster", "Roster and next job"], ["texts", "Texts"], ["week", "Everyone's week"]].map(t => `<button data-ctab="${t[0]}" class="${crew.tab === t[0] ? "on" : ""}">${t[1]}</button>`).join("")}</div>`;
+    let body = "";
+    if (crew.tab === "roster") body = `<div class="hb-card" style="background:#0b1240;color:#fff;border:0"><div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><small style="color:#9db4ff;font-weight:800;letter-spacing:.08em">NEXT JOB TO STAFF</small><b style="display:block;font-size:20px">${NEXT.job}</b><span style="font-size:14px;opacity:.85">${NEXT.when} · ${NEXT.where} · needs ${NEXT.need}</span></div><button class="hb-b r" data-act="ask">${crew.asked ? "Asked ✓" : `Ask the ${crew.pick.size} picked if they're free`}</button></div></div>
+      <div class="hb-card"><div class="tblwrap"><table class="hb-t"><tr><th></th><th>Name</th><th>Role and skills</th><th>Phone</th><th>Right now</th>${crew.asked ? "<th>Reply</th>" : ""}</tr>${AX.team.map(p => { const r = REPLY[p.n]; return `<tr><td><input type="checkbox" data-pick="${esc(p.n)}"${crew.pick.has(p.n) ? " checked" : ""} aria-label="Pick ${esc(p.n)}"></td><td><b>${esc(p.n)}</b></td><td>${esc(p.r)}<br><small style="color:#7a829c">${p.sk.map(esc).join(" · ")}</small></td><td class="num" style="white-space:nowrap">${esc(p.ph)}</td><td>${stTag(p)}</td>${crew.asked ? `<td>${crew.pick.has(p.n) ? (r[0] === "YES" ? tag("Yes", "ok") : tag("No", "bad")) + `<br><small style="color:#7a829c">"${esc(r[1])}"</small>` : ""}</td>` : ""}</tr>`; }).join("")}</table></div>
+      <p style="font-size:13px;color:#6b7390;margin:10px 0 0">${crew.asked ? `Everyone who said yes is on the calendar for ${NEXT.job}, and the job's crew list is set. ${[...crew.pick].filter(n => REPLY[n][0] === "NO").map(first).join(" and ") || "Nobody"} said no, so the Field Office suggests ${AX.team.find(p => p.st === "free" && !crew.pick.has(p.n)) ? first(AX.team.find(p => p.st === "free" && !crew.pick.has(p.n)).n) : "the next free person"}.` : "Tick who you want, then ask. Each person gets a text and answers YES or NO. Their answers fill in the calendar."}</p></div>`;
+    if (crew.tab === "texts") {
+      const asked = [...crew.pick];
+      body = `<div class="hb-2"><div class="hb-card"><h4>${svgI("chat", 18)} ${crew.asked ? "Who's free Monday?" : "Crew texts"}</h4><div class="hb-chat">
+        ${crew.asked ? `<div class="m u">Apex: Can you work ${NEXT.job}, ${NEXT.when}, ${NEXT.where}? Reply YES or NO.</div><small style="align-self:flex-end;color:#7a829c;font-size:12px">To ${asked.map(first).join(", ")}</small>${asked.map(n => `<div class="m a"><b>${esc(first(n))}:</b> ${esc(REPLY[n][1])}</div>`).join("")}` : `<div class="m a" style="color:#6b7390">No texts yet today. Pick people on the roster and ask who's free, or write to anyone below.</div>`}
+        ${crew.sent ? `<div class="m u">Apex: Your week is in your email and texted below. Reply with any questions.</div><small style="align-self:flex-end;color:#7a829c;font-size:12px">To all 7</small>` : ""}
+      </div><div class="hb-in"><input placeholder="Text Luis, the Bayview crew, or everyone" aria-label="Text message"><button class="hb-b">Send</button></div></div>
+      <div class="hb-card"><h4>${svgI("phone", 18)} Texts go out from Apex's number</h4><p style="font-size:14px;color:#3a4366;margin:0 0 8px">Every text comes from one Apex business number, so personal phones stay personal. Replies land here and on Kameron's phone, filed to the job they're about.</p>${["Text one person, a job's crew, or everyone", "YES and NO replies update the calendar", "Delivery and inspection reminders go out by themselves", "Every number stored once, kept current"].map(t => `<div class="hb-alert"><span class="dot g"></span><div>${t}</div></div>`).join("")}</div></div>`;
+    }
+    if (crew.tab === "week") body = `<div class="hb-card" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b style="color:#0b1240">Sunday at 6 p.m., everyone gets their week</b><br><small style="color:#6b7390">An email with each day's job, address, task, plan sheet and who to call, plus a text each morning. Changes go out the minute they happen.</small></div><button class="hb-b r" data-act="send">${crew.sent ? "Sent to all 7 ✓" : "Send everyone's week now"}</button></div>${APP.staffEmail("Luis Ortega")}`;
+    return H("Crew and texts", "Everyone's number, who's free, who's where, and texts from the app") + tabs + body;
+  };
+  const JOB_ADDR = { "J-2611": "1450 Bayview Ave, Alameda", "J-2604": "1188 Estudillo Ave, San Leandro", "J-2615": "2240 Davis St, San Leandro", "J-2598": "860 Marina Blvd, San Leandro", "J-2619": "19720 Seven Hills Rd, Castro Valley", "J-2620": "3315 Lakeshore Ave, Oakland" };
+  const JOB_DO = { "J-2611": ["Set joists, Bldg C units 3 and 4", "Units 5 and 6, hangers", "Engineer at unit 6 ledger, 9 a.m.", "Sheathing, Bldg C", "Membrane prep with Pacific Coatings"], "J-2604": ["Hold-downs, line 4", "Hold-downs, line 5", "Shear wall nailing", "Inspection prep", "Off"] };
+  APP.staffEmail = name => {
+    const short = first(name), row = AX.week.rows[short] || [];
+    return `<div class="hb-card" style="max-width:640px;color:#151b36;background:#fff"><div style="font-size:13px;color:#6b7390;border-bottom:1px solid #edf0f7;padding-bottom:8px;margin-bottom:10px">From <b>Apex Field Office</b> · To ${esc(name)} · Subject: <b style="color:#0b1240">Your week, Nov 9 to 13</b></div>
+      <p style="margin:0 0 10px;font-size:15px">Hi ${esc(short)}, here's where you're working this week.</p>
+      <table class="hb-t"><tr><th>Day</th><th>Job and address</th><th>What to do</th></tr>${row.map((c, i) => { const j = J(c); return `<tr><td style="white-space:nowrap"><b>${AX.week.days[i]}</b></td><td>${j.id ? `<b style="color:${j.color}">${esc(j.name)}</b><br><small style="color:#7a829c">${esc(JOB_ADDR[j.id] || j.city)}</small>` : esc(c)}</td><td style="font-size:13.5px">${j.id ? esc((JOB_DO[j.id] || [])[i] || "See the daily plan") : ""}</td></tr>`; }).join("")}</table>
+      <p style="font-size:13.5px;color:#3a4366;margin:12px 0 0">7 a.m. start every day. Plan sheets and gate codes are in the app. Questions: Kameron, (510) 555-0128.</p></div>`;
+  };
+
   /* ---------- the portal ---------- */
   APP.hubMods = MODS;
   APP.hub = (mod, opts) => {
     mod = M[mod] ? mod : "today";
-    return `<div class="hb" data-hub>${opts && opts.noside ? "" : `<div class="hb-side"><div class="hb-me"><img src="img/mark-white.png?v=1793926051" alt=""><div><b>Field Office</b><small>Apex Construction</small></div></div>${MODS.map(m => `<button data-mod="${m[0]}" class="${m[0] === mod ? "on" : ""}">${svgI(m[2], 17)}<span>${m[1]}</span>${m[3] ? `<em>${m[3]}</em>` : ""}</button>`).join("")}</div>`}<div class="hb-main">${M[mod]()}</div></div>`;
+    return `<div class="hb" data-hub>${opts && opts.noside ? "" : `<div class="hb-side"><div class="hb-me"><img src="img/mark-white.png?v=1793926645" alt=""><div><b>Field Office</b><small>Apex Construction</small></div></div>${MODS.map(m => `<button data-mod="${m[0]}" class="${m[0] === mod ? "on" : ""}">${svgI(m[2], 17)}<span>${m[1]}</span>${m[3] ? `<em>${m[3]}</em>` : ""}</button>`).join("")}</div>`}<div class="hb-main">${M[mod]()}</div></div>`;
   };
   function swap(hb, mod, tab) {
     hb.querySelector(".hb-main").innerHTML = M[mod](tab);
@@ -154,6 +207,10 @@
     const b = e.target.closest("button[data-mod]"); if (b) { swap(hb, b.dataset.mod); return; }
     const g = e.target.closest("[data-go]"); if (g && M[g.dataset.go]) { swap(hb, g.dataset.go); return; }
     const t = e.target.closest("[data-tab]"); if (t) { swap(hb, "schedule", t.dataset.tab); return; }
+    const ml = e.target.closest("[data-mail]"); if (ml) { mailSel = +ml.dataset.mail; swap(hb, "inbox"); return; }
+    const ct = e.target.closest("[data-ctab]"); if (ct) { crew.tab = ct.dataset.ctab; swap(hb, "crew"); return; }
+    const pk = e.target.closest("[data-pick]"); if (pk) { pk.checked ? crew.pick.add(pk.dataset.pick) : crew.pick.delete(pk.dataset.pick); crew.asked = false; swap(hb, "crew"); return; }
+    const ac = e.target.closest("[data-act]"); if (ac) { if (ac.dataset.act === "ask" && crew.pick.size) crew.asked = true; if (ac.dataset.act === "send") crew.sent = true; swap(hb, "crew"); return; }
   });
   document.addEventListener("input", e => {
     const i = e.target; if (!i.closest("[data-hub]") || !(i.dataset.q || i.dataset.p)) return;

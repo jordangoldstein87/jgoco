@@ -40,7 +40,7 @@ window.AX = {
       ["site", "site", "The new site", "Services, real work, reviews from every listing, and a bid form."],
       ["hub", "hub", "The portal", "One login for the whole business, on the phone and in the office."],
       ["schedule", "cal", "Daily calendar", "Crew, inspections, deliveries, timelines and budgets, by day."],
-      ["projects", "folder", "Project files", "Plans, photos, subs and their emails, filed to the job."],
+      ["auto", "bolt", "Auto-organization", "Emails file themselves, the crew gets texted, everyone gets their week."],
       ["estimate", "est", "Estimator", "Takeoffs from PDFs and photos, priced from your own costs."],
       ["bids", "bid", "Bid engine", "Every public bid and HOA request, found and drafted for you."],
       ["money", "money", "Receipts, books, payroll", "Receipts to jobs, progress billing, payroll, no QuickBooks needed."],
@@ -163,11 +163,50 @@ AX.reviews = {
   ],
 };
 AX.found = { work: [
-  ["img/work/balcony-reframe-lift.jpg?v=1793926051", "Stacked balcony reframing on an apartment building"],
-  ["img/work/crane-beam.jpg?v=1793926051", "Crane setting a large replacement beam"],
-  ["img/work/beam-walkway.jpg?v=1793926051", "New beam under an apartment walkway"],
-  ["img/work/dryrot-scaffold.jpg?v=1793926051", "Dry rot and facade repair from the scaffold"],
-  ["img/work/siding-crew.jpg?v=1793926051", "Siding replacement on an occupied apartment building"],
-  ["img/work/rooftop-framing.jpg?v=1793926051", "Rooftop screen wall framing"],
-  ["img/work/composite-balcony.jpg?v=1793926051", "Finished composite balcony deck"],
+  ["img/work/balcony-reframe-lift.jpg?v=1793926645", "Stacked balcony reframing on an apartment building"],
+  ["img/work/crane-beam.jpg?v=1793926645", "Crane setting a large replacement beam"],
+  ["img/work/beam-walkway.jpg?v=1793926645", "New beam under an apartment walkway"],
+  ["img/work/dryrot-scaffold.jpg?v=1793926645", "Dry rot and facade repair from the scaffold"],
+  ["img/work/siding-crew.jpg?v=1793926645", "Siding replacement on an occupied apartment building"],
+  ["img/work/rooftop-framing.jpg?v=1793926645", "Rooftop screen wall framing"],
+  ["img/work/composite-balcony.jpg?v=1793926645", "Finished composite balcony deck"],
 ] };
+
+/* ---------- Auto-organization (samples) ---------- */
+// Emails from people already attached to a job. The Field Office reads each one and files what's in it.
+AX.inbox = [
+  { from: "Diaz Framing", who: "Rudy Diaz", av: "DF", job: "J-2611", time: "7:58 a.m.", subj: "RE: Bayview Bldg C, joist count and ledger",
+    body: "Kameron, counted 84 LF for Bldg C, matches the plan. Unit 6 ledger is worse than we thought, need the engineer out before Friday or we lose the crane day. Updated quote attached.",
+    att: [["Diaz_BldgC_quote_rev2.pdf", "Quote"], ["unit6_ledger.jpg", "Photo"]],
+    note: "Diaz confirms 84 LF for Building C. Unit 6 ledger rot is worse than expected; engineer visit needed before Friday.",
+    due: ["Engineer visit at unit 6", "Fri Nov 13", "Before the crane day"], task: ["Book Rivera Engineering for unit 6", "Kameron"],
+    money: ["Quote rev 2", "$11,860", "was $10,940, now on the estimate as a change"], why: "Diaz is on Bayview, and the email says Bayview and Bldg C" },
+  { from: "Rivera Studio", who: "Ana Rivera, architect", av: "RS", job: "J-2619", time: "Yesterday", subj: "Seven Hills ADU, revised plan set for plan check",
+    body: "Attached are the revised sheets A-101 through A-104 answering the county's comments. Please resubmit by Monday the 16th so we keep our slot.",
+    att: [["SevenHills_A101-A104_rev2.pdf", "Plans"], ["County_comment_response.pdf", "Letter"]],
+    note: "Revised plan set rev 2 answers the county's plan check comments. Rev 1 sheets moved to superseded.",
+    due: ["Resubmit to Alameda County", "Mon Nov 16", "To keep the plan check slot"], task: ["Upload rev 2 to the county portal", "Bill"],
+    money: null, why: "Rivera Studio is the architect on Seven Hills Rd, and the sheets match its plan set" },
+  { from: "Home Depot Pro", who: "Pro Desk, San Leandro", av: "HD", job: "J-2615", time: "Yesterday", subj: "Your quote Q-77412 is ready",
+    body: "Quote Q-77412 for 1 toilet kit, 1 wall-hung sink, 2 grab bars and fittings. Prices held through November 20.",
+    att: [["Quote_Q-77412.pdf", "Quote"]],
+    note: "Restroom fixtures for the Davis St change order. Prices held through Nov 20.",
+    due: ["Order the restroom fixtures", "Fri Nov 20", "Quote prices expire"], task: ["Order once the tenant signs the change order", "Tony"],
+    money: ["Quote Q-77412", "$1,942.18", "added to the Davis St change order"], why: "The quote names PO 2615-11, which is Davis St" },
+  { from: "City of San Leandro", who: "Building Inspection", av: "SL", job: "J-2604", time: "Tue", subj: "Inspection result: BLD26-0418",
+    body: "Inspection type: Frame and hardware. Result: Approved. Next required inspection: Final.",
+    att: [["BLD26-0418_result.pdf", "Inspection"]],
+    note: "Phase 2 frame and hardware passed. Next: final inspection.",
+    due: ["Request the final inspection", "When Phase 3 is done", "City permit BLD26-0418"], task: ["Send draw #4 to the owner, inspection passed", "Kameron"],
+    money: ["Draw #4", "$28,560", "ready to send"], why: "Permit BLD26-0418 belongs to Estudillo Ave" },
+];
+// The crew roster: everyone's number in one place. Numbers are samples (555).
+AX.team = [
+  { n: "Kameron Suoja", r: "Owner, runs the jobs", ph: "(510) 555-0128", sk: ["Estimating", "Balconies", "Soft story"], on: "Bayview Terrace", st: "busy" },
+  { n: "Luis Ortega", r: "Lead carpenter", ph: "(510) 555-0143", sk: ["Framing", "Balconies", "Beams"], on: "Bayview Terrace", st: "busy" },
+  { n: "Marco Diaz", r: "Carpenter", ph: "(510) 555-0167", sk: ["Framing", "Hold-downs"], on: "Estudillo Ave", st: "free", free: "Free from Mon Nov 16" },
+  { n: "Dave Kim", r: "Carpenter", ph: "(510) 555-0181", sk: ["Siding", "Dry rot", "Finish"], on: "Marina Blvd", st: "soon", free: "Marina Blvd ends Fri" },
+  { n: "Tony Ruiz", r: "Carpenter", ph: "(510) 555-0195", sk: ["Tenant improvement", "Drywall", "Doors"], on: "Davis St", st: "busy" },
+  { n: "Eli Brooks", r: "Laborer", ph: "(510) 555-0112", sk: ["Demo", "Clean-up", "Deliveries"], on: "Lakeshore deck", st: "soon", free: "Lakeshore ends Thu" },
+  { n: "Sam Patel", r: "Laborer, part time", ph: "(510) 555-0136", sk: ["Demo", "Clean-up"], on: "", st: "free", free: "Available now" },
+];
