@@ -15,8 +15,8 @@
     ["cal", "Multi-phase projects", "We plan, manage and build large jobs in phases so residents keep living there."],
   ];
   const WORK = [
-    ["img/work/hero.jpg?v=1793926645", "Rooftop deck with composite decking and a custom rail · East Bay"],
-    ["img/work/img0745.jpg?v=1793926645", "Warehouse tenant improvement with mezzanine office and stair"],
+    ["img/work/hero.jpg?v=1793926751", "Rooftop deck with composite decking and a custom rail · East Bay"],
+    ["img/work/img0745.jpg?v=1793926751", "Warehouse tenant improvement with mezzanine office and stair"],
     ...((AX.found && AX.found.work) || []),
   ];
   const stars = n => "★★★★★".slice(0, Math.round(n)) + "☆☆☆☆☆".slice(0, 5 - Math.round(n));
@@ -33,8 +33,8 @@
 
   function page() {
     return `<div class="ns">
-      <div class="ns-top"><img src="img/logo-blue.png?v=1793926645" alt="Apex Construction General Contractors Inc."><nav><a href="#site" data-ns="svc">Services</a><a href="#site" data-ns="work">Our work</a><a href="#site" data-ns="rev">Reviews</a><a href="#site" data-ns="race">Racing</a><a href="#site" data-ns="bid">Get a bid</a></nav><a class="ns-call" href="tel:${C.tel}">${esc(C.phone)}</a></div>
-      <div class="ns-hero" style="background-image:url(img/work/hero.jpg?v=1793926645)"><div>
+      <div class="ns-top"><img src="img/logo-blue.png?v=1793926751" alt="Apex Construction General Contractors Inc."><nav><a href="#site" data-ns="svc">Services</a><a href="#site" data-ns="work">Our work</a><a href="#site" data-ns="rev">Reviews</a><a href="#site" data-ns="race">Racing</a><a href="#site" data-ns="bid">Get a bid</a></nav><a class="ns-call" href="tel:${C.tel}">${esc(C.phone)}</a></div>
+      <div class="ns-hero" style="background-image:url(img/work/hero.jpg?v=1793926751)"><div>
         <div style="font-weight:800;letter-spacing:.2em;font-size:13px;color:#ff8a66;margin-bottom:12px">GENERAL CONTRACTORS · SAN LEANDRO · SINCE 1991</div>
         <h1 class="disp">Built right.<br>Repaired right.<br>For 35 years.</h1>
         <p>Balcony repairs, seismic retrofits, dry rot, decks, ADUs and tenant improvements across the East Bay. Family owned. Same address since 1991.</p>
@@ -76,13 +76,13 @@
         <div id="ns-landed"></div>
       </div>
 
-      <div class="ns-sec" id="ns-race"><div class="ns-race"><img src="img/work/img2160.jpg?v=1793926645" alt="The #28 Apex sprint car, feature winner at Ocean Speedway in Watsonville, 2024">
+      <div class="ns-sec" id="ns-race"><div class="ns-race"><img src="img/work/img2160.jpg?v=1793926751" alt="The #28 Apex sprint car, feature winner at Ocean Speedway in Watsonville, 2024">
         <div><div class="flagbar check"></div><div class="ns-k" style="margin-top:14px">SUOJA Motorsports</div><h2>Built like the car.</h2>
         <p style="font-size:17px;opacity:.85">${esc((AX.race && AX.race.blurb) || "We combine our passion for racing with our dedication to quality construction. With attention to detail, every project meets the highest standards, just like the cars we put on the track.")}</p>
         <p style="font-size:15px;opacity:.7">The #28 Apex 360 sprint car · 2024 feature winner at Ocean Speedway, Watsonville</p>
         <a class="ns-btn" href="#site" data-ns="race">See you at the track</a></div></div></div>
 
-      <div class="ns-foot"><div><img src="img/logo-white.png?v=1793926645" alt="" style="height:70px;margin-bottom:12px"><div>${esc(C.name)}<br>CSLB Lic. #${C.lic} · Bonded and insured</div></div>
+      <div class="ns-foot"><div><img src="img/logo-white.png?v=1793926751" alt="" style="height:70px;margin-bottom:12px"><div>${esc(C.name)}<br>CSLB Lic. #${C.lic} · Bonded and insured</div></div>
         <div><b>Visit</b>${esc(C.addr)}<br>${esc(C.city)}<br>Mon to Fri, 7 a.m. to 4 p.m.</div>
         <div><b>Call</b><a href="tel:${C.tel}">${esc(C.phone)}</a><b style="margin-top:12px">Find us on</b><a>Google</a><a>Yelp</a><a>Nextdoor</a></div>
         <div><b>For property managers</b><a>Vendor packet and insurance</a><a>Balcony inspection repairs</a><a>Request a bid</a></div></div>

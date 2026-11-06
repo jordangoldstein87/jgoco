@@ -76,9 +76,6 @@ textarea { min-height: 96px; resize: vertical }
         <div class="chips" id="sw"></div>
         <input name="swother" placeholder="Anything else?">
       </section>
-      <section class="q"><h2>Payroll and hours</h2><p class="hint">How do your hours get recorded and paid? Who runs payroll (ADP, Paychex, Gusto, QuickBooks, a bookkeeper)? Any certified payroll for public jobs?</p>
-        <textarea name="payroll" placeholder="I text my hours to the office on Friday. Payroll is through ..."></textarea>
-      </section>
       <section class="q"><h2>Vendors you deal with</h2><p class="hint">Who you order from, call or pay: distributors, suppliers, cleaners, repair people.</p>
         <textarea name="services" placeholder="Home Depot Pro, the lumber yard, Ferguson, Sunbelt Rentals, framing and waterproofing subs, the engineer"></textarea>
       </section>
@@ -90,7 +87,7 @@ textarea { min-height: 96px; resize: vertical }
         <div class="total"><span>Total</span><b id="tot">0 hours</b></div>
       </section>
       <section class="q"><h2>What do you wish you could automate?</h2><p class="hint">The repetitive stuff you wish ran itself. Anything at all, big or small.</p>
-        <textarea name="eats" placeholder="Chasing receipts, retyping hours for payroll, finding the latest plan set, answering the same questions about schedules"></textarea>
+        <textarea name="eats" placeholder="Chasing receipts, typing the same numbers twice, finding the latest plan set, answering the same questions about schedules"></textarea>
       </section>
       <button class="send" type="submit">Send my answers</button>
       <p class="done" id="done" hidden>Your email opens with your answers ready. Press send there. Thank you!</p>
@@ -99,7 +96,7 @@ textarea { min-height: 96px; resize: vertical }
   <p class="thanks">Your answers go to Jordan, who is helping build the Field Office for Apex Construction.</p>
 </main>
 <script>
-window.CLIENT = {"id":"apex","brand":"Apex Construction","org":"Apex Construction General Contractors Inc.","orgShort":"Apex","hub":"Field Office","hubShort":"FO","month":"November","contact":{"name":"Jordan","email":"jordan@jgoco.me"},"publish":{"base":"https://jgoco.me/apex/","repo":"jgoco site/apex"},"logo":{"top":"APEX","word":"Construction","bottom":"SINCE 1991","aria":"Apex Construction, since 1991"},"survey":{"scope":"the office, the field and every job","dept":"Field crew, the office, estimating","role":"Lead carpenter, project manager, office manager","duties":"Run the crew on a job, order materials, track hours, send progress invoices, keep sub insurance current","vendors":"Home Depot Pro, the lumber yard, Ferguson, Sunbelt Rentals, framing and waterproofing subs, the engineer","eats":"Chasing receipts, retyping hours for payroll, finding the latest plan set, answering the same questions about schedules","software":["QuickBooks","ADP","Paychex","Gusto","QuickBooks Payroll","Excel","Google Sheets","Outlook","Gmail","Buildertrend","JobTread","Procore","Bluebeam","PlanSwift","Dropbox","Google Drive","Text messages","Paper"],"ideas":["Estimating","Bids","Scheduling the crew","Receipts","Payroll hours","Invoicing","Change orders","Lien waivers","Permits and inspections","Sub insurance","Finding plans","Photos","Emails","Phone calls"]}};
+window.CLIENT = {"id":"apex","brand":"Apex Construction","org":"Apex Construction General Contractors Inc.","orgShort":"Apex","hub":"Field Office","hubShort":"FO","month":"November","contact":{"name":"Jordan","email":"jordan@jgoco.me"},"publish":{"base":"https://jgoco.me/apex/","repo":"jgoco site/apex"},"logo":{"top":"APEX","word":"Construction","bottom":"SINCE 1991","aria":"Apex Construction, since 1991"},"survey":{"scope":"the office, the field and every job","dept":"Field crew, the office, estimating","role":"Lead carpenter, project manager, office manager","duties":"Run the crew on a job, order materials, track hours, send progress invoices, keep sub insurance current","vendors":"Home Depot Pro, the lumber yard, Ferguson, Sunbelt Rentals, framing and waterproofing subs, the engineer","eats":"Chasing receipts, typing the same numbers twice, finding the latest plan set, answering the same questions about schedules","software":["QuickBooks","Excel","Google Sheets","Outlook","Gmail","Buildertrend","JobTread","Procore","Bluebeam","PlanSwift","Dropbox","Google Drive","Text messages","Paper"],"ideas":["Estimating","Bids","Scheduling the crew","Receipts","Invoicing","Change orders","Lien waivers","Permits and inspections","Sub insurance","Finding plans","Photos","Emails","Phone calls"]}};
 (() => {
   const C = window.CLIENT;
   const f = document.getElementById("sv"), q = new URLSearchParams(location.search);
@@ -140,7 +137,6 @@ window.CLIENT = {"id":"apex","brand":"Apex Construction","org":"Apex Constructio
       `Name: ${f.person.value.trim()}`, `Department: ${f.dept.value.trim()}`, `Role: ${f.role.value.trim()}`, "",
       "Main job duties:", f.duties.value.trim(), "",
       `Software: ${tools.join(", ") || "(none)"}`, "",
-      "Payroll and hours:", f.payroll.value.trim(), "",
       "Vendors:", f.services.value.trim(), "",
       `How the day is spent (${tot.textContent}):`, ...tasks, "",
       "What I wish I could automate:", f.eats.value.trim(),
