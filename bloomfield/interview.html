@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="robots" content="noindex, nofollow"><meta property="og:type" content="website"><meta property="og:url" content="https://jgoco.me/bloomfield/interview.html"><meta property="og:title" content="Town Center: talk with Harlan"><meta property="og:description" content="A short voice interview about how Olde Bloomfield runs."><meta property="og:image" content="https://jgoco.me/bloomfield/img/og-tc.jpg?v=2"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://jgoco.me/bloomfield/img/og-tc.jpg?v=2">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Talk with Harlan</title>
+<meta name="description" content="A short voice interview about how Olde Bloomfield runs, for Town Center.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500;600&family=Libre+Franklin:wght@400;500;600;700&display=swap">
+<style>
+/* The voice interview: Harlan, Town Center's interviewer, asks the owners how Olde Bloomfield runs.
+   The call runs through Jordan's onboarding script (jgoco tools/onboarding-sheet.gs), which keeps the
+   ElevenLabs key; this page only holds the link token and shows the person their own short summary. */
+:root {
+  --paper: #f4efe6; --card: #fbf8f2; --ink: #221e1a; --ink-2: #5d554b; --line: #d9d0bf;
+  --hub: #1f2a24; --hub-ink: #eef0e8; --gold: #b08a3e; --brick: #7b3b2c; --bourbon: #9c5a26;
+  --display: "Cormorant Garamond", Georgia, serif; --sc: "Cormorant SC", Georgia, serif;
+  --body: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #181613; --card: #24211d; --ink: #ece6da; --ink-2: #b4ab9b; --line: #3a352f; --bourbon: #d39556; color-scheme: dark } }
+:root[data-theme="dark"] { --paper: #181613; --card: #24211d; --ink: #ece6da; --ink-2: #b4ab9b; --line: #3a352f; --bourbon: #d39556; color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.55 var(--body); -webkit-font-smoothing: antialiased }
+h1, h2 { font-family: var(--display); font-weight: 500; line-height: 1.08; margin: 0; text-wrap: balance }
+p { margin: 0 }
+.top { background: var(--hub); color: var(--hub-ink); padding: calc(26px + env(safe-area-inset-top, 0px)) 20px 34px; text-align: center; display: grid; justify-items: center; gap: 10px }
+.top > svg { width: min(250px, 66vw); height: auto }
+.top .tc { font: 600 15px var(--sc); letter-spacing: .26em; text-transform: lowercase; color: #e7c27a; display: flex; align-items: center; gap: 12px }
+.top .tc::before, .top .tc::after { content: ""; width: 28px; height: 1px; background: #e7c27a; opacity: .6 }
+main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid; gap: 26px }
+.intro { display: grid; gap: 10px; text-align: center }
+.intro h1 { font-size: clamp(38px, 7vw, 56px) }
+.intro h1 em { color: var(--bourbon) }
+.intro p { color: var(--ink-2); font-size: 18px }
+.talk { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 34px 24px; display: grid; justify-items: center; gap: 14px; text-align: center }
+.face { width: 132px; height: 132px; border-radius: 50%; background: var(--brick); display: grid; place-items: center; position: relative }
+.face svg { width: 58%; height: 58% }
+.face::before, .face::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #e7c27a; opacity: 0 }
+.face.speaking::before { animation: ring 1.6s ease-out infinite } .face.speaking::after { animation: ring 1.6s ease-out .8s infinite }
+.face.speaking svg { animation: bloom 1.6s ease-in-out infinite }
+@keyframes ring { from { transform: scale(1); opacity: .7 } to { transform: scale(1.45); opacity: 0 } }
+@keyframes bloom { 50% { transform: scale(1.06) rotate(8deg) } }
+.talk h2 { font-size: 32px }
+.talk > p { color: var(--ink-2); max-width: 40ch }
+.go, .stop { border: 0; border-radius: 12px; font: 600 17px var(--body); padding: 15px 30px; cursor: pointer }
+.go { background: var(--hub); color: #fff } .go:disabled { opacity: .5; cursor: default }
+.stop { background: none; border: 1px solid var(--line); color: var(--ink) }
+.summary { text-align: left; margin: 6px 0 0; padding-left: 20px; display: grid; gap: 6px; max-width: 46ch }
+.topics { list-style: none; margin: 0; padding: 0; display: grid; gap: 0 }
+.topics li { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line) }
+.topics b { font: 500 22px/1.2 var(--display); color: var(--bourbon) }
+.private { text-align: center; color: var(--ink-2); font-size: 14.5px }
+@media (prefers-reduced-motion: reduce) { .face.speaking::before, .face.speaking::after, .face.speaking svg { animation: none } }
+</style>
+</head>
+<body>
+<header class="top">
+  <svg viewBox="0 0 360 160" role="img" aria-label="Stay in Bloomfield, Kentucky"><text x="180" y="26" text-anchor="middle" font-family="Cormorant SC, Georgia, serif" font-weight="600" font-size="15" letter-spacing="7" fill="#e7c27a">STAY IN</text><text x="180" y="94" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-style="italic" font-weight="500" font-size="74" fill="#f4efe6">Bloomfield</text><line x1="72" y1="145" x2="114" y2="145" stroke="#e7c27a" stroke-width="1"/><line x1="246" y1="145" x2="288" y2="145" stroke="#e7c27a" stroke-width="1"/><text x="180" y="149.5" text-anchor="middle" font-family="Cormorant SC, Georgia, serif" font-size="14" letter-spacing="5" fill="#e7c27a">KENTUCKY</text></svg>
+  <span class="tc">Town Center</span>
+</header>
+<main>
+  <section class="intro">
+    <h1 id="hi">Tell us how <em>Bloomfield</em> runs.</h1>
+    <p>About 15 minutes, out loud, instead of a form. <span class="host">Harlan</span> asks one question at a time, so Town Center fits how your team really works.</p>
+  </section>
+
+  <section class="talk">
+    <div class="face" id="face"><svg viewBox="0 0 68 68" aria-hidden="true"><g fill="none" stroke="#f4efe6" stroke-width="2.6"><ellipse cx="34" cy="20" rx="9" ry="17" transform="rotate(0 34 36)"/><ellipse cx="34" cy="20" rx="9" ry="17" transform="rotate(72 34 36)"/><ellipse cx="34" cy="20" rx="9" ry="17" transform="rotate(144 34 36)"/><ellipse cx="34" cy="20" rx="9" ry="17" transform="rotate(216 34 36)"/><ellipse cx="34" cy="20" rx="9" ry="17" transform="rotate(288 34 36)"/></g><circle cx="34" cy="36" r="6" fill="#e7c27a"/></svg></div>
+    <h2 id="title">Talk with Harlan</h2>
+    <p id="say">He asks one question at a time. Skip anything you're not sure about.</p>
+    <button class="go" id="go" type="button">Start the interview</button>
+    <button class="stop" id="stop" type="button" hidden>End the call</button>
+    <ul class="summary" id="summary" hidden></ul>
+  </section>
+
+  <ol class="topics">
+    <li><b>1</b>Who runs what, across the shops, the venues and the stays</li>
+    <li><b>2</b>The software, registers and vendors you use today</li>
+    <li><b>3</b>What eats your week, and what gets typed in twice</li>
+    <li><b>4</b>The numbers you wish you could see at a glance</li>
+  </ol>
+  <p class="private">Your answers are only used to learn how the business operates. Only Jordan reads them. You'll see a short summary at the end, and you can pick up where you left off from this same link.</p>
+</main>
+
+<script type="module">
+  // Same calls as jgoco.me/start.html: hello, start, summary. The link token picks the Bloomfield
+  // agent (its host's name comes back from hello, with its voice and questions); K is the owners' shared link.
+  const SCRIPT = "https://script.google.com/macros/s/AKfycbyR6DNkxGjEpLr56VBQMB_9HDKmVgr3YnFGhqguR9_KTmnniUDI3KuyMF65BJBMWxmG/exec";
+  const K = "489aec02adda41d09416dd061c6d973eae1ba1cc";
+  const k = new URLSearchParams(location.search).get("k") || K;
+  const $ = (id) => document.getElementById(id);
+  const go = $("go"), stop = $("stop"), face = $("face"), title = $("title"), say = $("say"), summary = $("summary");
+  let host = "Harlan", call = null, callId = null;
+
+  const ask = (action, extra = "") =>
+    fetch(`${SCRIPT}?action=${action}&k=${encodeURIComponent(k)}${extra}`).then((r) => r.json());
+  const show = (h, p) => { title.textContent = h; say.textContent = p; };
+  const waiting = () => { show(`${host} is almost ready`, "Jordan will let you know when the interview is open."); go.disabled = true; };
+
+  if (!/^[a-f0-9]{40}$/.test(k)) waiting();
+  else ask("hello").then((r) => {
+    if (!r.ok) return waiting();
+    host = String(r.host || host).replace(/[<>&"]/g, "");
+    title.textContent = `Talk with ${host}`; document.title = `Talk with ${host}`;
+    document.querySelectorAll(".host").forEach(e => e.textContent = host);
+    const first = String(r.name || "").trim().split(/\s+/)[0];
+    if (first) $("hi").innerHTML = `Hi ${first.replace(/[<>&"]/g, "")}. Tell us how <em>Bloomfield</em> runs.`;
+    if (r.returning) { go.textContent = "Pick up where we left off"; say.textContent = `${host} remembers what you covered last time.`; }
+  }).catch(() => {});
+
+  // Hotel Wi-Fi and phone hotspots often block the usual voice connection (WebRTC). As on the
+  // NexEros page: try it for 15 seconds, then carry on over a secure web connection on port 443,
+  // and remember that for the rest of this visit. A session that opens after we gave up on it
+  // is closed at once.
+  const SDK = "https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.27.0/+esm";
+  const NET = "This network is blocking the call. Try another Wi-Fi or your phone's data, then press Start again.";
+  const store = (v) => { try { sessionStorage.setItem("talk-ws", v); } catch {} };
+  let viaWs = (() => { try { return sessionStorage.getItem("talk-ws") === "1"; } catch { return false; } })();
+  let attempt = 0;
+  const handlers = (n) => ({
+    onConnect: ({ conversationId }) => { if (n === attempt) callId = conversationId || callId; },
+    onModeChange: ({ mode }) => {
+      if (n !== attempt) return;
+      face.classList.toggle("speaking", mode === "speaking");
+      say.textContent = mode === "speaking" ? `${host} is talking.` : `${host} is listening.`;
+    },
+    onDisconnect: (d) => { if (n === attempt) finished(d); },
+    onError: (message) => console.warn(message),
+  });
+  const within = (p, ms, n) => new Promise((ok, no) => {
+    const t = setTimeout(() => { if (n === attempt) attempt++; no(new Error("timeout")); }, ms);
+    p.then((c) => { clearTimeout(t); if (n === attempt) ok(c); else { c.endSession(); no(new Error("late")); } }, (e) => { clearTimeout(t); no(e); });
+  });
+  async function connect() {
+    const { Conversation } = await import(SDK);
+    if (!viaWs) {
+      const r = await ask("start").catch(() => ({ ok: false }));
+      if (!r.ok) return r;
+      callId = r.conversationId;
+      const n = ++attempt;
+      try {
+        return { ok: true, call: await within(Conversation.startSession({ conversationToken: r.conversationToken, connectionType: "webrtc", ...handlers(n) }), 15000, n) };
+      } catch (err) {
+        console.warn("The voice connection didn't open; trying the secure web connection.", err);
+        viaWs = true; store("1");
+        say.textContent = "This network blocks the usual voice connection. Switching to a secure web connection.";
+      }
+    }
+    const r = await ask("start", "&via=ws").catch(() => ({ ok: false }));
+    if (!r.ok) return r;
+    callId = null;
+    const n = ++attempt;
+    return { ok: true, call: await within(Conversation.startSession({ signedUrl: r.signedUrl, connectionType: "websocket", ...handlers(n) }), 20000, n) };
+  }
+
+  go.addEventListener("click", async () => {
+    go.disabled = true; done = false;
+    show("Connecting", "Allow the microphone when your browser asks.");
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true }).then((s) => s.getTracks().forEach((t) => t.stop()));
+    } catch {
+      go.disabled = false;
+      return show("We need your microphone", "Allow it in your browser, then press Start again.");
+    }
+    let r;
+    try { r = await connect(); } catch (err) { console.warn(err); r = { ok: false, why: "net" }; }
+    if (!r.ok) {
+      go.disabled = false;
+      if (["setup", "link", "eleven"].includes(r.why)) return waiting();
+      return show("We couldn't connect", r.why === "busy" ? "Too many tries for now. Try again in an hour." : NET);
+    }
+    call = r.call;
+    go.hidden = true;
+    stop.hidden = false; stop.disabled = false;
+    show(`You're talking with ${host}`, `${host} is talking.`);
+  });
+
+  stop.addEventListener("click", () => { stop.disabled = true; call && call.endSession(); });
+
+  let done = false;
+  async function finished(d) {
+    if (done) return;
+    done = true;
+    call = null;
+    face.classList.remove("speaking");
+    stop.hidden = true;
+    if (d && d.reason === "error") {
+      // Signal lost or the network dropped: keep what was said, and Start picks up where it left off.
+      if (callId) ask("summary", `&id=${encodeURIComponent(callId)}`).catch(() => {});
+      done = false;
+      go.hidden = false; go.disabled = false; go.textContent = "Pick up where we left off";
+      return show("The connection dropped", "Press Pick up where we left off to carry on.");
+    }
+    show("Thank you", "Writing up your summary. This takes about a minute.");
+    if (!callId) return show("Thank you", "Jordan has your answers and will be in touch.");
+    for (let i = 0; i < 24; i++) {
+      await new Promise((ok) => setTimeout(ok, 5000));
+      const r = await ask("summary", `&id=${encodeURIComponent(callId)}`).catch(() => ({}));
+      if (r.ok && r.ready && r.summary) {
+        show("Thank you", "Here's what we covered. Jordan will be in touch.");
+        const bullets = r.summary.split("\n").map((l) => l.replace(/^\s*[-•*]\s*/, "").trim()).filter(Boolean);
+        summary.replaceChildren(...bullets.map((b) => Object.assign(document.createElement("li"), { textContent: b })));
+        summary.hidden = false;
+        return;
+      }
+    }
+    show("Thank you", "Jordan has your answers and will send your summary.");
+  }
+</script>
+</body>
+</html>

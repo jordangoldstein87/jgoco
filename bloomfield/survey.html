@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="robots" content="noindex, nofollow"><meta property="og:type" content="website"><meta property="og:url" content="https://jgoco.me/bloomfield/survey.html"><meta property="og:title" content="Town Center: a few quick questions"><meta property="og:description" content="Five minutes on how your day really goes."><meta property="og:image" content="https://jgoco.me/bloomfield/img/og-tc.jpg?v=2"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://jgoco.me/bloomfield/img/og-tc.jpg?v=2">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Town Center Survey</title>
+<meta name="description" content="A few quick questions about your day, for Stay in Bloomfield's new Town Center.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500;600&family=Libre+Franklin:wght@400;500;600;700&display=swap">
+<style>
+/* The team survey: one short form anyone at Olde Bloomfield can fill out from a link.
+   No pitch and no numbers here, just the Town Center header and the questions; answers go to Jordan by email. */
+:root {
+  --paper: #f4efe6; --card: #fbf8f2; --ink: #221e1a; --ink-2: #5d554b; --line: #d9d0bf;
+  --hub: #1f2a24; --hub-2: #2b3a31; --hub-ink: #eef0e8; --hub-soft: #a9c6a6; --gold: #b08a3e; --bourbon: #9c5a26; --green: #3f6b4a;
+  --display: "Cormorant Garamond", Georgia, serif; --sc: "Cormorant SC", Georgia, serif;
+  --body: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #181613; --card: #24211d; --ink: #ece6da; --ink-2: #b4ab9b; --line: #3a352f; --bourbon: #d39556; --green: #8fbf98; color-scheme: dark } }
+:root[data-theme="dark"] { --paper: #181613; --card: #24211d; --ink: #ece6da; --ink-2: #b4ab9b; --line: #3a352f; --bourbon: #d39556; --green: #8fbf98; color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.55 var(--body); -webkit-font-smoothing: antialiased }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.08; margin: 0; text-wrap: balance }
+p { margin: 0 }
+.top { background: var(--hub); color: var(--hub-ink); padding: calc(26px + env(safe-area-inset-top, 0px)) 20px 34px; text-align: center; display: grid; justify-items: center; gap: 10px }
+.top svg { width: min(250px, 66vw); height: auto }
+.top .tc { font: 600 15px var(--sc); letter-spacing: .26em; text-transform: lowercase; color: #e7c27a; display: flex; align-items: center; gap: 12px }
+.top .tc::before, .top .tc::after { content: ""; width: 28px; height: 1px; background: #e7c27a; opacity: .6 }
+main { max-width: 720px; margin: 0 auto; padding: 34px 20px 70px; display: grid; gap: 22px }
+.intro { display: grid; gap: 10px }
+.intro h1 { font-size: clamp(36px, 6vw, 50px) }
+.intro p { color: var(--ink-2); font-size: 18px }
+.q { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; display: grid; gap: 12px }
+.q h2 { font-size: 27px }
+.q .hint { color: var(--ink-2); font-size: 15px; margin-top: -6px }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+label.f { display: grid; gap: 6px; font: 600 12.5px var(--sc); letter-spacing: .14em; text-transform: lowercase; color: var(--ink-2) }
+input, textarea, select { font: 400 16px/1.45 var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; width: 100%; outline: none }
+input:focus, textarea:focus { border-color: var(--gold) }
+textarea { min-height: 96px; resize: vertical }
+.chips { display: flex; flex-wrap: wrap; gap: 8px }
+.chips button { border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 20px; padding: 8px 14px; font: 500 14.5px var(--body); cursor: pointer }
+.chips button[aria-pressed="true"] { background: var(--hub); border-color: var(--hub); color: #fff }
+.day { display: grid; gap: 8px }
+.dr { display: grid; grid-template-columns: 1fr 92px 38px; gap: 8px; align-items: center }
+.dr input[type="number"] { text-align: right }
+.dr button { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: none; color: var(--ink-2); font-size: 20px; line-height: 1; cursor: pointer }
+.day-head { display: grid; grid-template-columns: 1fr 92px 38px; gap: 8px; font: 600 12px var(--sc); letter-spacing: .12em; text-transform: lowercase; color: var(--ink-2) }
+.day-head span:nth-child(2) { text-align: right }
+.add { justify-self: start; border: 1px dashed var(--line); background: none; color: var(--ink); border-radius: 10px; padding: 9px 14px; font: 500 14.5px var(--body); cursor: pointer }
+.ideas { display: flex; flex-wrap: wrap; gap: 6px; font-size: 13.5px; color: var(--ink-2) }
+.ideas button { border: 0; background: none; color: var(--bourbon); font: 500 13.5px var(--body); padding: 2px 4px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px }
+.total { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 10px; font-size: 15px; color: var(--ink-2) }
+.total b { color: var(--ink); font-variant-numeric: tabular-nums }
+.send { justify-self: start; border: 0; border-radius: 12px; background: var(--hub); color: #fff; font: 600 17px var(--body); padding: 15px 26px; cursor: pointer }
+.done { color: var(--green); font-size: 16px }
+.thanks { text-align: center; color: var(--ink-2); font-size: 15px }
+@media (max-width: 560px) { .row2 { grid-template-columns: 1fr } .q { padding: 18px } .dr, .day-head { grid-template-columns: 1fr 76px 38px } }
+</style>
+</head>
+<body>
+<header class="top">
+  <svg viewBox="0 0 360 160" role="img" aria-label="Stay in Bloomfield, Kentucky"><text x="180" y="26" text-anchor="middle" font-family="Cormorant SC, Georgia, serif" font-weight="600" font-size="15" letter-spacing="7" fill="#e7c27a">STAY IN</text><text x="180" y="94" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-style="italic" font-weight="500" font-size="74" fill="#f4efe6">Bloomfield</text><line x1="72" y1="145" x2="114" y2="145" stroke="#e7c27a" stroke-width="1"/><line x1="246" y1="145" x2="288" y2="145" stroke="#e7c27a" stroke-width="1"/><text x="180" y="149.5" text-anchor="middle" font-family="Cormorant SC, Georgia, serif" font-size="14" letter-spacing="5" fill="#e7c27a">KENTUCKY</text></svg>
+  <span class="tc">Town Center</span>
+</header>
+<main>
+  <div class="intro"><h1 id="hello">A few quick questions about your day.</h1><p>We're exploring building a Town Center operations hub: one place to run every business in town. Tell us how your day really goes, so it saves you time where it counts. It takes about five minutes.</p></div>
+  <form id="sv" novalidate>
+    <div style="display:grid;gap:18px">
+      <section class="q"><h2>About you</h2>
+        <div class="row2"><label class="f">Your name<input name="person" autocomplete="name"></label><label class="f">Department<input name="dept" placeholder="Ernie's, the homes, the office"></label></div>
+        <label class="f">Your role or title<input name="role" placeholder="Bar manager, bookkeeper, house manager"></label>
+      </section>
+      <section class="q"><h2>Your main job duties</h2><p class="hint">The things you're really responsible for, in your own words.</p>
+        <textarea name="duties" placeholder="Schedule the bar staff, order liquor, close out the register, answer party inquiries"></textarea>
+      </section>
+      <section class="q"><h2>Software you use</h2><p class="hint">Tap everything you use at work, and add anything missing.</p>
+        <div class="chips" id="sw"></div>
+        <input name="swother" placeholder="Anything else?">
+      </section>
+      <section class="q"><h2>Vendors you deal with</h2><p class="hint">Who you order from, call or pay: distributors, suppliers, cleaners, repair people.</p>
+        <textarea name="services" placeholder="The beer and liquor distributors, the ice cream supplier, cleaners for the homes, the plumber"></textarea>
+      </section>
+      <section class="q"><h2>How your day is spent</h2><p class="hint">Rough hours on a typical day. Close is good enough.</p>
+        <div class="day-head"><span>Task</span><span>Hours a day</span><span></span></div>
+        <div class="day" id="day"></div>
+        <button type="button" class="add" id="addrow">+ Add a task</button>
+        <div class="ideas" id="ideas"><span>Ideas:</span></div>
+        <div class="total"><span>Total</span><b id="tot">0 hours</b></div>
+      </section>
+      <section class="q"><h2>What eats your time?</h2><p class="hint">The repetitive stuff you wish ran itself.</p>
+        <textarea name="eats" placeholder="Typing the same answers to booking questions, copying sales into a spreadsheet"></textarea>
+      </section>
+      <button class="send" type="submit">Send my answers</button>
+      <p class="done" id="done" hidden>Your email opens with your answers ready. Press send there. Thank you!</p>
+    </div>
+  </form>
+  <p class="thanks">Your answers go to Jordan, who is helping explore a Town Center operations hub for Stay in Bloomfield.</p>
+</main>
+<script>
+(() => {
+  const f = document.getElementById("sv"), q = new URLSearchParams(location.search);
+  // a link from the owner fills in the name and department
+  if (q.get("n")) { f.person.value = q.get("n"); document.getElementById("hello").textContent = `Hi ${q.get("n").split(" ")[0]}, a few quick questions about your day.`; }
+  if (q.get("d")) f.dept.value = q.get("d");
+  const SW = ["Squarespace", "QuickBooks", "Square", "Toast", "Clover", "Airbnb", "VRBO", "Excel", "Google Sheets", "Gmail", "Outlook", "Facebook", "Instagram", "Mailchimp", "Gusto", "ADP", "Paychex", "eBay", "Canva"];
+  const sw = document.getElementById("sw");
+  sw.innerHTML = SW.map(s => `<button type="button" aria-pressed="false">${s}</button>`).join("");
+  sw.addEventListener("click", e => { const b = e.target.closest("button"); if (b) b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true")); });
+  // the day, task by task
+  const day = document.getElementById("day"), tot = document.getElementById("tot");
+  const sum = () => { const h = [...day.querySelectorAll("input[type=number]")].reduce((a, i) => a + (+i.value || 0), 0); tot.textContent = `${+h.toFixed(2)} hours`; };
+  const row = (t = "", h = "") => {
+    const r = document.createElement("div"); r.className = "dr";
+    r.innerHTML = `<input placeholder="What you do" aria-label="Task"><input type="number" min="0" max="24" step=".25" inputmode="decimal" aria-label="Hours a day"><button type="button" aria-label="Remove">×</button>`;
+    r.children[0].value = t; r.children[1].value = h;
+    r.querySelector("button").onclick = () => { r.remove(); sum(); };
+    day.appendChild(r); return r;
+  };
+  day.addEventListener("input", sum);
+  ["", "", ""].forEach(() => row());
+  document.getElementById("addrow").onclick = () => row().children[0].focus();
+  const IDEAS = ["Answering emails", "Phone calls", "Scheduling staff", "Bookings and inquiries", "Data entry", "Reports", "Ordering and inventory", "Social media", "Guest messages", "Cleaning and turnovers"];
+  const ideas = document.getElementById("ideas");
+  ideas.insertAdjacentHTML("beforeend", IDEAS.map(i => `<button type="button">${i}</button>`).join(""));
+  ideas.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    const empty = [...day.children].find(r => !r.children[0].value);
+    (empty || row()).children[0].value = b.textContent; b.remove();
+  });
+  // answers go to Jordan as an email the person sends from their own app
+  f.addEventListener("submit", e => {
+    e.preventDefault();
+    const tools = [...sw.querySelectorAll('[aria-pressed="true"]')].map(b => b.textContent).concat(f.swother.value.trim() ? [f.swother.value.trim()] : []);
+    const tasks = [...day.children].map(r => [r.children[0].value.trim(), r.children[1].value]).filter(([t, h]) => t || h).map(([t, h]) => `  ${t || "(task)"}: ${h || "?"} hr`);
+    const body = [
+      `Name: ${f.person.value.trim()}`, `Department: ${f.dept.value.trim()}`, `Role: ${f.role.value.trim()}`, "",
+      "Main job duties:", f.duties.value.trim(), "",
+      `Software: ${tools.join(", ") || "(none)"}`, "",
+      "Vendors:", f.services.value.trim(), "",
+      `How the day is spent (${tot.textContent}):`, ...tasks, "",
+      "What eats my time:", f.eats.value.trim(),
+    ].join("\n");
+    const who = f.person.value.trim() || "a team member";
+    location.href = `mailto:jordan@jgoco.me?subject=${encodeURIComponent(`Town Center survey: ${who}`)}&body=${encodeURIComponent(body)}`;
+    document.getElementById("done").hidden = false;
+  });
+})();
+</script>
+</body>
+</html>

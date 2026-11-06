@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="robots" content="noindex, nofollow"><meta property="og:type" content="website"><meta property="og:url" content="https://jgoco.me/bloomfield/town-center.html"><meta property="og:title" content="Town Center"><meta property="og:description" content="A new operations hub for Stay in Bloomfield, Kentucky."><meta property="og:image" content="https://jgoco.me/bloomfield/img/og-tc.jpg?v=2"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Stay in Bloomfield, Kentucky. Town Center. A new operations hub."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://jgoco.me/bloomfield/img/og-tc.jpg?v=2">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Town Center</title>
+<meta name="description" content="Town Center: every Olde Bloomfield business connected in one place, with the numbers going wherever you need them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500;600&family=Libre+Franklin:wght@400;500;600;700&display=swap">
+<style>
+/* The Town Center pitch for Olde Bloomfield Operations' management team: one long scroll.
+   Light paper like the town site; Town Center's own deep green carries the system pieces. */
+:root {
+  --paper: #f4efe6; --paper-2: #ebe4d6; --card: #fbf8f2; --ink: #221e1a; --ink-2: #5d554b; --line: #d9d0bf;
+  --hub: #1f2a24; --hub-2: #2b3a31; --hub-ink: #eef0e8; --hub-soft: #a9c6a6; --gold: #b08a3e; --brick: #7b3b2c; --bourbon: #9c5a26;
+  --display: "Cormorant Garamond", Georgia, serif; --sc: "Cormorant SC", Georgia, serif;
+  --body: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #181613; --paper-2: #211e1a; --card: #24211d; --ink: #ece6da; --ink-2: #b4ab9b; --line: #3a352f; --gold: #d2ae63; --brick: #d0806c; --bourbon: #d39556; color-scheme: dark } }
+:root[data-theme="dark"] { --paper: #181613; --paper-2: #211e1a; --card: #24211d; --ink: #ece6da; --ink-2: #b4ab9b; --line: #3a352f; --gold: #d2ae63; --brick: #d0806c; --bourbon: #d39556; color-scheme: dark }
+
+* { box-sizing: border-box }
+html { scroll-behavior: smooth; overflow-x: clip } body { overflow-x: clip } @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.05; margin: 0; text-wrap: balance }
+p { margin: 0 }
+img { display: block; max-width: 100% }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)) }
+.eyebrow { font: 600 16px var(--sc); letter-spacing: .18em; text-transform: lowercase; color: var(--bourbon) }
+.sect { padding: clamp(80px, 12vh, 140px) 0 }
+.head { display: grid; gap: 14px; max-width: 760px; margin-bottom: clamp(36px, 6vh, 60px) }
+.head h2 { font-size: clamp(40px, 5.6vw, 72px) }
+.head p { font-size: clamp(18px, 1.6vw, 21px); color: var(--ink-2); max-width: 46ch }
+.rise { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease }
+.rise.in { opacity: 1; transform: none }
+@media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none } * { animation: none !important } }
+
+/* each logo in its own brand color, from its shape */
+.lg { position: relative; display: inline-block }
+.lg img { height: var(--h, 26px); width: auto; visibility: hidden }
+.lg::after { content: ""; position: absolute; inset: 0; background: var(--c); -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat }
+.lg.raw img { visibility: visible } .lg.raw::after { display: none }
+
+/* hero */
+.hero { position: relative; min-height: 100svh; display: grid; align-items: end; color: #fff6ea; overflow: hidden }
+.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: drift 24s ease-out both }
+@keyframes drift { from { transform: scale(1.08) } to { transform: scale(1) } }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,12,6,.35), rgba(20,12,6,.15) 35%, rgba(20,12,6,.82)) }
+.hero .wrap { position: relative; z-index: 1; padding-bottom: clamp(56px, 10vh, 110px); display: grid; gap: 20px }
+.hero .eyebrow { color: #e7c27a }
+.hero h1 { font-size: clamp(50px, 7vw, 104px); max-width: 13ch }
+.hero p { font-size: clamp(19px, 1.8vw, 24px); max-width: 34ch; color: #f3e6d2 }
+.topbar { position: absolute; z-index: 2; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: calc(20px + env(safe-area-inset-top, 0px)) max(20px, 4vw) 40px; background: linear-gradient(180deg, rgba(20,12,6,.7), rgba(20,12,6,.35) 60%, transparent) }
+.topbar svg { width: clamp(180px, 17vw, 250px); height: auto; filter: drop-shadow(0 2px 10px rgba(0,0,0,.35)) }
+.topbar span { font: 600 14px var(--sc); letter-spacing: .2em; text-transform: lowercase; color: #e7c27a; text-shadow: 0 1px 8px rgba(0,0,0,.5) }
+@media (max-width: 560px) { .topbar span { display: none } }
+.tc-mark { display: inline-flex; align-items: center; gap: 12px; font: 600 15px var(--sc); letter-spacing: .2em; text-transform: lowercase; color: #fff6ea }
+.tc-mark i { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e7c27a; display: grid; place-items: center }
+.tc-mark i::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: #e7c27a }
+.down { position: absolute; z-index: 1; right: max(20px, 4vw); bottom: clamp(56px, 10vh, 110px); width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(231,194,122,.6); display: grid; place-items: center }
+.down svg { width: 22px; stroke: #fff6ea; fill: none; stroke-width: 1.6; animation: bob 2.2s ease-in-out infinite }
+@keyframes bob { 50% { transform: translateY(5px) } }
+
+/* the flow: in, Town Center, out */
+.flow { display: grid; grid-template-columns: 1fr 64px minmax(300px, 1.15fr) 64px 1fr; align-items: center }
+.col { display: grid; gap: 10px }
+.col h3 { font: 600 15px var(--sc); letter-spacing: .18em; text-transform: lowercase; color: var(--ink-2); margin-bottom: 4px }
+.chip { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 15.5px; line-height: 1.3 }
+.chip b { font-weight: 600; display: block }
+.chip span { color: var(--ink-2); font-size: 13.5px }
+.chip svg { flex: none; width: 22px; height: 22px; stroke: var(--bourbon); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round }
+.col.sends .chip svg { stroke: #3f6b4a }
+.pipe { height: 100%; min-height: 200px; position: relative }
+.pipe::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: repeating-linear-gradient(90deg, var(--gold) 0 10px, transparent 10px 20px); background-size: 20px 2px; animation: flowx 1s linear infinite; opacity: .8 }
+@keyframes flowx { to { background-position: 20px 0 } }
+.pipe::after { content: ""; position: absolute; right: -2px; top: calc(50% - 5px); border: 6px solid transparent; border-left: 8px solid var(--gold); border-right: 0 }
+.hub { background: var(--hub); color: var(--hub-ink); border-radius: 22px; padding: 28px 24px 24px; display: grid; gap: 18px; box-shadow: 0 30px 70px rgba(31,42,36,.28); position: relative }
+.hub-top { text-align: center; display: grid; gap: 4px }
+.hub-top .k { font: 600 13px var(--sc); letter-spacing: .22em; text-transform: lowercase; color: var(--hub-soft) }
+.hub-top b { font: 500 40px/1 var(--display) }
+.hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px }
+.hub-grid .t { background: #f6f1e7; border-radius: 8px; height: 50px; display: grid; place-items: center; padding: 6px 10px }
+.hub-grid .t .lg img { --h: 22px; max-width: 100% }
+.hub-homes { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; font-size: 13.5px; color: var(--hub-soft); border-top: 1px solid #3e4d43; padding-top: 14px }
+.hub-homes span { display: flex; gap: 7px; align-items: center }
+.hub-homes svg { width: 14px; stroke: var(--hub-soft); fill: none; stroke-width: 2 }
+
+/* one view: the numbers */
+.dash { background: var(--hub); color: var(--hub-ink); border-radius: 22px; padding: clamp(20px, 3vw, 34px); display: grid; gap: 22px; box-shadow: 0 30px 80px rgba(31,42,36,.25) }
+.dash-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap }
+.dash-top b { font: 500 30px var(--display) }
+.dash-top span { font-size: 13px; color: var(--hub-soft); border: 1px solid #3e4d43; border-radius: 20px; padding: 5px 12px }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px }
+.kpi { background: var(--hub-2); border-radius: 14px; padding: 18px; display: grid; gap: 6px }
+.kpi .k { font-size: 13px; color: var(--hub-soft) }
+.kpi b { font: 500 clamp(34px, 3.6vw, 48px)/1 var(--display) }
+.kpi .d { font-size: 13px; color: #cfe3c8 }
+.ring { --p: 73; width: 64px; height: 64px; border-radius: 50%; background: conic-gradient(#e7c27a calc(var(--p) * 1%), #3e4d43 0); display: grid; place-items: center; justify-self: end; margin-top: -48px }
+.ring::after { content: ""; width: 48px; height: 48px; border-radius: 50%; background: var(--hub-2) }
+.dash-rows { display: grid; grid-template-columns: 1.3fr 1fr; gap: 12px }
+.panel { background: var(--hub-2); border-radius: 14px; padding: 18px 20px; display: grid; gap: 12px; align-content: start }
+.panel h4 { margin: 0; font: 600 14px var(--sc); letter-spacing: .16em; text-transform: lowercase; color: var(--hub-soft) }
+.bar { display: grid; grid-template-columns: 120px 1fr 74px; gap: 12px; align-items: center; font-size: 14px }
+.bar i { height: 10px; border-radius: 5px; background: #3e4d43; position: relative; overflow: hidden }
+.bar i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: calc(var(--w) * 1%); background: var(--c, #a9c6a6); border-radius: 5px; transform-origin: left; transform: scaleX(0); transition: transform 1.2s ease .2s }
+.in .bar i::after { transform: scaleX(1) }
+.bar em { font-style: normal; text-align: right; font-variant-numeric: tabular-nums }
+.wk { display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px }
+.wk span { aspect-ratio: 1; border-radius: 4px; background: #3e4d43 }
+.wk span.b { background: #e7c27a } .wk span.h { background: #8c7a4f }
+.wk-key { display: flex; gap: 14px; font-size: 12.5px; color: var(--hub-soft) }
+.wk-key i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px }
+.sample { font-size: 13px; color: var(--ink-2); margin-top: 14px }
+
+/* teams */
+.teams { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px }
+.team { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 28px 26px; display: grid; gap: 14px; align-content: start }
+.team .ic { width: 48px; height: 48px; border-radius: 50%; background: var(--hub); display: grid; place-items: center }
+.team .ic svg { width: 22px; stroke: #e7c27a; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round }
+.team h3 { font-size: 34px }
+.team ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px }
+.team li { display: flex; gap: 10px; font-size: 16px; line-height: 1.4 }
+.team li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); margin-top: 9px }
+.team .sees { font-size: 14px; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 12px }
+
+/* data out: examples */
+.outs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px }
+.out { background: var(--card); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: grid; grid-template-rows: auto 1fr }
+.out .vis { background: var(--paper); border-bottom: 1px solid var(--line); padding: 22px; min-height: 230px; display: grid; place-items: center }
+.out .txt { padding: 20px 22px 24px; display: grid; gap: 6px; align-content: start }
+.out h3 { font-size: 28px }
+.out p { color: var(--ink-2); font-size: 15.5px }
+.out.w3 { grid-column: span 3 } .out.w2 { grid-column: span 2 }
+/* mock: email */
+.mail { width: 100%; max-width: 420px; background: #fff; color: #221e1a; border-radius: 10px; box-shadow: 0 14px 34px rgba(0,0,0,.12); font-size: 13px; overflow: hidden }
+.mail .mh { padding: 12px 16px; border-bottom: 1px solid #eee5d6; display: grid; gap: 2px }
+.mail .mh b { font-size: 14px } .mail .mh span { color: #7a6f60; font-size: 12px }
+.mail .mb { padding: 14px 16px; display: grid; gap: 10px }
+.mail .big { font: 500 30px/1 var(--display) }
+.mail .row3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px }
+.mail .row3 div { background: #f6f1e7; border-radius: 6px; padding: 8px; display: grid; gap: 2px; font-size: 11.5px; color: #6b5f50 }
+.mail .row3 b { font: 600 15px var(--body); color: #221e1a }
+/* mock: ledger */
+.ledger { width: 100%; max-width: 420px; background: #fff; color: #221e1a; border-radius: 10px; box-shadow: 0 14px 34px rgba(0,0,0,.12); font-size: 12.5px; overflow: hidden }
+.ledger .lh { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #2ca01c; color: #fff; font-weight: 600 }
+.ledger .lh span { font-weight: 400; opacity: .9; font-size: 11.5px }
+.ledger table { width: 100%; border-collapse: collapse }
+.ledger td { padding: 8px 14px; border-top: 1px solid #eee5d6 } .ledger td:last-child { text-align: right; font-variant-numeric: tabular-nums }
+.ledger td .c { display: inline-block; font-size: 10.5px; background: #f1ece2; border-radius: 4px; padding: 1px 6px; margin-left: 6px; color: #6b5f50 }
+/* mock: text */
+.phone { width: 230px; background: #111; border-radius: 30px; padding: 12px; box-shadow: 0 14px 34px rgba(0,0,0,.2) }
+.phone .scr { background: #f2f2f6; border-radius: 20px; padding: 14px 10px 18px; display: grid; gap: 8px; font: 13px/1.35 -apple-system, system-ui, sans-serif; color: #111 }
+.phone .who { text-align: center; font-size: 11px; color: #666 }
+.bub { background: #e5e5ea; border-radius: 16px; padding: 8px 11px; max-width: 88% }
+.bub.me { background: #2f7d4f; color: #fff; justify-self: end }
+/* mock: feed */
+.feed { display: grid; grid-template-columns: auto 34px auto; align-items: center; gap: 8px; width: 100%; max-width: 440px }
+.feed .src { background: var(--hub); color: var(--hub-ink); border-radius: 12px; padding: 14px; font: 500 22px var(--display); text-align: center; line-height: 1 }
+.feed .src span { display: block; font: 11px var(--body); color: var(--hub-soft); margin-top: 4px }
+.feed .ln { height: 2px; background: repeating-linear-gradient(90deg, var(--gold) 0 6px, transparent 6px 12px); animation: flowx .8s linear infinite; background-size: 12px 2px }
+.feed .dst { display: grid; gap: 6px }
+.feed .dst span { background: #fff; color: #221e1a; border: 1px solid #e3dccd; border-radius: 8px; padding: 7px 12px; font-size: 13px; display: flex; align-items: center; gap: 8px; white-space: nowrap }
+.feed .dst i { width: 8px; height: 8px; border-radius: 50%; background: var(--c) }
+/* mock: one-pager */
+.sheet { width: 200px; aspect-ratio: 8.5 / 11; background: #fff; border-radius: 4px; box-shadow: 0 14px 34px rgba(0,0,0,.14); padding: 16px; display: grid; gap: 8px; align-content: start; color: #221e1a; transform: rotate(-2deg) }
+.sheet b { font: 500 18px var(--display) } .sheet .k { font: 600 8px var(--sc); letter-spacing: .2em; color: #9c5a26 }
+.sheet .bars { display: flex; align-items: end; gap: 5px; height: 60px; border-bottom: 1px solid #e7dfd0 }
+.sheet .bars i { flex: 1; background: #1f2a24; border-radius: 2px 2px 0 0 } .sheet .bars i:nth-child(even) { background: #b08a3e }
+.sheet .ln2 { height: 6px; background: #efe8db; border-radius: 3px } .sheet .ln2.s { width: 70% }
+
+/* things we can build */
+.builds { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px }
+.bld { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; display: grid; gap: 10px; align-content: start; transition: transform .25s, box-shadow .25s }
+.bld:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(0,0,0,.08) }
+.bld svg { width: 26px; height: 26px; stroke: var(--bourbon); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round }
+.bld h3 { font-size: 25px }
+.bld p { font-size: 15px; color: var(--ink-2); line-height: 1.45 }
+.bld .for { font: 600 12px var(--sc); letter-spacing: .14em; text-transform: lowercase; color: #3f6b4a }
+
+/* marketing + easy pages */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px }
+.pane { border-radius: 22px; padding: clamp(26px, 3.4vw, 44px); display: grid; gap: 18px; align-content: start }
+.pane.dark { background: var(--hub); color: var(--hub-ink) }
+.pane.light { background: var(--card); border: 1px solid var(--line) }
+.pane h2 { font-size: clamp(36px, 4vw, 52px) }
+.pane .eyebrow { color: #e7c27a } .pane.light .eyebrow { color: var(--bourbon) }
+.list4 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 22px }
+.list4 div { display: grid; gap: 3px }
+.list4 b { font: 500 23px var(--display) }
+.list4 span { font-size: 14.5px; opacity: .78; line-height: 1.45 }
+.editor { background: var(--paper-2); border-radius: 14px; padding: 14px; display: grid; gap: 10px; font-size: 14px }
+.editor .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px }
+.editor .row span { color: var(--ink-2); font-size: 13px }
+.editor .btn { background: var(--hub); color: #fff; border-radius: 6px; padding: 6px 12px; font-size: 13px; font-weight: 600 }
+.editor .typing::after { content: "|"; animation: blink 1s steps(1) infinite; margin-left: 1px; color: var(--bourbon) }
+@keyframes blink { 50% { opacity: 0 } }
+
+/* tailored */
+.tail { background: var(--hub); color: var(--hub-ink); text-align: center }
+.tail .wrap { display: grid; gap: 22px; justify-items: center }
+.tail h2 { font-size: clamp(48px, 7vw, 96px); max-width: 13ch }
+.tail p { font-size: clamp(19px, 1.7vw, 23px); color: #d7e2d3; max-width: 40ch }
+.tail .eyebrow { color: #e7c27a }
+.uses { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 820px; margin-top: 8px }
+.uses button { border: 1px solid #4b5c51; background: none; color: var(--hub-ink); border-radius: 30px; padding: 10px 18px; font: 500 15px var(--body); cursor: pointer; transition: background .2s, border-color .2s }
+.uses button[aria-pressed="true"] { background: #e7c27a; border-color: #e7c27a; color: #1f2a24 }
+.uses-k { font-size: 15px; color: var(--hub-soft) }
+/* who runs what: a short note to Jordan, opened in their own email app */
+.who-form { width: 100%; max-width: 720px; margin-top: 28px; background: var(--hub-2); border: 1px solid #3e4d43; border-radius: 20px; padding: clamp(22px, 3vw, 34px); display: grid; gap: 14px; text-align: left }
+.who-form h3 { font-size: clamp(28px, 3vw, 38px); color: var(--hub-ink) }
+.who-form > p { color: #cfdccb; font-size: 16px; max-width: none }
+.who-form .two-f { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+.who-form label { display: grid; gap: 6px; font: 600 12.5px var(--sc); letter-spacing: .14em; text-transform: lowercase; color: var(--hub-soft) }
+.who-form input, .who-form textarea { font: 400 16px/1.5 var(--body); color: var(--hub-ink); background: #1a231e; border: 1px solid #44554a; border-radius: 10px; padding: 11px 13px; width: 100%; outline: none }
+.who-form input:focus, .who-form textarea:focus { border-color: #e7c27a }
+.who-form textarea { min-height: 130px; resize: vertical }
+.who-form ::placeholder { color: #7f9286 }
+.who-form { position: relative }
+.who-form .send:disabled { opacity: .7; cursor: default }
+.who-form .send { justify-self: start; border: 0; border-radius: 10px; background: #e7c27a; color: #1f2a24; font: 600 16px var(--body); padding: 13px 22px; cursor: pointer }
+.who-form .sent { font-size: 14px; color: #cfe3c8 }
+.who-form .quote1 { font: 500 22px/1.25 var(--display); color: var(--hub-ink); max-width: none; border-top: 1px solid #3e4d43; padding-top: 14px }
+/* how it comes together: the timeline and what it costs */
+.howto { width: 100%; max-width: 1080px; margin-top: 34px; background: #f4efe6; color: #221e1a; border-radius: 22px; padding: clamp(26px, 3.6vw, 46px); display: grid; gap: 22px; text-align: left }
+.howto .eyebrow { color: #9c5a26 }
+.howto h3 { font-size: clamp(32px, 3.6vw, 46px) }
+.tl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; position: relative }
+.tl::before { content: ""; position: absolute; top: 19px; left: 20px; right: 20px; height: 2px; background: linear-gradient(90deg, #b08a3e, #4f7a52) }
+.tl li { position: relative; display: grid; gap: 6px; align-content: start }
+.tl i { width: 40px; height: 40px; border-radius: 50%; background: #1f2a24; color: #e7c27a; display: grid; place-items: center; font: 600 17px var(--body); font-style: normal; margin-bottom: 8px; position: relative; box-shadow: 0 0 0 5px #f4efe6 }
+.tl li.done i { background: #4f7a52; color: #fff }
+.tl .when { font: 600 13px var(--sc); letter-spacing: .14em; text-transform: lowercase; color: #9c5a26 }
+.tl b { font: 500 24px/1.15 var(--display) }
+.tl p { font-size: 15px; color: #5d554b; max-width: none; line-height: 1.5 }
+.costs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; border-top: 1px solid #d9d0bf; padding-top: 22px }
+.costs div { background: #fbf8f2; border: 1px solid #e3dccd; border-radius: 14px; padding: 16px 18px; display: grid; gap: 4px; align-content: start }
+.costs span { font: 600 13px var(--sc); letter-spacing: .14em; text-transform: lowercase; color: #3f6b4a }
+.costs p { font-size: 15px; color: #221e1a; max-width: none; line-height: 1.5 }
+.costs dl { margin: 0; display: grid; gap: 2px }
+.costs dt { font-weight: 600; font-size: 15px; color: #221e1a; margin-top: 6px } .costs dt:first-child { margin-top: 0 }
+.costs dd { margin: 0; font-size: 15px; color: #221e1a; line-height: 1.5 }
+@media (max-width: 860px) {
+  .tl { grid-template-columns: 1fr; gap: 20px } .tl::before { top: 20px; bottom: 90px; left: 19px; right: auto; width: 2px; height: auto; background: linear-gradient(180deg, #b08a3e, #4f7a52) }
+  .tl li { grid-template-columns: 40px 1fr; column-gap: 16px } .tl li i { grid-row: span 3; margin: 0 } .tl li > :not(i) { grid-column: 2 }
+  .costs { grid-template-columns: 1fr }
+}
+@media (max-width: 560px) { .who-form .two-f { grid-template-columns: 1fr } }
+.foot { background: #161d19; color: #8fa596; text-align: center; padding: 30px 20px; font-size: 13px }
+
+/* the front door: sliders through the websites */
+.front .head { max-width: 860px }
+.feat { display: grid; grid-template-columns: 1fr 1.9fr; gap: clamp(24px, 4vw, 56px); align-items: center; margin-bottom: clamp(60px, 10vh, 110px) }
+.feat.rev { grid-template-columns: 1.9fr 1fr } .feat.rev .feat-t { order: 2 }
+.feat-t { display: grid; gap: 14px }
+.feat-t h3 { font-size: clamp(34px, 3.6vw, 50px) }
+.feat-t p { font-size: 18px; color: var(--ink-2) }
+.feat-t .cap { font: 500 22px/1.25 var(--display); color: var(--ink); min-height: 2.6em; transition: opacity .3s }
+.slider { position: relative; display: grid; gap: 14px }
+.track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 14px; box-shadow: 0 30px 70px rgba(40,25,10,.22), 0 0 0 1px var(--line) }
+.track::-webkit-scrollbar { display: none }
+.slide { flex: 0 0 100%; scroll-snap-align: start; position: relative; background: #f4efe6 }
+.slide img.shot { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top }
+.slide .tag { position: absolute; left: 14px; bottom: 14px; display: flex; align-items: center; gap: 12px; background: rgba(251,248,242,.95); border-radius: 12px; padding: 9px 14px; box-shadow: 0 8px 24px rgba(0,0,0,.18) }
+.slide .tag .lg img { --h: 24px }
+.slide .tag span { font: 600 13px var(--sc); letter-spacing: .14em; text-transform: lowercase; color: #6b5a48 }
+.ctrl { display: flex; align-items: center; justify-content: space-between; gap: 12px }
+.dots { display: flex; gap: 7px; flex-wrap: wrap }
+.dots button { width: 9px; height: 9px; border-radius: 50%; border: 0; padding: 0; background: var(--line); cursor: pointer; transition: background .2s, width .2s }
+.dots button[aria-current="true"] { background: var(--bourbon); width: 24px; border-radius: 5px }
+.arrows { display: flex; gap: 8px }
+.arrows button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); display: grid; place-items: center; cursor: pointer }
+.arrows button:hover { border-color: var(--bourbon) }
+.arrows svg { width: 18px; stroke: var(--ink); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round }
+.domains { display: flex; flex-wrap: wrap; gap: 8px }
+.domains button { border: 1px solid var(--line); background: var(--card); border-radius: 20px; padding: 6px 12px; font: 500 13px var(--body); color: var(--ink-2); cursor: pointer }
+.domains button[aria-current="true"] { border-color: var(--bourbon); color: var(--ink) }
+.begin { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px 40px; align-items: end; border-top: 1px solid var(--line); padding-top: 28px; margin-bottom: clamp(-60px, -6vh, -30px) }
+.begin b { font: 500 clamp(28px, 3vw, 40px)/1.12 var(--display); max-width: 24ch }
+.begin span { color: var(--ink-2); font-size: 18px; max-width: 42ch; justify-self: end }
+@media (max-width: 860px) { .begin { grid-template-columns: 1fr } .begin span { justify-self: start } }
+@media (max-width: 980px) { .feat, .feat.rev { grid-template-columns: 1fr } .feat.rev .feat-t { order: 0 } }
+@media (max-width: 560px) { .slide .tag { left: 8px; bottom: 8px; padding: 6px 10px; gap: 8px } .slide .tag .lg img { --h: 18px } .slide .tag span { font-size: 11px } .slide img.shot { aspect-ratio: 4 / 3 } }
+
+/* one use case up close: is the band worth it */
+.bands { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: 0 24px 60px rgba(40,25,10,.1) }
+.bands-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 22px 26px; border-bottom: 1px solid var(--line) }
+.bands-top .who { display: flex; align-items: center; gap: 14px }
+.bands-top .who .lg img { --h: 30px }
+.bands-top .who span { font: 600 14px var(--sc); letter-spacing: .16em; text-transform: lowercase; color: var(--ink-2) }
+.bsum { display: flex; gap: clamp(16px, 3vw, 34px); flex-wrap: wrap }
+.bsum div { display: grid; gap: 2px } .bsum span { font-size: 12.5px; color: var(--ink-2) } .bsum b { font: 500 28px/1 var(--display) }
+.bsum .up b { color: #3f6b4a }
+.brow { display: grid; grid-template-columns: 1.7fr .7fr .7fr .9fr 1.5fr .8fr; gap: 14px; align-items: center; padding: 15px 26px; border-bottom: 1px solid var(--line); font-size: 15px; font-variant-numeric: tabular-nums }
+.brow:last-child { border-bottom: 0 }
+.brow.hd { font: 600 12px var(--sc); letter-spacing: .14em; text-transform: lowercase; color: var(--ink-2); padding-block: 12px; background: var(--paper) }
+.brow .nm b { display: block; font: 500 21px/1.15 var(--display) } .brow .nm span { font-size: 13px; color: var(--ink-2) }
+.brow .lift { display: flex; align-items: center; gap: 8px; min-width: 0 }
+.brow .lift i { flex: none; height: 12px; border-radius: 3px; width: calc(var(--w) * .6%); min-width: 4px }
+.brow .lift i.pos { background: #4f7a52 } .brow .lift i.neg { background: #b5543f }
+.brow .lift em { font-style: normal; font-size: 13.5px; font-weight: 600; white-space: nowrap }
+.brow .lift em.pos { color: #3f6b4a } .brow .lift em.neg { color: #b5543f }
+.verdict { justify-self: start; border-radius: 20px; padding: 5px 12px; font-size: 13px; font-weight: 600 }
+.verdict.keep { background: #e2eddf; color: #2f5a3a } .verdict.maybe { background: #f3e8cf; color: #7a5a17 } .verdict.re { background: #f4dcd5; color: #8e3a28 }
+.bands-foot { padding: 16px 26px; font-size: 14px; color: var(--ink-2); background: var(--paper); display: flex; gap: 10px 24px; flex-wrap: wrap; justify-content: space-between }
+.bands-foot b { color: var(--ink); font-weight: 600 }
+@media (max-width: 860px) {
+  .brow.hd { display: none }
+  .brow { grid-template-columns: 1fr auto; gap: 6px 12px; padding: 16px 20px }
+  .brow .nm { grid-column: 1 / -1 } .brow .lift { grid-column: 1 / -1; order: 5 } .brow .verdict { grid-row: 1; grid-column: 2 }
+  .brow .c::before { content: attr(data-k) " "; color: var(--ink-2); font-size: 12.5px }
+  .bands-top, .bands-foot { padding-inline: 20px }
+}
+@media (max-width: 560px) { .domains { display: none } }
+
+/* another example: what one party really made */
+.pnl { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: grid; grid-template-columns: 1.2fr 1fr; box-shadow: 0 24px 60px rgba(40,25,10,.1) }
+.pnl-l { padding: 26px 28px; display: grid; gap: 18px; align-content: start }
+.pnl-who { display: flex; align-items: center; gap: 14px; flex-wrap: wrap } .pnl-who .lg img { --h: 28px }
+.pnl-who span { font: 600 14px var(--sc); letter-spacing: .16em; text-transform: lowercase; color: var(--ink-2) }
+.pnl h4 { margin: 0 0 4px; font: 600 13px var(--sc); letter-spacing: .16em; text-transform: lowercase; color: var(--ink-2) }
+.ln { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 15.5px; font-variant-numeric: tabular-nums }
+.ln:last-child { border-bottom: 0 } .ln em { font-style: normal; font-size: 12.5px; color: #3f6b4a; margin-left: 8px; background: #e2eddf; border-radius: 10px; padding: 1px 8px }
+.ln.cost b { color: #8e3a28 } .ln b { font-weight: 600 }
+.pnl-r { background: var(--hub); color: var(--hub-ink); padding: 28px; display: grid; gap: 16px; align-content: center }
+.pnl-r .k { font: 600 13px var(--sc); letter-spacing: .18em; text-transform: lowercase; color: var(--hub-soft) }
+.pnl-r .big { font: 500 clamp(56px, 6vw, 84px)/1 var(--display) }
+.pnl-r .m { font-size: 16px; color: #cfe3c8 }
+.split { display: flex; height: 16px; border-radius: 8px; overflow: hidden; background: #3e4d43 }
+.split i { display: block; height: 100% } .split i.a { background: #e7c27a } .split i.b { background: #a9c6a6 } 
+.split-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--hub-soft) }
+.split-key i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px }
+.pnl-r .note { font-size: 14.5px; color: var(--hub-ink); border-top: 1px solid #3e4d43; padding-top: 14px }
+.pnl-r .note b { color: #e7c27a; font-weight: 600 }
+
+/* a special project: ask Town Center anything (AI surfaces carry a soft green edge) */
+.sp-pill { display: inline-flex; align-items: center; gap: 8px; border-radius: 20px; padding: 5px 12px; background: #e2eddf; color: #2f5a3a; font: 600 12px var(--body); letter-spacing: .08em; text-transform: uppercase; justify-self: start }
+.ask { background: var(--card); border: 1px solid #b9d3b3; border-radius: 22px; box-shadow: 0 0 0 4px rgba(79,122,82,.08), 0 24px 60px rgba(40,25,10,.1); overflow: hidden }
+.ask-in { display: flex; gap: 10px; align-items: center; padding: 18px; border-bottom: 1px solid var(--line) }
+.ask-in svg { flex: none; width: 22px; stroke: #4f7a52; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round }
+.ask-in input { flex: 1; min-width: 0; border: 0; background: none; font: 500 clamp(17px, 1.6vw, 21px) var(--body); color: var(--ink); outline: none }
+.ask-in button { flex: none; border: 0; border-radius: 10px; background: #3f6b4a; color: #fff; font: 600 15px var(--body); padding: 11px 18px; cursor: pointer }
+.ask-sugg { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 18px; background: var(--paper); border-bottom: 1px solid var(--line) }
+.ask-sugg button { border: 1px solid var(--line); background: var(--card); border-radius: 18px; padding: 7px 13px; font: 500 13.5px var(--body); color: var(--ink-2); cursor: pointer; text-align: left }
+.ask-sugg button:hover { border-color: #4f7a52; color: var(--ink) }
+.ask-out { padding: 26px 28px 28px; display: grid; gap: 18px; min-height: 340px; align-content: start }
+.ask-out .ans { font: 500 clamp(26px, 2.6vw, 36px)/1.15 var(--display); max-width: 30ch }
+.ask-out .ans b { color: #3f6b4a; font-weight: 600 }
+.ask-out .sub { color: var(--ink-2); font-size: 15px }
+.pair { display: grid; grid-template-columns: 130px 1fr 64px; gap: 6px 14px; align-items: center; font-size: 14.5px }
+.pair .bars { display: grid; gap: 4px }
+.pair .bars i { display: block; height: 10px; border-radius: 4px; width: calc(var(--w) * 1%); transition: width 1s ease }
+.pair .bars i.a { background: #d6cdbb } .pair .bars i.b { background: #4f7a52 }
+.pair em { font-style: normal; font-weight: 600; color: #3f6b4a; text-align: right }
+.ask-key { display: flex; gap: 18px; font-size: 13px; color: var(--ink-2) }
+.ask-key i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px }
+.thinking { display: flex; gap: 6px; align-items: center; color: var(--ink-2); font-size: 15px }
+.thinking i { width: 7px; height: 7px; border-radius: 50%; background: #4f7a52; animation: dotp 1s ease-in-out infinite } .thinking i:nth-child(2) { animation-delay: .15s } .thinking i:nth-child(3) { animation-delay: .3s }
+@keyframes dotp { 50% { opacity: .25; transform: translateY(-3px) } }
+@media (max-width: 860px) { .pnl { grid-template-columns: 1fr } .pair { grid-template-columns: 96px 1fr 54px; font-size: 13.5px } .ask-in button { padding: 10px 14px } .ask-out { padding: 22px 20px } }
+
+/* want to go deeper: the button in the form and its pop-out */
+.deep-cta { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; background: #1a231e; border: 1px solid #44554a; border-radius: 14px; padding: 16px 18px }
+.deep-cta div { display: grid; gap: 4px; flex: 1 1 280px }
+.deep-cta b { font: 500 24px/1.15 var(--display); color: var(--hub-ink) }
+.deep-cta span { font-size: 15px; color: #cfdccb }
+.deep-cta button { border: 1px solid #e7c27a; background: none; color: #e7c27a; border-radius: 10px; padding: 11px 18px; font: 600 15px var(--body); cursor: pointer }
+.deep-cta button:hover { background: #e7c27a; color: #1f2a24 }
+.call-cta { background: #1a231e; border: 1px solid #44554a; border-radius: 14px; padding: 14px 16px; display: grid; gap: 10px }
+.call-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap }
+.call-top b { font: 500 21px/1.15 var(--display); color: var(--hub-ink) }
+.call-top span { font-size: 14px; color: #cfdccb }
+.call-pick { display: grid; grid-template-columns: 1fr .8fr 1fr 1.2fr; gap: 8px }
+.call-pick label { display: grid; gap: 4px; font: 600 11px var(--sc); letter-spacing: .12em; text-transform: lowercase; color: var(--hub-soft) }
+.who-form .call-pick input, .call-pick select { width: 100%; min-width: 0; font: 400 14px var(--body); color: var(--hub-ink); background: #12190f; border: 1px solid #44554a; border-radius: 8px; padding: 7px 8px; color-scheme: dark }
+.call-cta button { justify-self: start; border: 0; border-radius: 10px; background: #e7c27a; color: #1f2a24; font: 600 14.5px var(--body); padding: 10px 16px; cursor: pointer }
+@media (max-width: 560px) { .call-pick { grid-template-columns: 1fr 1fr } }
+.voice-cta { border: 1px solid #7b3b2c; background: linear-gradient(140deg, #2a1a14, #1a231e 70%); border-radius: 14px; padding: 20px; display: grid; gap: 14px }
+.vc-top { display: flex; align-items: center; gap: 14px }
+.vc-top div { display: grid; gap: 2px } .vc-top b { font: 500 26px/1.15 var(--display); color: var(--hub-ink) } .vc-top span:not(.vbloom) { font-size: 15px; color: #e7c27a }
+.vbloom { flex: none; width: 52px; height: 52px; border-radius: 50%; background: #7b3b2c; display: grid; place-items: center }
+.vbloom svg { width: 60%; height: 60% }
+.who-form .vc-why { font: 400 16px/1.55 var(--body); color: #dfe6da; max-width: 62ch; margin: 0 }
+.vc-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px }
+.vc-k { font: 600 12.5px var(--sc); letter-spacing: .16em; text-transform: lowercase; color: var(--hub-soft) }
+.voice-cta ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 7px }
+.voice-cta li { position: relative; padding-left: 16px; font-size: 14.5px; color: #cfdccb } .voice-cta li::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: #e7c27a }
+.vbtn { justify-self: start; border: 0; border-radius: 10px; background: #e7c27a; color: #1f2a24; padding: 12px 20px; font: 600 15px var(--body); text-decoration: none }
+@media (max-width: 640px) { .vc-cols { grid-template-columns: 1fr } }
+.vbtn:hover { background: #f0d394 }
+.team-cta { border-color: #4f7a52 } .team-cta button { background: #e7c27a; color: #1f2a24 }
+.deep { width: min(720px, calc(100vw - 24px)); max-height: calc(100svh - 24px); overflow-y: auto; overscroll-behavior: contain; border: 0; border-radius: 22px; padding: clamp(24px, 3.6vw, 40px); background: #f4efe6; color: #221e1a; box-shadow: 0 40px 100px rgba(0,0,0,.45); text-align: left }
+.deep::backdrop { background: rgba(14,20,16,.72); backdrop-filter: blur(3px) }
+.deep[open] { display: grid; gap: 18px; animation: deepin .35s ease both }
+@keyframes deepin { from { opacity: 0; transform: translateY(16px) scale(.98) } }
+.deep-x { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid #d9d0bf; background: #fbf8f2; font-size: 24px; line-height: 1; cursor: pointer; color: #221e1a }
+.deep .eyebrow { color: #9c5a26 }
+.deep h3 { font-size: clamp(32px, 4vw, 44px); padding-right: 40px }
+.deep-lede { font-size: 17px; color: #5d554b }
+.deep h4 { margin: 0 0 8px; font: 600 13px var(--sc); letter-spacing: .16em; text-transform: lowercase; color: #3f6b4a }
+.deep-send ul { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; font-size: 15.5px }
+.deep-send li { display: flex; gap: 9px } .deep-send li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: #b08a3e; margin-top: 9px }
+.deep-ex { background: #fbf8f2; border: 1px solid #e3dccd; border-radius: 16px; padding: 18px; display: grid; gap: 12px }
+.deep-who { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 15px; color: #5d554b }
+.deep-who label { display: flex; align-items: center; gap: 6px; font-weight: 600; color: #221e1a }
+.deep-who input { width: 110px; font: 600 16px var(--body); border: 1px solid #d9d0bf; border-radius: 8px; padding: 6px 8px; background: #fff; color: #221e1a }
+.deep-tasks { display: grid; gap: 0 }
+.dt { display: grid; grid-template-columns: 1fr 70px 70px; gap: 10px; align-items: center; padding: 9px 0; border-top: 1px dashed #e3dccd; font-size: 15px }
+.dt.hd { border-top: 0; padding-top: 0; font: 600 12px var(--sc); letter-spacing: .12em; text-transform: lowercase; color: #7a6f60 }
+.dt span:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums }
+.dt input { width: 54px; font: 500 15px var(--body); border: 1px solid #d9d0bf; border-radius: 6px; padding: 3px 6px; text-align: right; background: #fff; color: #221e1a; justify-self: end }
+.dt .after { color: #3f6b4a; font-weight: 600 }
+.deep-res { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border-top: 1px solid #d9d0bf; padding-top: 14px }
+.deep-res div { display: grid; gap: 2px } .deep-res span { font-size: 12.5px; color: #7a6f60 } .deep-res b { font: 500 30px/1 var(--display) } .deep-res .g b { color: #3f6b4a }
+.deep-team { background: #fbf8f2; border: 1px solid #b9d3b3; border-radius: 16px; padding: 18px; display: grid; gap: 12px }
+.deep-team > p { font-size: 15px; color: #5d554b }
+.dt-add { display: grid; grid-template-columns: 1.3fr 1.2fr 1fr auto; gap: 8px }
+.dt-add input { font: 400 15px var(--body); border: 1px solid #d9d0bf; border-radius: 8px; padding: 9px 10px; background: #fff; color: #221e1a; min-width: 0 }
+.dt-add button { border: 0; border-radius: 8px; background: #3f6b4a; color: #fff; font: 600 15px var(--body); padding: 9px 16px; cursor: pointer }
+.roster { display: grid; gap: 8px }
+.rp { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; border-top: 1px dashed #e3dccd; padding-top: 10px; font-size: 15px }
+.rp b { font-weight: 600 } .rp .meta { color: #7a6f60; font-size: 13.5px }
+.rp .acts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end }
+.rp .acts button, .rp .acts a { border: 1px solid #d9d0bf; background: #fff; color: #221e1a; border-radius: 16px; padding: 5px 11px; font: 500 13px var(--body); cursor: pointer; text-decoration: none }
+.rp .acts .x { border: 0; background: none; color: #7a6f60; font-size: 18px; padding: 2px 6px }
+.deep-team .private { display: flex; gap: 10px; align-items: flex-start; background: #e2eddf; color: #2f5a3a; border-radius: 10px; padding: 10px 12px; font-size: 14.5px; line-height: 1.45 }
+.deep-team .private svg { flex: none; width: 18px; height: 18px; margin-top: 1px; fill: none; stroke: #2f5a3a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round }
+.deep-team .preview { justify-self: start; font-size: 14px; color: #3f6b4a; font-weight: 600 }
+@media (max-width: 560px) { .dt-add { grid-template-columns: 1fr 1fr } .dt-add button { grid-column: span 2 } .rp { grid-template-columns: 1fr } .rp .acts { justify-content: flex-start } }
+.deep .send { justify-self: start; border: 0; border-radius: 10px; background: #1f2a24; color: #fff; font: 600 16px var(--body); padding: 13px 22px; cursor: pointer }
+.deep-note { font-size: 14px; color: #7a6f60; margin-top: -8px }
+@media (max-width: 560px) { .deep-send ul { grid-template-columns: 1fr } .deep-res { grid-template-columns: 1fr 1fr } .dt { grid-template-columns: 1fr 58px 58px; font-size: 14px } }
+
+/* town center in chatgpt: copy beside the phone video */
+.gpt { background: var(--paper) }
+.gpt-grid { display: grid; grid-template-columns: 1fr minmax(260px, 400px); gap: clamp(28px, 5vw, 70px); align-items: center }
+.gpt-t { display: grid; gap: 16px; align-content: center }
+.gpt-t h2 { font-size: clamp(38px, 4.8vw, 62px) }
+.gpt-t > p { font-size: clamp(18px, 1.6vw, 21px); color: var(--ink-2); max-width: 46ch }
+.gpt-pts { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px }
+.gpt-pts li { display: grid; gap: 2px; padding-left: 18px; position: relative; font-size: 16px; color: var(--ink-2) }
+.gpt-pts li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: #4f7a52 }
+.gpt-pts b { color: var(--ink); font-weight: 600 }
+.gpt-note { font-size: 15px; color: var(--ink-2); border-left: 3px solid #b9d3b3; padding-left: 12px }
+.gpt-v video { width: 100%; height: auto; display: block; border-radius: 28px; background: #f4efe6 }
+@media (max-width: 860px) { .gpt-grid { grid-template-columns: 1fr } .gpt-v { max-width: 380px; justify-self: center; width: 100% } }
+
+@media (max-width: 980px) {
+  .flow { grid-template-columns: 1fr; gap: 0 }
+  .pipe { min-height: 54px; height: 54px; width: 2px; margin: 0 auto }
+  .pipe::before { inset: 0; left: 0; right: auto; top: 0; width: 2px; height: 100%; background: repeating-linear-gradient(180deg, var(--gold) 0 10px, transparent 10px 20px); background-size: 2px 20px; animation-name: flowy }
+  .pipe::after { right: auto; left: -5px; top: auto; bottom: -4px; border: 6px solid transparent; border-top: 8px solid var(--gold); border-bottom: 0 }
+  @keyframes flowy { to { background-position: 0 20px } }
+  .col { grid-template-columns: 1fr 1fr } .col h3 { grid-column: 1 / -1 }
+  .kpis { grid-template-columns: 1fr 1fr } .dash-rows { grid-template-columns: 1fr }
+  .teams { grid-template-columns: 1fr } .two { grid-template-columns: 1fr }
+  .outs { grid-template-columns: 1fr } .out.w3, .out.w2 { grid-column: auto }
+  .builds { grid-template-columns: 1fr 1fr }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px }
+  .col { grid-template-columns: 1fr }
+  .builds { grid-template-columns: 1fr }
+  .list4 { grid-template-columns: 1fr }
+  .bar { grid-template-columns: 96px 1fr 64px; font-size: 13px }
+  .kpi { padding: 14px } .ring { width: 50px; height: 50px; margin-top: -40px } .ring::after { width: 38px; height: 38px }
+  .down { display: none }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <img src="img/town/painted-dusk.jpg" alt="">
+  <div class="topbar"><svg viewBox="0 0 360 160" role="img" aria-label="Stay in Bloomfield, Kentucky"><text x="180" y="26" text-anchor="middle" font-family="Cormorant SC, Georgia, serif" font-weight="600" font-size="15" letter-spacing="7" fill="#e7c27a">STAY IN</text><text x="180" y="94" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-style="italic" font-weight="500" font-size="74" fill="#f4efe6">Bloomfield</text><line x1="72" y1="145" x2="114" y2="145" stroke="#e7c27a" stroke-width="1"/><line x1="246" y1="145" x2="288" y2="145" stroke="#e7c27a" stroke-width="1"/><text x="180" y="149.5" text-anchor="middle" font-family="Cormorant SC, Georgia, serif" font-size="14" letter-spacing="5" fill="#e7c27a">KENTUCKY</text></svg><span>Town Center · for Olde Bloomfield Operations</span></div>
+  <div class="wrap">
+    <span class="tc-mark"><i></i>Town Center</span>
+    <h1>Every business. One back office.</h1>
+    <p>The homes, the event spaces, the restaurants and the shops, connected in one place. And every number goes wherever you need it.</p>
+  </div>
+  <a class="down" href="#flow" aria-label="Scroll down"><svg viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></svg></a>
+</header>
+
+<section class="sect front"><div class="wrap">
+  <div class="head rise"><span class="eyebrow">The front door</span><h2>The website is just the beginning.</h2><p>It's the front-facing part of the new town. Town Center is everything behind it.</p></div>
+  <div class="feat rise">
+    <div class="feat-t"><span class="eyebrow">Stay in Bloomfield</span><h3>A new way to book everything.</h3><p>The homes, the events, the tea, the lanes and the whole weekend, all from one site.</p><div class="cap" id="cap-a"></div></div>
+    <div class="slider" id="sl-a"></div>
+  </div>
+  <div class="feat rev rise">
+    <div class="feat-t"><span class="eyebrow">Every business</span><h3>Each one keeps its own website.</h3><p>Its own name, look and address. All of them run from Town Center.</p><div class="domains" id="doms"></div></div>
+    <div class="slider" id="sl-b"></div>
+  </div>
+  <div class="begin rise"><b>Guests see the websites. Your team runs it all from Town Center.</b><span>Every booking, sale and inquiry from the front door lands in one place.</span></div>
+</div></section>
+
+<section class="sect" id="flow"><div class="wrap">
+  <div class="head rise"><span class="eyebrow">How it connects</span><h2>Everything in. Anything out.</h2><p>Bookings, sales and inquiries flow in from everywhere. Reports, books and alerts flow out to wherever they belong.</p></div>
+  <div class="flow rise">
+    <div class="col">
+      <h3>Comes in</h3>
+      <div class="chip" data-i="bed"><b>Airbnb &amp; VRBO</b></div>
+      <div class="chip" data-i="globe"><b>Squarespace sites &amp; forms</b></div>
+      <div class="chip" data-i="card"><b>Registers &amp; card sales</b></div>
+      <div class="chip" data-i="ring"><b>Event inquiries &amp; deposits</b></div>
+      <div class="chip" data-i="ticket"><b>Tickets &amp; bowling lanes</b></div>
+      <div class="chip" data-i="clock"><b>Staff hours</b></div>
+    </div>
+    <div class="pipe"></div>
+    <div class="hub">
+      <div class="hub-top"><span class="k">Stay in Bloomfield</span><b>Town Center</b></div>
+      <div class="hub-grid" id="hubgrid"></div>
+      <div class="hub-homes" id="hubhomes"></div>
+    </div>
+    <div class="pipe"></div>
+    <div class="col sends">
+      <h3>Goes out</h3>
+      <div class="chip" data-i="book"><b>QuickBooks</b><span>or whatever you use</span></div>
+      <div class="chip" data-i="mail"><b>Monday snapshot email</b></div>
+      <div class="chip" data-i="users"><b>Payroll &amp; HR</b></div>
+      <div class="chip" data-i="grid"><b>Sheets &amp; Excel</b></div>
+      <div class="chip" data-i="db"><b>Your other systems</b></div>
+      <div class="chip" data-i="chat"><b>Texts to managers</b></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sect" style="background: var(--paper-2)"><div class="wrap">
+  <div class="head rise"><span class="eyebrow">One view</span><h2>Every number, on one screen.</h2><p>Revenue from the homes and the event spaces, how full every weekend is, and every business side by side.</p></div>
+  <div class="dash rise">
+    <div class="dash-top"><b>October at a glance</b><span>Updated live</span></div>
+    <div class="kpis">
+      <div class="kpi"><span class="k">All businesses</span><b>$174,140</b><span class="d">↑ 12% on September</span></div>
+      <div class="kpi"><span class="k">The homes</span><b>$25,480</b><span class="d">91 nights booked</span></div>
+      <div class="kpi"><span class="k">Homes booked</span><b>73%</b><span class="d">of nights this month</span><div class="ring" style="--p:73"></div></div>
+      <div class="kpi"><span class="k">Event spaces</span><b>$41,200</b><span class="d">33 events</span></div>
+    </div>
+    <div class="dash-rows">
+      <div class="panel"><h4>By business</h4><div id="bars" style="display:grid;gap:11px"></div></div>
+      <div class="panel">
+        <h4>Weekends booked, next 8</h4>
+        <div class="wk" id="wk"></div>
+        <div class="wk-key"><span><i style="background:#e7c27a"></i>Booked</span><span><i style="background:#8c7a4f"></i>Held</span><span><i style="background:#3e4d43"></i>Open</span></div>
+        <h4 style="margin-top:8px">Event spaces booked</h4>
+        <div class="bar" style="--c:#e7c27a"><span>Fri &amp; Sat</span><i style="--w:64"></i><em>64%</em></div>
+        <div class="bar" style="--c:#e7c27a"><span>Weeknights</span><i style="--w:22"></i><em>22%</em></div>
+        <h4 style="margin-top:8px">Weddings ahead</h4>
+        <div class="bar" style="--c:#d7b7a0"><span>Revival Hall</span><i style="--w:45"></i><em>9 held</em></div>
+      </div>
+    </div>
+  </div>
+  <p class="sample rise">Sample numbers. Yours fill in once each business is connected.</p>
+</div></section>
+
+<section class="sect"><div class="wrap">
+  <div class="head rise"><span class="eyebrow">Every team</span><h2>Each team gets its own tools.</h2><p>Everyone works in the same place. Each person sees what's theirs.</p></div>
+  <div class="teams">
+    <div class="team rise"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><h3>Business management</h3>
+      <ul><li>Every business in one set of books</li><li>Revenue, costs and payouts by business</li><li>Owner reports that write themselves</li><li>Invoices, deposits and refunds in one place</li></ul>
+      <p class="sees">Sees everything, across every business.</p></div>
+    <div class="team rise"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.7.8 2.7 2.6 3 5.2"/></svg></div><h3>HR</h3>
+      <ul><li>Every employee, every business, one list</li><li>Schedules and shift swaps</li><li>Hours flow straight to payroll</li><li>Hiring and onboarding checklists</li></ul>
+      <p class="sees">Sees the people, not the books.</p></div>
+    <div class="team rise"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 21V9l9-6 9 6v12M9 21v-6h6v6"/></svg></div><h3>Managers</h3>
+      <ul><li>Their own listings, menus and hours</li><li>Bookings, events and the calendar</li><li>Reviews and guest messages</li><li>Today's to-do list, every morning</li></ul>
+      <p class="sees">Sees their own business.</p></div>
+  </div>
+</div></section>
+
+<section class="sect" style="background: var(--paper-2)"><div class="wrap">
+  <div class="head rise"><span class="eyebrow">Data out</span><h2>The numbers go where you need them.</h2><p>Into the books, into an email, into a spreadsheet, or straight into another system. Automatically.</p></div>
+  <div class="outs">
+    <div class="out w3 rise"><div class="vis">
+      <div class="mail"><div class="mh"><b>Your Monday snapshot</b><span>From Town Center · to Shelia, the owners</span></div>
+        <div class="mb"><span style="color:#7a6f60">Week of Oct 26 · every business</span><div class="big">$41,860</div>
+          <div class="row3"><div>Homes<b>81%</b>booked</div><div>Events<b>9</b>this week</div><div>New inquiries<b>14</b>3 weddings</div></div>
+          <span style="color:#7a6f60">Best night: Saturday at Ernie's, $6,240.</span></div></div>
+    </div><div class="txt"><h3>A snapshot in your inbox</h3><p>Every Monday, the week in one email. Sent to whoever needs it.</p></div></div>
+    <div class="out w3 rise"><div class="vis">
+      <div class="ledger"><div class="lh">QuickBooks<span>Synced 6:00 AM</span></div><table>
+        <tr><td>Boone's Cabin · Airbnb payout<span class="c">Homes</span></td><td>$1,176.00</td></tr>
+        <tr><td>Ernie's · Saturday sales<span class="c">Ernie's</span></td><td>$6,240.18</td></tr>
+        <tr><td>Pink House · Hardin party deposit<span class="c">Events</span></td><td>$600.00</td></tr>
+        <tr><td>Double Dip · Friday sales<span class="c">Double Dip</span></td><td>$1,488.50</td></tr>
+        <tr><td>Merrifield's · tea service<span class="c">Merrifield's</span></td><td>$842.00</td></tr></table></div>
+    </div><div class="txt"><h3>Straight into the books</h3><p>Each business lands as its own class, every night. No retyping.</p></div></div>
+    <div class="out w2 rise"><div class="vis">
+      <div class="phone"><div class="scr"><span class="who">Town Center</span>
+        <div class="bub">New wedding inquiry: Revival Hall, June 12, 140 guests. About $14,000.</div>
+        <div class="bub">Reply with 1 to hold the date.</div><div class="bub me">1</div><div class="bub">Held. Kate gets a reply in 5 minutes.</div></div></div>
+    </div><div class="txt"><h3>Texts that matter</h3><p>Big bookings and problems go straight to the right phone.</p></div></div>
+    <div class="out w2 rise"><div class="vis">
+      <div class="sheet"><span class="k">Olde Bloomfield · October</span><b>Owner report</b><div class="bars"><i style="height:60%"></i><i style="height:80%"></i><i style="height:45%"></i><i style="height:95%"></i><i style="height:70%"></i><i style="height:85%"></i></div><div class="ln2"></div><div class="ln2 s"></div><div class="ln2"></div><div class="ln2 s"></div></div>
+    </div><div class="txt"><h3>The monthly owner report</h3><p>A clean one-pager, ready on the first of the month.</p></div></div>
+    <div class="out w2 rise"><div class="vis">
+      <div class="feed"><div class="src">Town<br>Center<span>live data</span></div><div class="ln"></div>
+        <div class="dst"><span style="--c:#2ca01c"><i></i>Google Sheets</span><span style="--c:#1d6f42"><i></i>Excel</span><span style="--c:#50697a"><i></i>Your data center</span><span style="--c:#b08a3e"><i></i>Any system with an API</span></div></div>
+    </div><div class="txt"><h3>Into your other systems</h3><p>A live feed to spreadsheets, data centers or anything else you run.</p></div></div>
+  </div>
+</div></section>
+
+<section class="sect"><div class="wrap">
+  <div class="head rise"><span class="eyebrow">Things we can build</span><h2>A few ideas to start.</h2><p>Need a new tool, or a new way to read the numbers? We switch it on. Each one runs inside Town Center, shaped around how your team already works.</p></div>
+  <div class="builds" id="builds"></div>
+</div></section>
+
+<section class="sect" style="padding-top:0"><div class="wrap">
+  <div class="head rise"><span class="eyebrow">One example, up close</span><h2>Is the band worth it?</h2><p>What each band costs, how many people came in the door, and what the register rang up. Side by side, every night.</p></div>
+  <div class="bands rise">
+    <div class="bands-top">
+      <div class="who"><span class="lg" style="--c:#003f21;--m:url(img/ernies/logo-name.png)"><img src="img/ernies/logo-name.png" alt="Ernie's"></span><span>Band nights · October</span></div>
+      <div class="bsum" id="bsum"></div>
+    </div>
+    <div class="brow hd"><span>Band</span><span>Paid</span><span>Door</span><span>Register</span><span>Made over a normal night</span><span></span></div>
+    <div id="brows"></div>
+    <div class="bands-foot"><span>A normal Friday rings up <b>$2,600</b>. A normal Saturday, <b>$3,100</b>.</span><span>Pulled from the register, the door count and the band's invoice.</span></div>
+  </div>
+  <p class="sample rise">Sample numbers. With Ernie's connected, this fills in by itself after every show.</p>
+</div></section>
+
+<section class="sect" style="padding-top:0"><div class="wrap">
+  <div class="head rise"><span class="eyebrow">Another example</span><h2>What did the party really make?</h2><p>Every dollar in and out of one event, including the homes its guests booked.</p></div>
+  <div class="pnl rise">
+    <div class="pnl-l">
+      <div class="pnl-who"><span class="lg" style="--c:#b25466;--m:url(img/pinkhouse/logo-rose.png)"><img src="img/pinkhouse/logo-rose.png" alt="The Old Pink House"></span><span>Hardin bridal shower · Sat Nov 7 · 40 guests</span></div>
+      <div><h4>Came in</h4><div id="p-in"></div></div>
+      <div><h4>Went out</h4><div id="p-out"></div></div>
+    </div>
+    <div class="pnl-r">
+      <span class="k">What the party made, after costs</span><div class="big" id="p-made"></div><span class="m" id="p-margin"></span>
+      <div class="split" id="p-split"></div>
+      <div class="split-key"><span><i style="background:#e7c27a"></i>The party</span><span><i style="background:#a9c6a6"></i>Homes it booked</span></div>
+      <p class="note" id="p-note"></p>
+    </div>
+  </div>
+  <p class="sample rise">Sample numbers. Town Center adds up every event the morning after.</p>
+</div></section>
+
+<section class="sect" style="padding-top:0"><div class="wrap">
+  <div class="head rise"><span class="sp-pill">Special project</span><h2>Ask it anything.</h2><p>Type any question in plain English. Town Center answers from the numbers of every business at once.</p></div>
+  <div class="ask rise">
+    <form class="ask-in" id="askf"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg><input id="askq" aria-label="Ask Town Center a question"><button type="submit">Ask</button></form>
+    <div class="ask-sugg" id="asks"></div>
+    <div class="ask-out" id="askout"></div>
+  </div>
+  <p class="sample rise">Sample answers. A custom build, made around the questions your team asks most.</p>
+</div></section>
+
+<section class="sect" style="background: var(--paper-2)"><div class="wrap">
+  <div class="two">
+    <div class="pane dark rise"><span class="eyebrow">Marketing, built in</span><h2>Get the word out from the same place.</h2>
+      <div class="list4">
+        <div><b>Listings everywhere</b><span>Google, Airbnb, wedding sites and travel sites, kept up to date.</span></div>
+        <div><b>Emails &amp; texts</b><span>One list for the whole town, with each business's own look.</span></div>
+        <div><b>Graphics in a click</b><span>Posts and flyers in every brand, ready to share.</span></div>
+        <div><b>Press &amp; reviews</b><span>Pitches to writers, and replies to every review.</span></div>
+      </div></div>
+    <div class="pane light rise"><span class="eyebrow">Easy for every team</span><h2>Staff update the website themselves.</h2>
+      <p style="color:var(--ink-2)">Menus, hours, events and photos change in a minute. No developer. Every page stays on brand.</p>
+      <div class="editor">
+        <div class="row"><div>Double Dip · Fall special<br><span class="typing" id="typing"></span></div><span class="btn">Publish</span></div>
+        <div class="row"><div>Ernie's · Band night Nov 14<br><span>Hannah Wheeler &amp; The Heartaches</span></div><span class="btn">Live</span></div>
+        <div class="row"><div>Nettie Jarvis · Hours<br><span>Open 10 to 6 every day</span></div><span class="btn">Live</span></div>
+      </div></div>
+  </div>
+</div></section>
+
+<section class="sect gpt"><div class="wrap">
+  <div class="gpt-grid">
+    <div class="gpt-t rise">
+      <span class="eyebrow">Town Center in ChatGPT</span>
+      <h2>Your team runs it from their phone.</h2>
+      <p>Turn on Town Center inside ChatGPT, and anyone on the team can find, hand off and approve work in plain English.</p>
+      <ul class="gpt-pts"><li><b>Find it the moment it lands.</b>A vendor quote that came in by email is already filed under the right business.</li><li><b>Send it to the right person.</b>One message puts it on Jamie's list, with the quote attached.</li><li><b>Approve from anywhere.</b>Linda sees every bill waiting on her yes, in one list.</li></ul>
+      <p class="gpt-note">Every send is a press by the person. Nothing goes out on its own.</p>
+    </div>
+    <div class="gpt-v rise"><video src="img/video/town-center-chatgpt.mp4" poster="img/video/town-center-chatgpt.jpg" autoplay muted loop playsinline aria-label="Shelia asks ChatGPT for the plumber's quote at Boone's Cabin and sends it to Jamie for Linda's approval list"></video></div>
+  </div>
+</div></section>
+
+<section class="sect tail"><div class="wrap">
+  <span class="eyebrow rise">Made for you</span>
+  <h2 class="rise">If you can picture it, we can build it.</h2>
+  <p class="rise">Every tool here is tailored to how Olde Bloomfield runs. Tell us what you use today, and we'll connect it.</p>
+  <div class="uses rise" id="uses"></div>
+  <span class="uses-k rise" id="usesk">Tap what you use today.</span>
+  <form class="who-form rise" id="whoform">
+    <h3>Who runs what?</h3>
+    <p>Give us a quick picture of who uses which software. Some of it may be replaced by tools built into Town Center, and save you the subscription.</p>
+    <div class="two-f"><label>Your name<input name="person" autocomplete="name"></label><label>Your email<input name="email" type="email" autocomplete="email" inputmode="email"></label></div>
+    <label>Your role<input name="role" placeholder="Business management, HR, Ernie's manager"></label>
+    <label>Who runs what<textarea name="who" placeholder="QuickBooks: our bookkeeper, for every business&#10;Register at Ernie's and the Double Dip: the bar managers&#10;Airbnb: Shelia"></textarea></label>
+    <button class="send" type="submit">Send to Jordan</button>
+    <p class="quote1">The more you tell us, the better we can quote you.</p>
+    <div class="voice-cta">
+      <div class="vc-top"><span class="vbloom" aria-hidden="true"><svg viewBox="0 0 68 68"><g fill="none" stroke="#f4efe6" stroke-width="3"><ellipse cx="34" cy="20" rx="9" ry="17" transform="rotate(0 34 36)"/><ellipse cx="34" cy="20" rx="9" ry="17" transform="rotate(72 34 36)"/><ellipse cx="34" cy="20" rx="9" ry="17" transform="rotate(144 34 36)"/><ellipse cx="34" cy="20" rx="9" ry="17" transform="rotate(216 34 36)"/><ellipse cx="34" cy="20" rx="9" ry="17" transform="rotate(288 34 36)"/></g><circle cx="34" cy="36" r="6" fill="#e7c27a"/></svg></span><div><b>Rather talk it through?</b><span>A 15-minute voice interview with Harlan, instead of the form.</span></div></div>
+      <p class="vc-why">You know how Bloomfield runs better than any form can ask. Talk it through with Harlan from your phone or computer, and we'll have the full picture to shape Town Center around your team and sharpen the quote.</p>
+      <div class="vc-cols">
+        <div><span class="vc-k">What Harlan asks</span><ul><li>Who runs what across the shops, venues and stays</li><li>The software, registers and vendors you use today</li><li>What eats your week, and what gets typed in twice</li><li>The numbers you wish you could see at a glance</li></ul></div>
+        <div><span class="vc-k">Quicker than a form</span><ul><li>No typing and no blank boxes. Just answer out loud.</li><li>He asks one question at a time and follows up where it matters.</li><li>Skip anything, stop anytime, pick up later from the same link.</li><li>You get a short summary at the end. Only Jordan reads the rest, and it's only used to learn how the business runs.</li></ul></div>
+      </div>
+      <a class="vbtn" href="interview.html" target="_blank" rel="noopener">Start a voice interview</a>
+    </div>
+    <div class="deep-cta"><div><b>Want to go deeper?</b><span>Share your departments, pay, overhead and software, and we'll show you the hours Town Center gives back.</span></div><button type="button" id="deepopen">See how it works</button></div>
+    <div class="deep-cta team-cta"><div><b>Ask your team</b><span>Send a survey to each team member to start understanding their daily tasks, the software they use and where their time goes.</span></div><button type="button" id="teamopen">Send surveys</button></div>
+    <div class="call-cta"><div class="call-top"><b>Schedule a call</b><span>30 to 60 minutes on how the business runs and who's on the team. It sharpens the quote.</span></div>
+      <div class="call-pick"><label>Day<input type="date" id="callday"></label><label>Time<select id="calltime"><option>Morning</option><option>Midday</option><option>Afternoon</option><option>Any time</option></select></label><label>Name<input id="callname" autocomplete="name"></label><label>Email<input id="callemail" type="email" autocomplete="email" inputmode="email"></label></div>
+      <button type="button" id="callbtn">Schedule a call with Jordan</button></div>
+    <span class="sent" id="whosent" hidden></span>
+  </form>
+  <div class="howto rise">
+    <span class="eyebrow">How it comes together</span>
+    <h3>From first build to running on its own.</h3>
+    <ol class="tl">
+      <li><i>1</i><span class="when">1 to 2 weeks</span><b>Initial development</b><p>We build Town Center around your businesses and your numbers.</p></li>
+      <li><i>2</i><span class="when">1 to 2 weeks</span><b>Wiring in with your team</b><p>Every system connected, every team shown its tools. Timing depends on how available everyone is.</p></li>
+      <li><i>3</i><span class="when">1 to 2 months</span><b>Bugs and kinks</b><p>We smooth out what comes up as everyone uses it day to day.</p></li>
+      <li class="done"><i>✓</i><span class="when">After that</span><b>It runs on its own</b><p>The numbers, reports and alerts keep flowing without anyone pushing them.</p></li>
+    </ol>
+    <div class="costs">
+      <div><span>Upfront</span><p>The initial build and wiring in.</p></div>
+      <div class="ongo"><span>Ongoing</span><dl><dt>Subscriptions</dt><dd>A couple, for the AI that powers the analysis and the development. They're credit based, so you only pay for what's used.</dd><dt>Development retainer</dt><dd>A small one, to keep everything running smooth on the back end.</dd></dl></div>
+      <div><span>New builds</span><p>Anytime you want something new, there's a development cost. With AI doing the heavy lifting, it stays fairly small.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<dialog class="deep" id="deep" aria-labelledby="deep-h">
+  <button class="deep-x" type="button" id="deepclose" aria-label="Close">×</button>
+  <span class="eyebrow">Want to go deeper?</span>
+  <h3 id="deep-h">See the time Town Center gives back.</h3>
+  <p class="deep-lede">Send us the full picture and we'll run the numbers on how many hours, and dollars, every team gets back.</p>
+  <div class="deep-send"><h4>What to send</h4><ul><li>Every department, and who's in it</li><li>Salaries or pay ranges</li><li>Overhead: rent, insurance, utilities</li><li>Software, and what each one costs</li><li>The jobs that eat the most time</li></ul></div>
+  <div class="deep-ex">
+    <h4>An example</h4>
+    <div class="deep-who"><label>Salary <span>$</span><input id="dsal" type="number" inputmode="numeric" value="70000" step="1000" min="0"></label><span id="drate"></span></div>
+    <div class="deep-tasks" id="dtasks"></div>
+    <div class="deep-res" id="dres"></div>
+  </div>
+  <div class="deep-team">
+    <h4>Ask your team</h4>
+    <p>Add each person, then send them their own short survey about their day. They only see the questions.</p>
+    <form class="dt-add" id="dtadd"><input name="n" placeholder="Name" aria-label="Name" required><input name="d" placeholder="Department" aria-label="Department"><input name="s" type="number" inputmode="numeric" placeholder="Salary" aria-label="Salary" min="0" step="1000"><button type="submit">Add</button></form>
+    <p class="private"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11h12v9H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>Salaries stay private. They're never shown to the person you send the survey to, or to anyone else. They go only to Jordan, for the time savings analysis.</p>
+    <div class="roster" id="roster"></div>
+    <a class="preview" href="https://jgoco.me/bloomfield/survey.html" target="_blank" rel="noopener">See what they'll see</a>
+  </div>
+  <button class="send" type="button" id="deepsend">Send the details to Jordan</button>
+  <p class="deep-note">Includes your team list and salaries, sent only to Jordan. A spreadsheet is fine too; attach it to the email that opens.</p>
+</dialog>
+<footer class="foot">Stay in Bloomfield · Town Center · A preview for Olde Bloomfield Operations</footer>
+
+<script>
+(() => {
+  // the eight businesses, each logo filled with its own brand color
+  const LOGOS = [["nettie", "img/nettie/logo-name.png", "#1f3a2b"], ["ernies", "img/ernies/logo-name.png", "#003f21"], ["doubledip", "img/doubledip/logo-sign-red.png", ""], ["merrifield", "img/merryfield/logo-name.png", "#823f49"], ["pinkhouse", "img/pinkhouse/logo-rose.png", "#b25466"], ["velvet", "img/velvet/logo-pill.png", "#5a1f2a"], ["rowdys", "img/rowdys/logo-name.png", "#4a2c17"], ["revival", "img/revival/logo-pill.png", "#a2442c"]];
+  const logo = ([k, src, c]) => `<span class="lg${c ? "" : " raw"}" style="--c:${c};--m:url(${src})"><img src="${src}" alt="${k}"></span>`;
+  document.getElementById("hubgrid").innerHTML = LOGOS.map(l => `<div class="t">${logo(l)}</div>`).join("");
+  const HOME = `<svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 10v10h14V10"/></svg>`;
+  document.getElementById("hubhomes").innerHTML = ["Boone's Cabin", "Miss Allie's Homestead", "The Clayborn House", "The Cosmopolitan"].map(h => `<span>${HOME}${h}</span>`).join("");
+
+  // line icons for the in and out chips
+  const IC = { bed: "M3 18V7M3 14h18v4M21 14v-3a3 3 0 0 0-3-3h-7v6M7 11.5a1.5 1.5 0 1 0 0-.01", globe: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z", card: "M3 6h18v12H3zM3 10h18M7 15h4", ring: "M12 21a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM9 4l3-1 3 1-3 5z", ticket: "M3 8V6h18v2a2 2 0 0 0 0 4v2H3v-2a2 2 0 0 0 0-4zM10 6v10", clock: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2", book: "M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3zM4 17a3 3 0 0 1 3-3h11", mail: "M3 6h18v12H3zM3 7l9 6 9-6", users: "M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.7.8 2.7 2.6 3 5.2", grid: "M3 4h18v16H3zM3 9h18M3 14h18M9 4v16", db: "M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3", chat: "M4 5h16v11H9l-5 4z" };
+  const svg = k => `<svg viewBox="0 0 24 24"><path d="${IC[k]}"/></svg>`;
+  document.querySelectorAll(".chip[data-i]").forEach(c => c.insertAdjacentHTML("afterbegin", svg(c.dataset.i)));
+
+  // October by business (sample)
+  const BARS = [["Ernie's", 48200, "#a9c6a6"], ["The homes", 25480, "#e7c27a"], ["Nettie Jarvis", 22700, "#a9c6a6"], ["Rowdy's", 18400, "#d7b7a0"], ["Double Dip", 14900, "#a9c6a6"], ["Pink House", 13200, "#d7b7a0"], ["Merrifield's", 11300, "#a9c6a6"], ["Velvet Room", 9600, "#d7b7a0"]];
+  const max = BARS[0][1];
+  document.getElementById("bars").innerHTML = BARS.map(([n, v, c]) => `<div class="bar" style="--c:${c}"><span>${n}</span><i style="--w:${Math.round(v / max * 100)}"></i><em>$${(v / 1000).toFixed(1)}k</em></div>`).join("");
+  document.getElementById("wk").innerHTML = "bbbhbbho".split("").map(x => `<span class="${x}"></span>`).join("");
+
+  // ideas we can build
+  const BI = { cal: "M4 5h16v15H4zM4 10h16M9 3v4M15 3v4", broom: "M14 3l-4 9M7 12h8l3 9H4z", box: "M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10", music: "M9 18V5l11-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM20 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z", swap: "M7 4l-4 4 4 4M3 8h14M17 20l4-4-4-4M21 16H7", gift: "M3 9h18v4H3zM5 13h14v8H5zM12 9v12M12 9c-2-4-6-4-6-1.5S10 9 12 9zm0 0c2-4 6-4 6-1.5S14 9 12 9z", star: "M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z", calc: "M5 3h14v18H5zM8 7h8M8 12h2M14 12h2M8 16h2M14 16h2", people: "M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 20c.6-3 2.9-5 6-5s5.4 2 6 5M17 11a2.5 2.5 0 1 0 0-5M18 14c2 .5 3.4 2.5 4 6M3 3h4", pay: "M3 6h18v12H3zM12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM6 9v.01M18 15v.01", heart: "M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z", glass: "M7 3h10l-1 9a4 4 0 0 1-8 0zM12 16v5M8 21h8", card: "M3 6h18v12H3zM3 10h18M7 15h4", ticket: "M3 8V6h18v2a2 2 0 0 0 0 4v2H3v-2a2 2 0 0 0 0-4zM10 6v10", form: "M6 3h9l4 4v14H6zM14 3v5h5M9 12h7M9 16h7", bed: "M3 18V7M3 14h18v4M21 14v-3a3 3 0 0 0-3-3h-7v6" };
+  const BUILDS = [
+    ["cal", "Wedding pipeline", "Every inquiry, tour, hold and deposit for Revival Hall and the Pink House, on one board.", "Event spaces"],
+    ["broom", "Turnover schedule", "Checkouts, cleaners and supplies for every home, set the moment a stay is booked.", "The homes"],
+    ["box", "Reorder alerts", "Double Dip and Nettie's flag low stock and draft the order.", "Shops"],
+    ["music", "Band nights", "Booking, riders, payouts and the kitchen sheet for every show at Ernie's and Rowdy's.", "Live music"],
+    ["swap", "Shift swaps", "Staff trade shifts across businesses. Managers approve in a tap.", "HR"],
+    ["gift", "One gift card", "Good at every business in town. Every sale tracked to the right books.", "Finance"],
+    ["star", "Bloomfield passport", "Guests collect a stamp at each stop and earn a reward for coming back.", "Marketing"],
+    ["calc", "Event profit check", "What each wedding or party really made, after staff, food and rentals.", "Finance"],
+    ["card", "Deposits, handled", "Event deposits and cards on file collected online and tied to each date. No more phone tag.", "Event spaces"],
+    ["ticket", "Tea seats online", "Merrifield's tea tickets sold on the site, not just by phone or at the counter.", "Merrifield's"],
+    ["form", "Event request form", "Staffing, bourbon, gift cards and the profit goal for every event, in one form that feeds the calendar.", "Business management"],
+    ["bed", "All four homes", "Every Airbnb calendar, payout and guest message in one view.", "The homes"],
+    ["people", "Staff to the forecast", "Bookings and band nights tell each manager how many people to schedule.", "HR"],
+    ["pay", "One pay run", "Bands, cleaners, florists and rentals, invoiced and paid from one list.", "Finance"],
+    ["heart", "Repeat guest finder", "Spot who stayed at Boone's and came back for a wedding, and thank them.", "Marketing"],
+    ["glass", "Price check", "What each shake, cocktail and tea service costs to make, next to its price.", "Restaurants"],
+  ];
+  document.getElementById("builds").innerHTML = BUILDS.map(([i, h, p, f]) => `<div class="bld rise"><svg viewBox="0 0 24 24"><path d="${BI[i]}"/></svg><span class="for">${f}</span><h3>${h}</h3><p>${p}</p></div>`).join("");
+
+  // what they use today: tap to mark; just for the conversation
+  const USES = ["Squarespace", "QuickBooks", "Xero", "Square", "Toast", "Clover", "Gusto", "ADP", "Paychex", "Airbnb", "VRBO", "Excel", "Google Sheets", "Mailchimp", "Something else"];
+  const uses = document.getElementById("uses"), usesk = document.getElementById("usesk");
+  uses.innerHTML = USES.map(u => `<button type="button" aria-pressed="false">${u}</button>`).join("");
+  uses.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"));
+    const n = uses.querySelectorAll('[aria-pressed="true"]').length;
+    usesk.textContent = n ? `${n} connected. We'll plug ${n === 1 ? "it" : "them"} into Town Center.` : "Tap what you use today.";
+  });
+
+  // who runs what: opens their own email app with a note to Jordan ready to send (works on phones too)
+  const whoform = document.getElementById("whoform"), whosent = document.getElementById("whosent");
+  whoform.addEventListener("submit", e => {
+    e.preventDefault();
+    const picked = [...uses.querySelectorAll('[aria-pressed="true"]')].map(b => b.textContent).join(", ") || "(none tapped)";
+    const body = [`Name: ${whoform.person.value.trim()}`, `Email: ${whoform.email.value.trim()}`, `Role: ${whoform.role.value.trim()}`, `Tools we use: ${picked}`, "", "Who runs what:", whoform.who.value.trim()].join("\n");
+    location.href = `mailto:jordan@jgoco.me?subject=${encodeURIComponent("Town Center: who runs what")}&body=${encodeURIComponent(body)}`;
+    whosent.textContent = "Your email opens with the note ready. Press send there."; whosent.hidden = false;
+  });
+
+  // a staff member typing an update
+  const typed = "Pumpkin pie shake, $7.50", tEl = document.getElementById("typing"); let ti = 0;
+  const type = () => { tEl.textContent = typed.slice(0, ti); ti = ti > typed.length + 14 ? 0 : ti + 1; setTimeout(type, ti === 0 ? 600 : 110); };
+  type();
+
+  // sliders: swipe, arrows, dots, and a slow auto-advance until someone takes over
+  function slider(el, slides, onChange) {
+    el.innerHTML = `<div class="track">${slides.map(x => `<div class="slide"><img class="shot" src="${x.src}" alt="" loading="lazy">${x.tag || ""}</div>`).join("")}</div>
+      <div class="ctrl"><div class="dots">${slides.map((_, i) => `<button type="button" aria-label="Slide ${i + 1}"></button>`).join("")}</div>
+      <div class="arrows"><button type="button" data-d="-1" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" data-d="1" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div></div>`;
+    const track = el.querySelector(".track"), dots = [...el.querySelectorAll(".dots button")];
+    let cur = 0, auto = true;
+    const go = i => { cur = (i + slides.length) % slides.length; track.scrollTo({ left: cur * track.clientWidth, behavior: "smooth" }); };
+    const mark = () => { const i = Math.round(track.scrollLeft / track.clientWidth); cur = i; dots.forEach((d, j) => d.setAttribute("aria-current", String(j === i))); onChange && onChange(i); };
+    track.addEventListener("scroll", () => { clearTimeout(track._t); track._t = setTimeout(mark, 80); });
+    const stop = () => { auto = false; };
+    track.addEventListener("pointerdown", stop); track.addEventListener("touchstart", stop, { passive: true });
+    dots.forEach((d, i) => d.onclick = () => { stop(); go(i); });
+    el.querySelectorAll(".arrows button").forEach(b => b.onclick = () => { stop(); go(cur + +b.dataset.d); });
+    setInterval(() => { if (auto && el.getBoundingClientRect().top < innerHeight && el.getBoundingClientRect().bottom > 0) go(cur + 1); }, 4200);
+    mark();
+    return { go: i => { stop(); go(i); } };
+  }
+  const A = [["tc-plan", "Plan a weekend in three questions."], ["tc-plan-pk", "Ready-made weekends, booked all at once."], ["tc-stays", "Every home, with live dates."], ["tc-calendar", "One calendar for the whole town."]];
+  const capA = document.getElementById("cap-a");
+  slider(document.getElementById("sl-a"), A.map(([f]) => ({ src: `img/shots/${f}.jpg` })), i => { capA.textContent = A[i][1]; });
+  const SITES = [["town", "stayinbloomfield.com"], ["nettie", "nettie-jarvis.com"], ["ernies", "ernies-tavern.com"], ["doubledip", "the-double-dip.com"], ["merrifield", "missmerrifields.com"], ["pinkhouse", "theoldpinkhouse.com"], ["velvet", "the-velvet-room.com"], ["rowdys", "rowdys-saloon.com"], ["revival", "revivalhall.com"]];
+  const byKey = Object.fromEntries(LOGOS.map(l => [l[0], l]));
+  const doms = document.getElementById("doms");
+  doms.innerHTML = SITES.map(([, u]) => `<button type="button">${u}</button>`).join("");
+  const sb = slider(document.getElementById("sl-b"), SITES.map(([k, u]) => ({ src: `img/shots/${k}.jpg`, tag: `<div class="tag">${byKey[k] ? logo(byKey[k]) : ""}<span>${u}</span></div>` })), i => [...doms.children].forEach((b, j) => b.setAttribute("aria-current", String(j === i))));
+  [...doms.children].forEach((b, i) => b.onclick = () => sb.go(i));
+
+  // band nights at Ernie's: fee, door, register, and what the night made over a normal one (sample)
+  const NORMAL = { Fri: 2600, Sat: 3100 };
+  const NIGHTS = [["Sat", "Oct 3", "Hannah Wheeler & The Heartaches", 600, 142, 6240], ["Fri", "Oct 9", "The Cumberland Strays", 450, 88, 3380], ["Sat", "Oct 17", "We May Have Company", 800, 171, 7120], ["Fri", "Oct 23", "Bourbon Barrel Boys", 500, 61, 2710], ["Sat", "Oct 31", "Big Black Cadillac", 700, 196, 8050]];
+  const $k = n => "$" + n.toLocaleString("en-US");
+  const rows = NIGHTS.map(([d, dt, band, fee, door, reg]) => ({ d, dt, band, fee, door, reg, made: reg - NORMAL[d] - fee }));
+  const top = Math.max(...rows.map(r => Math.abs(r.made)));
+  document.getElementById("brows").innerHTML = rows.map(r => {
+    const v = r.made > 1000 ? ["keep", "Book again"] : r.made > 0 ? ["maybe", "Worth a talk"] : ["re", "Rethink"];
+    const w = Math.round(Math.abs(r.made) / top * 100), sg = r.made >= 0 ? "pos" : "neg";
+    return `<div class="brow"><div class="nm"><b>${r.band}</b><span>${r.d} ${r.dt}</span></div><span class="c" data-k="Paid">${$k(r.fee)}</span><span class="c" data-k="Door">${r.door}</span><span class="c" data-k="Register">${$k(r.reg)}</span>
+      <div class="lift"><i class="${sg}" style="--w:${w}"></i><em class="${sg}">${r.made >= 0 ? "+" : "−"}${$k(Math.abs(r.made))}</em></div><span class="verdict ${v[0]}">${v[1]}</span></div>`;
+  }).join("");
+  const tot = k => rows.reduce((a, r) => a + r[k], 0);
+  document.getElementById("bsum").innerHTML = `<div><span>Paid to bands</span><b>${$k(tot("fee"))}</b></div><div><span>Came in the door</span><b>${tot("door")}</b></div><div><span>Register</span><b>${$k(tot("reg"))}</b></div><div class="up"><span>Made over normal nights</span><b>+${$k(tot("made"))}</b></div>`;
+
+  // one party, every dollar (sample)
+  const P_IN = [["Room rental", 1800], ["Food & tea service", 1640], ["Bar", 920], ["Homes its guests booked", 1180, "Clayborn & Cosmopolitan"]];
+  const P_OUT = [["Staff, 6 people", 860], ["Food cost", 590], ["Rentals & flowers", 340], ["Cleaning", 150]];
+  const pin = P_IN.reduce((a, x) => a + x[1], 0), pout = P_OUT.reduce((a, x) => a + x[1], 0), party = pin - P_IN[3][1];
+  document.getElementById("p-in").innerHTML = P_IN.map(([n, v, t]) => `<div class="ln"><span>${n}${t ? `<em>${t}</em>` : ""}</span><b>${$k(v)}</b></div>`).join("");
+  document.getElementById("p-out").innerHTML = P_OUT.map(([n, v]) => `<div class="ln cost"><span>${n}</span><b>−${$k(v)}</b></div>`).join("");
+  document.getElementById("p-made").textContent = $k(pin - pout);
+  document.getElementById("p-margin").textContent = `${Math.round((pin - pout) / pin * 100)}% of ${$k(pin)} brought in`;
+  document.getElementById("p-split").innerHTML = `<i class="a" style="width:${party / pin * 100}%"></i><i class="b" style="width:${P_IN[3][1] / pin * 100}%"></i>`;
+  document.getElementById("p-note").innerHTML = `Without the homes it filled, the party made <b>${$k(party - pout)}</b>. The homes are <b>${Math.round(P_IN[3][1] / (pin - pout) * 100)}%</b> of the profit, and no one would see that in one business's books.`;
+
+  // ask anything: a few sample questions with their answers
+  const ASK = [
+    { q: "When all four homes are booked for a weekend, how much more do the other businesses sell?", a: `On full-house weekends, the rest of town rings up <b>42% more</b>.`, sub: "6 full-house weekends vs. 18 others since May. About $7,400 more each weekend.", key: ["Normal weekend", "All homes booked"],
+      rows: [["Nettie Jarvis", 3200, 5100], ["Ernie's", 6800, 9400], ["Double Dip", 1900, 2850], ["Merrifield's", 1500, 2250], ["Rowdy's", 4100, 5300]] },
+    { q: "How much do guests at the homes spend in town?", a: `Each stay brings <b>$255</b> into town, on average.`, sub: "Matched by guest name and card across every register since May.", one: true,
+      rows: [["Boone's Cabin", 310], ["Miss Allie's", 280], ["Clayborn House", 240], ["Cosmopolitan", 190]] },
+    { q: "Which events bring people back the most?", a: `Tea service brings back <b>41%</b> of its guests within 90 days.`, sub: "Guests who returned to any business in town within 90 days.", one: true, pct: true,
+      rows: [["Afternoon tea", 41], ["Band nights", 34], ["Bourbon tastings", 28], ["Weddings", 19]] },
+    { q: "Which nights should Ernie's add a band?", a: `Thursdays look ready: <b>+$1,900</b> expected on a band night.`, sub: "Based on door counts, register totals and band fees on similar nights.", one: true, money: true,
+      rows: [["Thursday", 1900], ["Sunday afternoon", 1100], ["Wednesday", 400]] },
+  ];
+  const askq = document.getElementById("askq"), askout = document.getElementById("askout");
+  document.getElementById("asks").innerHTML = ASK.map((x, i) => `<button type="button" data-i="${i}">${x.q}</button>`).join("");
+  const answer = x => {
+    if (!x) { askout.innerHTML = `<div class="ans">In the real Town Center, this answers from your own numbers.</div><p class="sub">For now, try one of the questions above.</p>`; return; }
+    const top = Math.max(...x.rows.map(r => r[r.length - 1]));
+    const fmtv = v => x.pct ? v + "%" : $k(v);
+    askout.innerHTML = `<div class="ans">${x.a}</div><p class="sub">${x.sub}</p>${x.key ? `<div class="ask-key"><span><i style="background:#d6cdbb"></i>${x.key[0]}</span><span><i style="background:#4f7a52"></i>${x.key[1]}</span></div>` : ""}
+      <div style="display:grid;gap:12px">${x.rows.map(r => x.one ? `<div class="pair"><span>${r[0]}</span><div class="bars"><i class="b" style="--w:0" data-w="${r[1] / top * 100}"></i></div><em>${fmtv(r[1])}</em></div>`
+        : `<div class="pair"><span>${r[0]}</span><div class="bars"><i class="a" style="--w:0" data-w="${r[1] / top * 100}"></i><i class="b" style="--w:0" data-w="${r[2] / top * 100}"></i></div><em>+${Math.round((r[2] / r[1] - 1) * 100)}%</em></div>`).join("")}</div>`;
+    requestAnimationFrame(() => requestAnimationFrame(() => askout.querySelectorAll("[data-w]").forEach(i => i.style.setProperty("--w", i.dataset.w))));
+  };
+  const ask = (x, text) => {
+    askq.value = text; askout.innerHTML = `<div class="thinking"><i></i><i></i><i></i><span>Reading every business's numbers</span></div>`;
+    setTimeout(() => answer(x), 900);
+  };
+  document.getElementById("asks").addEventListener("click", e => { const b = e.target.closest("button"); if (b) ask(ASK[b.dataset.i], ASK[b.dataset.i].q); });
+  document.getElementById("askf").addEventListener("submit", e => { e.preventDefault(); const t = askq.value.trim().toLowerCase(); ask(ASK.find(x => x.q.toLowerCase() === t), askq.value); });
+  askq.value = ASK[0].q; answer(ASK[0]);
+
+  // want to go deeper: the pop-out, a worked example of hours given back, and an email to Jordan with the headings to fill in
+  const deep = document.getElementById("deep"), dsal = document.getElementById("dsal");
+  const TASKS = [["Retyping each register's sales into QuickBooks", 4, .5], ["Building the Monday owner report by hand", 2, 0], ["Answering the same booking and deposit questions", 3, 1], ["Posting events to the website, Facebook and Google one by one", 1.5, .5]];
+  const dtasks = document.getElementById("dtasks");
+  dtasks.innerHTML = `<div class="dt hd"><span>Every week</span><span>Today</span><span>With TC</span></div>` + TASKS.map(([t, a, b], i) => `<div class="dt"><span>${t}</span><input type="number" min="0" step=".5" value="${a}" data-i="${i}" aria-label="Hours today"><span class="after">${b} hr</span></div>`).join("");
+  const calc = () => {
+    const sal = +dsal.value || 0, rate = sal / 2080;
+    const saved = [...dtasks.querySelectorAll("input")].reduce((a, inp) => a + Math.max(0, (+inp.value || 0) - TASKS[inp.dataset.i][2]), 0);
+    const yr = saved * 50;
+    document.getElementById("drate").textContent = `About $${rate.toFixed(2)} an hour`;
+    document.getElementById("dres").innerHTML = `<div><span>Hours back each week</span><b>${saved.toFixed(1)}</b></div><div><span>Hours back each year</span><b>${Math.round(yr)}</b></div><div class="g"><span>Worth each year</span><b>${$k(Math.round(yr * rate / 100) * 100)}</b></div>`;
+  };
+  dsal.addEventListener("input", calc); dtasks.addEventListener("input", calc); calc();
+  document.getElementById("deepopen").onclick = () => deep.showModal();
+  // ask your team opens straight to the team list, ready for the first name
+  document.getElementById("teamopen").onclick = () => {
+    deep.showModal();
+    requestAnimationFrame(() => { deep.scrollTop = deep.querySelector(".deep-team").offsetTop - 16; document.querySelector("#dtadd [name=n]").focus({ preventScroll: true }); });
+  };
+  document.getElementById("deepclose").onclick = () => deep.close();
+  deep.addEventListener("click", e => { if (e.target === deep) deep.close(); });
+  // ask your team: each person gets their own survey link (name and department only); the list with salaries stays with the owner
+  const SURVEY = "https://jgoco.me/bloomfield/survey.html";
+  const roster = document.getElementById("roster");
+  let team = []; try { team = JSON.parse(localStorage.getItem("tc-team") || "[]"); } catch {}
+  const keep = () => { try { localStorage.setItem("tc-team", JSON.stringify(team)); } catch {} };
+  const linkFor = p => `${SURVEY}?n=${encodeURIComponent(p.n)}${p.d ? `&d=${encodeURIComponent(p.d)}` : ""}`;
+  const askMsg = p => `Hi ${p.n.split(" ")[0]}, we're exploring building a Town Center operations hub to make work easier for everyone. Could you take 5 minutes to tell us how your day goes? ${linkFor(p)}`;
+  const drawTeam = () => {
+    roster.innerHTML = team.map((p, i) => `<div class="rp"><div><b>${esc(p.n)}</b><div class="meta">${esc(p.d || "No department")}${p.s ? ` · ${$k(+p.s)} a year` : ""}</div></div>
+      <div class="acts"><button type="button" data-a="copy" data-i="${i}">Copy link</button><a href="sms:?&body=${encodeURIComponent(askMsg(p))}">Text</a><a href="mailto:?subject=${encodeURIComponent("A few quick questions about your day")}&body=${encodeURIComponent(askMsg(p))}">Email</a><button type="button" class="x" data-a="del" data-i="${i}" aria-label="Remove ${esc(p.n)}">×</button></div></div>`).join("");
+  };
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  document.getElementById("dtadd").addEventListener("submit", e => {
+    e.preventDefault(); const f = e.target; if (!f.n.value.trim()) return;
+    team.push({ n: f.n.value.trim(), d: f.d.value.trim(), s: f.s.value }); keep(); drawTeam(); f.reset(); f.n.focus();
+  });
+  roster.addEventListener("click", async e => {
+    const b = e.target.closest("button"); if (!b) return; const p = team[b.dataset.i];
+    if (b.dataset.a === "del") { team.splice(b.dataset.i, 1); keep(); drawTeam(); return; }
+    try { await navigator.clipboard.writeText(linkFor(p)); b.textContent = "Copied"; } catch { prompt("Copy this link", linkFor(p)); }
+    setTimeout(() => { b.textContent = "Copy link"; }, 1600);
+  });
+  drawTeam();
+  document.getElementById("deepsend").onclick = () => {
+    const list = team.length ? ["Team I'm sending the survey to:", ...team.map(p => `  ${p.n}, ${p.d || "no department"}${p.s ? `, $${(+p.s).toLocaleString("en-US")} a year` : ""}`), ""] : [];
+    const body = [...list, "Departments, and who's in each:", "", "Salaries or pay ranges:", "", "Overhead (rent, insurance, utilities):", "", "Software, and what each costs:", "", "The jobs that eat the most time:", "", "(A spreadsheet is fine. Attach it here.)"].join("\n");
+    location.href = `mailto:jordan@jgoco.me?subject=${encodeURIComponent("Town Center: going deeper")}&body=${encodeURIComponent(body)}`;
+  };
+
+  // schedule a call: an email asking for a day and time, sent from their own app
+  document.getElementById("callbtn").onclick = () => {
+    const d = document.getElementById("callday").value, t = document.getElementById("calltime").value;
+    const day = d ? new Date(d + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }) : "a day that works for you";
+    const who = document.getElementById("callname").value.trim(), em = document.getElementById("callemail").value.trim();
+    const body = [`I'd like to set up a call about Town Center.`, "", `Day: ${day}`, `Time: ${t}`, "", `Name: ${who}`, `Email: ${em}`, "Best number to reach me:", "Who else should join:"].join("\n");
+    location.href = `mailto:jordan@jgoco.me?subject=${encodeURIComponent(`Town Center: schedule a call`)}&body=${encodeURIComponent(body)}`;
+  };
+
+  // fade sections in as they scroll into view
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15 });
+  document.querySelectorAll(".rise").forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>
