@@ -86,34 +86,48 @@
   const chip = (ic, t) => `<div>${svgI(ic)}<span>${esc(t)}</span></div>`;
   const SCENES = {
     lines: () => `<div class="v-line" id="v-lines"></div>`,
-    logo: () => `<div class="v-stack v-end"><img src="img/logo-white.png?v=1793928429" alt="Apex Construction General Contractors Inc."><div class="v-title"><small>${esc(V.since)}</small></div></div>`,
+    logo: () => `<div class="v-stack v-end"><img src="img/logo-white.png?v=1793931799" alt="Apex Construction General Contractors Inc."><div class="v-title"><small>${esc(V.since)}</small></div></div>`,
     headline: () => `<div class="v-line">${V.headline}<small>${esc(V.headSub)}</small></div>`,
-    site: () => `<div class="v-stack"><div class="v-title">${esc(V.site.h)}<small>${esc(V.site.p)}</small></div><div class="v-win"><div class="bar"><i></i><i></i><i></i><span>apexconstgc.com</span></div><img src="img/shots/site.jpg?v=1793928429" alt=""></div></div>`,
-    listings: () => `<div class="v-stack"><div class="v-title">${esc(V.listings.h)}<small>${esc(V.listings.p)}</small></div><div class="v-flow"><div class="v-list">${V.listings.in.map((t, i) => `<div style="animation-delay:${.15 * i}s">${svgI("star")}${esc(t)}</div>`).join("")}</div><div class="v-core"><img src="img/mark-white.png?v=1793928429" alt=""></div><div class="v-list">${V.listings.out.map((t, i) => `<div style="animation-delay:${.6 + .15 * i}s">${svgI("check")}${esc(t)}</div>`).join("")}</div></div></div>`,
+    site: () => `<div class="v-stack"><div class="v-title">${esc(V.site.h)}<small>${esc(V.site.p)}</small></div><div class="v-win"><div class="bar"><i></i><i></i><i></i><span>apexconstgc.com</span></div><img src="img/shots/site.jpg?v=1793931799" alt=""></div></div>`,
+    listings: () => `<div class="v-stack"><div class="v-title">${esc(V.listings.h)}<small>${esc(V.listings.p)}</small></div><div class="v-flow"><div class="v-list">${V.listings.in.map((t, i) => `<div style="animation-delay:${.15 * i}s">${svgI("star")}${esc(t)}</div>`).join("")}</div><div class="v-core"><img src="img/mark-white.png?v=1793931799" alt=""></div><div class="v-list">${V.listings.out.map((t, i) => `<div style="animation-delay:${.6 + .15 * i}s">${svgI("check")}${esc(t)}</div>`).join("")}</div></div></div>`,
     bids: () => `<div class="v-stack"><div class="v-title">${esc(V.bids.h)}<small>${esc(V.bids.p)}</small></div><div class="v-feed">${AX.bids.feed.slice(0, 4).map((b, i) => `<div class="row" style="animation-delay:${.35 * i}s">${svgI("bid", 26)}<span><b>${esc(b.t)}</b><small>${esc(b.src)} · due ${esc(b.due)}</small></span><span class="tag">${esc(b.kind)}</span><span class="score">${b.fit}</span></div>`).join("")}</div></div>`,
     estimate: () => `<div class="v-stack"><div class="v-title">${esc(V.estimate.h)}<small>${esc(V.estimate.p)}</small></div><div class="v-feed">${AX.est.lines.slice(0, 5).map((l, i) => `<div class="row" style="animation-delay:${.3 * i}s">${svgI("est", 24)}<span><b>${esc(l[0])}</b><small>${l[1]} ${esc(l[2])} × ${money(l[3])}</small></span><span class="tag">${esc(l[4])}</span><span class="score" style="color:#fff">${money(l[1] * l[3])}</span></div>`).join("")}</div></div>`,
     receipts: () => `<div class="v-stack"><div class="v-title">${esc(V.receipts.h)}<small>${esc(V.receipts.p)}</small></div><div class="v-rcpt">${AX.receipts.slice(0, 3).map((r, i) => `<div class="r" style="--r:${[-3, 2, -1][i]}deg;animation-delay:${.5 * i}s" data-job="${esc(r.job)}"><b>${esc(r.vendor.toUpperCase())}</b><br>${esc(r.where)}<br>${esc(r.date)}<br>-----------------<br>${esc(r.items)}<br>-----------------<br>TOTAL ${money(r.amt, 2)}</div>`).join("")}</div></div>`,
-    project: () => `<div class="v-stack"><div class="v-title">${esc(V.project.h)}<small>${esc(V.project.p)}</small></div><div class="v-flow"><div class="v-list">${V.project.in.map((t, i) => `<div style="animation-delay:${.15 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div><div class="v-core"><img src="img/mark-white.png?v=1793928429" alt=""></div><div class="v-list">${V.project.out.map((t, i) => `<div style="animation-delay:${.6 + .15 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div></div></div>`,
+    project: () => `<div class="v-stack"><div class="v-title">${esc(V.project.h)}<small>${esc(V.project.p)}</small></div><div class="v-flow"><div class="v-list">${V.project.in.map((t, i) => `<div style="animation-delay:${.15 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div><div class="v-core"><img src="img/mark-white.png?v=1793931799" alt=""></div><div class="v-list">${V.project.out.map((t, i) => `<div style="animation-delay:${.6 + .15 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div></div></div>`,
     calendar: () => `<div class="v-stack"><div class="v-title">${esc(V.calendar.h)}<small>${esc(V.calendar.p)}</small></div><div style="width:min(1000px,92vw)" class="hb" style="min-height:0;display:block">${APP.hubMini ? APP.hubMini("week") : ""}</div></div>`,
-    ring: () => `<div class="v-stack"><div class="v-title">${esc(V.ring.h)}<small>${esc(V.ring.p)}</small></div><div class="v-flow"><div class="v-list">${V.ring.l.map((t, i) => `<div style="animation-delay:${.12 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div><div class="v-core"><img src="img/mark-white.png?v=1793928429" alt=""></div><div class="v-list">${V.ring.r.map((t, i) => `<div style="animation-delay:${.5 + .12 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div></div></div>`,
-    race: () => `<div class="v-stack"><div class="v-win" style="width:min(820px,90vw);background:#000"><img src="img/work/img2160.jpg?v=1793928429" alt="The #28 Apex sprint car, feature winner at Ocean Speedway" style="aspect-ratio:3/2;object-position:center"></div><div class="v-line" style="font-size:clamp(34px,4.6vw,66px)">${V.race}</div></div>`,
-    end: () => `<div class="v-stack v-end"><img src="img/logo-white.png?v=1793928429" alt="Apex Construction"><div class="v-line" style="font-size:clamp(30px,3.6vw,50px)">${V.end}<small>Scroll down for more</small></div></div>`,
+    ring: () => `<div class="v-stack"><div class="v-title">${esc(V.ring.h)}<small>${esc(V.ring.p)}</small></div><div class="v-flow"><div class="v-list">${V.ring.l.map((t, i) => `<div style="animation-delay:${.12 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div><div class="v-core"><img src="img/mark-white.png?v=1793931799" alt=""></div><div class="v-list">${V.ring.r.map((t, i) => `<div style="animation-delay:${.5 + .12 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div></div></div>`,
+    race: () => `<div class="v-stack"><div class="v-win" style="width:min(820px,90vw);background:#000"><img src="img/work/img2160.jpg?v=1793931799" alt="The #28 Apex sprint car, feature winner at Ocean Speedway" style="aspect-ratio:3/2;object-position:center"></div><div class="v-line" style="font-size:clamp(34px,4.6vw,66px)">${V.race}</div></div>`,
+    end: () => `<div class="v-stack v-end"><img src="img/logo-white.png?v=1793931799" alt="Apex Construction"><div class="v-line" style="font-size:clamp(30px,3.6vw,50px)">${V.end}<small>Scroll down for more</small></div></div>`,
   };
   const CH = V.scenes; // [key, seconds, caption]
-  let showTok = 0, timer = null, idx = 0, t0 = 0, paused = false, elapsed = 0;
-  function stopVideo() { clearTimeout(timer); timer = null; cancelAnimationFrame(raf); APP.music && APP.music.stop(); }
+  let VO = {}, voEl = null, voMuted = false, curDur = 0, showTok = 0, timer = null, idx = 0, t0 = 0, paused = false, elapsed = 0;
+  function stopVideo() { clearTimeout(timer); timer = null; cancelAnimationFrame(raf); APP.music && APP.music.stop(); stopVoice(); }
+  /* the voiceover: one clip per scene (img/vo/<scene>.mp3), lengths in img/vo/vo.json; the music dips under it */
+  const VO_ON = !Q.has("cap") && !Q.has("novo");
+  fetch("img/vo/vo.json?v=1793931799").then(r => r.ok ? r.json() : {}).then(j => { VO = j || {}; }).catch(() => {});
+  const voClips = {};
+  function preloadVoice() { if (!VO_ON) return; Object.keys(VO).forEach(k => { if (!voClips[k]) { const a = new Audio(`img/vo/${k}.mp3`); a.preload = "auto"; voClips[k] = a; } }); }
+  APP.voice = () => voEl; // for checks: the clip playing now
+  function stopVoice() { if (voEl) { voEl.pause(); voEl.onended = null; } voEl = null; APP.music && APP.music.duck && APP.music.duck(false); }
+  function playVoice(k) {
+    stopVoice(); if (!VO_ON || !VO[k]) return;
+    voEl = voClips[k] || new Audio(`img/vo/${k}.mp3`); voEl.currentTime = 0; voEl.muted = voMuted;
+    APP.music && APP.music.duck && APP.music.duck(true);
+    voEl.onended = () => { APP.music && APP.music.duck && APP.music.duck(false); };
+    voEl.play().catch(() => {});
+  }
   let raf = 0;
   function tick() {
     const segs = document.querySelectorAll(".wh-bar .seg i"); if (!segs.length) return;
     const now = paused ? elapsed : elapsed + (performance.now() - t0) / 1000;
-    segs.forEach((s, i) => s.style.width = i < idx ? "100%" : i > idx ? "0" : Math.min(100, now / CH[idx][1] * 100) + "%");
+    segs.forEach((s, i) => s.style.width = i < idx ? "100%" : i > idx ? "0" : Math.min(100, now / (curDur || CH[idx][1]) * 100) + "%");
     raf = requestAnimationFrame(tick);
   }
   function show(i) {
     const st = $(".wh-stage"); if (!st) return;
     clearTimeout(timer); const tok = ++showTok;
     idx = i; elapsed = 0; t0 = performance.now();
-    if (i >= CH.length) { finish(); return; }
+    if (i >= CH.length) { stopVoice(); finish(); return; }
     const [k, secs, cap] = CH[i];
     const old = st.querySelector(".wh-scene");
     const go = () => {
@@ -122,18 +136,23 @@
       $(".wh-cap").textContent = cap || "";
       $(".wh").dataset.scene = k;
       if (k === "lines") typeLines();
-      clearTimeout(timer); if (!paused) timer = setTimeout(() => show(i + 1), secs * 1000);
+      // a scene lasts as long as its picture needs, or its voice line plus a beat, whichever is longer
+      curDur = VO_ON && VO[k] ? Math.max(secs, VO[k] + 0.9) : secs; t0 = performance.now();
+      playVoice(k);
+      clearTimeout(timer); if (!paused) timer = setTimeout(() => show(i + 1), curDur * 1000);
     };
     if (old) { old.classList.add("out"); setTimeout(go, 420); } else go();
   }
   function typeLines() {
     const el = $("#v-lines"); if (!el) return;
-    V.lines.forEach((l, i) => setTimeout(() => { if (el.isConnected) { el.innerHTML = `<span style="display:block;animation:sIn .9s both">${l}</span>`; } }, i * 3600));
+    // with the voice on, the four lines keep pace with it; without it, one every 3.6 seconds
+    const step = (VO_ON && VO.lines ? Math.max(2.2, (VO.lines + 0.4) / V.lines.length) : 3.6) * 1000;
+    V.lines.forEach((l, i) => setTimeout(() => { if (el.isConnected) { el.innerHTML = `<span style="display:block;animation:sIn .9s both">${l}</span>`; } }, i * step));
   }
   function finish() {
     APP.music && APP.music.fade(3);
     const wh = $(".wh"); wh.classList.remove("on"); wh.classList.add("done");
-    $(".wh-front").innerHTML = `<img src="img/logo-white.png?v=1793928429" alt="Apex Construction"><h1>${V.headline}</h1><p>${esc(V.headSub)}</p><button class="play" id="replay"><i><svg viewBox="0 0 24 24" width="22" height="22"><path d="${IC.play}"/></svg></i>Watch again</button>`;
+    $(".wh-front").innerHTML = `<img src="img/logo-white.png?v=1793931799" alt="Apex Construction"><h1>${V.headline}</h1><p>${esc(V.headSub)}</p><button class="play" id="replay"><i><svg viewBox="0 0 24 24" width="22" height="22"><path d="${IC.play}"/></svg></i>Watch again</button>`;
   }
   function playVideo(from) {
     const wh = $(".wh"); if (!wh) return;
@@ -141,6 +160,7 @@
     wh.querySelector(".wh-bar").innerHTML = CH.map((c, i) => `<span class="seg" data-i="${i}"><i></i></span>`).join("") + `<button id="v-pause" aria-label="Pause">❚❚</button><button id="v-mute" aria-label="Mute">♪</button>`;
     paused = false; cancelAnimationFrame(raf); tick();
     if (!Q.has("cap")) APP.music && APP.music.start();
+    preloadVoice();
     show(from || 0);
   }
   APP.playVideo = playVideo;
@@ -151,11 +171,11 @@
       const sg = e.target.closest(".seg"); if (sg) { show(+sg.dataset.i); return; }
       if (e.target.closest("#v-pause")) {
         paused = !paused; e.target.textContent = paused ? "▶" : "❚❚";
-        if (paused) { elapsed += (performance.now() - t0) / 1000; clearTimeout(timer); APP.music && APP.music.pause(true); }
-        else { t0 = performance.now(); timer = setTimeout(() => show(idx + 1), Math.max(0, CH[idx][1] - elapsed) * 1000); APP.music && APP.music.pause(false); }
+        if (paused) { elapsed += (performance.now() - t0) / 1000; clearTimeout(timer); APP.music && APP.music.pause(true); voEl && voEl.pause(); }
+        else { t0 = performance.now(); timer = setTimeout(() => show(idx + 1), Math.max(0, (curDur || CH[idx][1]) - elapsed) * 1000); APP.music && APP.music.pause(false); voEl && !voEl.ended && voEl.play().catch(() => {}); }
         return;
       }
-      if (e.target.closest("#v-mute")) { APP.music && APP.music.mute(); e.target.style.opacity = e.target.style.opacity === ".4" ? "1" : ".4"; }
+      if (e.target.closest("#v-mute")) { APP.music && APP.music.mute(); voMuted = !voMuted; if (voEl) voEl.muted = voMuted; e.target.style.opacity = e.target.style.opacity === ".4" ? "1" : ".4"; }
     });
     const sn = Q.get("scene"); if (sn != null) { paused = false; playVideo(+sn); if (Q.has("cap")) { clearTimeout(timer); paused = true; } }
   }
@@ -164,8 +184,8 @@
   function welcome() {
     const W = AX.welcome;
     return `
-    <section class="wh"><div class="wh-bg" style="background-image:url(img/work/hero.jpg?v=1793928429)"></div><div class="wh-shade"></div>
-      <div class="wh-front"><img src="img/logo-white.png?v=1793928429" alt="Apex Construction General Contractors Inc."><h1>${V.headline}</h1><p>${esc(V.headSub)}</p><button class="play"><i><svg viewBox="0 0 24 24" width="22" height="22"><path d="${IC.play}"/></svg></i>Play the two-minute video</button></div>
+    <section class="wh"><div class="wh-bg" style="background-image:url(img/work/hero.jpg?v=1793931799)"></div><div class="wh-shade"></div>
+      <div class="wh-front"><img src="img/logo-white.png?v=1793931799" alt="Apex Construction General Contractors Inc."><h1>${V.headline}</h1><p>${esc(V.headSub)}</p><button class="play"><i><svg viewBox="0 0 24 24" width="22" height="22"><path d="${IC.play}"/></svg></i>Play the 90-second video</button></div>
       <div class="wh-stage"></div><div class="wh-cap"></div><div class="wh-bar"></div>
     </section>
     <div class="stripe"></div>
@@ -183,7 +203,7 @@
     </div></section>
     <section class="sec"><div class="wrap split">
       <div class="rise"><div class="kick">The idea</div><p class="quote">${W.quote}</p><p class="lede">${esc(W.quoteP)}</p></div>
-      <div class="rise" style="border-radius:20px;overflow:hidden;border:1px solid var(--line)"><img src="img/work/img0745.jpg?v=1793928429" alt="Apex tenant improvement: new mezzanine office and stair in a warehouse" style="aspect-ratio:4/3;object-fit:cover;width:100%"></div>
+      <div class="rise" style="border-radius:20px;overflow:hidden;border:1px solid var(--line)"><img src="img/work/img0745.jpg?v=1793931799" alt="Apex tenant improvement: new mezzanine office and stair in a warehouse" style="aspect-ratio:4/3;object-fit:cover;width:100%"></div>
     </div></section>
     ${APP.next("site", "The new site")}`;
   }

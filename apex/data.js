@@ -26,7 +26,22 @@ window.AX = {
     ring: { h: "Apex Field Office.", p: "Everything linked. Nothing typed twice.", l: [["cal", "Daily calendar"], ["folder", "Project files"], ["est", "Estimator"], ["bid", "Bid engine"], ["receipt", "Receipts"]], r: [["money", "Books and payroll"], ["shield", "Liens and permits"], ["users", "Subs and crew"], ["star", "Listings and reviews"], ["chat", "Ask Apex"]] },
     race: "Built like the car.<br><em>Every detail checked.</em>",
     end: "Less office. More building.",
-    scenes: [["lines", 14.6, "Apex Construction"], ["headline", 5.2, ""], ["site", 6, "The new site"], ["listings", 6.4, "Listings"], ["bids", 6.4, "Bid engine"], ["estimate", 6.4, "Estimator"], ["project", 6.4, "Project files"], ["receipts", 6, "Receipts"], ["calendar", 6.4, "Daily calendar"], ["ring", 6.4, "Apex Field Office"], ["race", 5.6, "SUOJA Motorsports"], ["end", 5, ""]],
+    // the voiceover, one clip per scene, spoken to Kameron (rendered by tools/narrate.mjs in Brian's voice, same as Mason)
+    narr: {
+      lines: "Since 1991, Apex has built from the same San Leandro address. Same standards. Same family. So why is the office still running on paper and spreadsheets?",
+      headline: "Put down the spreadsheets. Pick the details back up.",
+      site: "It starts with a website that wins the job before you call back. Every service, your real work, and a bid request that lands right in your office.",
+      listings: "One listing, the same everywhere. Change your hours once, and Google, Yelp, Nextdoor and every bid list follow.",
+      bids: "The bid engine reads every board while you're on the roof, and tells you which jobs actually fit.",
+      estimate: "Drop in the architect's plans. It counts, prices it from your own past jobs, and waits for your OK. The estimator's work, without the hire.",
+      project: "Every plan, photo, sub and email lands in one job file. By itself.",
+      receipts: "Snap a receipt, or just swipe the card. It finds its job.",
+      calendar: "And one calendar runs the week. Who's where, what's due, and what it's costing.",
+      ring: "This is the Apex Field Office. Everything linked. Nothing typed twice.",
+      race: "Built like the car. Every detail checked.",
+      end: "Less office. More building. Scroll down, and let's take a look.",
+    },
+    scenes: [["lines", 11.5, "Apex Construction"], ["headline", 5.2, ""], ["site", 6, "The new site"], ["listings", 6.4, "Listings"], ["bids", 6.4, "Bid engine"], ["estimate", 6.4, "Estimator"], ["project", 6.4, "Project files"], ["receipts", 6, "Receipts"], ["calendar", 6.4, "Daily calendar"], ["ring", 6.4, "Apex Field Office"], ["race", 5.6, "SUOJA Motorsports"], ["end", 5, ""]],
   },
 
   welcome: {
@@ -163,13 +178,13 @@ AX.reviews = {
   ],
 };
 AX.found = { work: [
-  ["img/work/balcony-reframe-lift.jpg?v=1793928429", "Stacked balcony reframing on an apartment building"],
-  ["img/work/crane-beam.jpg?v=1793928429", "Crane setting a large replacement beam"],
-  ["img/work/beam-walkway.jpg?v=1793928429", "New beam under an apartment walkway"],
-  ["img/work/dryrot-scaffold.jpg?v=1793928429", "Dry rot and facade repair from the scaffold"],
-  ["img/work/siding-crew.jpg?v=1793928429", "Siding replacement on an occupied apartment building"],
-  ["img/work/rooftop-framing.jpg?v=1793928429", "Rooftop screen wall framing"],
-  ["img/work/composite-balcony.jpg?v=1793928429", "Finished composite balcony deck"],
+  ["img/work/balcony-reframe-lift.jpg?v=1793931799", "Stacked balcony reframing on an apartment building"],
+  ["img/work/crane-beam.jpg?v=1793931799", "Crane setting a large replacement beam"],
+  ["img/work/beam-walkway.jpg?v=1793931799", "New beam under an apartment walkway"],
+  ["img/work/dryrot-scaffold.jpg?v=1793931799", "Dry rot and facade repair from the scaffold"],
+  ["img/work/siding-crew.jpg?v=1793931799", "Siding replacement on an occupied apartment building"],
+  ["img/work/rooftop-framing.jpg?v=1793931799", "Rooftop screen wall framing"],
+  ["img/work/composite-balcony.jpg?v=1793931799", "Finished composite balcony deck"],
 ] };
 
 /* ---------- Auto-organization (samples) ---------- */

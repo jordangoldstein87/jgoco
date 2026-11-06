@@ -36,6 +36,8 @@
     fade(secs) { if (!ctx) return; master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setValueAtTime(master.gain.value, ctx.currentTime); master.gain.linearRampToValueAtTime(0, ctx.currentTime + secs); setTimeout(() => clearInterval(timer), secs * 1000); },
     stop() { if (!ctx) return; clearInterval(timer); master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setValueAtTime(0, ctx.currentTime); },
     pause(p) { if (!ctx) return; p ? ctx.suspend() : ctx.resume(); },
+    // dips under the voiceover, comes back up between lines
+    duck(on) { if (!ctx || muted) return; master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setValueAtTime(master.gain.value, ctx.currentTime); master.gain.linearRampToValueAtTime(on ? .3 : .9, ctx.currentTime + (on ? .3 : 1.2)); },
     mute() { muted = !muted; if (ctx) master.gain.setValueAtTime(muted ? 0 : .9, ctx.currentTime); },
   };
 })();
