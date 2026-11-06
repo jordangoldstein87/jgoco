@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="robots" content="noindex, nofollow"><meta property="og:type" content="website"><meta property="og:url" content="https://jgoco.me/apex/"><meta property="og:title" content="Field Office survey · Apex Construction"><meta property="og:description" content="Put down the spreadsheets. Pick the details back up."><meta property="og:image" content="https://jgoco.me/apex/img/og-card.jpg?v=1"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://jgoco.me/apex/img/og-card.jpg?v=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Field Office Survey</title>
+<meta name="description" content="A few quick questions about your day, for Apex Construction's new Field Office.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* The team survey: one short form anyone on the client's team can fill out from a link.
+   No pitch and no numbers here, just the hub header and the questions; answers go to the contact by email. */
+:root {
+  --paper: #f3f5fb; --card: #fff; --ink: #0b1240; --ink-2: #4b5470; --line: #d8def0;
+  --hub: #0018b2; --hub-2: #1435e0; --hub-ink: #fff; --hub-soft: #9db4ff; --gold: #ff4a1c; --bourbon: #ff4a1c; --green: #1d8a57;
+  --display: "Fjalla One", Impact, sans-serif; --sc: "Source Sans 3", sans-serif;
+  --body: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.55 var(--body); -webkit-font-smoothing: antialiased }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.08; margin: 0; text-wrap: balance }
+p { margin: 0 }
+.top { background: var(--hub); color: var(--hub-ink); padding: calc(26px + env(safe-area-inset-top, 0px)) 20px 34px; text-align: center; display: grid; justify-items: center; gap: 10px }
+.top svg { width: min(250px, 66vw); height: auto }
+.top .tc { font: 600 15px var(--sc); letter-spacing: .26em; text-transform: uppercase; color: #9db4ff; display: flex; align-items: center; gap: 12px }
+.top .tc::before, .top .tc::after { content: ""; width: 28px; height: 1px; background: #9db4ff; opacity: .6 }
+main { max-width: 720px; margin: 0 auto; padding: 34px 20px 70px; display: grid; gap: 22px }
+.intro { display: grid; gap: 10px }
+.intro h1 { font-size: clamp(36px, 6vw, 50px) }
+.intro p { color: var(--ink-2); font-size: 18px }
+.q { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; display: grid; gap: 12px }
+.q h2 { font-size: 27px }
+.q .hint { color: var(--ink-2); font-size: 15px; margin-top: -6px }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+label.f { display: grid; gap: 6px; font: 600 12.5px var(--sc); letter-spacing: .14em; text-transform: lowercase; color: var(--ink-2) }
+input, textarea, select { font: 400 16px/1.45 var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; width: 100%; outline: none }
+input:focus, textarea:focus { border-color: var(--gold) }
+textarea { min-height: 96px; resize: vertical }
+.chips { display: flex; flex-wrap: wrap; gap: 8px }
+.chips button { border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 20px; padding: 8px 14px; font: 500 14.5px var(--body); cursor: pointer }
+.chips button[aria-pressed="true"] { background: var(--hub); border-color: var(--hub); color: #fff }
+.day { display: grid; gap: 8px }
+.dr { display: grid; grid-template-columns: 1fr 92px 38px; gap: 8px; align-items: center }
+.dr input[type="number"] { text-align: right }
+.dr button { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: none; color: var(--ink-2); font-size: 20px; line-height: 1; cursor: pointer }
+.day-head { display: grid; grid-template-columns: 1fr 92px 38px; gap: 8px; font: 600 12px var(--sc); letter-spacing: .12em; text-transform: lowercase; color: var(--ink-2) }
+.day-head span:nth-child(2) { text-align: right }
+.add { justify-self: start; border: 1px dashed var(--line); background: none; color: var(--ink); border-radius: 10px; padding: 9px 14px; font: 500 14.5px var(--body); cursor: pointer }
+.ideas { display: flex; flex-wrap: wrap; gap: 6px; font-size: 13.5px; color: var(--ink-2) }
+.ideas button { border: 0; background: none; color: var(--bourbon); font: 500 13.5px var(--body); padding: 2px 4px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px }
+.total { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 10px; font-size: 15px; color: var(--ink-2) }
+.total b { color: var(--ink); font-variant-numeric: tabular-nums }
+.send { justify-self: start; border: 0; border-radius: 12px; background: var(--hub); color: #fff; font: 600 17px var(--body); padding: 15px 26px; cursor: pointer }
+.done { color: var(--green); font-size: 16px }
+.thanks { text-align: center; color: var(--ink-2); font-size: 15px }
+@media (max-width: 560px) { .row2 { grid-template-columns: 1fr } .q { padding: 18px } .dr, .day-head { grid-template-columns: 1fr 76px 38px } }
+</style>
+</head>
+<body>
+<header class="top">
+  <img src="img/logo-white.png" alt="Apex Construction General Contractors Inc." style="width:min(200px,50vw)">
+  <span class="tc">Field Office</span>
+</header>
+<main>
+  <div class="intro"><h1 id="hello">A few quick questions about your day.</h1><p>Apex is building the Field Office: one place to run the office, the field and every job. Tell us how your day really goes, so it saves you time where it counts. It takes about five minutes.</p></div>
+  <form id="sv" novalidate>
+    <div style="display:grid;gap:18px">
+      <section class="q"><h2>About you</h2>
+        <div class="row2"><label class="f">Your name<input name="person" autocomplete="name"></label><label class="f">Department<input name="dept" placeholder="Field crew, the office, estimating"></label></div>
+        <label class="f">Your role or title<input name="role" placeholder="Lead carpenter, project manager, office manager"></label>
+      </section>
+      <section class="q"><h2>Your main job duties</h2><p class="hint">The things you're really responsible for, in your own words.</p>
+        <textarea name="duties" placeholder="Run the crew on a job, order materials, track hours, send progress invoices, keep sub insurance current"></textarea>
+      </section>
+      <section class="q"><h2>Software you use</h2><p class="hint">Tap everything you use at work, and add anything missing.</p>
+        <div class="chips" id="sw"></div>
+        <input name="swother" placeholder="Anything else?">
+      </section>
+      <section class="q"><h2>Payroll and hours</h2><p class="hint">How do your hours get recorded and paid? Who runs payroll (ADP, Paychex, Gusto, QuickBooks, a bookkeeper)? Any certified payroll for public jobs?</p>
+        <textarea name="payroll" placeholder="I text my hours to the office on Friday. Payroll is through ..."></textarea>
+      </section>
+      <section class="q"><h2>Vendors you deal with</h2><p class="hint">Who you order from, call or pay: distributors, suppliers, cleaners, repair people.</p>
+        <textarea name="services" placeholder="Home Depot Pro, the lumber yard, Ferguson, Sunbelt Rentals, framing and waterproofing subs, the engineer"></textarea>
+      </section>
+      <section class="q"><h2>How your day is spent</h2><p class="hint">Rough hours on a typical day. Close is good enough.</p>
+        <div class="day-head"><span>Task</span><span>Hours a day</span><span></span></div>
+        <div class="day" id="day"></div>
+        <button type="button" class="add" id="addrow">+ Add a task</button>
+        <div class="ideas" id="ideas"><span>Ideas:</span></div>
+        <div class="total"><span>Total</span><b id="tot">0 hours</b></div>
+      </section>
+      <section class="q"><h2>What eats your time?</h2><p class="hint">The repetitive stuff you wish ran itself.</p>
+        <textarea name="eats" placeholder="Chasing receipts, retyping hours for payroll, finding the latest plan set, answering the same questions about schedules"></textarea>
+      </section>
+      <button class="send" type="submit">Send my answers</button>
+      <p class="done" id="done" hidden>Your email opens with your answers ready. Press send there. Thank you!</p>
+    </div>
+  </form>
+  <p class="thanks">Your answers go to Jordan, who is helping build the Field Office for Apex Construction.</p>
+</main>
+<script>
+window.CLIENT = {"id":"apex","brand":"Apex Construction","org":"Apex Construction General Contractors Inc.","orgShort":"Apex","hub":"Field Office","hubShort":"FO","month":"November","contact":{"name":"Jordan","email":"jordan@jgoco.me"},"publish":{"base":"https://jgoco.me/apex/","repo":"jgoco site/apex"},"logo":{"top":"APEX","word":"Construction","bottom":"SINCE 1991","aria":"Apex Construction, since 1991"},"survey":{"scope":"the office, the field and every job","dept":"Field crew, the office, estimating","role":"Lead carpenter, project manager, office manager","duties":"Run the crew on a job, order materials, track hours, send progress invoices, keep sub insurance current","vendors":"Home Depot Pro, the lumber yard, Ferguson, Sunbelt Rentals, framing and waterproofing subs, the engineer","eats":"Chasing receipts, retyping hours for payroll, finding the latest plan set, answering the same questions about schedules","software":["QuickBooks","ADP","Paychex","Gusto","QuickBooks Payroll","Excel","Google Sheets","Outlook","Gmail","Buildertrend","JobTread","Procore","Bluebeam","PlanSwift","Dropbox","Google Drive","Text messages","Paper"],"ideas":["Estimating","Bids","Scheduling the crew","Receipts","Payroll hours","Invoicing","Change orders","Lien waivers","Permits and inspections","Sub insurance","Finding plans","Photos","Emails","Phone calls"]}};
+(() => {
+  const C = window.CLIENT;
+  const f = document.getElementById("sv"), q = new URLSearchParams(location.search);
+  // a link from the owner fills in the name and department
+  if (q.get("n")) { f.person.value = q.get("n"); document.getElementById("hello").textContent = `Hi ${q.get("n").split(" ")[0]}, a few quick questions about your day.`; }
+  if (q.get("d")) f.dept.value = q.get("d");
+  const SW = C.survey.software;
+  const sw = document.getElementById("sw");
+  sw.innerHTML = SW.map(s => `<button type="button" aria-pressed="false">${s}</button>`).join("");
+  sw.addEventListener("click", e => { const b = e.target.closest("button"); if (b) b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true")); });
+  // the day, task by task
+  const day = document.getElementById("day"), tot = document.getElementById("tot");
+  const sum = () => { const h = [...day.querySelectorAll("input[type=number]")].reduce((a, i) => a + (+i.value || 0), 0); tot.textContent = `${+h.toFixed(2)} hours`; };
+  const row = (t = "", h = "") => {
+    const r = document.createElement("div"); r.className = "dr";
+    r.innerHTML = `<input placeholder="What you do" aria-label="Task"><input type="number" min="0" max="24" step=".25" inputmode="decimal" aria-label="Hours a day"><button type="button" aria-label="Remove">×</button>`;
+    r.children[0].value = t; r.children[1].value = h;
+    r.querySelector("button").onclick = () => { r.remove(); sum(); };
+    day.appendChild(r); return r;
+  };
+  day.addEventListener("input", sum);
+  ["", "", ""].forEach(() => row());
+  document.getElementById("addrow").onclick = () => row().children[0].focus();
+  const IDEAS = C.survey.ideas;
+  const ideas = document.getElementById("ideas");
+  ideas.insertAdjacentHTML("beforeend", IDEAS.map(i => `<button type="button">${i}</button>`).join(""));
+  ideas.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    const empty = [...day.children].find(r => !r.children[0].value);
+    (empty || row()).children[0].value = b.textContent; b.remove();
+  });
+  // answers go to the contact as an email the person sends from their own app
+  f.addEventListener("submit", e => {
+    e.preventDefault();
+    const tools = [...sw.querySelectorAll('[aria-pressed="true"]')].map(b => b.textContent).concat(f.swother.value.trim() ? [f.swother.value.trim()] : []);
+    const tasks = [...day.children].map(r => [r.children[0].value.trim(), r.children[1].value]).filter(([t, h]) => t || h).map(([t, h]) => `  ${t || "(task)"}: ${h || "?"} hr`);
+    const body = [
+      `Name: ${f.person.value.trim()}`, `Department: ${f.dept.value.trim()}`, `Role: ${f.role.value.trim()}`, "",
+      "Main job duties:", f.duties.value.trim(), "",
+      `Software: ${tools.join(", ") || "(none)"}`, "",
+      "Payroll and hours:", f.payroll.value.trim(), "",
+      "Vendors:", f.services.value.trim(), "",
+      `How the day is spent (${tot.textContent}):`, ...tasks, "",
+      "What eats my time:", f.eats.value.trim(),
+    ].join("\n");
+    const who = f.person.value.trim() || "a team member";
+    location.href = `mailto:${C.contact.email}?subject=${encodeURIComponent(`${C.hub} survey: ${who}`)}&body=${encodeURIComponent(body)}`;
+    document.getElementById("done").hidden = false;
+  });
+})();
+</script>
+</body>
+</html>
