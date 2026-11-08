@@ -25,8 +25,8 @@
 
   function page() {
     return `<div class="ns">
-      <div class="ns-top"><img src="img/logo-blue.png?v=1794180644" alt="Original Mechanical Co., Quality Air Solutions"><nav><a href="#site" data-ns="svc">Services</a><a href="#site" data-ns="work">Projects</a><a href="#site" data-ns="trade">For builders</a><a href="#site" data-ns="svcplan">Service plans</a><a href="#site" data-ns="bid">Get a bid</a></nav><a class="ns-call" href="tel:${C.tel}">${esc(C.phone)}</a></div>
-      <div class="ns-hero" style="background-image:url(img/work/IMG_5145.jpg?v=1794180644)"><div>
+      <div class="ns-top"><img src="img/logo-blue.png?v=1794181557" alt="Original Mechanical Co., Quality Air Solutions"><nav><a href="#site" data-ns="svc">Services</a><a href="#site" data-ns="work">Projects</a><a href="#site" data-ns="trade">For builders</a><a href="#site" data-ns="svcplan">Service plans</a><a href="#site" data-ns="bid">Get a bid</a></nav><a class="ns-call" href="tel:${C.tel}">${esc(C.phone)}</a></div>
+      <div class="ns-hero" style="background-image:url(img/work/IMG_5145.jpg?v=1794181557)"><div>
         <div style="font-weight:800;letter-spacing:.2em;font-size:13px;color:#f2a865;margin-bottom:12px">RESIDENTIAL MECHANICAL · SCOTTSDALE · PARADISE VALLEY · EAST VALLEY</div>
         <h1 class="disp">Comfort you feel.<br>Systems you never see.</h1>
         <p>HVAC design and installation for custom homes and high-end remodels. Built with your builder, drawn around your architect, and serviced for as long as you live there.</p>
@@ -75,7 +75,7 @@
         <div id="ns-landed"></div>
       </div>
 
-      <div class="ns-foot"><div><img src="img/logo-white.png?v=1794180644" alt="" style="height:80px;margin-bottom:12px"><div>${esc(C.legal)}<br>ROC #${C.lic} · ${esc(C.licClass)} · Bonded and insured</div></div>
+      <div class="ns-foot"><div><img src="img/logo-white.png?v=1794181557" alt="" style="height:80px;margin-bottom:12px"><div>${esc(C.legal)}<br>ROC #${C.lic} · ${esc(C.licClass)} · Bonded and insured</div></div>
         <div><b>Hours</b>${esc(C.hours)}<br>Sun by appointment<br>${esc(C.addr)}</div>
         <div><b>Call or text</b><a href="tel:${C.tel}">${esc(C.phone)}</a><b style="margin-top:12px">Find us on</b><a>Google</a><a>Houzz</a><a>Instagram</a></div>
         <div><b>For builders</b><a>Upload a plan set</a><a>W-9, insurance and license</a><a>SRP rebate help</a></div></div>

@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="robots" content="noindex, nofollow"><meta property="og:type" content="website"><meta property="og:url" content="https://jgoco.me/original/"><meta property="og:title" content="Talk with Mason · Original Mechanical"><meta property="og:description" content="The office, built like the ductwork."><meta property="og:image" content="https://jgoco.me/original/img/og-card.jpg?v=1"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://jgoco.me/original/img/og-card.jpg?v=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Talk with Mason · Original Mechanical</title>
+<meta name="description" content="A short voice interview about how Original Mechanical runs, for the Mechanical Room.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;600;700&display=swap">
+<style>
+/* The voice interview: Mason asks Skylar how Original Mechanical runs: builders, bids, jobs, service, the office and what to automate.
+   The call runs through Jordan's onboarding script, which keeps the voice service's key; this page only holds
+   the link token. */
+:root { --paper: #f7f2ec; --card: #fff; --ink: #2b1d13; --ink-2: #5c4b3d; --line: #e3d6c6; --hub: #7a4724; --clay: #c9621f; --honey: #e6c7a0;
+  --display: "Playfair Display", Georgia, serif; --body: "Inter", system-ui, sans-serif; color-scheme: light }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.55 var(--body); -webkit-font-smoothing: antialiased }
+h1, h2 { font-family: var(--display); font-weight: 700; line-height: 1.08; margin: 0; text-wrap: balance; letter-spacing: -.01em }
+p { margin: 0 }
+.top { background: #16100b; color: #fff; border-bottom: 10px solid #7a4724; box-shadow: inset 0 -6px 0 -4px rgba(247,234,214,.0); padding: calc(26px + env(safe-area-inset-top, 0px)) 20px 30px; text-align: center; display: grid; justify-items: center; gap: 8px }
+.top .lg { display: flex; align-items: center; gap: 10px; font: 400 40px var(--display) }
+.top .lg .gk-art { width: 58px; height: auto; margin-bottom: 4px; filter: drop-shadow(0 4px 12px #0005) }
+.top .tc { font: 600 12px var(--body); letter-spacing: .24em; text-transform: uppercase; color: var(--honey) }
+main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid; gap: 26px }
+.intro { display: grid; gap: 10px; text-align: center }
+.intro h1 { font-size: clamp(36px, 7vw, 52px) }
+.intro h1 em { color: var(--clay) }
+.intro p { color: var(--ink-2); font-size: 18px }
+.talk { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 34px 24px; display: grid; justify-items: center; gap: 14px; text-align: center }
+.face { width: 132px; height: 132px; border-radius: 50%; background: var(--hub); display: grid; place-items: center; position: relative }
+.face svg { width: 60%; height: 60% }
+.face::before, .face::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--honey); opacity: 0 }
+.face.speaking::before { animation: ring 1.6s ease-out infinite } .face.speaking::after { animation: ring 1.6s ease-out .8s infinite }
+.face.speaking svg { animation: sway 1.6s ease-in-out infinite }
+@keyframes ring { from { transform: scale(1); opacity: .7 } to { transform: scale(1.45); opacity: 0 } }
+@keyframes sway { 50% { transform: rotate(-6deg) scale(1.05) } }
+.talk h2 { font-size: 32px }
+.talk > p { color: var(--ink-2); max-width: 40ch }
+.go, .stop { border: 0; border-radius: 99px; font: 600 17px var(--body); padding: 15px 30px; cursor: pointer }
+.go { background: var(--hub); color: #fff } .go:disabled { opacity: .5; cursor: default }
+.stop { background: none; border: 1px solid var(--line); color: var(--ink) }
+.summary { text-align: left; margin: 6px 0 0; padding-left: 20px; display: grid; gap: 6px; max-width: 46ch }
+.topics { list-style: none; margin: 0; padding: 0 }
+.topics li { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line) }
+.topics b { font: 400 22px/1.2 var(--display); color: var(--clay) }
+.alt { text-align: center; display: grid; gap: 8px; justify-items: center }
+.alt a { color: var(--hub); font-weight: 600 }
+.private { text-align: center; color: var(--ink-2); font-size: 14.5px }
+.safe { display: grid; gap: 14px }
+.safe h2 { font-size: 28px; text-align: center }
+.safe > p { text-align: center; color: var(--ink-2); font-size: 15.5px }
+.safe ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+.safe li { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; align-content: start; grid-template-columns: 26px 1fr; gap: 4px 12px; font-size: 14.5px; color: var(--ink-2); line-height: 1.5 }
+.safe li svg { grid-row: span 2; width: 22px; height: 22px; margin-top: 2px; color: var(--hub) }
+.safe li b { color: var(--ink); font-size: 15.5px; font-weight: 600 }
+@media (max-width: 560px) { .safe ul { grid-template-columns: 1fr } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .safe li svg { color: var(--honey) } }
+:root[data-theme="dark"] .safe li svg { color: var(--honey) }
+@media (prefers-reduced-motion: reduce) { .face.speaking::before, .face.speaking::after, .face.speaking svg { animation: none } }
+/* The mutual NDA, opened by Mason right before the money questions */
+.nda { position: fixed; inset: 0; z-index: 10; background: #16100bb3; display: grid; place-items: center; padding: 16px; overflow-y: auto }
+.nda[hidden] { display: none }
+.nda-box { background: var(--card); border: 1px solid var(--line); border-radius: 22px; width: min(640px, 100%); max-height: calc(100dvh - 32px); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 30px 80px #0006 }
+.nda-head { padding: 26px 26px 14px; display: grid; gap: 6px }
+.nda-head .k { font: 600 12px var(--body); letter-spacing: .2em; text-transform: uppercase; color: var(--clay) }
+.nda-head h2 { font-size: 30px }
+.nda-head p { color: var(--ink-2); font-size: 15.5px }
+.nda-body { overflow-y: auto; padding: 0 26px 24px; display: grid; grid-auto-rows: max-content; gap: 16px }
+.nda-doc { border: 1px solid var(--line); border-radius: 14px; background: var(--paper); padding: 16px 18px; max-height: 34vh; overflow-y: auto; font-size: 14.5px; line-height: 1.55 }
+.nda-doc:focus { outline: none; border-color: var(--hub) }
+.nda-doc h3 { font: 600 14.5px var(--body); margin: 14px 0 3px } .nda-doc h3:first-of-type { margin-top: 0 }
+.nda-doc .ttl { font: 400 20px var(--display); margin: 0 0 4px }
+.nda-doc .ver { color: var(--ink-2); font-size: 13px; margin-bottom: 12px }
+.nda-f { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+.nda-f label { display: grid; gap: 5px; font-size: 13.5px; font-weight: 600; color: var(--ink-2) }
+.nda-f label.w { grid-column: 1 / -1 }
+.nda input[type=text], .nda input[type=email], .nda input[inputmode] { font: 400 16px var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 11px; padding: 11px 13px; width: 100% }
+.nda input:focus { outline: 2px solid var(--hub); outline-offset: 1px }
+.nda input.sig { font: italic 400 26px var(--display) }
+.nda input.code { font: 600 28px var(--body); letter-spacing: .4em; text-align: center; max-width: 260px; justify-self: center }
+.nda-ok { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; color: var(--ink) }
+.nda-ok input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--hub); flex: none }
+.nda-act { display: flex; gap: 14px; align-items: center; flex-wrap: wrap }
+.nda-act .go { padding: 14px 24px; font-size: 16px }
+.nda .link { background: none; border: 0; color: var(--hub); font: 600 15px var(--body); cursor: pointer; padding: 6px 2px; text-decoration: underline; text-underline-offset: 3px }
+.nda-err { color: var(--clay); font-size: 14.5px; min-height: 1.2em }
+.nda-done { text-align: center; justify-items: center }
+.nda-done .tick { width: 64px; height: 64px; border-radius: 50%; background: var(--hub); color: #fff; display: grid; place-items: center; font-size: 30px }
+@media (max-width: 560px) { .nda { padding: 0; place-items: stretch } .nda-box { border-radius: 0; max-height: none; min-height: 100dvh; border: 0 } .nda-f { grid-template-columns: 1fr } .nda-head { padding: calc(20px + env(safe-area-inset-top, 0px)) 18px 12px } .nda-body { padding: 0 18px 28px } .nda-doc { max-height: 44vh } }
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="lg"><img src="img/logo-white.png" alt="Original Mechanical Co., Quality Air Solutions" style="width:170px"></span>
+  <span class="tc">The Mechanical Room</span>
+</header>
+<main>
+  <section class="intro">
+    <h1 id="hi">Tell us how <em>Original</em> runs.</h1>
+    <p>About 20 minutes, out loud, instead of a form. <span class="host">Mason</span> asks one question at a time, so the plan fits your business and not a template.</p>
+  </section>
+
+  <section class="talk">
+    <div class="face" id="face"><img src="img/mark-white.png" alt="" style="width:62%"></div>
+    <h2 id="title">Talk with Mason</h2>
+    <p id="say">Mason asks one question at a time. Skip anything you'd rather not answer.</p>
+    <button class="go" id="go" type="button">Start the interview</button>
+    <button class="stop" id="stop" type="button" hidden>End the call</button>
+    <ul class="summary" id="summary" hidden></ul>
+  </section>
+
+  <ol class="topics">
+    <li><b>1</b>Where your work comes from: builders, architects, homeowners and service</li>
+    <li><b>2</b>Bidding: plan sets, load calcs, takeoffs, and how many you win</li>
+    <li><b>3</b>Running a house: builder schedules, inspections, change orders and summer calls</li>
+    <li><b>4</b>The office: payroll, the books, draws and getting paid</li>
+    <li><b>5</b>What you wish ran itself</li>
+  </ol>
+  <section class="safe" aria-labelledby="safeh">
+    <h2 id="safeh">Private and secure</h2>
+    <p>What you share about Original Mechanical stays between you and the people building your Mechanical Room. It is only used to figure out how to make your work easier.</p>
+    <ul>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><b>Encrypted on every connection</b>The page, your voice and your answers travel over encrypted connections, so no one else on hotel or public Wi-Fi can see or hear them.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="3.5"/><path d="M10.5 12.5 19 4M16 7l2.5 2.5M14 9l2 2"/></svg><b>A link that only works for you</b>Your private link carries its own key, and your interviewer is set up just for you. It never hears anyone else's call.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 11 4.7M12 17.5V21M4 4l16 16"/></svg><b>Your voice isn't recorded</b>Only the written notes from the call are kept, so Jordan can plan from them.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 13h6M9.5 16.5h4"/></svg><b>A mutual NDA before any numbers</b>Revenue, pricing, past bids and payroll wait until you've signed it on screen, confirmed with a code sent to your email. You both get a signed copy.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/></svg><b>Stored privately, deleted on request</b>Your notes sit in Jordan's private Google account, encrypted by Google. Ask and your call and notes are deleted.</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a13 13 0 0 1 18 0M6 12.5a8.5 8.5 0 0 1 12 0M9 16a4 4 0 0 1 6 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg><b>Works on hotel Wi-Fi and hotspots</b>If a network blocks the usual voice connection, the call switches to a standard secure web connection by itself. If it drops, your progress is saved.</li>
+    </ul>
+  </section>
+  <div class="alt"><p>Rather type than talk?</p><a href="index.html#questions">Answer the written questions instead</a></div>
+  <p class="private">Your answers are only used to plan your Mechanical Room. Jordan reads them. You'll see a short summary at the end, and you can pick up where you left off from this same link.</p>
+</main>
+
+<div class="nda" id="nda" hidden role="dialog" aria-modal="true" aria-labelledby="ndah"><div class="nda-box">
+  <div class="nda-head"><span class="k" id="ndak">Before the numbers</span><h2 id="ndah">A mutual NDA</h2><p id="ndap"></p></div>
+  <div class="nda-body" id="ndab"></div>
+</div></div>
+
+<script type="module">
+  // Three calls: hello, start, summary. The link token picks Skylar's agent
+  // (Mason, with the Original Mechanical questions); without a token the page offers the written questionnaire.
+  const SCRIPT = "https://script.google.com/macros/s/AKfycbyR6DNkxGjEpLr56VBQMB_9HDKmVgr3YnFGhqguR9_KTmnniUDI3KuyMF65BJBMWxmG/exec";
+  const K = ""; // the link Jordan makes in the sheet carries ?k=
+  const k = new URLSearchParams(location.search).get("k") || K;
+  const $ = (id) => document.getElementById(id);
+  const go = $("go"), stop = $("stop"), face = $("face"), title = $("title"), say = $("say"), summary = $("summary");
+  let host = "Mason", call = null, callId = null;
+
+  const ask = (action, extra = "") =>
+    fetch(`${SCRIPT}?action=${action}&k=${encodeURIComponent(k)}${extra}`).then((r) => r.json());
+  const show = (h, p) => { title.textContent = h; say.textContent = p; };
+  // hotel and public Wi-Fi often hold every request until its sign-in page is done
+  const NET = "Check your connection. On hotel or public Wi-Fi, open any website first to finish the Wi-Fi sign-in, or switch to your phone's hotspot, then try again.";
+  const waiting = () => { show(`${host} is almost ready`, "Jordan will send your private link. Or answer in writing below, it takes about 10 minutes."); go.disabled = true; };
+
+  if (!/^[a-f0-9]{40}$/.test(k)) waiting();
+  else ask("hello").then((r) => {
+    if (!r.ok) return waiting();
+    host = String(r.host || host).replace(/[<>&"]/g, "");
+    title.textContent = `Talk with ${host}`; document.title = `Talk with ${host}`;
+    document.querySelectorAll(".host").forEach(e => e.textContent = host);
+    const first = String(r.name || "").trim().split(/\s+/)[0];
+    if (first) $("hi").innerHTML = `Hi ${first.replace(/[<>&"]/g, "")}. Tell us how <em>Original</em> runs.`;
+    if (r.returning) { go.textContent = "Pick up where we left off"; say.textContent = `${host} remembers what you covered last time.`; }
+    ndaState = r.nda || "none";
+    if (ndaState === "needed") ask("nda").then((d) => { if (d.ok) ndaDoc = d; }).catch(() => {});
+  }).catch(() => show("We can't reach the interview", NET));
+
+  // ── The mutual NDA ──
+  // Mason calls show_nda right before the money questions; the call waits on this promise.
+  // It resolves "signed" once the emailed code checks out, or "not_signed" if they choose Not now.
+  let ndaState = "none", ndaDoc = null, ndaOpen = null;
+  const send = (body) => fetch(SCRIPT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ k, ...body }) }).then((r) => r.json());
+  const el = (tag, props = {}, kids = []) => { const e = Object.assign(document.createElement(tag), props); e.append(...[].concat(kids)); return e; };
+  const ERR = { form: "Fill in your name, company, email and signature, and check the box.", busy: "Too many codes for now. Try again in an hour.",
+    code: "That code doesn't match. Check the email and try again.", expired: "That code has expired. Send a new one." };
+  const head = (k, h, p) => { $("ndak").textContent = k; $("ndah").textContent = h; $("ndap").textContent = p; };
+
+  function openNda() {
+    if (ndaOpen) return ndaOpen.promise;
+    let resolve; const promise = new Promise((ok) => (resolve = ok));
+    ndaOpen = { promise, resolve, form: { name: "", title: "", company: (ndaDoc && ndaDoc.company) || "Original Mechanical LLC", email: "", signature: "", agree: false } };
+    if (call && call.setMicMuted) call.setMicMuted(true);
+    $("nda").hidden = false; document.body.style.overflow = "hidden";
+    (ndaDoc ? Promise.resolve(ndaDoc) : ask("nda")).then((d) => { if (d && d.ok) ndaDoc = d; signStep(); }).catch(() => signStep());
+    return promise;
+  }
+  function closeNda(result) {
+    if (!ndaOpen) return;
+    const { resolve } = ndaOpen; ndaOpen = null;
+    $("nda").hidden = true; document.body.style.overflow = "";
+    if (call && call.setMicMuted) call.setMicMuted(false);
+    if (result === "signed") ndaState = "signed";
+    resolve(result);
+  }
+
+  function signStep() {
+    const f = ndaOpen.form, b = $("ndab");
+    head("Before the numbers", "A mutual NDA", `It protects what you share about your business, and what we share with you. ${host} waits while you read and sign.`);
+    const doc = el("div", { className: "nda-doc", tabIndex: 0 });
+    if (ndaDoc) {
+      doc.append(el("p", { className: "ttl", textContent: ndaDoc.nda.title }), el("p", { className: "ver", textContent: `${ndaDoc.nda.parties || ndaDoc.nda.us + " and " + ndaDoc.nda.them} · version ${ndaDoc.nda.version}` }));
+      ndaDoc.nda.sections.forEach(([h, p], i) => doc.append(el("h3", { textContent: `${i + 1}. ${h}` }), el("p", { textContent: p })));
+    } else doc.append(el("p", { textContent: "The agreement didn't load. Close this and try again in a minute." }));
+    const field = (label, key, type = "text", wide = false, extra = {}) => {
+      const input = el("input", { type, value: f[key], required: true, ...extra }); input.addEventListener("input", () => (f[key] = input.value));
+      return el("label", { className: wide ? "w" : "" }, [label, input]);
+    };
+    const agree = el("input", { type: "checkbox", checked: f.agree }); agree.addEventListener("change", () => (f.agree = agree.checked));
+    const err = el("p", { className: "nda-err", role: "alert" });
+    const sign = el("button", { className: "go", type: "button", textContent: "Sign and email me a code", disabled: !ndaDoc });
+    const later = el("button", { className: "link", type: "button", textContent: "Not now" });
+    sign.addEventListener("click", async () => {
+      err.textContent = ""; sign.disabled = true; sign.textContent = "Sending your code…";
+      const r = await send({ action: "nda_sign", ...f, device: navigator.userAgent.slice(0, 200) }).catch(() => ({ ok: false }));
+      sign.disabled = false; sign.textContent = "Sign and email me a code";
+      if (r.ok) return codeStep();
+      err.textContent = ERR[r.why] || "We couldn't reach the server. Try again in a moment.";
+    });
+    later.addEventListener("click", () => closeNda("not_signed"));
+    b.replaceChildren(doc, el("div", { className: "nda-f" }, [
+      field("Full name", "name", "text", false, { autocomplete: "name" }), field("Title", "title", "text", false, { autocomplete: "organization-title", placeholder: "Founder" }),
+      field("Company's legal name", "company", "text", false, { autocomplete: "organization" }), field("Email for your signed copy", "email", "email", false, { autocomplete: "email" }),
+      field("Type your full name to sign", "signature", "text", true, { className: "sig", autocomplete: "off" }),
+    ]), el("label", { className: "nda-ok" }, [agree, "I agree to this mutual NDA and to signing it electronically."]), err, el("div", { className: "nda-act" }, [sign, later]));
+    b.scrollTop = 0; doc.focus({ preventScroll: true });
+  }
+
+  function codeStep() {
+    const f = ndaOpen.form, b = $("ndab");
+    head("Almost done", "Check your email", `We sent a 6-digit code to ${f.email}. Enter it here to finish signing.`);
+    const code = el("input", { inputMode: "numeric", autocomplete: "one-time-code", maxLength: 6, className: "code", ariaLabel: "6-digit code" });
+    const err = el("p", { className: "nda-err", role: "alert" });
+    const ok = el("button", { className: "go", type: "button", textContent: "Confirm and sign" });
+    const again = el("button", { className: "link", type: "button", textContent: "Send a new code" });
+    const back = el("button", { className: "link", type: "button", textContent: "Use a different email" });
+    const confirm = async () => {
+      if (code.value.replace(/\D/g, "").length !== 6) { err.textContent = "Enter all 6 digits."; return; }
+      err.textContent = ""; ok.disabled = true; ok.textContent = "Checking…";
+      const r = await send({ action: "nda_confirm", code: code.value }).catch(() => ({ ok: false }));
+      ok.disabled = false; ok.textContent = "Confirm and sign";
+      if (r.ok) return doneStep();
+      err.textContent = ERR[r.why] || "We couldn't reach the server. Try again in a moment.";
+    };
+    ok.addEventListener("click", confirm);
+    code.addEventListener("input", () => { code.value = code.value.replace(/\D/g, "").slice(0, 6); if (code.value.length === 6) confirm(); });
+    again.addEventListener("click", async () => {
+      err.textContent = ""; again.disabled = true;
+      const r = await send({ action: "nda_sign", ...f, device: navigator.userAgent.slice(0, 200) }).catch(() => ({ ok: false }));
+      again.disabled = false;
+      err.textContent = r.ok ? "A new code is on its way." : ERR[r.why] || "We couldn't reach the server. Try again in a moment.";
+    });
+    back.addEventListener("click", signStep);
+    b.replaceChildren(code, err, el("div", { className: "nda-act" }, [ok, again, back]));
+    code.focus();
+  }
+
+  function doneStep() {
+    head("Signed", "Thank you", `A signed copy is on its way to ${ndaOpen.form.email}. ${host} will pick back up.`);
+    $("ndab").replaceChildren(el("div", { className: "nda-done" }, [el("span", { className: "tick", textContent: "✓", ariaHidden: "true" })]));
+    setTimeout(() => closeNda("signed"), 2200);
+  }
+  window.openNda = openNda; // lets Jordan check the NDA screen without starting a call
+
+  const SDK = window.SAGE_SDK || "https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.27.0/+esm"; // SAGE_SDK: a stand-in for testing
+  const sleep = (ms) => new Promise((ok) => setTimeout(ok, ms));
+  const store = (v) => { try { sessionStorage.setItem("sage-ws", v); } catch {} };
+  let viaWs = (() => { try { return sessionStorage.getItem("sage-ws") === "1"; } catch { return false; } })();
+  let attempt = 0, userEnded = false, done = false;
+
+  // Events from an attempt we gave up on (a slow WebRTC try) are ignored.
+  const handlers = (n) => ({
+    clientTools: { show_nda: () => openNda() },
+    onConnect: ({ conversationId }) => { if (n === attempt) callId = conversationId || callId; },
+    onModeChange: ({ mode }) => {
+      if (n !== attempt) return;
+      face.classList.toggle("speaking", mode === "speaking");
+      say.textContent = mode === "speaking" ? `${host} is talking.` : `${host} is listening.`;
+    },
+    onDisconnect: (d) => { if (n === attempt) finished(d); },
+    onError: (message) => console.warn(message),
+  });
+  // A session that starts after we stopped waiting for it is closed at once.
+  const within = (p, ms, n) => new Promise((ok, no) => {
+    const t = setTimeout(() => { if (n === attempt) attempt++; no(new Error("timeout")); }, ms);
+    p.then((c) => { clearTimeout(t); if (n === attempt) ok(c); else { c.endSession(); no(new Error("late")); } }, (e) => { clearTimeout(t); no(e); });
+  });
+
+  async function connect() {
+    const { Conversation } = await import(SDK);
+    if (!viaWs) {
+      const r = await ask("start");
+      if (!r.ok) return r;
+      callId = r.conversationId;
+      const n = ++attempt;
+      try {
+        return { ok: true, call: await within(Conversation.startSession({ conversationToken: r.conversationToken, connectionType: "webrtc", ...handlers(n) }), 15000, n) };
+      } catch (err) {
+        console.warn("The voice connection didn't open; trying the secure web connection.", err);
+        viaWs = true; store("1");
+        say.textContent = "This network blocks the usual voice connection. Switching to a secure web connection.";
+      }
+    }
+    const r = await ask("start", "&via=ws");
+    if (!r.ok) return r;
+    callId = null;
+    const n = ++attempt;
+    return { ok: true, call: await within(Conversation.startSession({ signedUrl: r.signedUrl, connectionType: "websocket", ...handlers(n) }), 20000, n) };
+  }
+
+  go.addEventListener("click", async () => {
+    go.disabled = true; done = false; userEnded = false;
+    go.className = "go"; summary.hidden = true;
+    show("Connecting", "Allow the microphone when your browser asks.");
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true }).then((s) => s.getTracks().forEach((t) => t.stop()));
+    } catch {
+      go.disabled = false;
+      return show("We need your microphone", "Allow it in your browser, then press Start again.");
+    }
+    let r;
+    try { r = await connect(); } catch (err) { console.warn(err); r = { ok: false, why: "net" }; }
+    if (!r.ok) {
+      go.disabled = false;
+      if (["setup", "link", "eleven"].includes(r.why)) return waiting();
+      return show("We couldn't connect", r.why === "busy" ? "Too many tries for now. Try again in an hour." : NET);
+    }
+    call = r.call;
+    go.hidden = true;
+    stop.hidden = false; stop.disabled = false;
+    show(`You're talking with ${host}`, `${host} is talking.`);
+  });
+
+  stop.addEventListener("click", () => { stop.disabled = true; userEnded = true; call && call.endSession(); });
+
+  // After any ending: save the call so Mason remembers it, then show the summary. A dropped call
+  // (signal lost, network gone) offers to pick up where it left off instead.
+  async function finished(d) {
+    if (done) return;
+    done = true;
+    call = null;
+    face.classList.remove("speaking");
+    stop.hidden = true;
+    const why = String((d && (d.reason || (d.context && d.context.type))) || "");
+    const dropped = !userEnded && (navigator.onLine === false || /error|network|timeout/i.test(why));
+    show(dropped ? "The connection dropped" : "Thank you", dropped ? "Saving what you've covered so you can pick up where you left off." : "Writing up your summary. This takes about a minute.");
+    let text = "";
+    if (callId) for (let i = 0; i < 24; i++) {
+      await sleep(5000);
+      const r = await ask("summary", `&id=${encodeURIComponent(callId)}`).catch(() => ({}));
+      if (r.ok && r.ready && r.summary) { text = r.summary; break; }
+      if (dropped && i >= 8) break;
+    }
+    // the button that starts a call doubles as the way back in
+    go.textContent = "Pick up where we left off"; go.hidden = false; go.disabled = false;
+    if (dropped) return show("The connection dropped", `Your progress is saved. Pick up where you left off whenever you're ready, on this network or another. ${host} carries on from the last topic.`);
+    go.className = "stop";
+    if (!text) return show("Thank you", "Jordan has your answers and will send your summary. If the call cut off early, you can pick up where you left off.");
+    show("Thank you", "Here's what we covered. Jordan will be in touch. If the call cut off early, you can pick up where you left off.");
+    const bullets = text.split("\n").map((l) => l.replace(/^\s*[-•*]\s*/, "").trim()).filter(Boolean);
+    summary.replaceChildren(...bullets.map((b) => Object.assign(document.createElement("li"), { textContent: b })));
+    summary.hidden = false;
+  }
+</script>
+</body>
+</html>

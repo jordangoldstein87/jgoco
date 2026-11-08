@@ -27,7 +27,21 @@ window.AX = {
     ring: { h: "The Mechanical Room.", p: "Everything linked. Nothing typed twice.", l: [["cal", "Daily calendar"], ["folder", "Project files"], ["est", "Load calcs and bids"], ["bid", "Builder radar"], ["receipt", "Receipts"]], r: [["money", "Draws and books"], ["shield", "Notices and permits"], ["repeat", "Installed base"], ["star", "Listings and reviews"], ["chat", "Ask Original"]] },
     race: "Built like the ductwork.<br><em>Every joint sealed.</em>",
     end: "Less office. More tools.",
-    narr: {},
+    // the voiceover, one clip per scene, spoken to Skylar (rendered by tools/narrate.mjs in Brian's voice, same as Mason)
+    narr: {
+      lines: "Custom homes and high-end remodels. Linear slots lined up in a wood ceiling, ducts set in the slab before the walls go up. Work the best builders in the Valley trust. So why does the business still run on one inbox and a phone?",
+      headline: "The best HVAC is the kind nobody sees. Your business shouldn't be.",
+      site: "It starts with a website that wins the builder before you call back. Your real projects, your license up front, and a plan upload that lands right in your office.",
+      listings: "Then you get found where builders and homeowners look. Google, the SRP contractor list, Houzz and the builders' association, all from one profile.",
+      bids: "The builder radar reads every new custom-home permit, with the builder's name on it. You know the house before the builder calls.",
+      estimate: "Drop in the architect's plans. It runs the loads, lays out the system, prices it from your own book, and waits for your OK.",
+      project: "Every plan, revision, super and inspection lands in one job file. By itself.",
+      receipts: "Snap a receipt, or just swipe the card. It finds its house.",
+      calendar: "And one board runs the week. Rough-ins, inspections and July service calls, so neither one gets dropped.",
+      ring: "This is the Mechanical Room. Everything linked. Nothing typed twice.",
+      race: "Built like the ductwork. Every joint sealed.",
+      end: "Less office. More tools. Scroll down, and let's take a look.",
+    },
     scenes: [["lines", 12, "Original Mechanical"], ["headline", 5.6, ""], ["site", 6, "The new site"], ["listings", 6.4, "Listings"], ["bids", 6.4, "Builder radar"], ["estimate", 6.4, "Load calcs and bids"], ["project", 6.4, "Project files"], ["receipts", 6, "Receipts"], ["calendar", 6.4, "Daily calendar"], ["ring", 6.4, "The Mechanical Room"], ["race", 5.6, "The work"], ["end", 5, ""]],
   },
 
@@ -154,12 +168,12 @@ window.AX = {
 /* No public reviews exist yet (research/company-and-listings.md). The site shows an honest empty state, never invented reviews. */
 AX.reviews = { score: [], items: [] };
 AX.found = { work: [
-  ["img/work/IMG_5145.jpg?v=1794180644", "Modern desert custom home, pool court · Original Mechanical HVAC"],
-  ["img/work/IMG_5183.jpg?v=1794180644", "Custom home entry court with palms"],
-  ["img/work/IMG_5188.jpg?v=1794180644", "Linear slot diffusers in a wood plank ceiling, before trim"],
-  ["img/work/IMG_5187.jpg?v=1794180644", "Great room with clerestory windows and slot diffusers"],
-  ["img/work/IMG_5174.jpg?v=1794180644", "Vaulted ceiling with linear supply, steel window wall"],
-  ["img/work/IMG_5169.jpg?v=1794180644", "Underground duct runs set before the slab"],
+  ["img/work/IMG_5145.jpg?v=1794181557", "Modern desert custom home, pool court · Original Mechanical HVAC"],
+  ["img/work/IMG_5183.jpg?v=1794181557", "Custom home entry court with palms"],
+  ["img/work/IMG_5188.jpg?v=1794181557", "Linear slot diffusers in a wood plank ceiling, before trim"],
+  ["img/work/IMG_5187.jpg?v=1794181557", "Great room with clerestory windows and slot diffusers"],
+  ["img/work/IMG_5174.jpg?v=1794181557", "Vaulted ceiling with linear supply, steel window wall"],
+  ["img/work/IMG_5169.jpg?v=1794181557", "Underground duct runs set before the slab"],
 ] };
 
 /* ---------- Auto-organization (samples) ---------- */
