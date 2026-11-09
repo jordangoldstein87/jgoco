@@ -97,7 +97,7 @@
   const SCENES = {
     lines: () => `<div class="v-line" id="v-lines"></div>`,
     headline: () => `<div class="v-line">${V.headline}<small>${esc(V.headSub)}</small></div>`,
-    site: () => `<div class="v-stack"><div class="v-title">${esc(V.site.h)}<small>${esc(V.site.p)}</small></div><div class="v-win"><div class="bar"><i></i><i></i><i></i><span>eatonbotanicals.com</span></div><img src="img/shots/site.jpg?v=1794188895" alt=""></div></div>`,
+    site: () => `<div class="v-stack"><div class="v-title">${esc(V.site.h)}<small>${esc(V.site.p)}</small></div><div class="v-win"><div class="bar"><i></i><i></i><i></i><span>eatonbotanicals.com</span></div><img src="img/shots/site.jpg?v=1794189232" alt=""></div></div>`,
     locator: () => `<div class="v-stack"><div class="v-title">${esc(V.locator.h)}<small>${esc(V.locator.p)}</small></div><div class="v-mapwrap">${vmap()}<div class="v-legend"><span><i style="background:#7fc4a0"></i>Carries Eaton</span><span><i style="background:#d9bf6a"></i>Golden Ticket, last 90 days</span></div></div></div>`,
     orders: () => `<div class="v-stack"><div class="v-title">${esc(V.orders.h)}<small>${esc(V.orders.p)}</small></div><div class="v-feed">${AX.orders.lines.slice(0, 5).map((l, i) => `<div class="row" style="animation-delay:${.3 * i}s"><i class="v-tin" style="background:${P(l[0]).c}"></i><span><b>${esc(P(l[0]).n)}</b><small>${esc(AX.orders.stock[l[0]][1])}</small></span><span class="tag">${l[1]} tins</span><span class="score" style="color:#fff">${money(l[1] * l[2])}</span></div>`).join("")}<div class="row" style="animation-delay:1.7s;grid-template-columns:1fr auto;background:rgba(175,147,53,.18);border-color:rgba(175,147,53,.5)"><span><b>Confirmed. Sales order SO-20418 is in Distru.</b><small>Lantern House · Brooklyn · Net 30</small></span><span class="score" style="color:#d9bf6a">${money(AX.orders.lines.reduce((s, l) => s + l[1] * l[2], 0))}</span></div></div></div>`,
     reorder: () => `<div class="v-stack"><div class="v-title">${esc(V.reorder.h)}<small>${esc(V.reorder.p)}</small></div><div class="v-feed">${AX.accounts.filter(a => a.last / a.gap >= .85).sort((a, b) => b.last / b.gap - a.last / a.gap).slice(0, 4).map((a, i) => `<div class="row" style="animation-delay:${.35 * i}s">${svgI("repeat", 26)}<span><b>${esc(a.n)}</b><small>${esc(a.city)} · orders every ${a.gap} days · usually ${money(a.avg)}</small></span><span class="tag">${a.last} days</span><span class="score">${a.last > a.gap ? "Late" : "Due"}</span></div>`).join("")}</div></div>`,
@@ -105,19 +105,19 @@
     marketing: () => `<div class="v-stack"><div class="v-title">${esc(V.marketing.h)}<small>${esc(V.marketing.p)}</small></div><div class="v-feed">${AX.campaigns.map((c, i) => `<div class="row" style="animation-delay:${.35 * i}s">${svgI("megaphone", 26)}<span><b>${esc(c.n)}</b><small>${esc(c.to)} · ${esc(c.ch)}</small></span><span class="tag">${esc(c.st)}</span><span class="score" style="color:${c.ok ? "#7fe0b0" : "#ff8a8a"}">${c.ok ? "✓" : "Fix"}</span></div>`).join("")}</div></div>`,
     bud: () => `<div class="v-stack"><div class="v-title">${esc(V.bud.h)}<small>${esc(V.bud.p)}</small></div><div class="v-slack"><div class="v-slack-top">${svgI("slack", 18)}<b># sales</b><span>Slack · Teams works the same</span></div>
       <div class="v-msg" style="animation-delay:.2s"><span class="av" style="background:#e8a33a">T</span><div><b>Tom</b><p>@Bud who's out of Golden Ticket up north?</p></div></div>
-      <div class="v-msg" style="animation-delay:1.4s"><span class="av bud"><img src="img/mark-gold.png?v=1794188895" alt=""></span><div><b>Bud <em>APP</em></b><p>High Meadow in Saratoga is out, and their Golden Ticket night on Nov 20 isn't confirmed. I drafted a nudge to Jon and added 12 tins to their next order. Approve?</p><div class="v-acts"><span>Approve both</span><span>Edit</span></div></div></div>
+      <div class="v-msg" style="animation-delay:1.4s"><span class="av bud"><img src="img/mark-gold.png?v=1794189232" alt=""></span><div><b>Bud <em>APP</em></b><p>High Meadow in Saratoga is out, and their Golden Ticket night on Nov 20 isn't confirmed. I drafted a nudge to Jon and added 12 tins to their next order. Approve?</p><div class="v-acts"><span>Approve both</span><span>Edit</span></div></div></div>
       <div class="v-msg" style="animation-delay:3.2s"><span class="av" style="background:#e8a33a">T</span><div><b>Tom</b><p>Approve both 👍</p></div></div></div></div>`,
-    ring: () => `<div class="v-stack"><div class="v-title">${esc(V.ring.h)}<small>${esc(V.ring.p)}</small></div><div class="v-flow"><div class="v-list">${V.ring.l.map((t, i) => `<div style="animation-delay:${.12 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div><div class="v-core"><img src="img/mark-gold.png?v=1794188895" alt=""></div><div class="v-list">${V.ring.r.map((t, i) => `<div style="animation-delay:${.5 + .12 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div></div></div>`,
+    ring: () => `<div class="v-stack"><div class="v-title">${esc(V.ring.h)}<small>${esc(V.ring.p)}</small></div><div class="v-flow"><div class="v-list">${V.ring.l.map((t, i) => `<div style="animation-delay:${.12 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div><div class="v-core"><img src="img/mark-gold.png?v=1794189232" alt=""></div><div class="v-list">${V.ring.r.map((t, i) => `<div style="animation-delay:${.5 + .12 * i}s">${svgI(t[0])}${esc(t[1])}</div>`).join("")}</div></div></div>`,
     build: () => `<div class="v-stack"><div class="v-title">${esc(V.build.h)}<small>${esc(V.build.p)}</small></div><div class="v-builds">${V.build.l.map((t, i) => `<div style="animation-delay:${.25 * i}s">${svgI(["users", "leaf", "cal", "flag", "chart", "bolt"][i], 24)}<span>${esc(t)}</span></div>`).join("")}</div></div>`,
-    farm: () => `<div class="v-stack"><div class="v-win" style="width:min(820px,90vw);background:#000"><img src="img/photos/lineup-group.jpg?v=1794188895" alt="The Eaton Botanicals gummy tins with the mushrooms in each one" style="aspect-ratio:3/2;object-position:center"></div><div class="v-line" style="font-size:clamp(34px,4.6vw,66px)">${V.farm}</div></div>`,
-    end: () => `<div class="v-stack v-end"><img src="img/logo-white.png?v=1794188895" alt="Eaton Botanicals"><div class="v-line" style="font-size:clamp(30px,3.6vw,50px)">${V.end}<small>Scroll down for more</small></div></div>`,
+    farm: () => `<div class="v-stack"><div class="v-win" style="width:min(820px,90vw);background:#000"><img src="img/photos/lineup-group.jpg?v=1794189232" alt="The Eaton Botanicals gummy tins with the mushrooms in each one" style="aspect-ratio:3/2;object-position:center"></div><div class="v-line" style="font-size:clamp(34px,4.6vw,66px)">${V.farm}</div></div>`,
+    end: () => `<div class="v-stack v-end"><img src="img/logo-white.png?v=1794189232" alt="Eaton Botanicals"><div class="v-line" style="font-size:clamp(30px,3.6vw,50px)">${V.end}<small>Scroll down for more</small></div></div>`,
   };
   const CH = V.scenes; // [key, seconds, caption]
   let VO = {}, voEl = null, voMuted = false, curDur = 0, showTok = 0, timer = null, idx = 0, t0 = 0, paused = false, elapsed = 0;
   function stopVideo() { clearTimeout(timer); timer = null; cancelAnimationFrame(raf); APP.music && APP.music.stop(); stopVoice(); }
   /* the voiceover: one clip per scene (img/vo/<scene>.mp3), lengths in img/vo/vo.json; the music dips under it */
   const VO_ON = !Q.has("cap") && !Q.has("novo");
-  fetch("img/vo/vo.json?v=1794188895").then(r => r.ok ? r.json() : {}).then(j => { VO = j || {}; }).catch(() => {});
+  fetch("img/vo/vo.json?v=1794189232").then(r => r.ok ? r.json() : {}).then(j => { VO = j || {}; }).catch(() => {});
   const voClips = {};
   function preloadVoice() { if (!VO_ON) return; Object.keys(VO).forEach(k => { if (!voClips[k]) { const a = new Audio(`img/vo/${k}.mp3`); a.preload = "auto"; voClips[k] = a; } }); }
   APP.voice = () => voEl; // for checks: the clip playing now
@@ -165,7 +165,7 @@
   function finish() {
     APP.music && APP.music.fade(3);
     const wh = $(".wh"); wh.classList.remove("on"); wh.classList.add("done");
-    $(".wh-front").innerHTML = `<img src="img/logo-white.png?v=1794188895" alt="Eaton Botanicals"><h1>${V.headline}</h1><p>${esc(V.headSub)}</p><button class="play" id="replay"><i><svg viewBox="0 0 24 24" width="22" height="22"><path d="${IC.play}"/></svg></i>Watch again</button>`;
+    $(".wh-front").innerHTML = `<img src="img/logo-white.png?v=1794189232" alt="Eaton Botanicals"><h1>${V.headline}</h1><p>${esc(V.headSub)}</p><button class="play" id="replay"><i><svg viewBox="0 0 24 24" width="22" height="22"><path d="${IC.play}"/></svg></i>Watch again</button>`;
   }
   function playVideo(from) {
     const wh = $(".wh"); if (!wh) return;
@@ -197,8 +197,8 @@
   function welcome() {
     const W = AX.welcome;
     return `
-    <section class="wh"><div class="wh-bg" style="background-image:url(img/photos/farm-field.jpg?v=1794188895)"></div><div class="wh-shade"></div>
-      <div class="wh-front"><img src="img/logo-white.png?v=1794188895" alt="Eaton Botanicals"><div class="wh-farm">The Farm</div><h1>${V.headline}</h1><p>${esc(V.headSub)}</p><button class="play"><i><svg viewBox="0 0 24 24" width="22" height="22"><path d="${IC.play}"/></svg></i>Play the video</button></div>
+    <section class="wh"><div class="wh-bg" style="background-image:url(img/photos/farm-field.jpg?v=1794189232)"></div><div class="wh-shade"></div>
+      <div class="wh-front"><img src="img/logo-white.png?v=1794189232" alt="Eaton Botanicals"><div class="wh-farm">The Farm</div><h1>${V.headline}</h1><p>${esc(V.headSub)}</p><button class="play"><i><svg viewBox="0 0 24 24" width="22" height="22"><path d="${IC.play}"/></svg></i>Play the video</button></div>
       <div class="wh-stage"></div><div class="wh-cap"></div><div class="wh-bar"></div>
     </section>
     <div class="stripe"></div>
@@ -217,7 +217,7 @@
     </div></section>
     <section class="sec"><div class="wrap split">
       <div class="rise"><div class="kick">The idea</div><p class="quote">${W.quote}</p><p class="lede">${esc(W.quoteP)}</p></div>
-      <div class="rise" style="border-radius:20px;overflow:hidden;border:1px solid var(--line)"><img src="img/photos/lineup-family-tree.jpg?v=1794188895" alt="The Eaton Botanicals lineup of gummies and mullein pre-rolls" style="aspect-ratio:4/3;object-fit:cover;width:100%"></div>
+      <div class="rise" style="border-radius:20px;overflow:hidden;border:1px solid var(--line)"><img src="img/photos/lineup-family-tree.jpg?v=1794189232" alt="The Eaton Botanicals lineup of gummies and mullein pre-rolls" style="aspect-ratio:4/3;object-fit:cover;width:100%"></div>
     </div></section>
     ${APP.next("site", "Your site")}`;
   }

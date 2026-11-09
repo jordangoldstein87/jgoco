@@ -11,21 +11,21 @@ window.AX = {
 
   /* the lineup (real products; wholesale prices in the portal are samples) */
   products: [
-    { k: "de", n: "Daily Elevation", f: "Peach", d: "5mg THC · 5mg CBG", m: "Cordyceps", c: "#f2683c", img: "img/photos/gummy-daily-elevation-cordyceps.jpg?v=1794188895", tag: "For a great day" },
-    { k: "nn", n: "Nightly Nightcap", f: "Dark Cherry", d: "5mg THC · 5mg CBN", m: "Reishi", c: "#8e2235", img: "img/photos/gummy-sleep-nightly-nightcap.jpg?v=1794188895", tag: "For a good night" },
+    { k: "de", n: "Daily Elevation", f: "Peach", d: "5mg THC · 5mg CBG", m: "Cordyceps", c: "#f2683c", img: "img/photos/gummy-daily-elevation-cordyceps.jpg?v=1794189232", tag: "For a great day" },
+    { k: "nn", n: "Nightly Nightcap", f: "Dark Cherry", d: "5mg THC · 5mg CBN", m: "Reishi", c: "#8e2235", img: "img/photos/gummy-sleep-nightly-nightcap.jpg?v=1794189232", tag: "For a good night" },
     { k: "sn", n: "Serenity Now", f: "Lemon Lavender", d: "2.5mg THC · 10mg CBD", m: "Lion's Mane", c: "#9d86d6", tag: "Calm your mind" },
-    { k: "gp", n: "Gal Pal", f: "Watermelon", d: "5mg THC · 5mg CBD", m: "Lion's Mane", c: "#e0566b", img: "img/photos/gummy-gal-pal.jpg?v=1794188895", tag: "For anytime of the month" },
-    { k: "fu", n: "Fixer Upper", f: "Mango Ginger", d: "5mg THC · 5mg CBD", m: "Chaga", c: "#e8a33a", img: "img/photos/gummy-fixer-upper.jpg?v=1794188895", tag: "Feel the heal" },
-    { k: "ad", n: "Apple-A-Day", f: "Apple", d: "2.5mg THC · 10mg CBD", m: "Turkey Tail", c: "#8db534", img: "img/photos/gummy-apple-a-day.jpg?v=1794188895", tag: "Keep the doc away" },
+    { k: "gp", n: "Gal Pal", f: "Watermelon", d: "5mg THC · 5mg CBD", m: "Lion's Mane", c: "#e0566b", img: "img/photos/gummy-gal-pal.jpg?v=1794189232", tag: "For anytime of the month" },
+    { k: "fu", n: "Fixer Upper", f: "Mango Ginger", d: "5mg THC · 5mg CBD", m: "Chaga", c: "#e8a33a", img: "img/photos/gummy-fixer-upper.jpg?v=1794189232", tag: "Feel the heal" },
+    { k: "ad", n: "Apple-A-Day", f: "Apple", d: "2.5mg THC · 10mg CBD", m: "Turkey Tail", c: "#8db534", img: "img/photos/gummy-apple-a-day.jpg?v=1794189232", tag: "Keep the doc away" },
     { k: "cd", n: "Cool Down", f: "Blueberry Coconut", d: "2.5mg THC · 5mg CBD · 5mg CBC", m: "Cordyceps", c: "#3fb3c3", tag: "Fuel your cool" },
-    { k: "gt", n: "Golden Ticket", f: "Cinnamon Cacao", d: "5mg live rosin", m: "Poria", c: "#af9335", img: "img/photos/golden-ticket-lifestyle.jpg?v=1794188895", tag: "Limited edition" },
-    { k: "cl", n: "Chairlifts", f: "3 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#5b7d6a", img: "img/photos/preroll-chairlifts.jpg?v=1794188895", tag: "Mini pre-rolls" },
-    { k: "lp", n: "Little Pandas", f: "5 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#2f4f40", img: "img/photos/preroll-little-pandas.jpg?v=1794188895", tag: "Mini pre-rolls" },
+    { k: "gt", n: "Golden Ticket", f: "Cinnamon Cacao", d: "5mg live rosin", m: "Poria", c: "#af9335", img: "img/photos/golden-ticket-lifestyle.jpg?v=1794189232", tag: "Limited edition" },
+    { k: "cl", n: "Chairlifts", f: "3 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#5b7d6a", img: "img/photos/preroll-chairlifts.jpg?v=1794189232", tag: "Mini pre-rolls" },
+    { k: "lp", n: "Little Pandas", f: "5 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#2f4f40", img: "img/photos/preroll-little-pandas.jpg?v=1794189232", tag: "Mini pre-rolls" },
   ],
 
   /* ---------- the opening video ---------- */
   video: {
-    headline: "Grown on a farm.<br><em>Sold from one.</em>",
+    headline: "Grown on a farm.<br><em>Sold across New York.</em>",
     headSub: "The Farm: one place where every dispensary, order, rep, pop-up, email and store pin lives, wired into Distru and Nabis, with Bud, an assistant the whole team can ask.",
     since: "Eaton, New York · Since 2016",
     lines: ["New York's first legal hemp in eighty years.", "One of the first adult-use licenses.", "Eight gummies. Two pre-rolls.<br>204 dispensaries.", "So why does selling it still run<br>on HubSpot, a map upload and memory?"],
@@ -42,7 +42,7 @@ window.AX = {
     end: "Less HubSpot. More stores.",
     narr: {
       lines: "New York's first legal hemp in eighty years. One of the first adult-use licenses. Eight gummies, two pre-rolls, and two hundred four dispensaries. So why does selling it still run on HubSpot, a map upload, and memory?",
-      headline: "Grown on a farm. Sold from one.",
+      headline: "Grown on a farm. Sold across New York.",
       site: "It starts with your own site, in your own look, moved off HubSpot and wired to your orders.",
       locator: "The store locator updates itself. Every invoice moves a pin, and Golden Ticket stores glow gold the day it ships.",
       orders: "Reps build the order in The Farm, with live stock by batch, and it lands in Distru when they confirm. Direct and Nabis, one book.",
