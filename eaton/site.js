@@ -20,9 +20,9 @@
   function page() {
     const gummies = AX.products.filter(p => !/pre-rolls/i.test(p.tag));
     return `<div class="ns ns-eb">
-      ${ns.gate ? `<div class="ns-gate"><div><img src="img/logo-color.png?v=1794189253" alt="Eaton Botanicals"><b>You must be 21 or older to enter this site.</b><p>Are you over 21?</p><div style="display:flex;gap:10px;justify-content:center"><button class="ns-btn" data-gate>Yes, I'm 21+</button><button class="ns-btn w" data-gate>No</button></div></div></div>` : ""}
-      <div class="ns-top"><img src="img/logo-color.png?v=1794189253" alt="Eaton Botanicals"><nav><a href="#site" data-ns="prod">Edibles</a><a href="#site" data-ns="prod">Pre-rolls</a><a href="#site" data-ns="find">Where to buy</a><a href="#site" data-ns="ev">Events</a><a href="#site" data-ns="ws">Wholesale</a></nav><a class="ns-call" href="#site" data-ns="find">Find a store</a></div>
-      <div class="ns-hero" style="background-image:url(img/photos/farm-field.jpg?v=1794189253)"><div>
+      ${ns.gate ? `<div class="ns-gate"><div><img src="img/logo-color.png?v=1794190461" alt="Eaton Botanicals"><b>You must be 21 or older to enter this site.</b><p>Are you over 21?</p><div style="display:flex;gap:10px;justify-content:center"><button class="ns-btn" data-gate>Yes, I'm 21+</button><button class="ns-btn w" data-gate>No</button></div></div></div>` : ""}
+      <div class="ns-top"><img src="img/logo-color.png?v=1794190461" alt="Eaton Botanicals"><nav><a href="#site" data-ns="prod">Edibles</a><a href="#site" data-ns="prod">Pre-rolls</a><a href="#site" data-ns="find">Where to buy</a><a href="#site" data-ns="ev">Events</a><a href="#site" data-ns="ws">Wholesale</a></nav><a class="ns-call" href="#site" data-ns="find">Find a store</a></div>
+      <div class="ns-hero" style="background-image:url(img/photos/farm-field.jpg?v=1794190461)"><div>
         <div style="font-weight:800;letter-spacing:.2em;font-size:13px;color:#d9bf6a;margin-bottom:12px">SUNGROWN IN EATON, NEW YORK</div>
         <h1 class="disp" style="text-transform:uppercase">Wellness you can feel</h1>
         <p>The one with the mushrooms. Low-dose gummies and mullein mini pre-rolls from a historic New York farm.</p>
@@ -31,7 +31,7 @@
       <div class="stripe" style="height:8px"></div>
 
       <div class="ns-sec" id="ns-prod"><div class="ns-k">The lineup</div><h2>Eight gummies. Twenty in every tin.</h2>
-        <div class="ns-tins">${gummies.map(p => `<div class="ns-tin" style="--c:${p.c}"><div class="lid"><span>EATON</span><small>BOTANICALS</small><em>${esc(p.n)}</em></div><b>${esc(p.n)}</b><small>${esc(p.f)} · ${esc(p.d)}</small><small>with ${esc(p.m)}</small><span class="tg">${esc(p.tag)}</span><a href="#site" data-ns="find" data-pk="${p.k}">Where to buy →</a></div>`).join("")}</div>
+        <div class="ns-tins">${gummies.map(p => `<div class="ns-tin" style="--c:${p.c}"><div class="lid" style="background:#fff"><img src="${p.tin}" alt="${esc(p.n)} tin, ${esc(p.f)}" loading="lazy"${p.k === "gt" ? ' class="full"' : ""}></div><b>${esc(p.n)}</b><small>${esc(p.f)} · ${esc(p.d)}</small><small>with ${esc(p.m)}</small><span class="tg">${esc(p.tag)}</span><a href="#site" data-ns="find" data-pk="${p.k}">Where to buy →</a></div>`).join("")}</div>
         <div class="ns-pr">${AX.products.filter(p => /pre-rolls/i.test(p.tag)).map(p => `<div><img src="${p.img}" alt="${esc(p.n)}" loading="lazy"><div><b>${esc(p.n)}</b><small>${esc(p.f)} · ${esc(p.d)}</small><a href="#site" data-ns="find" data-pk="${p.k}">Where to buy →</a></div></div>`).join("")}</div></div>
 
       <div class="ns-sec" id="ns-find" style="background:#f1f4ee"><div class="ns-k">Where to buy</div><h2>On the shelf near you. Today.</h2>
@@ -57,7 +57,7 @@
         <div id="ns-landed"></div>
       </div>
 
-      <div class="ns-foot"><div><img src="img/logo-white.png?v=1794189253" alt="" style="height:70px;margin-bottom:12px"><div>Eaton Botanicals · Eaton, New York<br>License ${esc(C.lic)}</div></div>
+      <div class="ns-foot"><div><img src="img/logo-white.png?v=1794190461" alt="" style="height:70px;margin-bottom:12px"><div>Eaton Botanicals · Eaton, New York<br>License ${esc(C.lic)}</div></div>
         <div><b>Shop</b><a>Edibles</a><a>Pre-rolls</a><a>Where to buy</a></div>
         <div><b>Stay updated</b><a>Newsletter, 21+</a><a>Instagram</a><a>Events</a></div>
         <div><b>For 21+ only</b>Keep out of reach of children. NYS HOPEline: call 1-877-8-HOPENY or text HOPENY (467369).</div></div>

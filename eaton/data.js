@@ -11,16 +11,16 @@ window.AX = {
 
   /* the lineup (real products; wholesale prices in the portal are samples) */
   products: [
-    { k: "de", n: "Daily Elevation", f: "Peach", d: "5mg THC · 5mg CBG", m: "Cordyceps", c: "#f2683c", img: "img/photos/gummy-daily-elevation-cordyceps.jpg?v=1794189253", tag: "For a great day" },
-    { k: "nn", n: "Nightly Nightcap", f: "Dark Cherry", d: "5mg THC · 5mg CBN", m: "Reishi", c: "#8e2235", img: "img/photos/gummy-sleep-nightly-nightcap.jpg?v=1794189253", tag: "For a good night" },
-    { k: "sn", n: "Serenity Now", f: "Lemon Lavender", d: "2.5mg THC · 10mg CBD", m: "Lion's Mane", c: "#9d86d6", tag: "Calm your mind" },
-    { k: "gp", n: "Gal Pal", f: "Watermelon", d: "5mg THC · 5mg CBD", m: "Lion's Mane", c: "#e0566b", img: "img/photos/gummy-gal-pal.jpg?v=1794189253", tag: "For anytime of the month" },
-    { k: "fu", n: "Fixer Upper", f: "Mango Ginger", d: "5mg THC · 5mg CBD", m: "Chaga", c: "#e8a33a", img: "img/photos/gummy-fixer-upper.jpg?v=1794189253", tag: "Feel the heal" },
-    { k: "ad", n: "Apple-A-Day", f: "Apple", d: "2.5mg THC · 10mg CBD", m: "Turkey Tail", c: "#8db534", img: "img/photos/gummy-apple-a-day.jpg?v=1794189253", tag: "Keep the doc away" },
-    { k: "cd", n: "Cool Down", f: "Blueberry Coconut", d: "2.5mg THC · 5mg CBD · 5mg CBC", m: "Cordyceps", c: "#3fb3c3", tag: "Fuel your cool" },
-    { k: "gt", n: "Golden Ticket", f: "Cinnamon Cacao", d: "5mg live rosin", m: "Poria", c: "#af9335", img: "img/photos/golden-ticket-lifestyle.jpg?v=1794189253", tag: "Limited edition" },
-    { k: "cl", n: "Chairlifts", f: "3 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#5b7d6a", img: "img/photos/preroll-chairlifts.jpg?v=1794189253", tag: "Mini pre-rolls" },
-    { k: "lp", n: "Little Pandas", f: "5 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#2f4f40", img: "img/photos/preroll-little-pandas.jpg?v=1794189253", tag: "Mini pre-rolls" },
+    { k: "de", tin: "img/photos/tin-daily-elevation.jpg?v=1794190461", n: "Daily Elevation", f: "Peach", d: "5mg THC · 5mg CBG", m: "Cordyceps", c: "#f2683c", img: "img/photos/gummy-daily-elevation-cordyceps.jpg?v=1794190461", tag: "For a great day" },
+    { k: "nn", tin: "img/photos/tin-nightly-nightcap.jpg?v=1794190461", n: "Nightly Nightcap", f: "Dark Cherry", d: "5mg THC · 5mg CBN", m: "Reishi", c: "#8e2235", img: "img/photos/gummy-sleep-nightly-nightcap.jpg?v=1794190461", tag: "For a good night" },
+    { k: "sn", tin: "img/photos/tin-serenity-now.jpg?v=1794190461", n: "Serenity Now", f: "Lemon Lavender", d: "2.5mg THC · 10mg CBD", m: "Lion's Mane", c: "#9d86d6", tag: "Calm your mind" },
+    { k: "gp", tin: "img/photos/tin-gal-pal.jpg?v=1794190461", n: "Gal Pal", f: "Watermelon", d: "5mg THC · 5mg CBD", m: "Lion's Mane", c: "#e0566b", img: "img/photos/gummy-gal-pal.jpg?v=1794190461", tag: "For anytime of the month" },
+    { k: "fu", tin: "img/photos/tin-fixer-upper.jpg?v=1794190461", n: "Fixer Upper", f: "Mango Ginger", d: "5mg THC · 5mg CBD", m: "Chaga", c: "#e8a33a", img: "img/photos/gummy-fixer-upper.jpg?v=1794190461", tag: "Feel the heal" },
+    { k: "ad", tin: "img/photos/tin-apple-a-day.jpg?v=1794190461", n: "Apple-A-Day", f: "Apple", d: "2.5mg THC · 10mg CBD", m: "Turkey Tail", c: "#8db534", img: "img/photos/gummy-apple-a-day.jpg?v=1794190461", tag: "Keep the doc away" },
+    { k: "cd", tin: "img/photos/tin-cool-down.jpg?v=1794190461", n: "Cool Down", f: "Blueberry Coconut", d: "2.5mg THC · 5mg CBD · 5mg CBC", m: "Cordyceps", c: "#3fb3c3", tag: "Fuel your cool" },
+    { k: "gt", tin: "img/photos/tin-golden-ticket.jpg?v=1794190461", n: "Golden Ticket", f: "Cinnamon Cacao", d: "5mg live rosin", m: "Poria", c: "#af9335", img: "img/photos/golden-ticket-lifestyle.jpg?v=1794190461", tag: "Limited edition" },
+    { k: "cl", n: "Chairlifts", f: "3 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#5b7d6a", img: "img/photos/preroll-chairlifts.jpg?v=1794190461", tag: "Mini pre-rolls" },
+    { k: "lp", n: "Little Pandas", f: "5 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#2f4f40", img: "img/photos/preroll-little-pandas.jpg?v=1794190461", tag: "Mini pre-rolls" },
   ],
 
   /* ---------- the opening video ---------- */
@@ -137,6 +137,23 @@ window.AX = {
       body: "Opening December 1 in Syracuse. Please send your menu and pricing. Interested in a budtender training before opening.",
       did: [["users", "Made a lead, routed to Kendra", "Syracuse is Kendra's territory. License checked against the OCM list: active, not yet open."], ["file", "Attached the wholesale menu", "This week's menu, with live stock, ready to send from Kendra's email."], ["cal", "Offered training slots", "Kendra's open afternoons the week of Nov 23."]] },
   ],
+  /* expenses and ROI (all samples): rep expenses, trade shows and what each one brought back */
+  expenses: [
+    { rep: "Kendra", day: "Nov 9", what: "Mileage, 142 miles", cat: "Mileage", amt: 99.40, tie: "Rochester to Syracuse for Blue Heron", how: "Miles from her route in The Farm, no log to keep", st: "ok" },
+    { rep: "Dana", day: "Nov 9", what: "Uber", cat: "Travel", amt: 38.40, tie: "Lantern House visit", how: "Matched to the visit on her calendar", st: "ok" },
+    { rep: "Luis", day: "Nov 8", what: "Coffee for the budtender training", cat: "Meals", amt: 24.60, tie: "The Green Pier", how: "Texted to Bud with a photo", st: "ok" },
+    { rep: "Priya", day: "Nov 7", what: "Sell sheets, printed", cat: "Supplies", amt: 61.20, tie: "Sunny Day training", how: "Card charge, matched to the promo day", st: "ok" },
+    { rep: "Tom", day: "Nov 6", what: "Hotel, Saratoga", cat: "Lodging", amt: 168.00, tie: "High Meadow and Glens Falls run", how: "Card charge with no receipt yet", st: "warn" },
+    { rep: "Marni", day: "Nov 5", what: "Buyer lunch", cat: "Meals", amt: 142.80, tie: "Copperleaf Cannabis", how: "Over the $100 meal limit, needs a note", st: "bad" },
+  ],
+  // expenses this month and orders this month, by rep, in AX.reps order (orders match the Team page)
+  repSpend: [640, 410, 980, 720, 1460, 1320],
+  repOrders: [31840, 29120, 21460, 24300, 18900, 22800],
+  shows: [
+    { n: "NYC cannabis trade expo", when: "May", city: "Manhattan", cost: [["Booth", 6500], ["Travel and hotel", 1800], ["Display and samples", 2200]], leads: 64, stores: 9, orders: 41800, note: "Go back. Book the same corner." },
+    { n: "Albany industry expo", when: "Aug", city: "Albany", cost: [["Booth", 2800], ["Travel and hotel", 900], ["Display and samples", 1100]], leads: 22, stores: 3, orders: 9600, note: "Worth it with a smaller booth." },
+    { n: "Buffalo dispensary summit", when: "Sep", city: "Buffalo", cost: [["Booth", 3200], ["Travel and hotel", 1400], ["Display and samples", 900]], leads: 18, stores: 1, orders: 2100, note: "Skip, or send one rep without a booth." },
+  ],
   costs: {
     replaces: [
       ["HubSpot Sales Hub seats for the sales team (Professional lists at $100 a seat a month)", "The Farm's accounts, pipeline, sequences and meeting links"],
@@ -145,6 +162,7 @@ window.AX = {
       ["The Mapbox store map, re-uploaded by hand", "The built-in store locator, fed by orders"],
       ["Spreadsheets and texts for promo days", "Promo days in The Farm"],
       ["Copying orders between email, Nabis and Distru", "One order screen that writes to Distru when a rep confirms"],
+      ["Expense reports in spreadsheets and envelopes of receipts", "Expenses in The Farm, tied to the visit, the show or the promo day"],
     ],
   },
 };
