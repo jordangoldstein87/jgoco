@@ -11,16 +11,16 @@ window.AX = {
 
   /* the lineup (real products; wholesale prices in the portal are samples) */
   products: [
-    { k: "de", tin: "img/photos/tin-daily-elevation.jpg?v=1794190461", n: "Daily Elevation", f: "Peach", d: "5mg THC · 5mg CBG", m: "Cordyceps", c: "#f2683c", img: "img/photos/gummy-daily-elevation-cordyceps.jpg?v=1794190461", tag: "For a great day" },
-    { k: "nn", tin: "img/photos/tin-nightly-nightcap.jpg?v=1794190461", n: "Nightly Nightcap", f: "Dark Cherry", d: "5mg THC · 5mg CBN", m: "Reishi", c: "#8e2235", img: "img/photos/gummy-sleep-nightly-nightcap.jpg?v=1794190461", tag: "For a good night" },
-    { k: "sn", tin: "img/photos/tin-serenity-now.jpg?v=1794190461", n: "Serenity Now", f: "Lemon Lavender", d: "2.5mg THC · 10mg CBD", m: "Lion's Mane", c: "#9d86d6", tag: "Calm your mind" },
-    { k: "gp", tin: "img/photos/tin-gal-pal.jpg?v=1794190461", n: "Gal Pal", f: "Watermelon", d: "5mg THC · 5mg CBD", m: "Lion's Mane", c: "#e0566b", img: "img/photos/gummy-gal-pal.jpg?v=1794190461", tag: "For anytime of the month" },
-    { k: "fu", tin: "img/photos/tin-fixer-upper.jpg?v=1794190461", n: "Fixer Upper", f: "Mango Ginger", d: "5mg THC · 5mg CBD", m: "Chaga", c: "#e8a33a", img: "img/photos/gummy-fixer-upper.jpg?v=1794190461", tag: "Feel the heal" },
-    { k: "ad", tin: "img/photos/tin-apple-a-day.jpg?v=1794190461", n: "Apple-A-Day", f: "Apple", d: "2.5mg THC · 10mg CBD", m: "Turkey Tail", c: "#8db534", img: "img/photos/gummy-apple-a-day.jpg?v=1794190461", tag: "Keep the doc away" },
-    { k: "cd", tin: "img/photos/tin-cool-down.jpg?v=1794190461", n: "Cool Down", f: "Blueberry Coconut", d: "2.5mg THC · 5mg CBD · 5mg CBC", m: "Cordyceps", c: "#3fb3c3", tag: "Fuel your cool" },
-    { k: "gt", tin: "img/photos/tin-golden-ticket.jpg?v=1794190461", n: "Golden Ticket", f: "Cinnamon Cacao", d: "5mg live rosin", m: "Poria", c: "#af9335", img: "img/photos/golden-ticket-lifestyle.jpg?v=1794190461", tag: "Limited edition" },
-    { k: "cl", n: "Chairlifts", f: "3 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#5b7d6a", img: "img/photos/preroll-chairlifts.jpg?v=1794190461", tag: "Mini pre-rolls" },
-    { k: "lp", n: "Little Pandas", f: "5 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#2f4f40", img: "img/photos/preroll-little-pandas.jpg?v=1794190461", tag: "Mini pre-rolls" },
+    { k: "de", tin: "img/photos/tin-daily-elevation.jpg?v=1794192075", n: "Daily Elevation", f: "Peach", d: "5mg THC · 5mg CBG", m: "Cordyceps", c: "#f2683c", img: "img/photos/gummy-daily-elevation-cordyceps.jpg?v=1794192075", tag: "For a great day" },
+    { k: "nn", tin: "img/photos/tin-nightly-nightcap.jpg?v=1794192075", n: "Nightly Nightcap", f: "Dark Cherry", d: "5mg THC · 5mg CBN", m: "Reishi", c: "#8e2235", img: "img/photos/gummy-sleep-nightly-nightcap.jpg?v=1794192075", tag: "For a good night" },
+    { k: "sn", tin: "img/photos/tin-serenity-now.jpg?v=1794192075", n: "Serenity Now", f: "Lemon Lavender", d: "2.5mg THC · 10mg CBD", m: "Lion's Mane", c: "#9d86d6", tag: "Calm your mind" },
+    { k: "gp", tin: "img/photos/tin-gal-pal.jpg?v=1794192075", n: "Gal Pal", f: "Watermelon", d: "5mg THC · 5mg CBD", m: "Lion's Mane", c: "#e0566b", img: "img/photos/gummy-gal-pal.jpg?v=1794192075", tag: "For anytime of the month" },
+    { k: "fu", tin: "img/photos/tin-fixer-upper.jpg?v=1794192075", n: "Fixer Upper", f: "Mango Ginger", d: "5mg THC · 5mg CBD", m: "Chaga", c: "#e8a33a", img: "img/photos/gummy-fixer-upper.jpg?v=1794192075", tag: "Feel the heal" },
+    { k: "ad", tin: "img/photos/tin-apple-a-day.jpg?v=1794192075", n: "Apple-A-Day", f: "Apple", d: "2.5mg THC · 10mg CBD", m: "Turkey Tail", c: "#8db534", img: "img/photos/gummy-apple-a-day.jpg?v=1794192075", tag: "Keep the doc away" },
+    { k: "cd", tin: "img/photos/tin-cool-down.jpg?v=1794192075", n: "Cool Down", f: "Blueberry Coconut", d: "2.5mg THC · 5mg CBD · 5mg CBC", m: "Cordyceps", c: "#3fb3c3", tag: "Fuel your cool" },
+    { k: "gt", tin: "img/photos/tin-golden-ticket.jpg?v=1794192075", n: "Golden Ticket", f: "Cinnamon Cacao", d: "5mg live rosin", m: "Poria", c: "#af9335", img: "img/photos/golden-ticket-lifestyle.jpg?v=1794192075", tag: "Limited edition" },
+    { k: "cl", n: "Chairlifts", f: "3 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#5b7d6a", img: "img/photos/preroll-chairlifts.jpg?v=1794192075", tag: "Mini pre-rolls" },
+    { k: "lp", n: "Little Pandas", f: "5 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#2f4f40", img: "img/photos/preroll-little-pandas.jpg?v=1794192075", tag: "Mini pre-rolls" },
   ],
 
   /* ---------- the opening video ---------- */
@@ -111,11 +111,11 @@ window.AX = {
     stock: { de: [1840, "Batch DE-1029 · COA passed Oct 28"], nn: [2210, "Batch NN-1031 · COA passed Nov 2"], sn: [640, "Batch SN-1018"], gp: [1120, "Batch GP-1024"], fu: [980, "Batch FU-1022"], ad: [760, "Batch AD-1019"], cd: [410, "Batch CD-1015"], gt: [96, "Batch GT-0007 · last 8 cases"], cl: [520, "Batch CL-1106"], lp: [300, "Batch LP-1104"] },
   },
   promos: [
-    { store: "Lantern House", city: "Brooklyn", day: "Sat Nov 14", time: "1 to 5 p.m.", who: "Ambassador: Sam", what: "Gal Pal and Serenity Now education table", st: "Confirmed", lift: null },
-    { store: "High Meadow", city: "Saratoga Springs", day: "Fri Nov 20", time: "4 to 7 p.m.", who: "Ambassador: Alexis", what: "Golden Ticket drop night, non-infused tasting", st: "Waiting on store", lift: null },
-    { store: "Sunny Day Cannabis", city: "White Plains", day: "Sat Nov 21", time: "12 to 4 p.m.", who: "Priya", what: "Budtender training, then a floor shift", st: "Confirmed", lift: null },
-    { store: "Copperleaf Cannabis", city: "Manhattan", day: "Sat Oct 24", time: "2 to 6 p.m.", who: "Marni and Sam", what: "Nightly Nightcap pop-up", st: "Done", lift: [41, 78, "Nightcap units sold, 2 weeks before vs. 2 weeks after"] },
-    { store: "Saltbox Dispensary", city: "Rochester", day: "Sat Oct 17", time: "1 to 5 p.m.", who: "Kendra", what: "Full lineup education day", st: "Done", lift: [22, 31, "All Eaton units, 2 weeks before vs. after"] },
+    { store: "Lantern House", ig: "@lanternhouse.bk", k: ["gp", "sn"], city: "Brooklyn", day: "Sat Nov 14", time: "1 to 5 p.m.", who: "Ambassador: Sam", what: "Gal Pal and Serenity Now education table", st: "Confirmed", lift: null },
+    { store: "High Meadow", ig: "@highmeadow.saratoga", k: ["gt"], city: "Saratoga Springs", day: "Fri Nov 20", time: "4 to 7 p.m.", who: "Ambassador: Alexis", what: "Golden Ticket drop night, non-infused tasting", st: "Waiting on store", lift: null },
+    { store: "Sunny Day Cannabis", ig: "@sunnydaycannabis", k: ["ad"], private: true, city: "White Plains", day: "Sat Nov 21", time: "12 to 4 p.m.", who: "Priya", what: "Budtender training, then a floor shift", st: "Confirmed", lift: null },
+    { store: "Copperleaf Cannabis", ig: "@copperleafnyc", k: ["nn"], city: "Manhattan", day: "Sat Oct 24", time: "2 to 6 p.m.", who: "Marni and Sam", what: "Nightly Nightcap pop-up", st: "Done", lift: [41, 78, "Nightcap units sold, 2 weeks before vs. 2 weeks after"] },
+    { store: "Saltbox Dispensary", ig: "@saltbox.roc", k: ["sn", "de"], city: "Rochester", day: "Sat Oct 17", time: "1 to 5 p.m.", who: "Kendra", what: "Full lineup education day", st: "Done", lift: [22, 31, "All Eaton units, 2 weeks before vs. after"] },
   ],
   campaigns: [
     { n: "November buyer newsletter", to: "Dispensary buyers · 312", ch: "Email", st: "Scheduled Thu 9 a.m.", ok: true, open: null },

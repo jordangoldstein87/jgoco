@@ -32,7 +32,7 @@
       <p class="src">Page source, headers and DNS of eatonbotanicals.com · ${src("your FAQ", "https://www.eatonbotanicals.com/faq")} · ${src("NY license data", "https://data.ny.gov/resource/jskf-tt3q.json?$q=eaton")} (OCM-DIST-25-000198) · ${src("Nabis NY launch", "https://mgmagazine.com/press-releases/nabis-launches-in-new-york")} · ${src("OCM on Metrc", "https://cannabis.ny.gov/ocm-expands-seed-to-sale-support")}. Distru is from you; it isn't visible publicly. research/tech-stack.md</p></div></section>
     <section class="sec"><div class="wrap split">
       <div class="rise"><div class="kick">The market</div><h2 class="h2">More stores than any team of six can know.</h2><ul class="lst"><li>New York sold <b>$1.69B</b> in 2025, up 94%, and <b>$1.41B</b> through Q3 2026</li><li><b>744</b> dispensaries are open, up from 556 last December, and <b>327</b> more are licensed but not open</li><li><b>582</b> licensed processors compete for the same shelves</li><li>The five best-selling edibles in the state are all <b>CBN or CBG "effect" gummies</b>. Functional is what's winning, and it's your whole lineup</li></ul></div>
-      <div class="rise card" style="padding:0;overflow:hidden"><img src="img/photos/lineup-group.jpg?v=1794190461" alt="Eaton's gummy tins with their mushrooms" style="aspect-ratio:4/3;object-fit:cover;width:100%"></div>
+      <div class="rise card" style="padding:0;overflow:hidden"><img src="img/photos/lineup-group.jpg?v=1794192075" alt="Eaton's gummy tins with their mushrooms" style="aspect-ratio:4/3;object-fit:cover;width:100%"></div>
     </div><div class="wrap"><p class="src">${src("OCM 2025 sales", "https://cannabis.ny.gov/system/files/documents/2026/02/february-2026-ccb-press-release.pdf")} · ${src("Governor, Oct 27 2026", "https://governor.ny.gov/news/governor-hochul-announces-new-yorks-legal-cannabis-market-surpasses-4-billion-retail-sales")} · ${src("OCM, Oct 2 2026", "https://cannabis.ny.gov/system/files/documents/2026/10/10.1-ccb-release.pdf")} · ${src("Hoodie, best-selling NY edibles", "https://www.hoodieanalytics.com/cannabis_markets/new-york/edibles/best-selling-edibles")}. research/market.md</p></div></section>
     <section class="sec"><div class="wrap"><div class="kick">The rules</div><h2 class="h2 rise">What a brand is allowed to do.</h2>
       <p class="lede rise">New York takes most of the usual levers away. That's why the levers that are left have to be run well.</p>
@@ -140,9 +140,148 @@
       ])}</div></section>`
     + APP.next("marketing", "Marketing");
 
+  /* ---------- story maker: an Instagram story from a promo day, with the store tagged and a PNG to export ---------- */
+  const SM = { i: 0, look: "green", cap: null };
+  const smEvents = () => AX.promos.filter(p => !p.private);
+  const smP = k => AX.products.find(p => p.k === k) || {};
+  const smLooks = { green: ["#154734", "#0c2a1e", "#d9bf6a"], gold: ["#8a6d1f", "#3a2c08", "#fff3c4"], tin: null };
+  const smText = e => {
+    const done = e.st === "Done", names = e.k.map(k => smP(k).n).join(" and ");
+    return {
+      kick: done ? "THANK YOU" : e.st === "Confirmed" ? "POP-UP" : "COMING SOON",
+      title: done ? `What a day at ${e.store}` : `Meet us at ${e.store}`,
+      sub: done ? `Thanks to everyone who stopped by to learn about ${names}.` : `Learn about ${names} with the Eaton team.`,
+      when: done ? `${e.day}` : `${e.day} · ${e.time}`,
+    };
+  };
+  const smImgs = {};
+  const smLoad = src => smImgs[src] || (smImgs[src] = new Promise(r => { const im = new Image(); im.onload = () => r(im); im.onerror = () => r(null); im.src = src; }));
+  function smWrap(ctx, text, x, y, maxW, lh) {
+    const words = text.split(" "); let line = "", lines = [];
+    words.forEach(w => { const t = line ? line + " " + w : w; if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; });
+    lines.push(line); lines.forEach((l, i) => ctx.fillText(l, x, y + i * lh)); return lines.length;
+  }
+  function smRound(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  async function smDraw() {
+    const cv = document.getElementById("sm-cv"); if (!cv) return;
+    const e = smEvents()[SM.i], T = smText(e), P0 = smP(e.k[0]);
+    const look = SM.look === "tin" ? [P0.c, "#0c1f17", "#ffffff"] : smLooks[SM.look];
+    try { await document.fonts.load('900 80px "Montserrat"'); await document.fonts.load('600 40px "Inter"'); } catch (err) {}
+    const [logo, tin] = await Promise.all([smLoad("img/logo-white.png?v=1794192075"), smLoad(P0.tin || P0.img)]);
+    const c = cv.getContext("2d"), W = 1080, H = 1920;
+    const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, look[0]); g.addColorStop(1, look[1]); c.fillStyle = g; c.fillRect(0, 0, W, H);
+    // the Eaton Rainbow stripe, top and bottom
+    const RB = ["#f2683c", "#e8a33a", "#9bc53d", "#4fc1d0", "#b6a0e0", "#e0566b", "#8e2235", "#af9335"];
+    RB.forEach((col, i) => { c.fillStyle = col; c.fillRect(i * W / 8, 0, W / 8 + 1, 18); c.fillRect(i * W / 8, H - 18, W / 8 + 1, 18); });
+    if (logo) { const lw = 380, lh = lw * logo.height / logo.width; c.drawImage(logo, (W - lw) / 2, 96, lw, lh); }
+    c.textAlign = "center"; c.fillStyle = look[2]; c.font = '900 34px "Montserrat", sans-serif';
+    c.fillText(T.kick.split("").join(String.fromCharCode(8202)), W / 2, 380);
+    c.fillStyle = "#ffffff"; c.font = '900 84px "Montserrat", sans-serif';
+    const n = smWrap(c, T.title, W / 2, 480, 900, 92);
+    const py = 480 + n * 92 + 10, ps = 720;
+    if (tin) { c.save(); smRound(c, (W - ps) / 2, py, ps, ps, 44); c.clip(); const s = Math.max(ps / tin.width, ps / tin.height) * (P0.k === "gt" ? 1 : 1.25); c.drawImage(tin, W / 2 - tin.width * s / 2, py + ps / 2 - tin.height * s / 2, tin.width * s, tin.height * s); c.restore(); }
+    let y = py + ps + 110;
+    c.fillStyle = "#ffffff"; c.font = '800 54px "Montserrat", sans-serif'; c.fillText(T.when, W / 2, y);
+    c.font = '600 38px "Inter", sans-serif'; c.fillStyle = "rgba(255,255,255,.88)"; y += 62; c.fillText(`${e.store} · ${e.city}, NY`, W / 2, y);
+    c.font = '500 34px "Inter", sans-serif'; c.fillStyle = "rgba(255,255,255,.78)"; y += 64; y += (smWrap(c, SM.cap != null ? SM.cap : T.sub, W / 2, y, 860, 46) - 1) * 46;
+    // the store's tag, styled like a mention sticker
+    c.font = '800 44px "Inter", sans-serif'; const tw = c.measureText(e.ig).width + 70; y += 120;
+    smRound(c, (W - tw) / 2, y - 52, tw, 76, 18); c.fillStyle = "#ffffff"; c.fill(); c.fillStyle = look[0] === "#ffffff" ? "#154734" : (SM.look === "tin" ? "#12291f" : look[0]); c.fillText(e.ig, W / 2, y);
+    c.font = '600 24px "Inter", sans-serif'; c.fillStyle = "rgba(255,255,255,.7)";
+    c.fillText(`21+ only · Non-infused samples · Eaton Botanicals · License ${AX.co.lic}`, W / 2, H - 56);
+    const info = document.getElementById("sm-info");
+    if (info) info.innerHTML = `${e.st === "Waiting on store" ? `<div class="sm-warn">${svgI("bell", 16)} ${esc(e.store)} hasn't confirmed yet. The Farm holds this story until they do.</div>` : ""}
+      <div class="sm-row">${svgI("users", 16)} Tags <b>${esc(e.ig)}</b>, from ${esc(e.store)}'s record in The Farm</div>
+      <div class="sm-row">${svgI("shield", 16)} Rule check passes: 21+ account, license number shown, no health claims, nothing "free"</div>`;
+  }
+  APP.smDraw = smDraw;
+
+  /* ---------- more marketing tools, plugged into The Farm ---------- */
+  const MORE = [
+    ["search", "Menu checker", "Reads every store's online menu (Dutchie, Jane, Weedmaps) each morning and flags wrong names, old photos, missing doses and tins that show out of stock when the store has them."],
+    ["file", "Shelf talkers and sell sheets", "Print-ready cards made for each store, showing only the tins it carries, rule-checked, with the $200 a year display budget counted."],
+    ["bolt", "QR codes that report back", "Every shelf talker gets its own QR code, so you see which store's shelf sends people to the site, and which tins they look at."],
+    ["phone", "21+ sign-ups at the table", "Ambassadors hand out a QR code at pop-ups. Shoppers confirm they're 21 and join the list for their area, tagged with the store they met you at."],
+    ["leaf", "Budtender corner", "A short lesson and quiz per tin. Budtenders who finish it get the store a badge on the locator, and you see who knows the lineup."],
+    ["users", "Store mentions", "When a dispensary posts about Eaton, it shows up on that store's record, and Bud drafts a thank-you and a repost ask."],
+    ["star", "Launch kits", "One press for a drop like Golden Ticket: the buyer email, the stories, the shelf talker, the site banner and the store list, all from the same details."],
+    ["cal", "Event recap in one tap", "After a promo day, the ambassador's photos file themselves, and the recap story, the post and the thank-you to the buyer are drafted."],
+    ["chart", "What marketing sold", "Every email, story, pop-up and shelf talker tied to the orders that followed, so you know what's worth Jes's week."],
+  ];
+  const AUDIT = [["Lantern House", "Dutchie", "Gal Pal shows the old 10-pack photo", "warn"], ["Bridgeview Dispensary", "Jane", "Golden Ticket listed as out of stock; they got 12 tins Tuesday", "bad"], ["Saltbox Dispensary", "Weedmaps", "Serenity Now dose shows 2mg, should be 2.5mg THC and 10mg CBD", "warn"], ["Copperleaf Cannabis", "Dutchie", "All 9 tins correct", "ok"]];
+  const moreTools = () => `<section class="sec" style="padding-top:20px"><div class="wrap"><div class="kick">More tools, plugged in</div><h2 class="h2 rise">A marketing team's toolkit, for one person.</h2>
+    <p class="lede rise">Each of these lives in The Farm, so it knows every store, tin, order and promo day already. Nothing to copy between apps.</p>
+    <div class="grid g3 rise" style="margin-top:28px">${MORE.map(icard).join("")}</div>
+    <div class="card rise" style="margin-top:22px"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><b style="font-size:20px;flex:1">This morning's menu check</b><span class="sample">Sample</span></div>
+      <div class="tblwrap" style="margin-top:12px"><table class="tbl"><tr><th>Store</th><th>Menu</th><th>What's wrong</th><th></th></tr>${AUDIT.map(r => `<tr><td style="font-weight:700">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3] === "ok" ? good("Correct") : r[3] === "bad" ? bad("Fix today") : `<b style="color:var(--warn)">Fix</b>`}</td></tr>`).join("")}</table></div>
+      <p class="src">Bud drafts the note to each store's buyer with the right photo and details attached. A tin that shows out of stock when it isn't is a lost sale on every menu that lists it.</p></div>
+  </div></section>`;
+
+  /* ---------- SEO articles about what's in the tins ---------- */
+  const SEO = [
+    ["Lion's mane, explained", "lion's mane gummies new york", "Serenity Now, Gal Pal", "Waiting on Jes"],
+    ["Cordyceps: the mushroom in Daily Elevation and Cool Down", "cordyceps gummies", "Daily Elevation, Cool Down", "Rule-checked"],
+    ["Reishi and CBN: what's in Nightly Nightcap", "reishi gummies", "Nightly Nightcap", "Draft by Bud"],
+    ["Chaga, the mushroom that grows on birch", "chaga thc gummies", "Fixer Upper", "Draft by Bud"],
+    ["Turkey tail: where it grows and why it's in Apple-A-Day", "turkey tail gummies", "Apple-A-Day", "Draft by Bud"],
+    ["Poria, rhodiola and maca: inside Golden Ticket", "live rosin gummies new york", "Golden Ticket", "Draft by Bud"],
+    ["Why there's mullein in our mini pre-rolls", "mullein pre rolls", "Chairlifts, Little Pandas", "Rule-checked"],
+    ["2.5mg or 5mg? A guide to low-dose edibles", "low dose edibles nyc", "The whole lineup", "Draft by Bud"],
+  ];
+  const seoArticles = () => `<section class="sec" style="padding-top:20px"><div class="wrap"><div class="kick">SEO articles</div><h2 class="h2 rise">Own the searches for what's in your tins.</h2>
+    <p class="lede rise">People search for lion's mane, cordyceps and reishi long before they search for a brand. Bud drafts an article for every mushroom and botanical in the lineup, Jes edits and approves, and each one ends with the store locator set to the tin it's in, so a reader can find it on a shelf near them.</p>
+    <div class="split rise" style="margin-top:28px;align-items:start">
+      <div class="tblwrap"><table class="tbl"><tr><th>Article</th><th>Search it's written for</th><th>Links to</th><th>Status</th></tr>${SEO.map(r => `<tr><td style="font-weight:700">${esc(r[0])}</td><td><span class="mute">"${esc(r[1])}"</span></td><td>${esc(r[2])}</td><td>${r[3] === "Rule-checked" ? good(r[3]) : r[3] === "Waiting on Jes" ? `<b style="color:var(--warn)">${r[3]}</b>` : `<span class="mute">${r[3]}</span>`}</td></tr>`).join("")}</table></div>
+      <div class="card seo-doc"><div class="seo-k">eatonbotanicals.com/learn/lions-mane <span class="sample">Sample</span></div>
+        <b class="seo-h">Lion's mane, explained</b>
+        <p class="mute">The shaggy white mushroom in Serenity Now and Gal Pal, and why it's in a gummy.</p>
+        <ol class="seo-o"><li>What lion's mane is, and what it looks like in the wild</li><li>Where it grows: hardwood forests across the Northeast, New York included</li><li>How it's been cooked and used for centuries</li><li>How much is in each tin: 35mg in every Serenity Now, 40mg in every Gal Pal</li><li>Where to find them: the store locator, set to these two tins</li></ol>
+        <div class="seo-chk">${svgI("shield", 16)} Written about the mushroom, not about what it does for you. Part 129 counts health claims in articles too, so the rule check reads every line.</div>
+        <div class="seo-chk">${svgI("search", 16)} Titles, headings, image text and links to the other mushroom articles are set for search, and every article is listed for Google the day it's published.</div></div>
+    </div>
+    <p class="src">Doses are from Eaton's product pages. Search phrases are what each article is written for; which ones bring the most visitors shows up in The Farm once they're live.</p>
+  </div></section>`;
+  const storyMaker = () => `<section class="sec" style="padding-top:20px"><div class="wrap"><div class="kick">Story maker</div><h2 class="h2 rise">Every pop-up becomes a story.</h2>
+    <p class="lede rise">Pick a promo day and The Farm builds the story: the tin, the day, the store, and the store's Instagram handle, tagged from its record. Change the look or the line, then export the graphic or send it straight to Instagram from a phone.</p>
+    <div class="sm rise"><div class="sm-ctl">
+      <label>Event<select id="sm-ev">${smEvents().map((e, i) => `<option value="${i}"${i === SM.i ? " selected" : ""}>${esc(e.store)} · ${esc(e.day)}${e.st === "Done" ? " (recap)" : ""}</option>`).join("")}</select></label>
+      <label>Look<span class="sm-looks">${[["green", "Eaton green"], ["gold", "Gold"], ["tin", "Tin color"]].map(l => `<button type="button" data-smlook="${l[0]}" class="${SM.look === l[0] ? "on" : ""}">${l[1]}</button>`).join("")}</span></label>
+      <label>Line under the title<textarea id="sm-cap" rows="3" placeholder="Leave blank for Bud's line"></textarea></label>
+      <div id="sm-info" class="sm-info"></div>
+      <div class="sm-btns"><button type="button" class="btn" id="sm-png">${svgI("file", 18)} Export the graphic</button><button type="button" class="btn ghost" id="sm-tag">Copy the tag and caption</button></div>
+      <p class="src" id="sm-msg">On a phone, Export opens the share sheet so it goes straight into an Instagram story. Add the mention sticker with the handle you copied, so the store gets notified.</p>
+    </div><div class="sm-prev"><canvas id="sm-cv" width="1080" height="1920" aria-label="Instagram story preview"></canvas><small>1080 × 1920, Instagram story size · sample event</small></div></div>
+  </div></section>`;
+  document.addEventListener("ax-render", e => { if (e.detail.v === "marketing") { SM.cap = null; smDraw(); } });
+  document.addEventListener("change", e => { if (e.target.id === "sm-ev") { SM.i = +e.target.value; SM.cap = null; const t = document.getElementById("sm-cap"); if (t) t.value = ""; smDraw(); } });
+  document.addEventListener("input", e => { if (e.target.id === "sm-cap") { SM.cap = e.target.value.trim() || null; smDraw(); } });
+  document.addEventListener("click", async e => {
+    const lk = e.target.closest("[data-smlook]"); if (lk) { SM.look = lk.dataset.smlook; document.querySelectorAll("[data-smlook]").forEach(b => b.classList.toggle("on", b === lk)); smDraw(); return; }
+    const ev = smEvents()[SM.i], msg = document.getElementById("sm-msg");
+    if (e.target.closest("#sm-tag")) {
+      const T = smText(ev), txt = `${T.title}. ${T.when} at ${ev.store}, ${ev.city}. ${ev.ig} #EatonBotanicals 21+ only.`;
+      try { await navigator.clipboard.writeText(txt); msg.textContent = `Copied: ${txt}`; } catch (err) { msg.textContent = txt; }
+      return;
+    }
+    if (e.target.closest("#sm-png")) {
+      await smDraw();
+      const cv = document.getElementById("sm-cv"), name = `eaton-story-${ev.store.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.png`;
+      cv.toBlob(async blob => {
+        const file = new File([blob], name, { type: "image/png" });
+        if (navigator.canShare && navigator.canShare({ files: [file] }) && /Mobi|Android|iPhone/i.test(navigator.userAgent)) { try { await navigator.share({ files: [file], title: "Eaton story" }); return; } catch (err) {} }
+        const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+        msg.textContent = `Saved ${name} (${Math.round(blob.size / 1024)} KB).`;
+      }, "image/png");
+    }
+  });
+
   /* ---------- marketing ---------- */
   APP.views.marketing = () => head("Marketing", "Everything HubSpot did<br>for marketing. Rebuilt.", "Buyer newsletters, budtender education, launches, the 21+ shopper list, social and the site, for one marketer. Bud drafts, Jes approves, and every send is checked against New York's rules before it can go.")
     + portal("campaigns")
+    + storyMaker()
+    + seoArticles()
+    + moreTools()
     + `<section class="sec" style="padding-top:20px"><div class="wrap"><div class="kick">HubSpot Marketing Hub, rebuilt</div><h2 class="h2 rise">The marketing tools, one by one.</h2>
       ${tbl(["In HubSpot", "In The Farm"], [
         ["Marketing email and lists", "Buyers, budtenders and 21+ shoppers, as separate lists, with the rule check"],
@@ -162,7 +301,7 @@
     + APP.next("bud", "Bud, your assistant");
 
   /* ---------- Bud ---------- */
-  const slack = (who, c, msg, bud) => `<div class="v-msg" style="animation:none"><span class="av ${bud ? "bud" : ""}" style="${bud ? "" : `background:${c}`}">${bud ? `<img src="img/mark-gold.png?v=1794190461" alt="">` : esc(who[0])}</span><div><b>${esc(who)}${bud ? " <em>APP</em>" : ""}</b><p>${msg}</p></div></div>`;
+  const slack = (who, c, msg, bud) => `<div class="v-msg" style="animation:none"><span class="av ${bud ? "bud" : ""}" style="${bud ? "" : `background:${c}`}">${bud ? `<img src="img/mark-gold.png?v=1794192075" alt="">` : esc(who[0])}</span><div><b>${esc(who)}${bud ? " <em>APP</em>" : ""}</b><p>${msg}</p></div></div>`;
   APP.views.bud = () => head("Bud, your assistant", "One assistant.<br>The whole team.", "Bud is Eaton's own AI assistant. It knows every store, order, tin, pop-up and campaign in The Farm, and it lives where the team already works: in The Farm, in Slack, in Microsoft Teams and on the phone. Ask it anything. It does the first draft of almost everything. A person presses send.")
     + `<section class="sec" style="padding-top:10px"><div class="wrap"><div class="grid g2 rise" style="align-items:start">
       <div><div class="v-slack" style="width:100%"><div class="v-slack-top">${svgI("slack", 18)}<b># sales</b><span>Slack</span></div>
@@ -192,7 +331,7 @@
     + APP.next("phone", "From your phone");
 
   /* ---------- from your phone ---------- */
-  const phone = (title, b, cap) => `<div class="ph rise"><div class="ph-in"><div class="ph-top"><span class="ph-av"><img src="img/mark-gold.png?v=1794190461" alt="" style="width:20px"></span><b>Bud</b><small>${esc(title)}</small></div>
+  const phone = (title, b, cap) => `<div class="ph rise"><div class="ph-in"><div class="ph-top"><span class="ph-av"><img src="img/mark-gold.png?v=1794192075" alt="" style="width:20px"></span><b>Bud</b><small>${esc(title)}</small></div>
     ${b.map(([s, h]) => `<div class="ph-b ${s}">${h}</div>`).join("")}</div>${cap ? `<p>${cap}</p>` : ""}</div>`;
   const card = `<div class="ph-rc" style="font-family:var(--body);font-size:12px;line-height:1.4"><b style="font-size:14px">MOTT STREET WELLNESS</b><br>Lee Park · Purchasing<br>lee@example.com<br>(212) 555-0187</div>`;
   const bars = (rows, max) => `<div class="gpt-ch">${rows.map(r => `<div><span>${r[0]}</span><i style="width:${Math.max(3, r[1] / max * 100)}%;${r[2] ? `background:${r[2]}` : ""}"></i><b>${r[1]}%</b></div>`).join("")}</div>`;
