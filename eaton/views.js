@@ -32,7 +32,7 @@
       <p class="src">Page source, headers and DNS of eatonbotanicals.com · ${src("your FAQ", "https://www.eatonbotanicals.com/faq")} · ${src("NY license data", "https://data.ny.gov/resource/jskf-tt3q.json?$q=eaton")} (OCM-DIST-25-000198) · ${src("Nabis NY launch", "https://mgmagazine.com/press-releases/nabis-launches-in-new-york")} · ${src("OCM on Metrc", "https://cannabis.ny.gov/ocm-expands-seed-to-sale-support")}. Distru is from you; it isn't visible publicly. research/tech-stack.md</p></div></section>
     <section class="sec"><div class="wrap split">
       <div class="rise"><div class="kick">The market</div><h2 class="h2">More stores than any team of six can know.</h2><ul class="lst"><li>New York sold <b>$1.69B</b> in 2025, up 94%, and <b>$1.41B</b> through Q3 2026</li><li><b>744</b> dispensaries are open, up from 556 last December, and <b>327</b> more are licensed but not open</li><li><b>582</b> licensed processors compete for the same shelves</li><li>The five best-selling edibles in the state are all <b>CBN or CBG "effect" gummies</b>. Functional is what's winning, and it's your whole lineup</li></ul></div>
-      <div class="rise card" style="padding:0;overflow:hidden"><img src="img/photos/lineup-group.jpg?v=1794188427" alt="Eaton's gummy tins with their mushrooms" style="aspect-ratio:4/3;object-fit:cover;width:100%"></div>
+      <div class="rise card" style="padding:0;overflow:hidden"><img src="img/photos/lineup-group.jpg?v=1794188895" alt="Eaton's gummy tins with their mushrooms" style="aspect-ratio:4/3;object-fit:cover;width:100%"></div>
     </div><div class="wrap"><p class="src">${src("OCM 2025 sales", "https://cannabis.ny.gov/system/files/documents/2026/02/february-2026-ccb-press-release.pdf")} · ${src("Governor, Oct 27 2026", "https://governor.ny.gov/news/governor-hochul-announces-new-yorks-legal-cannabis-market-surpasses-4-billion-retail-sales")} · ${src("OCM, Oct 2 2026", "https://cannabis.ny.gov/system/files/documents/2026/10/10.1-ccb-release.pdf")} · ${src("Hoodie, best-selling NY edibles", "https://www.hoodieanalytics.com/cannabis_markets/new-york/edibles/best-selling-edibles")}. research/market.md</p></div></section>
     <section class="sec"><div class="wrap"><div class="kick">The rules</div><h2 class="h2 rise">What a brand is allowed to do.</h2>
       <p class="lede rise">New York takes most of the usual levers away. That's why the levers that are left have to be run well.</p>
@@ -156,7 +156,7 @@
     + APP.next("bud", "Bud, your assistant");
 
   /* ---------- Bud ---------- */
-  const slack = (who, c, msg, bud) => `<div class="v-msg" style="animation:none"><span class="av ${bud ? "bud" : ""}" style="${bud ? "" : `background:${c}`}">${bud ? `<img src="img/mark-gold.png?v=1794188427" alt="">` : esc(who[0])}</span><div><b>${esc(who)}${bud ? " <em>APP</em>" : ""}</b><p>${msg}</p></div></div>`;
+  const slack = (who, c, msg, bud) => `<div class="v-msg" style="animation:none"><span class="av ${bud ? "bud" : ""}" style="${bud ? "" : `background:${c}`}">${bud ? `<img src="img/mark-gold.png?v=1794188895" alt="">` : esc(who[0])}</span><div><b>${esc(who)}${bud ? " <em>APP</em>" : ""}</b><p>${msg}</p></div></div>`;
   APP.views.bud = () => head("Bud, your assistant", "One assistant.<br>The whole team.", "Bud is Eaton's own AI assistant. It knows every store, order, tin, pop-up and campaign in The Farm, and it lives where the team already works: in The Farm, in Slack, in Microsoft Teams and on the phone. Ask it anything. It does the first draft of almost everything. A person presses send.")
     + `<section class="sec" style="padding-top:10px"><div class="wrap"><div class="grid g2 rise" style="align-items:start">
       <div><div class="v-slack" style="width:100%"><div class="v-slack-top">${svgI("slack", 18)}<b># sales</b><span>Slack</span></div>
@@ -182,7 +182,7 @@
     + APP.next("phone", "From your phone");
 
   /* ---------- from your phone ---------- */
-  const phone = (title, b, cap) => `<div class="ph rise"><div class="ph-in"><div class="ph-top"><span class="ph-av"><img src="img/mark-gold.png?v=1794188427" alt="" style="width:20px"></span><b>Bud</b><small>${esc(title)}</small></div>
+  const phone = (title, b, cap) => `<div class="ph rise"><div class="ph-in"><div class="ph-top"><span class="ph-av"><img src="img/mark-gold.png?v=1794188895" alt="" style="width:20px"></span><b>Bud</b><small>${esc(title)}</small></div>
     ${b.map(([s, h]) => `<div class="ph-b ${s}">${h}</div>`).join("")}</div>${cap ? `<p>${cap}</p>` : ""}</div>`;
   const card = `<div class="ph-rc" style="font-family:var(--body);font-size:12px;line-height:1.4"><b style="font-size:14px">MOTT STREET WELLNESS</b><br>Lee Park · Purchasing<br>lee@example.com<br>(212) 555-0187</div>`;
   const bars = (rows, max) => `<div class="gpt-ch">${rows.map(r => `<div><span>${r[0]}</span><i style="width:${Math.max(3, r[1] / max * 100)}%;${r[2] ? `background:${r[2]}` : ""}"></i><b>${r[1]}%</b></div>`).join("")}</div>`;

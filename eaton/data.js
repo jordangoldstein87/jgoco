@@ -11,16 +11,16 @@ window.AX = {
 
   /* the lineup (real products; wholesale prices in the portal are samples) */
   products: [
-    { k: "de", n: "Daily Elevation", f: "Peach", d: "5mg THC · 5mg CBG", m: "Cordyceps", c: "#f2683c", img: "img/photos/gummy-daily-elevation-cordyceps.jpg?v=1794188427", tag: "For a great day" },
-    { k: "nn", n: "Nightly Nightcap", f: "Dark Cherry", d: "5mg THC · 5mg CBN", m: "Reishi", c: "#8e2235", img: "img/photos/gummy-sleep-nightly-nightcap.jpg?v=1794188427", tag: "For a good night" },
+    { k: "de", n: "Daily Elevation", f: "Peach", d: "5mg THC · 5mg CBG", m: "Cordyceps", c: "#f2683c", img: "img/photos/gummy-daily-elevation-cordyceps.jpg?v=1794188895", tag: "For a great day" },
+    { k: "nn", n: "Nightly Nightcap", f: "Dark Cherry", d: "5mg THC · 5mg CBN", m: "Reishi", c: "#8e2235", img: "img/photos/gummy-sleep-nightly-nightcap.jpg?v=1794188895", tag: "For a good night" },
     { k: "sn", n: "Serenity Now", f: "Lemon Lavender", d: "2.5mg THC · 10mg CBD", m: "Lion's Mane", c: "#9d86d6", tag: "Calm your mind" },
-    { k: "gp", n: "Gal Pal", f: "Watermelon", d: "5mg THC · 5mg CBD", m: "Lion's Mane", c: "#e0566b", img: "img/photos/gummy-gal-pal.jpg?v=1794188427", tag: "For anytime of the month" },
-    { k: "fu", n: "Fixer Upper", f: "Mango Ginger", d: "5mg THC · 5mg CBD", m: "Chaga", c: "#e8a33a", img: "img/photos/gummy-fixer-upper.jpg?v=1794188427", tag: "Feel the heal" },
-    { k: "ad", n: "Apple-A-Day", f: "Apple", d: "2.5mg THC · 10mg CBD", m: "Turkey Tail", c: "#8db534", img: "img/photos/gummy-apple-a-day.jpg?v=1794188427", tag: "Keep the doc away" },
+    { k: "gp", n: "Gal Pal", f: "Watermelon", d: "5mg THC · 5mg CBD", m: "Lion's Mane", c: "#e0566b", img: "img/photos/gummy-gal-pal.jpg?v=1794188895", tag: "For anytime of the month" },
+    { k: "fu", n: "Fixer Upper", f: "Mango Ginger", d: "5mg THC · 5mg CBD", m: "Chaga", c: "#e8a33a", img: "img/photos/gummy-fixer-upper.jpg?v=1794188895", tag: "Feel the heal" },
+    { k: "ad", n: "Apple-A-Day", f: "Apple", d: "2.5mg THC · 10mg CBD", m: "Turkey Tail", c: "#8db534", img: "img/photos/gummy-apple-a-day.jpg?v=1794188895", tag: "Keep the doc away" },
     { k: "cd", n: "Cool Down", f: "Blueberry Coconut", d: "2.5mg THC · 5mg CBD · 5mg CBC", m: "Cordyceps", c: "#3fb3c3", tag: "Fuel your cool" },
-    { k: "gt", n: "Golden Ticket", f: "Cinnamon Cacao", d: "5mg live rosin", m: "Poria", c: "#af9335", img: "img/photos/golden-ticket-lifestyle.jpg?v=1794188427", tag: "Limited edition" },
-    { k: "cl", n: "Chairlifts", f: "3 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#5b7d6a", img: "img/photos/preroll-chairlifts.jpg?v=1794188427", tag: "Mini pre-rolls" },
-    { k: "lp", n: "Little Pandas", f: "5 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#2f4f40", img: "img/photos/preroll-little-pandas.jpg?v=1794188427", tag: "Mini pre-rolls" },
+    { k: "gt", n: "Golden Ticket", f: "Cinnamon Cacao", d: "5mg live rosin", m: "Poria", c: "#af9335", img: "img/photos/golden-ticket-lifestyle.jpg?v=1794188895", tag: "Limited edition" },
+    { k: "cl", n: "Chairlifts", f: "3 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#5b7d6a", img: "img/photos/preroll-chairlifts.jpg?v=1794188895", tag: "Mini pre-rolls" },
+    { k: "lp", n: "Little Pandas", f: "5 × 0.5g", d: "Sungrown + mullein", m: "Mullein", c: "#2f4f40", img: "img/photos/preroll-little-pandas.jpg?v=1794188895", tag: "Mini pre-rolls" },
   ],
 
   /* ---------- the opening video ---------- */

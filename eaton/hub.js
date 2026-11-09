@@ -128,7 +128,7 @@
   APP.hubMini = k => `<div class="hb-main" style="padding:18px;max-height:none;grid-column:1/-1">${M[k] ? M[k]() : ""}</div>`;
   APP.hub = (mod, opts) => {
     mod = M[mod] ? mod : "today";
-    return `<div class="hb" data-hub>${opts && opts.noside ? "" : `<div class="hb-side"><div class="hb-me"><img src="img/mark-gold.png?v=1794188427" alt=""><div><b>The Farm</b><small>Eaton Botanicals</small></div></div>${MODS.map(m => `<button data-mod="${m[0]}" class="${m[0] === mod ? "on" : ""}">${svgI(m[2], 17)}<span>${m[1]}</span>${m[3] ? `<em>${m[3]}</em>` : ""}</button>`).join("")}</div>`}<div class="hb-main">${M[mod]()}</div></div>`;
+    return `<div class="hb" data-hub>${opts && opts.noside ? "" : `<div class="hb-side"><div class="hb-me"><img src="img/mark-gold.png?v=1794188895" alt=""><div><b>The Farm</b><small>Eaton Botanicals</small></div></div>${MODS.map(m => `<button data-mod="${m[0]}" class="${m[0] === mod ? "on" : ""}">${svgI(m[2], 17)}<span>${m[1]}</span>${m[3] ? `<em>${m[3]}</em>` : ""}</button>`).join("")}</div>`}<div class="hb-main">${M[mod]()}</div></div>`;
   };
   function swap(hb, mod) {
     hb.querySelector(".hb-main").innerHTML = M[mod]();
