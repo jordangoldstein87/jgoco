@@ -51,11 +51,22 @@ a{color:inherit}
 .ws-rev p{margin:10px 0 14px}.ws-rev small{color:var(--mut);font-weight:600}
 .ws-tag{display:inline-block;font:700 11px Archivo;letter-spacing:.1em;text-transform:uppercase;background:#0001;border-radius:4px;padding:3px 7px;margin-left:6px}
 .ws-quote{background:var(--core)}
+.ws-gc{background:#0d1530;color:#fff}.ws-gc h2{color:#fff}.ws-gc .ws-lead{color:#fffb}.ws-gc .ws-kick{color:var(--acc);margin-bottom:10px}
+.ws-gcg{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center}
+.ws-gcl{list-style:none;padding:0;margin:0 0 30px;display:grid;gap:16px}
+.ws-gcl li{padding-left:22px;border-left:3px solid var(--acc);font-size:16px;color:#fffc}.ws-gcl b{display:block;font:800 19px Archivo;color:#fff;margin-bottom:2px}
+.ws-gcm{background:#fff;border-radius:18px;padding:22px;color:var(--txt);box-shadow:0 30px 60px #0006}
+.ws-gch{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.ws-gch b{font:800 18px Archivo;color:var(--ink)}
+.ws-gch span{font:800 10.5px Archivo;letter-spacing:.12em;text-transform:uppercase;background:#0000000f;color:var(--mut);border-radius:4px;padding:3px 7px}
+.ws-fl{display:grid;grid-template-columns:66px 1fr;white-space:nowrap;gap:8px;align-items:center;margin-bottom:6px}.ws-fl b{font:800 12px Archivo;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.ws-ug{display:grid;grid-template-columns:repeat(14,1fr);gap:3px}.ws-ug i{aspect-ratio:1.2;border-radius:3px}
+.ws-gck{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px;font-size:13px;color:var(--mut)}.ws-gck span{display:flex;align-items:center;gap:5px}.ws-gck i{width:11px;height:11px;border-radius:3px;display:inline-block}
 .ws-qg{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
 .ws-form{background:#fff;border-radius:16px;padding:28px;box-shadow:0 20px 50px #0a12291a}
 .ws-form label{display:block;font:700 13px Archivo;letter-spacing:.04em;margin:0 0 6px;color:var(--ink)}
 .ws-form input,.ws-form select,.ws-form textarea{width:100%;font:16px Inter;padding:13px 14px;border:1.5px solid #0002;border-radius:9px;margin:0 0 16px;background:#fff}
 .ws-form .ws-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ws-msg{margin:12px 0 0;font:600 15px Inter;min-height:22px}.ws-msg.ok{color:#1f9d55}.ws-msg.err{color:#c0392b}
 .ws-chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--mut);margin:-4px 0 18px}
 .ws-chk input{width:auto;margin:3px 0 0}
 .ws-area{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0}
@@ -74,7 +85,8 @@ a{color:inherit}
   .ws-sec{padding:64px 0}.ws-w{padding:0 18px}
   .ws-svc,.ws-rev{grid-template-columns:1fr}
   .ws-gal,.ws-proj{grid-template-columns:1fr 1fr}.ws-proj b{font-size:34px}
-  .ws-qg{grid-template-columns:1fr;gap:28px}
+  .ws-qg,.ws-gcg{grid-template-columns:1fr;gap:28px}
+  .ws-ug{grid-template-columns:repeat(7,1fr)}.ws-fl{grid-template-columns:1fr}
   .ws-form .ws-two{grid-template-columns:1fr}
   .ws-call{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:6;justify-content:center;padding:16px;font-size:17px;box-shadow:0 10px 30px #0005}
   .ws-foot{padding-bottom:96px}
@@ -84,12 +96,12 @@ a{color:inherit}
 <body>
 <header class="ws-top"><div class="ws-w">
   <a class="ws-logo" href="#" id="wsLogo"></a>
-  <nav class="ws-nav"><a href="#services">Services</a><a href="#work">Our work</a><a href="#reviews">Reviews</a><a href="#quote">Free estimate</a></nav>
+  <nav class="ws-nav"><a href="#services">Services</a><a href="#work">Our work</a><a href="#builders">Builders</a><a href="#reviews">Reviews</a><a href="#quote">Free estimate</a></nav>
   <a class="ws-btn ws-tel" id="wsTel" href="#">Call</a><a class="ws-btn" href="#quote">Get a quote</a>
 </div></header>
 
 <section class="ws-hero">
-  <img src="img/work/office-front.jpg?v=1795025012" alt="">
+  <img src="img/work/office-front.jpg?v=1795026681" alt="">
   <div class="ws-w">
     <div class="ws-kick" id="wsKick"></div>
     <h1>Flat walls.<br>Clean lines.<br>Guaranteed.</h1>
@@ -113,7 +125,27 @@ a{color:inherit}
   <div class="ws-gal" id="wsGal"></div>
 </div></section>
 
-<section class="ws-sec" id="reviews" style="padding-top:0"><div class="ws-w">
+<section class="ws-sec ws-gc" id="builders"><div class="ws-w ws-gcg">
+  <div>
+    <div class="ws-kick">For general contractors</div>
+    <h2>Your job, live.</h2>
+    <p class="ws-lead">Every unit, every floor, every day. Know exactly where drywall stands without making a call.</p>
+    <ul class="ws-gcl">
+      <li><b>Progress by unit</b>Hung, taped, textured and punched, updated from the field.</li>
+      <li><b>Daily log with photos</b>In your inbox at 5 PM, every day we're on site.</li>
+      <li><b>Pay apps on time</b>By floor, by the 25th, lien waivers attached.</li>
+      <li><b>Paperwork on file</b>Insurance certificates, W-9 and contracts, one tap away.</li>
+    </ul>
+    <a class="ws-btn alt" id="wsBid" href="#">Add us to your bid list</a>
+  </div>
+  <div class="ws-gcm">
+    <div class="ws-gch"><b>Lankershim apartments</b><span>Sample</span></div>
+    <div id="wsUnits"></div>
+    <div class="ws-gck"><span><i style="background:#c9ced8"></i>Frame</span><span><i style="background:#8fa3c9"></i>Hang</span><span><i style="background:#5b78b3"></i>Tape</span><span><i style="background:#2f4f94"></i>Texture</span><span><i style="background:#d98b0b"></i>Punch</span><span><i style="background:#1f9d55"></i>Done</span></div>
+  </div>
+</div></section>
+
+<section class="ws-sec" id="reviews"><div class="ws-w">
   <h2>What customers say</h2>
   <p class="ws-lead">Pulled in from Google, Yelp and Facebook as they come in.</p>
   <div class="ws-rev" id="wsRev"></div>
@@ -123,17 +155,20 @@ a{color:inherit}
   <div>
     <h2>Free estimate</h2>
     <p class="ws-lead" style="margin-bottom:18px">Tell us about the job. Photos help. We'll get back to you the same day.</p>
-    <a class="ws-btn" id="wsMail" href="#">Email us</a>
+    <div class="ws-btn" id="wsMail" style="cursor:default"></div>
     <div class="ws-area" id="wsArea"></div>
   </div>
   <form class="ws-form" id="wsForm">
-    <div class="ws-two"><div><label>Your name</label><input id="wsPerson" required></div><div><label>Phone</label><input id="wsPhone" type="tel"></div></div>
+    <div class="ws-two"><div><label for="wsPerson">Your name</label><input id="wsPerson" required autocomplete="name"></div><div><label for="wsPhone">Phone</label><input id="wsPhone" type="tel" autocomplete="tel"></div></div>
+    <label for="wsEmail">Email</label><input id="wsEmail" type="email" required autocomplete="email">
+    <input type="text" id="wsHp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
     <label>Type of job</label>
     <select id="wsType"><option>Repair or patch</option><option>New construction</option><option>Remodel or addition</option><option>Commercial / TI</option><option>Multifamily or GC bid</option><option>Texture or plaster</option></select>
     <label>Where</label><input id="wsWhere" placeholder="City or ZIP">
-    <label>Tell us about it</label><textarea id="wsMsg" rows="4"></textarea>
+    <label for="wsAbout">Tell us about it</label><textarea id="wsAbout" rows="4"></textarea>
     <label class="ws-chk"><input type="checkbox" id="wsSms"> Text me about my estimate. Reply STOP to opt out.</label>
-    <button class="ws-btn" style="width:100%;justify-content:center;padding:16px">Send request</button>
+    <button class="ws-btn" id="wsSend" style="width:100%;justify-content:center;padding:16px">Send request</button>
+    <p class="ws-msg" id="wsMsg" role="status"></p>
   </form>
 </div></section>
 
@@ -143,8 +178,9 @@ a{color:inherit}
 </div></footer>
 <a class="ws-btn ws-call alt" id="wsCall" href="#quote">Get a free estimate</a>
 
-<script src="logos.js?v=1795025012"></script>
-<script src="data.js?v=1795025012"></script>
+<script src="logos.js?v=1795026681"></script>
+<script src="data.js?v=1795026681"></script>
+<script src="forms.js?v=1795026681"></script>
 <script>
 (function(){
   const C=GD.co, q=new URLSearchParams(location.search);
@@ -157,13 +193,22 @@ a{color:inherit}
   wsProj.innerHTML=GD.projects.map(([n,u,w])=>`<div><b>${n}</b><span>${u}<br>${w}</span></div>`).join('');
   wsGal.innerHTML=GD.work.map(([f,t,k])=>`<figure><img src="img/work/${f}" alt="${t}" loading="lazy"><figcaption>${t}<span>${k}</span></figcaption></figure>`).join('');
   wsRev.innerHTML=GD.reviews.map(v=>`<div><span class="ws-st">${'★'.repeat(v.stars)}${'☆'.repeat(5-v.stars)}</span><span class="ws-tag">Sample</span><p>${v.text}</p><small>${v.who.replace('Sample · ','')} · ${v.src}</small></div>`).join('');
+  const UC=GD.pm.unitStages.map(x=>x[1]);
+  wsUnits.innerHTML=GD.pm.floors.map(([fl,v])=>`<div class="ws-fl"><b>Floor ${fl}</b><div class="ws-ug">${Array.from({length:28},(_,u)=>`<i style="background:${UC[Math.max(0,Math.min(5,Math.floor(v-((u*7)%13)/13*1.2+0.4)))]}"></i>`).join('')}</div></div>`).reverse().join('');
+  wsBid.href='#quote'; wsBid.onclick=()=>{ wsType.value='Multifamily or GC bid'; wsMsg.textContent=''; wsMsg.className='ws-msg'; setTimeout(()=>wsPerson.focus(),400); };
   wsArea.innerHTML=C.area.map(a=>`<span>${a}</span>`).join('');
   wsTel.href='tel:'+C.tel; wsTel.textContent=C.phone; wsCall.href='tel:'+C.tel; wsCall.textContent='Call '+C.phone;
-  wsMail.href='mailto:'+C.email; wsMail.textContent=C.email;
+  wsMail.textContent=C.email;
   wsFootTxt.innerHTML=`${C.name} · ${C.city}<br>${C.phone?C.phone+' · ':''}${C.email}`;
   wsForm.onsubmit=e=>{e.preventDefault();
-    const body=`Name: ${wsPerson.value}\nPhone: ${wsPhone.value}\nJob: ${wsType.value}\nWhere: ${wsWhere.value}\nText updates OK: ${wsSms.checked?'yes':'no'}\n\n${wsMsg.value}`;
-    location.href='mailto:'+C.email+'?subject='+encodeURIComponent('Estimate request: '+wsType.value)+'&body='+encodeURIComponent(body);};
+    if(!wsPerson.value.trim()||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(wsEmail.value.trim())){ wsMsg.className='ws-msg err'; wsMsg.textContent='Add your name and email.'; return; }
+    wsSend.disabled=true; wsSend.textContent='Sending...';
+    gdSend({ form:'Guarantee demo site: estimate request', name:wsPerson.value, email:wsEmail.value.trim(), phone:wsPhone.value, website:wsHp.value,
+      answers:`Job: ${wsType.value}\nWhere: ${wsWhere.value}\nText updates OK: ${wsSms.checked?'yes':'no'}\n\n${wsAbout.value}` }).then(r=>{
+      wsSend.disabled=false; wsSend.textContent='Send request';
+      if(r.ok){ wsForm.reset(); wsMsg.className='ws-msg ok'; wsMsg.textContent='Got it. We\'ll get back to you today.'; }
+      else { wsMsg.className='ws-msg err'; wsMsg.textContent='That didn\'t go through. Please try again.'; }
+    });};
 })();
 </script>
 </body>
