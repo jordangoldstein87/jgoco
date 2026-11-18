@@ -45,6 +45,18 @@ h2 em{font-style:normal;color:var(--amber)}
 .hstage{margin-top:34px;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.5)}
 .hstage .stage{width:100%;max-height:none}
 .hstage .vx{display:none}
+.vbar{display:none}
+.stage{cursor:pointer}
+.stage.paused *{animation-play-state:paused!important}
+.vplay{display:flex;align-items:center;gap:14px;margin-top:12px}
+.vpb{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg3);color:var(--ink);display:grid;place-items:center;flex:none}
+.vsc{position:relative;flex:1;height:28px;display:flex;align-items:center}
+.vsc input{width:100%;margin:0;-webkit-appearance:none;appearance:none;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--amber) var(--p,0%),var(--line) var(--p,0%));cursor:pointer;position:relative;z-index:1}
+.vsc input::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--amber);border:2px solid var(--bg)}
+.vsc input::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--amber);border:2px solid var(--bg)}
+.vticks{position:absolute;left:0;right:0;top:50%;height:12px;transform:translateY(-50%);pointer-events:none;z-index:2}
+.vticks i{position:absolute;top:0;width:2px;height:12px;background:var(--bg);opacity:.9}
+.vtm{font-family:var(--mono);font-size:13px;color:var(--mute);min-width:84px;text-align:right}
 .vctl{display:flex;gap:16px;align-items:center;margin-top:18px;flex-wrap:wrap;color:var(--mute);font-size:15px}
 .vctl .btn{border:0;cursor:pointer}
 .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 75% 40%,rgba(233,169,74,.14),transparent 70%);pointer-events:none}
@@ -320,6 +332,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <h1>Every show, every budget, <em>one place.</em></h1>
   <p class="lead">Your own production software, built from the spreadsheets you already trust. Budgets, receipts, call sheets, crew, locations and every email, filed to the right show, with an assistant your whole team can text.</p>
   <div class="hstage" id="heroStage"></div>
+  <div class="vplay"><button id="vPlay" class="vpb" aria-label="Pause"></button><div class="vsc"><div class="vticks" id="vTicks"></div><input type="range" id="vScrub" min="0" step="0.01" value="0" aria-label="Video position"></div><span id="vTime" class="vtm">0:00</span></div>
   <div class="vctl"><button class="btn pri" id="playBtn"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none"/></svg><span id="playL">Play with sound</span></button><span>One minute. Sample shows and numbers throughout.</span></div>
 </div>
 </header>
@@ -622,23 +635,38 @@ const $=id=>document.getElementById(id);
 const NARR={"open":"Your company runs four shows on three networks. One line producer. A production manager on every show. And a mountain of paperwork.","today":"Today it lives in spreadsheets, inboxes and text threads. A budget here, hot costs there, receipts in envelopes, and a new call sheet every night.","one":"The Slate puts all of it in one place, built around how you already work. Every show gets its own dashboard.","budget":"Build the budget the way you do now. Your accounts, your fringes, your formulas. Add two shoot days, and the whole budget moves with it.","auto":"Then the money fills itself in. An invoice lands in someone's inbox. A receipt gets texted from set. Each one finds the right line, and waits for your OK.","callsheet":"Production managers get call sheets that build themselves. Send it out, and watch the crew confirm.","mail":"Emails turn into dates. Deliveries, tracking numbers, hotel check-ins. On the show's calendar, once you approve them.","assistant":"Every show gets its own number. Text it, or ask the same question in ChatGPT. Same assistant.","group":"Add it to the show's group chat. It answers there, and keeps track of what everyone said.","crew":"Every crew member and every location you've ever used, one search away.","end":"Less paperwork. More production. Scroll down and take a look."};
 const LEN={"open":8.31,"today":9.43,"one":6.92,"budget":7.55,"auto":10.06,"callsheet":5.2,"mail":7.42,"assistant":6.5,"group":5.09,"crew":4.26,"end":3.37};
 const KEYS=Object.keys(NARR);const SC=[...document.querySelectorAll('.sc')];
-let idx=-1,timer=null,audio=null,playing=false;
-function show(i){
-  clearTimeout(timer);if(audio){audio.pause();audio=null;}
-  if(i>=KEYS.length){playing=false;$('playL').textContent='Play with sound';return show(0);}
-  idx=i;const k=KEYS[i];
-  SC.forEach(s=>s.classList.remove('on','out'));const el=SC.find(s=>s.dataset.k===k);void el.offsetWidth;el.classList.add('on');
-  $('vcap').textContent=NARR[k].replace(/'/g,'’');$('vbar').style.width=(i/KEYS.length*100)+'%';
-  const hold=Math.max(LEN[k]+0.9,k==='auto'?8.5:k==='budget'?7:4.5);
-  if(k==='today')setTimeout(()=>{if(idx===i)el.classList.add('out');},(hold-1.1)*1000);
-  if(playing){audio=new Audio('img/vo/'+k+'.mp3');audio.play().catch(()=>{});}
-  timer=setTimeout(()=>show(i+1),hold*1000);
-}
-$('heroStage').appendChild($('stage'));
-function open(){playing=true;$('playL').textContent='Restart with sound';show(0);}
-$('playBtn').onclick=open;$('playBtn2').onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});open();};$('vskip').onclick=()=>show(idx+1);
-/* ?cap&scene=budget shows one scene for screenshots */
-const q=new URLSearchParams(location.search);if(q.has('scene')){playing=false;show(Math.max(0,KEYS.indexOf(q.get('scene'))));clearTimeout(timer);}else show(0);
+const HOLD={},START={};let TOTAL=0;
+KEYS.forEach(k=>{HOLD[k]=Math.max(LEN[k]+0.9,k==='auto'?8.5:k==='budget'?7:4.5);START[k]=TOTAL;TOTAL+=HOLD[k];});
+let idx=-1,t=0,paused=false,sound=false,frozen=false,audio=null,last=0,dragging=false;
+const stage=$('stage'),scrub=$('vScrub');
+scrub.max=TOTAL.toFixed(2);
+$('vTicks').innerHTML=KEYS.map(k=>`<i style="left:${START[k]/TOTAL*100}%"></i>`).join('');
+const mmss=x=>Math.floor(x/60)+':'+String(Math.floor(x%60)).padStart(2,'0');
+function sceneAt(x){let i=0;KEYS.forEach((k,j)=>{if(x>=START[k])i=j;});return i;}
+function playAudio(){if(audio){audio.pause();audio=null;}if(!sound||paused)return;const k=KEYS[idx],off=t-START[k];if(off>=LEN[k])return;audio=new Audio('img/vo/'+k+'.mp3');audio.addEventListener('loadedmetadata',()=>{try{audio.currentTime=off;}catch(e){}});audio.play().catch(()=>{});}
+function render(i){idx=i;const k=KEYS[i];SC.forEach(x=>x.classList.remove('on','out'));const el=SC.find(x=>x.dataset.k===k);void el.offsetWidth;el.classList.add('on');$('vcap').textContent=NARR[k].replace(/'/g,'’');playAudio();}
+function seek(x,keepAudio){t=Math.max(0,Math.min(TOTAL-0.01,x));const i=sceneAt(t);if(i!==idx||!keepAudio)render(i);sync();}
+function sync(){if(!dragging)scrub.value=t;$('vTime').textContent=mmss(t)+' / '+mmss(TOTAL);scrub.style.setProperty('--p',(t/TOTAL*100)+'%');
+ const k=KEYS[idx];if(k==='today'&&t-START[k]>HOLD[k]-1.1)SC.find(x=>x.dataset.k==='today').classList.add('out');}
+function setPaused(v){paused=v;stage.classList.toggle('paused',v);$('vPlay').innerHTML=v?'<svg viewBox="0 0 24 24" width="20" height="20"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg>':'<svg viewBox="0 0 24 24" width="20" height="20"><path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor"/></svg>';$('vPlay').setAttribute('aria-label',v?'Play':'Pause');
+ if(v){if(audio)audio.pause();}else if(sound){playAudio();}}
+function loop(now){const dt=last?Math.min(0.25,(now-last)/1000):0;last=now;
+ if(!paused&&!frozen&&!dragging){t+=dt;if(t>=TOTAL){if(sound){sound=false;$('playL').textContent='Play with sound';}t=0;render(0);}else{const i=sceneAt(t);if(i!==idx)render(i);}sync();}
+ requestAnimationFrame(loop);}
+$('heroStage').appendChild(stage);
+function open(){sound=true;$('playL').textContent='Restart with sound';setPaused(false);seek(0);}
+$('playBtn').onclick=open;$('playBtn2').onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});open();};
+$('vskip').onclick=e=>{e.stopPropagation();const k=KEYS[idx+1];seek(k?START[k]:0);};
+$('vPlay').onclick=()=>setPaused(!paused);
+stage.addEventListener('click',e=>{if(e.target.closest('button'))return;setPaused(!paused);});
+scrub.addEventListener('input',()=>{dragging=true;t=+scrub.value;const i=sceneAt(t);if(i!==idx){const a=sound;sound=false;render(i);sound=a;}sync();});
+scrub.addEventListener('change',()=>{dragging=false;seek(+scrub.value);});
+scrub.addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();setPaused(!paused);}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&sound)setPaused(true);});
+/* ?scene=budget shows one scene for screenshots */
+const q=new URLSearchParams(location.search);
+if(q.has('scene')){frozen=true;seek(START[q.get('scene')]||0);}else{seek(0);}
+setPaused(false);requestAnimationFrame(loop);
 
 /* ---------- project starter ---------- */
 const GROUPS=[['Cast','atl'],['Writers & producers','atl'],['Director','atl'],['Production staff','prod'],['Camera, electric & grip','prod'],['Art, sets & wardrobe','prod'],['Locations','prod'],['Transportation','prod'],['Catering & craft','prod'],['Editorial & post sound','post'],['Visual effects & music','post'],['Insurance, legal & admin','oth']];
