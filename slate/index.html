@@ -229,6 +229,8 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
 .v-grp{display:flex;flex-direction:column;gap:1cqw;width:56cqw}
 .v-grp .bub{font-size:1.45cqw;max-width:80%}
 .cbar{position:absolute;left:0;bottom:0;height:100%;background:#1E7448}
+.phoneshot{display:block;justify-self:center;width:min(360px,100%);border-radius:40px;padding:10px;background:#05060A;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.phoneshot img{display:block;width:100%;border-radius:30px}
 .stepper{margin-top:36px}
 .st-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .st-tabs button{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg3);font-size:14.5px}
@@ -300,9 +302,9 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">One show, one dashboard</div>
   <h2>Every show gets <em>its own room.</em></h2>
   <p class="lead">The network, the people attached, the budget, the calendar, the mail, the documents and the show’s own text number. Production managers run their show. The line producer sees all of them at once.</p>
-  <a class="screen" href="demo/#saltwater" ><img src="img/shots/overview.jpg" alt="Saltwater show dashboard with budget, spent, committed, estimated final, schedule strip, watch list and people" loading="lazy"></a>
+  <a class="screen" href="demo/#saltwater"><img src="img/shots/overview.jpg" alt="Saltwater show dashboard with budget, spent, committed, estimated final, schedule strip, watch list and people" loading="lazy"></a>
   <div class="pts"><div class="pt"><b>The slate, at a glance</b><span>Every show’s budget, spend and estimated final, side by side.</span></div><div class="pt"><b>People attached once</b><span>Their mail, texts and receipts file to the show from then on.</span></div><div class="pt"><b>Documents in one place</b><span>Agreements, deal memos, COIs, scripts and schedules, current version only.</span></div></div>
-  <a class="screen" style="margin-top:28px" href="demo/#slate" ><img src="img/shots/slate.jpg" alt="The slate of four sample shows across three networks" loading="lazy"></a>
+  <a class="screen" style="margin-top:28px" href="demo/#slate"><img src="img/shots/slate.jpg" alt="The slate of four sample shows across three networks" loading="lazy"></a>
 </div></section>
 
 <!-- ========== PM HUB ========== -->
@@ -310,7 +312,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">For the production manager</div>
   <h2>The PM gets <em>a hub of their own.</em></h2>
   <p class="lead">The line producer sees every show. The production manager sees today: what’s on set, what’s due by when, what came in overnight from mail, texts and calls, and tomorrow’s call sheet already started.</p>
-  <a class="screen" href="demo/#myday" ><img src="img/shots/myday.jpg" alt="Dolav's PM hub with today's timeline, to-dos pulled from mail and calls, and texts to the show number" loading="lazy"></a>
+  <a class="screen" href="demo/#myday"><img src="img/shots/myday.jpg" alt="Dolav's PM hub with today's timeline, to-dos pulled from mail and calls, and texts to the show number" loading="lazy"></a>
   <div class="pts"><div class="pt"><b>Today, hour by hour</b><span>Call, lunch and the meal penalty time, deliveries and every deadline.</span></div><div class="pt"><b>To-dos that write themselves</b><span>From mail, the crew chat and yesterday’s Meet call, each with where it came from.</span></div><div class="pt"><b>Texts to the show number</b><span>Late crew, confirmations and questions, in one place instead of a personal phone.</span></div></div>
 </div></section>
 
@@ -320,7 +322,19 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <h2>The PM builds it. <em>The line producer approves it.</em></h2>
   <p class="lead">Five steps, most of them already filled in. Then one shared sheet: Dolav sends it up, Sterling sees exactly what changed from the schedule and what it costs, and only an approved sheet goes to the crew.</p>
   <div class="stepper"><div class="st-tabs" id="stTabs" role="tablist"></div>
-  <div class="st-body"><a class="screen" id="stShot" href="demo/#builder"  style="margin-top:0"><img id="stImg" src="img/shots/b0.jpg" alt=""></a><div class="st-txt"><i id="stN"></i><b id="stH"></b><p id="stP"></p><div class="st-nav"><button class="btn" id="stPrev">Back</button><button class="btn pri" id="stNext">Next</button></div></div></div></div>
+  <div class="st-body"><a class="screen" id="stShot" href="demo/#builder" style="margin-top:0"><img id="stImg" src="img/shots/b0.jpg" alt=""></a><div class="st-txt"><i id="stN"></i><b id="stH"></b><p id="stP"></p><div class="st-nav"><button class="btn" id="stPrev">Back</button><button class="btn pri" id="stNext">Next</button></div></div></div></div>
+</div></section>
+
+<!-- ========== LIVE CALL SHEET ========== -->
+<section class="alt" id="livesheet"><div class="w">
+  <div class="split">
+    <div><div class="kick">The call sheet is a web page</div>
+    <h2>Not a PDF. <em>A link they can tap.</em></h2>
+    <p class="lead">Once Sterling approves it, every person gets a link by text. It opens to their own call time. Tap the set or parking for directions, the hospital to call it, a scene for props and notes, or any name to text, call or email them. Confirming is one button, and so is “running late”.</p>
+    <div class="pts" style="grid-template-columns:1fr"><div class="pt"><b>Your call, first</b><span>Each person sees their department’s call at the top.</span></div><div class="pt"><b>Everyone one tap away</b><span>Text, call or email any department head or key contact.</span></div><div class="pt"><b>Always current</b><span>A change after it goes out updates the same link, and the people it affects get a text.</span></div></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px"><a class="btn pri" href="callsheet.html">Open the call sheet</a></div></div>
+    <a class="phoneshot" href="callsheet.html"><img src="img/shots/livesheet.jpg" alt="The Day 24 call sheet as a phone web page, with the camera department's call at the top" loading="lazy"></a>
+  </div>
 </div></section>
 
 <!-- ========== CALENDARS ========== -->
@@ -328,8 +342,8 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">Calendars</div>
   <h2>Every show on one calendar. <em>Every person’s week.</em></h2>
   <p class="lead">Shoot days, prep, post, dark days and network deadlines across the whole slate, with shows turned on and off. Or one person’s week: shoot days, meetings, deliveries and due dates, most of it added from mail and calls.</p>
-  <a class="screen" href="demo/#calendars" ><img src="img/shots/month.jpg" alt="December calendar with all four sample shows" loading="lazy"></a>
-  <a class="screen" style="margin-top:20px" href="demo/#calendars" ><img src="img/shots/week.jpg" alt="Dolav's week with shoot days, meetings, deliveries and deadlines" loading="lazy"></a>
+  <a class="screen" href="demo/#calendars"><img src="img/shots/month.jpg" alt="December calendar with all four sample shows" loading="lazy"></a>
+  <a class="screen" style="margin-top:20px" href="demo/#calendars"><img src="img/shots/week.jpg" alt="Dolav's week with shoot days, meetings, deliveries and deadlines" loading="lazy"></a>
 </div></section>
 
 <!-- ========== BUDGET ========== -->
@@ -337,7 +351,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">Your own Movie Magic</div>
   <h2>Your budget, your formulas. <em>Plus the parts that fill themselves in.</em></h2>
   <p class="lead">We rebuild the budgeting you already do as software that fits you: top sheet, accounts, detail lines, fringes and globals. Change shoot days and everything moves. Then the actuals come in on their own, from invoices in email and receipts texted from set, each waiting on the right line for approval.</p>
-  <a class="screen" href="demo/#saltwater-budget" ><img src="img/shots/budget.jpg" alt="Saltwater top sheet with Locations opened to its detail lines and an answer about adding two shoot days" loading="lazy"></a>
+  <a class="screen" href="demo/#saltwater-budget"><img src="img/shots/budget.jpg" alt="Saltwater top sheet with Locations opened to its detail lines and an answer about adding two shoot days" loading="lazy"></a>
   <div class="pts"><div class="pt"><b>Built from your sheets</b><span>Your chart of accounts, rates and fringe formulas, not a template.</span></div><div class="pt"><b>Ask the budget</b><span>“What if we add two shoot days?” “Why is Locations over?” Plain answers, with the numbers.</span></div><div class="pt"><b>Hot costs every morning</b><span>Yesterday’s overages line by line, before the first meeting.</span></div><div class="pt"><b>The network’s format</b><span>The weekly cost report drafted in each network’s template, with variance notes written.</span></div></div>
 </div></section>
 
@@ -360,7 +374,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <h2>The PM texts a photo. <em>The line producer taps approve.</em></h2>
   <p class="lead">Every show has its own number, so a receipt texted to Saltwater’s number only ever touches Saltwater. It’s read, coded to an account and checked for duplicates and the petty cash limit before it reaches anyone.</p>
   <div class="flow"><div class="fl"><i>01</i><b>Dolav texts it</b><span>A photo of the receipt to the show’s number, from set.</span></div><div class="fl"><i>02</i><b>It’s read and coded</b><span>Vendor, amount, account. Duplicates and over-limit receipts flagged.</span></div><div class="fl"><i>03</i><b>Sterling approves</b><span>In the app, or by replying YES to the text.</span></div><div class="fl"><i>04</i><b>On the cost report</b><span>And in the accountant’s envelope, ready to import.</span></div></div>
-  <a class="screen" href="demo/#approvals" ><img src="img/shots/approvals.jpg" alt="Receipts waiting for approval next to the PM's text thread with the show number" loading="lazy"></a>
+  <a class="screen" href="demo/#approvals"><img src="img/shots/approvals.jpg" alt="Receipts waiting for approval next to the PM's text thread with the show number" loading="lazy"></a>
 </div></section>
 
 <!-- ========== MAIL ========== -->
@@ -368,8 +382,8 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">Email does the filing</div>
   <h2>A confirmation email becomes <em>a date on the calendar.</em></h2>
   <p class="lead">Deliveries, tracking numbers, fittings, location dates and hotel check-ins are pulled out of mail and suggested for the show’s calendar. Approve them and they’re official. Hotel and flight confirmations file to Travel, and one tap sends each person their own check-in and flight details.</p>
-  <a class="screen" href="demo/#saltwater-calendar" ><img src="img/shots/calendar.jpg" alt="Saltwater calendar with shoot days, approved deliveries and suggestions found in email" loading="lazy"></a>
-  <div class="split" style="margin-top:28px;grid-template-columns:1fr 1fr"><a class="screen" href="demo/#saltwater-travel" ><img src="img/shots/travel.jpg" alt="Travel bookings filed from confirmations, with a personal schedule for the guest star" loading="lazy"></a><a class="screen" href="demo/#saltwater-mail" ><img src="img/shots/mail.jpg" alt="Mail filed to the show with a short note and actions" loading="lazy"></a></div>
+  <a class="screen" href="demo/#saltwater-calendar"><img src="img/shots/calendar.jpg" alt="Saltwater calendar with shoot days, approved deliveries and suggestions found in email" loading="lazy"></a>
+  <div class="split" style="margin-top:28px;grid-template-columns:1fr 1fr"><a class="screen" href="demo/#saltwater-travel"><img src="img/shots/travel.jpg" alt="Travel bookings filed from confirmations, with a personal schedule for the guest star" loading="lazy"></a><a class="screen" href="demo/#saltwater-mail"><img src="img/shots/mail.jpg" alt="Mail filed to the show with a short note and actions" loading="lazy"></a></div>
   <p class="cap">Each person gets a schedule that builds itself as bookings, fittings and call times come in.</p>
 </div></section>
 
@@ -408,7 +422,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">Crew and locations</div>
   <h2>Everyone you’ve worked with. <em>Everywhere you’ve shot.</em></h2>
   <p class="lead">Every crew member from every show, with their department, rate and last show. Pick ten people and ask if they’re free, by text, in one go. And every location you’ve scouted or shot, with fees, power, parking, agreements and insurance on file, searchable the way you’d describe it.</p>
-  <div class="split" style="margin-top:40px;grid-template-columns:1fr 1fr"><a class="screen" href="demo/#crew" ><img src="img/shots/crew.jpg" alt="Crew database with availability replies coming in by text" loading="lazy"></a><a class="screen" href="demo/#locations" ><img src="img/shots/locations.jpg" alt="Locations database answering a search for a desert motel for the pilot" loading="lazy"></a></div>
+  <div class="split" style="margin-top:40px;grid-template-columns:1fr 1fr"><a class="screen" href="demo/#crew"><img src="img/shots/crew.jpg" alt="Crew database with availability replies coming in by text" loading="lazy"></a><a class="screen" href="demo/#locations"><img src="img/shots/locations.jpg" alt="Locations database answering a search for a desert motel for the pilot" loading="lazy"></a></div>
 </div></section>
 
 <!-- ========== HOW IT CONNECTS ========== -->
@@ -418,7 +432,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <p class="lead">The line producer and each PM connect their own email. Anyone else at the company can too, along with Slack or Teams, their calendar, and Google Meet, so call notes come in ready to add to a show. It reads what arrives, works out which show it belongs to, and suggests what to do with it. Setting it up is the big lift. After that it learns from how your people work.</p>
   <div class="pipe"><div class="pp"><i>01</i><b>Connect</b><span>Email, Slack or Teams, calendar, Meet, and each show’s number.</span></div><div class="pp"><i>02</i><b>Read</b><span>New mail, attachments, texts and call notes as they arrive.</span></div><div class="pp"><i>03</i><b>Match</b><span>Which show: by sender, vendor, show code or subject.</span></div><div class="pp"><i>04</i><b>Suggest</b><span>Dates, costs, bookings, tracking numbers and deal changes.</span></div><div class="pp"><i>05</i><b>Approve</b><span>Only then does it reach the calendar, budget or crew.</span></div></div>
   <div class="logos"><span>Gmail</span><span>Outlook</span><span>Slack</span><span>Microsoft Teams</span><span>Google Meet</span><span>Google Calendar</span><span>Text messages</span><span>ChatGPT</span><span>Claude</span><span>Excel and Google Sheets</span><span>Your accounting exports</span></div>
-  <a class="screen" href="demo/#connect" ><img src="img/shots/connect.jpg" alt="Connections: the five steps, one email from start to finish, Meet notes and what it has learned" loading="lazy"></a>
+  <a class="screen" href="demo/#connect"><img src="img/shots/connect.jpg" alt="Connections: the five steps, one email from start to finish, Meet notes and what it has learned" loading="lazy"></a>
 </div></section>
 
 <!-- ========== BUSY WORK ========== -->
@@ -488,7 +502,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <h2>Let’s build it on <em>one show.</em></h2>
   <p class="lead">Start with the spreadsheets you already have.</p>
   <div class="steps"><div><b>1</b><span>Sign a mutual NDA.</span></div><div><b>2</b><span>Send three spreadsheets from a wrapped show: the budget, the hot costs or cost report, and the petty cash or PO log.</span></div><div><b>3</b><span>A 30-minute walkthrough of how your office runs, then we build it on one show.</span></div></div>
-  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:36px"><a class="btn pri" href="demo/" >Open the whole demo</a><button class="btn" id="playBtn2">Watch the video again</button></div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:36px"><a class="btn pri" href="demo/">Open the whole demo</a><button class="btn" id="playBtn2">Watch the video again</button></div>
 </div></section>
 <footer><div class="w">The Slate · JGoCo · Every show, person and number on this page is a sample.</div></footer>
 
@@ -611,7 +625,7 @@ const ST=[['b0','Dolav · Step 1','Scenes from the schedule','The one-liner alre
  ['b3','Dolav · Step 4','Notes found in today’s mail','The condor delivery, the extra PAs and police after 10 PM, found in mail and the crew chat and added with a tap.'],
  ['b4','Dolav · Step 5','Sent up for approval','One button sends Sterling the exact sheet. He gets a text from the show’s number too.'],
  ['b5','Sterling','The line producer’s view','The same sheet, with every change from the schedule and what it costs, plus a cost check for the day. Approve, or ask for a change.'],
- ['b6','Out to the crew','Approved, sent, confirmed','Only an approved sheet goes out, by text and email. Confirmations come back on their own.']];
+ ['b6','Out to the crew','Approved, sent, confirmed','Only an approved sheet goes out: a link by text that opens to each person’s own call. Confirmations come back on their own.']];
 let st=0;
 function stShow(i){st=i;const x=ST[i];$('stImg').src='img/shots/'+x[0]+'.jpg';$('stImg').alt=x[2];$('stN').textContent=x[1];$('stH').textContent=x[2];$('stP').textContent=x[3];
  $('stTabs').innerHTML=ST.map((y,j)=>`<button role="tab" aria-selected="${j===i}" class="${j===i?'on':''} ${y[1]==='Sterling'?'lp':''}" data-s="${j}">${y[2]}</button>`).join('');
