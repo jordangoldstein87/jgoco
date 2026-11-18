@@ -309,6 +309,55 @@ a.phoneshot{position:relative}
 a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;bottom:-16px;transform:translateX(-50%);white-space:nowrap;background:#E9A94A;color:#21160A;font:700 13px var(--text);padding:7px 14px;border-radius:99px}
 .pages a{position:relative;display:block}
 @media (max-width:900px){.st-tabs{grid-template-columns:repeat(7,minmax(70px,1fr));overflow-x:auto;padding-bottom:4px}.st-tabs::before{display:none}}
+.ps-tabs{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:26px 0 22px}
+.ps-tabs::before{content:"";position:absolute;left:6%;right:6%;top:17px;height:2px;background:var(--line)}
+.ps-tabs button{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:none;color:var(--soft);font-size:14px;cursor:pointer;line-height:1.25;text-align:center}
+.ps-tabs em{font-style:normal;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--bg3);border:2px solid var(--line);font-family:var(--mono);font-weight:600;color:var(--ink);transition:.15s}
+.ps-tabs button:hover em{border-color:var(--amber);transform:scale(1.08)}
+.ps-tabs button.done em{background:var(--amber-d);border-color:var(--amber);color:var(--amber-tx)}
+.ps-tabs button.on{color:var(--ink);font-weight:600}
+.ps-tabs button.on em{background:var(--amber);border-color:var(--amber);color:#21160A;box-shadow:0 0 0 5px rgba(233,169,74,.2)}
+.ps-panel[hidden]{display:none}
+.ps-panel .starter{margin-top:0}
+.ps-basics{display:flex;flex-direction:column;gap:14px;max-width:820px}
+.ps-f{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ps-f label,.ps-add{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--mute)}
+.ps-f input,.ps-f select,.ps-add input,.ps-row select{font:500 15.5px var(--text);color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.ps-h{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:8px}
+.ps-h h3{margin:0 0 4px}.ps-h p{color:var(--soft);font-size:15px}
+.pill-n{font-family:var(--mono);font-size:12.5px;padding:4px 10px;border-radius:99px;background:var(--amber-d);color:var(--amber-tx);white-space:nowrap}
+.ps-row{display:grid;grid-template-columns:28px minmax(0,1.3fr) minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.ps-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--amber)}
+.ps-row b{display:block;font-size:15.5px}
+.ps-row small{color:var(--mute);font-size:13px}
+.ps-row .found{font-family:var(--mono);font-size:11.5px;color:var(--mute)}
+.ps-add{flex-direction:row;gap:10px;margin-top:12px}
+.ps-add input{flex:1}
+.ps-two{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;align-items:start}
+.cr{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.2fr) auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.cr .role{font-size:12.5px;color:var(--amber-tx);font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em}
+.cr b{display:block;font-size:15.5px}
+.cr small{color:var(--mute);font-size:13px}
+.cr .st{font-size:13.5px;color:var(--soft)}
+.cr .st.ok{color:var(--ok)}.cr .st.no{color:var(--over)}
+.cr .st span{display:block;font-size:12px;color:var(--mute)}
+.cr button{padding:7px 14px;border-radius:99px;border:1px solid var(--amber);background:var(--amber);color:#21160A;font-weight:600;font-size:13.5px;white-space:nowrap;cursor:pointer}
+.cr button.alt{background:none;color:var(--amber-tx)}
+.cr .att{color:var(--ok);font-weight:600;font-size:13px;white-space:nowrap}
+.srcr{padding:10px 0;border-top:1px solid var(--line)}
+.srcr:first-of-type{border-top:0}
+.srcr b{font-size:15px}
+.srcr .how{display:inline-block;margin-left:6px;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:6px;background:var(--bg2);border:1px solid var(--line);vertical-align:2px}
+.srcr .how.api{color:var(--ok)}.srcr .how.req{color:var(--under)}.srcr .how.imp{color:var(--amber-tx)}
+.srcr p{color:var(--soft);font-size:14px;margin-top:3px}
+.ps-ready{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:6px}
+.ps-ready div{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px}
+.ps-ready small{display:block;font-size:12.5px;color:var(--mute);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.ps-ready b{font-size:16px}
+.ps-ready span{display:block;color:var(--soft);font-size:14px;margin-top:4px}
+.ps-done{color:var(--ok);font-weight:600;align-self:center}
+.ps-nav{display:flex;justify-content:space-between;margin-top:20px}
+@media (max-width:900px){.ps-tabs{grid-template-columns:repeat(5,minmax(64px,1fr));overflow-x:auto}.ps-tabs::before{display:none}.ps-f,.ps-two{grid-template-columns:1fr}.ps-row{grid-template-columns:24px 1fr}.ps-row select,.ps-row .found{grid-column:2}.cr{grid-template-columns:1fr auto}.cr .st{grid-column:1}}
 .stepper{margin-top:22px}
 
 .st-body{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:28px;align-items:center}
@@ -438,14 +487,29 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
 <!-- ========== STARTER ========== -->
 <section id="starter"><div class="w">
   <div class="kick">Project starter</div>
-  <h2>The network gives you a number. <em>Work backwards from it.</em></h2>
-  <p class="lead">Pick past shows of a similar size. The Slate builds the new budget from what those shows actually spent: how the money splits by account, how many shoot days the number buys, and where the new show doesn’t fit its comparables. Try it.</p>
-  <div class="try"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 3v10.5l-2-2a1.6 1.6 0 0 0-2.3 2.3L9.5 19A5 5 0 0 0 13 20.5h1.5A4.5 4.5 0 0 0 19 16v-4.5a1.5 1.5 0 0 0-3 0V11a1.5 1.5 0 0 0-3 0v-.5a1.5 1.5 0 0 0-3 0V3a1.5 1.5 0 0 0-3 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Try it · drag the number and pick the shows to compare</div><div class="starter">
+  <h2>A new show, set up <em>in one sitting.</em></h2>
+  <p class="lead">Name it, take the network’s number and work the budget backwards from past shows, attach the network’s people, and hire the crew. Everyone attached is set up from minute one: the right email, texts, calendar and paperwork.</p>
+  <div class="try"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 3v10.5l-2-2a1.6 1.6 0 0 0-2.3 2.3L9.5 19A5 5 0 0 0 13 20.5h1.5A4.5 4.5 0 0 0 19 16v-4.5a1.5 1.5 0 0 0-3 0V11a1.5 1.5 0 0 0-3 0v-.5a1.5 1.5 0 0 0-3 0V3a1.5 1.5 0 0 0-3 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Try it · click through the five steps</div>
+  <div class="ps-tabs" id="psTabs"></div>
+  <div class="ps-panel" data-p="0"><div class="card ps-basics">
+    <div class="ps-f"><label>Show<input type="text" id="psName" value="Untitled Desert Project"></label><label>Network<select id="psNet"><option>Northlight</option><option>Harbor</option><option>Meridian</option></select></label></div>
+    <div class="ps-f"><label>Format<select><option>Drama pilot · 1 × 60</option><option>Drama series · 8 × 60</option><option>Docuseries · 6 × 45</option></select></label><label>Show code<input type="text" value="DSRT"></label></div>
+    <div class="ps-f"><label>Prep starts<input type="text" value="Mon, Jan 5, 2027"></label><label>Shoot<input type="text" value="Feb 1 to Feb 19, 2027"></label></div>
+    <div class="ps-f"><label>Where<input type="text" value="Joshua Tree and Palmdale"></label><label>Line producer<input type="text" value="Sterling"></label></div>
+  </div></div>
+  <div class="ps-panel" data-p="1"><div class="starter">
     <div class="card"><h3>Network target</h3><div class="target" id="stT"></div><input type="range" id="stR" min="3" max="12" step="0.1" value="6" aria-label="Network target in millions"><div style="display:flex;justify-content:space-between;color:var(--mute);font-size:13px"><span>$3M</span><span>$12M</span></div>
       <h3 style="margin-top:20px">Compare with</h3><div class="comps" id="stC"></div></div>
     <div class="card"><div class="res-k" id="stK"></div><div style="overflow-x:auto"><table id="stTab"></table></div><div class="flag" id="stF"></div></div>
   </div>
-  <p class="cap">Sample comparables. In yours, they’re your company’s wrapped shows, with what was actually spent.</p>
+  <p class="cap">Sample comparables. In yours, they’re your company’s wrapped shows, with what was actually spent.</p></div>
+  <div class="ps-panel" data-p="2"><div class="card"><div class="ps-h"><div><h3>The network’s people</h3><p>Found in your past email with <span class="psNetN">Northlight</span>. Pick who’s on this show and what each one gets.</p></div><span class="pill-n" id="netCount"></span></div><div id="netList"></div>
+    <div class="ps-add"><input type="text" id="netNew" placeholder="Add someone at the network: name, email"><button class="btn" id="netAdd">Add</button></div></div></div>
+  <div class="ps-panel" data-p="3"><div class="ps-two"><div class="card"><div class="ps-h"><div><h3>Hire the crew</h3><p>Suggested from everyone you’ve worked with, checked against who’s free in January.</p></div><span class="pill-n" id="crewCount"></span></div><div id="crewList"></div></div>
+    <div class="card ps-src"><h3>Where crew comes from</h3><div id="srcList"></div><p class="cap" style="margin-top:12px">How each connects is confirmed when we scope it with you.</p></div></div></div>
+  <div class="ps-panel" data-p="4"><div class="card"><div class="ps-h"><div><h3 id="psReadyH">Ready to start</h3><p>Everything below is set up the moment you create it.</p></div></div><div class="ps-ready" id="psReady"></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:18px"><button class="btn pri" id="psCreate">Create the project</button><span id="psDone" class="ps-done" hidden>✓ Created. It’s on the slate, with its own number.</span></div></div></div>
+  <div class="ps-nav"><button class="btn" id="psPrev">Back</button><button class="btn pri" id="psNext">Next</button></div>
 </div></section>
 
 <!-- ========== RECEIPTS ========== -->
@@ -753,6 +817,63 @@ const miDone={};
 function miShow(){$('meetItems').innerHTML=MI.map((m,i)=>`<div class="mi"><span class="k ${m[0]}">${m[1]}</span><div><b>${m[2]}</b><span>${m[3]}</span></div>${miDone[i]?`<span class="ok">✓ ${m[5]}</span>`:`<button data-m="${i}">${m[4]}</button>`}</div>`).join('');}
 $('meetItems').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b){miDone[b.dataset.m]=1;miShow();}});
 miShow();
+
+/* ---------- project starter: five steps ---------- */
+const PS=['The show','Budget from the number','Attach the network','Hire the crew','Ready'];
+let ps=0,psMade=false;
+const NET=[['Claire Benton','Production finance','Cost reports and budget approvals',214,1],['Teresa Wong','VP, physical production','Overages and schedule changes',88,1],['Marcus Hale','Current programming','Cuts and creative notes',131,1],['Sam Keller','Business affairs','Deals and contracts',57,0],['Ines Ortega','Post and delivery','Deliverables and delivery dates',42,0],['Rob Tan','Standards and clearances','Clearance reports',19,0]];
+const GETS=['Cost reports and budget approvals','Overages and schedule changes','Cuts and creative notes','Deals and contracts','Deliverables and delivery dates','Clearance reports','Everything','Nothing yet'];
+const CREWP=[
+ ['Production manager','Tom Ashby','Ground Rules wraps Dec 22','Available, send the deal memo'],
+ ['1st AD','Dana Whitfield','On Saltwater to Jan 30','Booked until Jan 30'],
+ ['1st AD','Chris Vega','Saltwater S1, 2024','Available'],
+ ['Production coordinator','Grace Li','The Long Table pilot','Available'],
+ ['Location manager','Devon Price','Scouted the desert in 2024','Available, can start Dec 15'],
+ ['Gaffer','Tasha Greene','Best boy on Saltwater S1','Available'],
+ ['Transportation captain','Andre Simmons','Based in Palmdale','Available, local hire']];
+const crewSt={};
+const SRC=[['Your own crew history','Email, call sheets, deal memos, crew lists','api','Connected','Everyone you’ve worked with, searchable by role, rate and last show.'],
+ ['Union availability lists','IATSE and Teamsters locals','req','Requested','Most locals share availability lists with producers by email or an online login. The request goes out for you and the list comes back in.'],
+ ['ProductionList','Productions, companies and crew credits','api','API','Has a licensed API and a Claude connector. Shows what else is shooting in your window and who’s on it.'],
+ ['Staff Me Up, ProductionHUB, Mandy','Job posts and freelancer search','imp','Post and import','No public API found. We post the job, and applicants come in by email, where they’re filed to the show.'],
+ ['Payroll and start paperwork','Wrapbook, Cast & Crew, Entertainment Partners','imp','Hand-off','Hired crew go to your payroll company’s start paperwork. Wrapbook has an API; the others connect through exports or a partner agreement.']];
+function psRender(){
+ $('psTabs').innerHTML=PS.map((t,i)=>`<button class="${i===ps?'on':''} ${i<ps?'done':''}" data-ps="${i}"><em>${i+1}</em><span>${t}</span></button>`).join('');
+ document.querySelectorAll('.ps-panel').forEach(p=>p.hidden=+p.dataset.p!==ps);
+ $('psPrev').disabled=ps===0;$('psNext').textContent=ps===PS.length-1?'Start over':'Next: '+PS[ps+1];
+ const net=$('psNet').value;document.querySelectorAll('.psNetN').forEach(e=>e.textContent=net);
+ $('netList').innerHTML=NET.map((n,i)=>`<div class="ps-row"><input type="checkbox" data-n="${i}" ${n[4]?'checked':''} aria-label="Attach ${n[0]}"><span><b>${n[0]}</b><small>${n[1]} · ${net}</small><br><span class="found">${n[3]?'Found in '+n[3]+' emails':'Added by you'}</span></span><select data-g="${i}" aria-label="What ${n[0]} gets">${GETS.map(g=>`<option ${g===n[2]?'selected':''}>${g}</option>`).join('')}</select><span></span></div>`).join('');
+ $('netCount').textContent=NET.filter(n=>n[4]).length+' attached';
+ $('crewList').innerHTML=CREWP.map((c,i)=>{const st=crewSt[i]||'';return `<div class="cr"><span><span class="role">${c[0]}</span><b>${c[1]}</b><small>${c[2]}</small></span><span class="st ${st==='asked'?'':st==='free'||st==='hired'?(c[3].startsWith('Booked')?'no':'ok'):''}">${st===''?'Not asked yet':st==='asked'?'Texted, waiting…':st==='hired'?'Attached to the show<span>Start packet sent · added to #desert-crew · has the show number</span>':c[3]}</span>${st===''?`<button data-ask="${i}">Ask if free</button>`:st==='free'&&!c[3].startsWith('Booked')?`<button data-hire="${i}">Hire and attach</button>`:st==='hired'?'<span class="att">✓ Attached</span>':'<span></span>'}</div>`;}).join('');
+ const hired=CREWP.filter((c,i)=>crewSt[i]==='hired');
+ $('crewCount').textContent=hired.length+' hired';
+ $('srcList').innerHTML=SRC.map(x=>`<div class="srcr"><b>${x[0]}</b><span class="how ${x[2]}">${x[3]}</span><p>${x[1]}. ${x[4]}</p></div>`).join('');
+ const nm=$('psName').value||'New show';$('psReadyH').textContent=nm+' is ready to start';
+ const att=NET.filter(n=>n[4]);
+ $('psReady').innerHTML=[
+  ['Show number','(310) 555-0157','Texts and receipts to it file to '+nm],
+  ['Email filing',`DSRT and ${net} mail`,'Anything with the show code, or from '+att.map(n=>n[0].split(' ')[0]).join(', ')+', files here'],
+  ['Budget',`v1 · $${target.toFixed(1)}M`,'From the comparables you picked'],
+  ['Network attached',att.length+' people',att.map(n=>n[0]+': '+n[2].toLowerCase()).join(' · ')],
+  ['Crew attached',hired.length+' hired',hired.length?hired.map(c=>c[1]+', '+c[0]).join(' · '):'Hire from step 4, or later from the show'],
+  ['Calendar','Prep Jan 5 · shoot Feb 1 to 19','Shared with everyone attached'],
+  ['Group chat','#desert-crew','The assistant is in it from day one'],
+  ['Documents','Folders ready','Deal memos, agreements, COIs, scripts, schedules']].map(x=>`<div><small>${x[0]}</small><b>${x[1]}</b><span>${x[2]}</span></div>`).join('');
+ $('psDone').hidden=!psMade;$('psCreate').hidden=psMade;
+}
+$('psTabs').addEventListener('click',e=>{const b=e.target.closest('[data-ps]');if(b){ps=+b.dataset.ps;psRender();}});
+$('psPrev').onclick=()=>{ps=Math.max(0,ps-1);psRender();};
+$('psNext').onclick=()=>{ps=ps===PS.length-1?0:ps+1;psRender();};
+$('psNet').addEventListener('change',psRender);$('psName').addEventListener('input',()=>{if(ps===4)psRender();});
+$('netList').addEventListener('change',e=>{const c=e.target.dataset.n,g=e.target.dataset.g;if(c!==undefined)NET[c][4]=e.target.checked?1:0;if(g!==undefined)NET[g][2]=e.target.value;psRender();});
+$('netAdd').onclick=()=>{const v=$('netNew').value.trim();if(!v)return $('netNew').focus();const [n]=v.split(',');NET.push([n.trim(),'Added by you','Everything',0,1]);$('netNew').value='';psRender();};
+$('crewList').addEventListener('click',e=>{const a=e.target.closest('[data-ask]'),h=e.target.closest('[data-hire]');
+ if(a){const i=+a.dataset.ask;crewSt[i]='asked';psRender();setTimeout(()=>{crewSt[i]='free';psRender();},900);}
+ if(h){crewSt[+h.dataset.hire]='hired';psRender();}});
+$('psCreate').onclick=()=>{psMade=true;psRender();};
+{const u=new URLSearchParams(location.search);if(u.has('ps'))ps=+u.get('ps');if(u.has('hired')){crewSt[0]='hired';crewSt[1]='free';crewSt[3]='hired';crewSt[4]='hired';crewSt[6]='asked';}}
+$('stR').addEventListener('input',()=>{if(ps===4)psRender();});
+psRender();
 /* ---------- assistant ---------- */
 const ASK=[
  {q:'How’s Saltwater tracking?',who:'Sterling',a:'Day 23 of 64. $12.2M spent and $4.17M committed. Estimated final is $26.5M, $234K over against the $26.3M budget (0.9%). Biggest movers: Cast, $148K over, and Locations, $64K over.',g:[['Sterling','@Slate how’s Saltwater tracking?']]},
