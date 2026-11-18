@@ -87,6 +87,14 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ch+.kv{border-top:0}
 .kv span{color:var(--mute);font-size:13px;font-weight:600}
 .kv b{font-weight:500}
+.chev{flex:none;color:var(--amber-t);transition:transform .2s;margin-left:6px}
+details[open] .chev{transform:rotate(180deg)}
+.dept summary{gap:10px}
+.dept summary .dn{flex:1;display:flex;align-items:baseline;gap:8px;font:700 16px var(--t);color:var(--ink)}
+.dept summary .dn small{font-weight:500;font-size:12.5px;color:var(--mute)}
+.dept summary .dt{font:600 14px var(--m);color:var(--amber-t)}
+.dept summary:hover,.sc summary:hover{background:var(--amber-s)}
+@media print{.chev,.dept summary .dn small{display:none!important}}
 .tr{display:flex;align-items:center;gap:10px}
 .pbtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 12px;font-weight:600;font-size:13px;color:var(--ink)}
 .pn{display:none}
@@ -177,7 +185,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   <div class="note">Closed set. No visitors, no photos, nothing on social.</div>
  </section>
 
- <section class="card a-scenes"><div class="ch">Scenes · 5 · 8 pages</div><div id="scenes"></div></section>
+ <section class="card a-scenes"><div class="ch">Scenes · 5 · 8 pages<span class="scr"> · tap for notes</span></div><div id="scenes"></div></section>
  <section class="card a-cast"><div class="ch">Cast</div><div id="cast"></div></section>
  <section class="card a-depts"><div class="ch">Departments<span class="scr"> · tap to see who</span></div><div id="depts"></div></section>
 
@@ -248,9 +256,9 @@ const tel=n=>'+1323'+n;
 const fmtn=n=>'(323) '+n.slice(0,3)+'-'+n.slice(3);
 const em=name=>/[a-z]/i.test(name)&&!/lot/i.test(name)?name.toLowerCase().replace(/[^a-z ]/g,'').trim().split(/\s+/).join('.')+'@saltwater.example':'';
 const acts=(n,name)=>{const m=em(name);return `<span class="pn">${fmtn(n)}${m?`<br>${m}`:''}</span><span class="acts"><a href="sms:${tel(n)}" aria-label="Text ${name}">${I.text}</a><a href="tel:${tel(n)}" aria-label="Call ${name}">${I.call}</a>${m?`<a href="mailto:${m}" aria-label="Email ${name}">${I.mail}</a>`:''}</span>`;};
-$('scenes').innerHTML=SC.map(s=>`<details class="sc"><summary><span class="strip" style="background:${s[5]}"></span><span class="num">${s[0]}</span><span class="tx"><b>${s[1]}</b><span>${s[2]}</span></span><span class="pg">${s[4]}</span></summary><div class="more"><span><b>Cast</b> ${s[3]}</span><span>${s[6]}</span></div></details>`).join('');
+$('scenes').innerHTML=SC.map(s=>`<details class="sc"><summary><span class="strip" style="background:${s[5]}"></span><span class="num">${s[0]}</span><span class="tx"><b>${s[1]}</b><span>${s[2]}</span></span><span class="pg">${s[4]}</span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="more"><span><b>Cast</b> ${s[3]}</span><span>${s[6]}</span></div></details>`).join('');
 $('cast').innerHTML=`<div class="row" style="font-size:12.5px;color:var(--mute);font-weight:600"><span style="width:24px">#</span><span style="flex:1">Role</span><span style="width:70px">Pickup</span><span style="width:70px">HMU</span><span style="width:70px">Set</span></div>`+CAST.map(c=>`<div class="row" style="font-size:14px"><span style="width:24px;font-family:var(--m)">${c[0]}</span><span style="flex:1;min-width:0"><b style="display:block">${c[1]}</b><span style="color:var(--mute);font-size:13px">${c[2]}</span></span><span style="width:70px">${c[3]}</span><span style="width:70px">${c[4]}</span><span style="width:70px">${c[5]}</span></div>`).join('');
-$('depts').innerHTML=D.map(d=>`<details class="dept"><summary>${d[0]}<span>${d[1]}</span></summary>${d[2].map(p=>`<div class="row"><span class="tx"><b>${p[0]}</b><span>${p[1]}</span></span>${acts(p[2],p[0])}</div>`).join('')}</details>`).join('');
+$('depts').innerHTML=D.map(d=>`<details class="dept"><summary><span class="dn">${d[0]}<small>${d[2].length} ${d[2].length>1?'people':'person'}</small></span><span class="dt">${d[1]}</span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>${d[2].map(p=>`<div class="row"><span class="tx"><b>${p[0]}</b><span>${p[1]}</span></span>${acts(p[2],p[0])}</div>`).join('')}</details>`).join('');
 $('keys').innerHTML=KEY.map(k=>`<div class="row"><span class="tx"><b>${k[0]}</b><span>${k[1]}</span></span>${acts(k[2],k[0])}</div>`).join('');
 $('dept').innerHTML=D.map((d,i)=>`<option value="${i}" ${d[0]==='Camera'?'selected':''}>${d[0]}</option>`).join('');
 const q=new URLSearchParams(location.search).get('me');if(q){const i=D.findIndex(d=>d[0].toLowerCase().startsWith(q.toLowerCase()));if(i>=0)$('dept').value=i;}

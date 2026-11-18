@@ -286,11 +286,31 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
 .cl-k b{font-size:28px;color:var(--amber);margin:0}
 .cl-k span{font-size:13px;color:var(--mute)}
 @media (max-width:900px){.printrow,.cleanup{grid-template-columns:1fr}.fr{grid-template-columns:96px 1fr;gap:4px 10px}.fr .fa,.fr .fs{grid-column:2;text-align:left}.fr .fm{grid-column:2;text-align:left}}
-.stepper{margin-top:36px}
-.st-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.st-tabs button{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg3);font-size:14.5px}
-.st-tabs button.on{border-color:var(--amber);background:var(--amber-d);color:var(--amber-tx)}
-.st-tabs button.lp{border-style:dashed}
+.try{display:inline-flex;align-items:center;gap:8px;margin-top:30px;margin-bottom:-14px;padding:6px 12px;border-radius:99px;background:var(--amber-d);color:var(--amber-tx);font-size:13.5px;font-weight:600}
+.try svg{flex:none}
+.st-tabs{position:relative;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:26px}
+.st-tabs::before{content:"";position:absolute;left:4%;right:4%;top:17px;height:2px;background:var(--line);z-index:0}
+.st-tabs button{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 4px 8px;border:0;background:none;border-radius:10px;font-size:13.5px;color:var(--soft);text-align:center;line-height:1.25;cursor:pointer}
+.st-tabs button em{font-style:normal;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--bg3);border:2px solid var(--line);font-family:var(--mono);font-weight:600;color:var(--ink);transition:.15s}
+.st-tabs button:hover em{border-color:var(--amber);transform:scale(1.08)}
+.st-tabs button:hover{color:var(--ink)}
+.st-tabs button.done em{background:var(--amber-d);border-color:var(--amber);color:var(--amber-tx)}
+.st-tabs button.on{background:none;border:0;color:var(--ink);font-weight:600}
+.st-tabs button.on em{background:var(--amber);border-color:var(--amber);color:#21160A;box-shadow:0 0 0 5px rgba(233,169,74,.2)}
+.st-tabs button.lp em{border-style:dashed}
+.chip{cursor:pointer;transition:border-color .15s,transform .15s}
+.chip:hover{border-color:var(--amber);transform:translateY(-1px)}
+.comp{cursor:pointer}.comp:hover{border-color:var(--amber)}
+a.screen{position:relative;transition:transform .2s,box-shadow .2s}
+a.screen::after{content:"Open this in the demo ↗";position:absolute;right:14px;bottom:14px;background:rgba(15,17,21,.86);color:#F3C77F;font:600 13px var(--text);padding:7px 12px;border-radius:99px;border:1px solid rgba(233,169,74,.5);transition:.2s}
+a.screen:hover{transform:translateY(-3px);box-shadow:0 36px 90px rgba(0,0,0,.55)}
+a.screen:hover::after{background:#E9A94A;color:#21160A}
+a.phoneshot{position:relative}
+a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;bottom:-16px;transform:translateX(-50%);white-space:nowrap;background:#E9A94A;color:#21160A;font:700 13px var(--text);padding:7px 14px;border-radius:99px}
+.pages a{position:relative;display:block}
+@media (max-width:900px){.st-tabs{grid-template-columns:repeat(7,minmax(70px,1fr));overflow-x:auto;padding-bottom:4px}.st-tabs::before{display:none}}
+.stepper{margin-top:22px}
+
 .st-body{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:28px;align-items:center}
 .st-txt i{font-style:normal;font-family:var(--mono);font-size:13px;color:var(--amber-tx)}
 .st-txt b{display:block;font-family:var(--display);font-size:26px;line-height:1.15;margin:6px 0 10px}
@@ -377,8 +397,8 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">The call sheet, shared</div>
   <h2>The PM builds it. <em>The line producer approves it.</em></h2>
   <p class="lead">Five steps, most of them already filled in. Then one shared sheet: Dolav sends it up, Sterling sees exactly what changed from the schedule and what it costs, and only an approved sheet goes to the crew.</p>
-  <div class="stepper"><div class="st-tabs" id="stTabs" role="tablist"></div>
-  <div class="st-body"><a class="screen" id="stShot" href="demo/#builder" style="margin-top:0"><img id="stImg" src="img/shots/b0.jpg" alt=""></a><div class="st-txt"><i id="stN"></i><b id="stH"></b><p id="stP"></p><div class="st-nav"><button class="btn" id="stPrev">Back</button><button class="btn pri" id="stNext">Next</button></div></div></div></div>
+  <div class="try"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 3v10.5l-2-2a1.6 1.6 0 0 0-2.3 2.3L9.5 19A5 5 0 0 0 13 20.5h1.5A4.5 4.5 0 0 0 19 16v-4.5a1.5 1.5 0 0 0-3 0V11a1.5 1.5 0 0 0-3 0v-.5a1.5 1.5 0 0 0-3 0V3a1.5 1.5 0 0 0-3 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Try it · click any step to see that screen</div><div class="stepper"><div class="st-tabs" id="stTabs" role="tablist"></div>
+  <div class="st-body" style="margin-top:22px"><a class="screen" id="stShot" href="demo/#builder" style="margin-top:0"><img id="stImg" src="img/shots/b0.jpg" alt=""></a><div class="st-txt"><i id="stN"></i><b id="stH"></b><p id="stP"></p><div class="st-nav"><button class="btn" id="stPrev">Back</button><button class="btn pri" id="stNext">Next</button></div></div></div></div>
 </div></section>
 
 <!-- ========== LIVE CALL SHEET ========== -->
@@ -419,7 +439,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">Project starter</div>
   <h2>The network gives you a number. <em>Work backwards from it.</em></h2>
   <p class="lead">Pick past shows of a similar size. The Slate builds the new budget from what those shows actually spent: how the money splits by account, how many shoot days the number buys, and where the new show doesn’t fit its comparables. Try it.</p>
-  <div class="starter">
+  <div class="try"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 3v10.5l-2-2a1.6 1.6 0 0 0-2.3 2.3L9.5 19A5 5 0 0 0 13 20.5h1.5A4.5 4.5 0 0 0 19 16v-4.5a1.5 1.5 0 0 0-3 0V11a1.5 1.5 0 0 0-3 0v-.5a1.5 1.5 0 0 0-3 0V3a1.5 1.5 0 0 0-3 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Try it · drag the number and pick the shows to compare</div><div class="starter">
     <div class="card"><h3>Network target</h3><div class="target" id="stT"></div><input type="range" id="stR" min="3" max="12" step="0.1" value="6" aria-label="Network target in millions"><div style="display:flex;justify-content:space-between;color:var(--mute);font-size:13px"><span>$3M</span><span>$12M</span></div>
       <h3 style="margin-top:20px">Compare with</h3><div class="comps" id="stC"></div></div>
     <div class="card"><div class="res-k" id="stK"></div><div style="overflow-x:auto"><table id="stTab"></table></div><div class="flag" id="stF"></div></div>
@@ -451,7 +471,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">Calls do the note-taking</div>
   <h2>A meeting ends. <em>The follow-ups are already waiting.</em></h2>
   <p class="lead">Add the assistant to a Google Meet, Zoom or Teams call, or a call to the show’s number, with everyone’s consent. The assistant pulls out who’s doing what, what needs approval and every date, and puts each one on the right show for someone to approve. Try it.</p>
-  <div class="meet">
+  <div class="try"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 3v10.5l-2-2a1.6 1.6 0 0 0-2.3 2.3L9.5 19A5 5 0 0 0 13 20.5h1.5A4.5 4.5 0 0 0 19 16v-4.5a1.5 1.5 0 0 0-3 0V11a1.5 1.5 0 0 0-3 0v-.5a1.5 1.5 0 0 0-3 0V3a1.5 1.5 0 0 0-3 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Try it · approve, assign or add each item from the call</div><div class="meet">
     <div class="card" style="padding:0;overflow:hidden"><div class="gm-ui">
       <div class="gm-top"><span class="rec">● Recording</span><b>Saltwater · production meeting</b><span class="gm-n">Taking notes: Slate</span></div>
       <div class="gm-grid">
@@ -479,7 +499,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">One assistant</div>
   <h2>Text it. Or ask ChatGPT. <em>Same assistant.</em></h2>
   <p class="lead">Text the show’s number from set, ask the same question in ChatGPT at night, or add it to the show’s group chat. It knows the budgets, receipts, mail, crew and call sheets, and nothing goes out without your OK. It works in Claude too.</p>
-  <div class="chips" id="aiChips"></div>
+  <div class="try"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 3v10.5l-2-2a1.6 1.6 0 0 0-2.3 2.3L9.5 19A5 5 0 0 0 13 20.5h1.5A4.5 4.5 0 0 0 19 16v-4.5a1.5 1.5 0 0 0-3 0V11a1.5 1.5 0 0 0-3 0v-.5a1.5 1.5 0 0 0-3 0V3a1.5 1.5 0 0 0-3 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Try it · pick a question</div><div class="chips" id="aiChips"></div>
   <div class="trio">
     <div class="phone"><div class="ph"><div class="ph-h"><b>Saltwater</b><small>(323) 555-0182</small></div><div class="msgs" id="aiSms"></div></div></div>
     <div class="pane"><div class="pane-h"><b>ChatGPT</b><span class="pill-ok">The Slate connected</span></div><div class="pane-m" id="aiGpt"></div></div>
@@ -713,8 +733,8 @@ const ST=[['b0','Dolav · Step 1','Scenes from the schedule','The one-liner alre
  ['b5','Sterling','The line producer’s view','The same sheet, with every change from the schedule and what it costs, plus a cost check for the day. Approve, or ask for a change.'],
  ['b6','Out to the crew','Approved, sent, confirmed','Only an approved sheet goes out: a link by text that opens to each person’s own call. Confirmations come back on their own.']];
 let st=0;
-function stShow(i){st=i;const x=ST[i];$('stImg').src='img/shots/'+x[0]+'.jpg';$('stImg').alt=x[2];$('stN').textContent=x[1];$('stH').textContent=x[2];$('stP').textContent=x[3];
- $('stTabs').innerHTML=ST.map((y,j)=>`<button role="tab" aria-selected="${j===i}" class="${j===i?'on':''} ${y[1]==='Sterling'?'lp':''}" data-s="${j}">${y[2]}</button>`).join('');
+function stShow(i){st=i;const x=ST[i];$('stImg').src='img/shots/'+x[0]+'.jpg';$('stImg').alt=x[2];$('stH').textContent=x[2];$('stP').textContent=x[3];
+ $('stTabs').innerHTML=ST.map((y,j)=>`<button role="tab" aria-selected="${j===i}" class="${j===i?'on':''} ${j<i?'done':''} ${y[1]==='Sterling'?'lp':''}" data-s="${j}"><em>${j+1}</em><span>${y[2]}</span></button>`).join('');$('stN').textContent='Step '+(i+1)+' of '+ST.length+' · '+ST[i][1].split(' · ')[0];
  $('stPrev').disabled=i===0;$('stNext').textContent=i===ST.length-1?'Start over':'Next';}
 $('stTabs').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(b)stShow(+b.dataset.s);});
 $('stPrev').onclick=()=>stShow(Math.max(0,st-1));$('stNext').onclick=()=>stShow(st===ST.length-1?0:st+1);
