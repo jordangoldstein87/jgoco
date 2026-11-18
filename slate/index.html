@@ -41,10 +41,15 @@ h2 em{font-style:normal;color:var(--amber)}
 .btn.pri{background:var(--amber);color:#21160A;border-color:var(--amber)}
 .btn:hover{filter:brightness(1.08)}
 /* hero */
-.hero{min-height:min(860px,92vh);display:flex;align-items:center;position:relative;overflow:hidden;padding-block:120px 80px}
+.hero{position:relative;overflow:hidden;padding-block:72px 80px}
+.hstage{margin-top:34px;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.hstage .stage{width:100%;max-height:none}
+.hstage .vx{display:none}
+.vctl{display:flex;gap:16px;align-items:center;margin-top:18px;flex-wrap:wrap;color:var(--mute);font-size:15px}
+.vctl .btn{border:0;cursor:pointer}
 .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 75% 40%,rgba(233,169,74,.14),transparent 70%);pointer-events:none}
 .hero .w{position:relative;z-index:1;width:100%}
-.brandrow{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:800;font-size:22px;margin-bottom:40px}
+.brandrow{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:800;font-size:22px;margin-bottom:28px}
 .hero h1{font-size:clamp(46px,7.4vw,104px);font-weight:900;line-height:.98;max-width:13ch}
 .hero h1 em{font-style:normal;color:var(--amber)}
 .hero .lead{font-size:clamp(18px,1.9vw,23px)}
@@ -231,6 +236,44 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
 .cbar{position:absolute;left:0;bottom:0;height:100%;background:#1E7448}
 .phoneshot{display:block;justify-self:center;width:min(360px,100%);border-radius:40px;padding:10px;background:#05060A;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.45)}
 .phoneshot img{display:block;width:100%;border-radius:30px}
+.printrow{margin-top:56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:32px;align-items:center}
+.pages{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pages img{display:block;width:100%;border-radius:4px;box-shadow:0 20px 50px rgba(0,0,0,.5);background:#fff}
+.pages a:nth-child(2) img{transform:translateY(18px)}
+.fills{margin-top:44px;background:var(--bg3);border:1px solid var(--line);border-radius:18px;padding:24px}
+.fh h3{font-size:26px;color:var(--amber)}
+.fh p{color:var(--soft);margin:8px 0 14px;max-width:70ch}
+.fr{display:grid;grid-template-columns:110px minmax(0,1.6fr) minmax(0,1.1fr) 120px 170px;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line);font-size:15px}
+.src{font-family:var(--mono);font-size:12px;padding:4px 9px;border-radius:7px;text-align:center;background:var(--bg2);border:1px solid var(--line)}
+.s-email{color:var(--blue)}.s-text,.s-groupchat{color:var(--amber-tx)}.s-timecards{color:var(--under)}.s-meetcall{color:var(--ok)}
+.fa{color:var(--mute);font-size:14px}
+.fm{text-align:right;font-variant-numeric:tabular-nums}
+.fs{font-size:13px;font-weight:600;text-align:right}
+.fs.ok{color:var(--ok)}.fs.wt{color:var(--over)}
+.gm-ui{background:#202124;padding:14px;display:flex;flex-direction:column;gap:10px}
+.gm-top{display:flex;align-items:center;gap:10px;color:#E8EAED;font-size:13.5px;flex-wrap:wrap}
+.gm-top b{font-weight:600}
+.rec{color:#F28B82;font-weight:700}
+.gm-n{margin-left:auto;background:#3C4043;padding:3px 10px;border-radius:99px;font-size:12px;color:#FDD663}
+.gm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{position:relative;aspect-ratio:16/10;background:#3C4043;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#E8EAED;border:2px solid transparent}
+.tile.on{border-color:#8AB4F8}
+.tile .av{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;font-size:18px}
+.tile b{font-size:13px;position:absolute;left:10px;bottom:8px;font-weight:600}
+.tile i{font-style:normal;font-size:11px;color:#BDC1C6;position:absolute;right:10px;bottom:9px}
+.gm-cap{background:rgba(0,0,0,.55);color:#fff;border-radius:8px;padding:8px 12px;font-size:14.5px}
+.gm-bar{display:flex;justify-content:center;gap:10px}
+.gm-bar span{width:38px;height:38px;border-radius:50%;background:#3C4043}
+.gm-bar .end{width:56px;border-radius:99px;background:#EA4335}
+.mnotes{margin:0;padding-left:18px;color:var(--soft);display:flex;flex-direction:column;gap:6px;font-size:15.5px}
+.cleanup{margin-top:30px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:center;background:var(--bg3);border:1px solid var(--line);border-radius:18px;padding:24px}
+.cleanup b{font-family:var(--display);font-size:22px;display:block;margin-bottom:6px}
+.cleanup p{color:var(--soft)}
+.cl-k{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cl-k div{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+.cl-k b{font-size:28px;color:var(--amber);margin:0}
+.cl-k span{font-size:13px;color:var(--mute)}
+@media (max-width:900px){.printrow,.cleanup{grid-template-columns:1fr}.fr{grid-template-columns:96px 1fr;gap:4px 10px}.fr .fa,.fr .fs{grid-column:2;text-align:left}.fr .fm{grid-column:2;text-align:left}}
 .stepper{margin-top:36px}
 .st-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .st-tabs button{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg3);font-size:14.5px}
@@ -276,9 +319,9 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="brandrow"><svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true"><rect x="3" y="12.5" width="26" height="15.5" rx="2" fill="#E9A94A"/><path d="M3.2 10 27.4 3.4l1.2 4.4L4.4 14.4z" fill="#EEF0F3"/><path d="M8.6 8.6l3 4.4M14.6 7l3 4.4M20.6 5.4l3 4.4" stroke="#0F1115" stroke-width="2.4"/></svg>The Slate</div>
   <h1>Every show, every budget, <em>one place.</em></h1>
   <p class="lead">Your own production software, built from the spreadsheets you already trust. Budgets, receipts, call sheets, crew, locations and every email, filed to the right show, with an assistant your whole team can text.</p>
-  <div class="play"><button id="playBtn" aria-label="Play the one-minute video"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z" fill="#21160A"/></svg></button><div><b>Watch the one-minute version</b><span>Sound on. Sample shows and numbers throughout.</span></div></div>
+  <div class="hstage" id="heroStage"></div>
+  <div class="vctl"><button class="btn pri" id="playBtn"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none"/></svg><span id="playL">Play with sound</span></button><span>One minute. Sample shows and numbers throughout.</span></div>
 </div>
-<svg class="stripes" viewBox="0 0 600 260" aria-hidden="true"><rect x="0" y="70" width="600" height="190" rx="14" fill="#1C2027"/><path d="M0 52 576 0l14 58L14 110z" fill="#EEF0F3"/><path d="M70 45l40 56M190 34l40 56M310 23l40 56M430 12l40 56" stroke="#0F1115" stroke-width="30"/><text x="36" y="150" fill="#8C95A3" font-family="JetBrains Mono, monospace" font-size="22">PROD.  SALTWATER S2</text><text x="36" y="200" fill="#EEF0F3" font-family="Archivo, sans-serif" font-weight="800" font-size="44">DAY 23 OF 64</text><text x="36" y="238" fill="#E9A94A" font-family="JetBrains Mono, monospace" font-size="20">SC 14 · TAKE 3</text></svg>
 </header>
 
 <!-- ========== TODAY ========== -->
@@ -335,6 +378,8 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px"><a class="btn pri" href="callsheet.html">Open the call sheet</a></div></div>
     <a class="phoneshot" href="callsheet.html"><img src="img/shots/livesheet.jpg" alt="The Day 24 call sheet as a phone web page, with the camera department's call at the top" loading="lazy"></a>
   </div>
+  <div class="printrow"><div><div class="kick" style="margin-bottom:8px">Print it, too</div><p class="lead" style="margin-top:0">One button prints it on letter paper, everything expanded: every phone number and email, every department, notes, safety and tomorrow’s schedule. Front and back.</p></div>
+   <div class="pages"><a href="callsheet.html"><img src="img/shots/print1.jpg" alt="Printed call sheet, front: calls, weather, locations, scenes, cast, background and tomorrow" loading="lazy"></a><a href="callsheet.html"><img src="img/shots/print2.jpg" alt="Printed call sheet, back: every department with phone and email, today's run, notes, meals, safety and equipment" loading="lazy"></a></div></div>
 </div></section>
 
 <!-- ========== CALENDARS ========== -->
@@ -353,6 +398,7 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <p class="lead">We rebuild the budgeting you already do as software that fits you: top sheet, accounts, detail lines, fringes and globals. Change shoot days and everything moves. Then the actuals come in on their own, from invoices in email and receipts texted from set, each waiting on the right line for approval.</p>
   <a class="screen" href="demo/#saltwater-budget"><img src="img/shots/budget.jpg" alt="Saltwater top sheet with Locations opened to its detail lines and an answer about adding two shoot days" loading="lazy"></a>
   <div class="pts"><div class="pt"><b>Built from your sheets</b><span>Your chart of accounts, rates and fringe formulas, not a template.</span></div><div class="pt"><b>Ask the budget</b><span>“What if we add two shoot days?” “Why is Locations over?” Plain answers, with the numbers.</span></div><div class="pt"><b>Hot costs every morning</b><span>Yesterday’s overages line by line, before the first meeting.</span></div><div class="pt"><b>The network’s format</b><span>The weekly cost report drafted in each network’s template, with variance notes written.</span></div></div>
+  <div class="fills"><div class="fh"><h3>It fills itself in</h3><p>This week on Saltwater. Nobody typed any of these. Each one was found in email, a text, the crew chat, timecards or a call, matched to the show and the right line, and held for the right person’s OK.</p></div><div class="fr"><span class="src s-email">Email</span><span class="fw">Coastline Grip & Lift invoice · 2nd condor</span><span class="fa">→ 3200 Electric</span><b class="fm">+$1,800</b><span class="fs wt">Waiting on Sterling</span></div><div class="fr"><span class="src s-text">Text</span><span class="fw">Dolav texted a Smart & Final receipt</span><span class="fa">→ 2500 Set Operations</span><b class="fm">$412.86</b><span class="fs wt">Waiting on Sterling</span></div><div class="fr"><span class="src s-email">Email</span><span class="fw">Hotels.com receipt · Maya Hollis, 4 nights</span><span class="fa">→ 3700 Travel & Lodging</span><b class="fm">$1,036.40</b><span class="fs ok">Approved</span></div><div class="fr"><span class="src s-email">Email</span><span class="fw">Westbrook Talent · revised deal, ep 205</span><span class="fa">→ 1400 Cast</span><b class="fm">+$8,400</b><span class="fs ok">Estimate updated</span></div><div class="fr"><span class="src s-groupchat">Group chat</span><span class="fw">#saltwater-crew · two extra set PAs</span><span class="fa">→ 2000 Production Staff</span><b class="fm">+$630</b><span class="fs ok">On the call sheet</span></div><div class="fr"><span class="src s-timecards">Timecards</span><span class="fw">Day 22 production report and timecards</span><span class="fa">→ Labor, all departments</span><b class="fm">+$14,280</b><span class="fs ok">In hot costs, 6:10 AM</span></div><div class="fr"><span class="src s-meetcall">Meet call</span><span class="fw">Production meeting · third pier night</span><span class="fa">→ 3600 Locations</span><b class="fm">about $46,000</b><span class="fs wt">Needs Northlight</span></div></div>
 </div></section>
 
 <!-- ========== STARTER ========== -->
@@ -391,15 +437,26 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
 <section id="calls"><div class="w">
   <div class="kick">Calls do the note-taking</div>
   <h2>A meeting ends. <em>The follow-ups are already waiting.</em></h2>
-  <p class="lead">Record a Google Meet, Zoom or Teams call, or a call to the show’s number, with everyone’s consent. The assistant pulls out who’s doing what, what needs approval and every date, and puts each one on the right show for someone to approve. Try it.</p>
+  <p class="lead">Add the assistant to a Google Meet, Zoom or Teams call, or a call to the show’s number, with everyone’s consent. The assistant pulls out who’s doing what, what needs approval and every date, and puts each one on the right show for someone to approve. Try it.</p>
   <div class="meet">
-    <div class="card"><div class="m-h"><b>Saltwater production meeting</b><span>Google Meet · Tue 6:30 PM · 41 min · Sterling, Dolav, Dana, Ana</span></div>
-      <div class="m-q"><b>Sterling</b>If Northlight signs off on the overage, let’s add a third pier night.</div>
-      <div class="m-q"><b>Ana</b>I’ll confirm police coverage for the Bayside shoot on the 3rd by Friday.</div>
-      <div class="m-q"><b>Dolav</b>I’ll price a second condor for Days 28 through 31.</div>
-      <div class="m-q"><b>Dana</b>Can we do the Bayside tech scout Saturday at 10?</div>
-      <div class="m-q"><b>Sterling</b>And the ep 207 table read is Monday the 30th, 10 AM.</div></div>
-    <div class="card"><h3>Found in the call</h3><div id="meetItems"></div></div>
+    <div class="card" style="padding:0;overflow:hidden"><div class="gm-ui">
+      <div class="gm-top"><span class="rec">● Recording</span><b>Saltwater · production meeting</b><span class="gm-n">Taking notes: Slate</span></div>
+      <div class="gm-grid">
+       <div class="tile on"><span class="av" style="background:#2E8F9C">S</span><b>Sterling</b><i>Line producer</i></div>
+       <div class="tile"><span class="av" style="background:#C98A2E">D</span><b>Dolav</b><i>Production manager</i></div>
+       <div class="tile"><span class="av" style="background:#7B61C9">DW</span><b>Dana Whitfield</b><i>1st AD</i></div>
+       <div class="tile"><span class="av" style="background:#3F7F5B">HR</span><b>Hector Ruiz</b><i>1st AC, camera</i></div>
+      </div>
+      <div class="gm-cap"><b>Sterling:</b> If Northlight signs off on the overage, let’s add a third pier night.</div>
+      <div class="gm-bar"><span></span><span></span><span class="end"></span><span></span></div>
+     </div>
+     <div style="padding:6px 20px 16px">
+      <div class="m-q"><b>Hector Ruiz</b>For 31 we need the Technocrane confirmed by tomorrow, and a second camera crew for the night work.</div>
+      <div class="m-q"><b>Dolav</b>I’ll price a second condor for Days 28 through 31, and confirm the crane by noon.</div>
+      <div class="m-q"><b>Dana Whitfield</b>Can we do the Bayside tech scout Saturday at 10?</div>
+      <div class="m-q"><b>Sterling</b>And the ep 207 table read is Monday the 30th, 10 AM.</div>
+     </div></div>
+    <div class="card"><h3>Notes</h3><ul class="mnotes"><li>Third pier night is a go if Northlight approves the overage.</li><li>Sc. 31 needs the Technocrane and a second camera crew.</li><li>Tech scout at Bayside Saturday; ep 207 table read Monday the 30th.</li></ul><h3 style="margin-top:18px">Found in the call</h3><div id="meetItems"></div></div>
   </div>
   <div class="logos"><span>Google Meet</span><span>Zoom</span><span>Microsoft Teams</span><span>Calls to the show number</span></div>
 </div></section>
@@ -422,6 +479,8 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
   <div class="kick">Crew and locations</div>
   <h2>Everyone you’ve worked with. <em>Everywhere you’ve shot.</em></h2>
   <p class="lead">Every crew member from every show, with their department, rate and last show. Pick ten people and ask if they’re free, by text, in one go. And every location you’ve scouted or shot, with fees, power, parking, agreements and insurance on file, searchable the way you’d describe it.</p>
+  <div class="cleanup"><div><b>One cleanup, and it’s all in.</b><p>Once email and drives are connected, it goes back through years of old messages, call sheets, crew lists, deal memos and location agreements. It finds every person and place you’ve worked with, merges the duplicates, and hands you one list to approve. After that, new shows keep it current on their own.</p></div>
+   <div class="cl-k"><div><b>1,284</b><span>people found</span></div><div><b>212</b><span>locations found</span></div><div><b>96</b><span>duplicates merged</span></div></div></div>
   <div class="split" style="margin-top:40px;grid-template-columns:1fr 1fr"><a class="screen" href="demo/#crew"><img src="img/shots/crew.jpg" alt="Crew database with availability replies coming in by text" loading="lazy"></a><a class="screen" href="demo/#locations"><img src="img/shots/locations.jpg" alt="Locations database answering a search for a desert motel for the pilot" loading="lazy"></a></div>
 </div></section>
 
@@ -566,7 +625,7 @@ const KEYS=Object.keys(NARR);const SC=[...document.querySelectorAll('.sc')];
 let idx=-1,timer=null,audio=null,playing=false;
 function show(i){
   clearTimeout(timer);if(audio){audio.pause();audio=null;}
-  if(i>=KEYS.length)return close();
+  if(i>=KEYS.length){playing=false;$('playL').textContent='Play with sound';return show(0);}
   idx=i;const k=KEYS[i];
   SC.forEach(s=>s.classList.remove('on','out'));const el=SC.find(s=>s.dataset.k===k);void el.offsetWidth;el.classList.add('on');
   $('vcap').textContent=NARR[k].replace(/'/g,'’');$('vbar').style.width=(i/KEYS.length*100)+'%';
@@ -575,12 +634,11 @@ function show(i){
   if(playing){audio=new Audio('img/vo/'+k+'.mp3');audio.play().catch(()=>{});}
   timer=setTimeout(()=>show(i+1),hold*1000);
 }
-function open(){$('vid').hidden=false;document.body.style.overflow='hidden';playing=true;show(0);$('vx').focus();}
-function close(){clearTimeout(timer);if(audio){audio.pause();audio=null;}playing=false;$('vid').hidden=true;document.body.style.overflow='';const d=$('today');if(idx>=KEYS.length-1||idx>=0)d.scrollIntoView({behavior:'smooth'});idx=-1;}
-$('playBtn').onclick=open;$('playBtn2').onclick=open;$('vx').onclick=close;$('vskip').onclick=()=>show(idx+1);
-document.addEventListener('keydown',e=>{if($('vid').hidden)return;if(e.key==='Escape')close();if(e.key==='ArrowRight')show(idx+1);if(e.key==='ArrowLeft')show(Math.max(0,idx-1));});
+$('heroStage').appendChild($('stage'));
+function open(){playing=true;$('playL').textContent='Restart with sound';show(0);}
+$('playBtn').onclick=open;$('playBtn2').onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});open();};$('vskip').onclick=()=>show(idx+1);
 /* ?cap&scene=budget shows one scene for screenshots */
-const q=new URLSearchParams(location.search);if(q.has('scene')){$('vid').hidden=false;playing=false;show(Math.max(0,KEYS.indexOf(q.get('scene'))));clearTimeout(timer);}
+const q=new URLSearchParams(location.search);if(q.has('scene')){playing=false;show(Math.max(0,KEYS.indexOf(q.get('scene'))));clearTimeout(timer);}else show(0);
 
 /* ---------- project starter ---------- */
 const GROUPS=[['Cast','atl'],['Writers & producers','atl'],['Director','atl'],['Production staff','prod'],['Camera, electric & grip','prod'],['Art, sets & wardrobe','prod'],['Locations','prod'],['Transportation','prod'],['Catering & craft','prod'],['Editorial & post sound','post'],['Visual effects & music','post'],['Insurance, legal & admin','oth']];
@@ -637,9 +695,10 @@ stShow(0);
 
 /* ---------- meeting follow-ups ---------- */
 const MI=[['a','Approval','Third pier night, about $46,000','Needs Northlight’s sign-off. Goes to Sterling.','Send for approval','Sent to Sterling'],
- ['t','Task','Ana: confirm police for Bayside, Dec 3','Due Friday. Ana gets a text.','Assign','Assigned to Ana'],
- ['t','Task','Dolav: price a 2nd condor, Days 28 to 31','On Dolav’s to-dos in the PM hub.','Assign','Assigned to Dolav'],
- ['c','Calendar','Tech scout, Bayside Café','Saturday, Nov 21, 10 AM. Dana, Ana, Dolav.','Add','On the calendar'],
+ ['a','Approval','Technocrane and 2nd camera crew, sc. 31','About $7,400 for the night. Goes to Sterling.','Send for approval','Sent to Sterling'],
+ ['t','Task','Dolav: confirm the Technocrane by noon tomorrow','On Dolav’s to-dos in the PM hub, with Hector’s note.','Assign','Assigned to Dolav'],
+ ['t','Task','Dolav: price a 2nd condor, Days 28 to 31','Linked to the Electric line on the budget.','Assign','Assigned to Dolav'],
+ ['c','Calendar','Tech scout, Bayside Café','Saturday, Nov 21, 10 AM. Dana, Dolav, Ana.','Add','On the calendar'],
  ['c','Calendar','Table read, ep 207','Monday, Nov 30, 10 AM. Production office.','Add','On the calendar']];
 const miDone={};
 function miShow(){$('meetItems').innerHTML=MI.map((m,i)=>`<div class="mi"><span class="k ${m[0]}">${m[1]}</span><div><b>${m[2]}</b><span>${m[3]}</span></div>${miDone[i]?`<span class="ok">✓ ${m[5]}</span>`:`<button data-m="${i}">${m[4]}</button>`}</div>`).join('');}

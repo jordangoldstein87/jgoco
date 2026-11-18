@@ -73,30 +73,152 @@ button{font:inherit;color:inherit;cursor:pointer}
 .foot{text-align:center;font-size:13px;color:var(--mute);padding:8px}
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;font-size:14px;opacity:0;transition:.25s;pointer-events:none;max-width:calc(100% - 28px)}
 .toast.on{opacity:1}
+.tl{display:flex;flex-direction:column;padding:2px 16px 12px}
+.tl div{display:grid;grid-template-columns:78px 1fr;gap:10px;padding:6px 0;border-top:1px solid var(--line);font-size:14.5px}
+.tl div:first-child{border-top:0}
+.tl b{font-family:var(--m);font-size:13.5px;font-weight:600}
+.tl .hl{background:var(--amber-s);margin:0 -16px;padding:6px 16px}
+.wx{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:2px 16px 10px}
+.wx div{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center}
+.wx span{display:block;font-size:12px;color:var(--mute);font-weight:600}
+.wx b{display:block;font:800 20px var(--d)}
+.wx i{font-style:normal;font-size:12px;color:var(--soft)}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:10px;padding:8px 16px;border-top:1px solid var(--line);font-size:14.5px}
+.ch+.kv{border-top:0}
+.kv span{color:var(--mute);font-size:13px;font-weight:600}
+.kv b{font-weight:500}
+.tr{display:flex;align-items:center;gap:10px}
+.pbtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 12px;font-weight:600;font-size:13px;color:var(--ink)}
+.pn{display:none}
+@page{size:8.5in 11in;margin:.3in .35in}
+@media print{
+ :root{--bg:#fff;--card:#fff;--ink:#000;--soft:#222;--mute:#444;--line:#999;--amber-s:#fff;--amber-t:#000;--warn-s:#fff;--warn:#000;color-scheme:light}
+ body{background:#fff;color:#000;font-size:9pt;line-height:1.25;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .w{max-width:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6pt 10pt;grid-template-areas:"top top" "hero hero" "wx where" "scenes scenes" "cast bg" "adv adv" "depts depts" "run notes" "meals safety" "equip equip"}
+ .a-top{grid-area:top}.a-hero{grid-area:hero}.a-where{grid-area:where}.a-keys{grid-area:keys}.a-scenes{grid-area:scenes}.a-cast{grid-area:cast}.a-depts{grid-area:depts}.a-run{grid-area:run}.a-wx{grid-area:wx}.a-meals{grid-area:meals}.a-bg{grid-area:bg}.a-equip{grid-area:equip}.a-notes{grid-area:notes}.a-safety{grid-area:safety}.a-adv{grid-area:adv}
+ .tl{padding:0 8pt 4pt}.tl div{padding:2pt 0;font-size:8.5pt;grid-template-columns:50pt 1fr}.tl b{font-size:8pt}.tl .hl{margin:0 -8pt;padding:2pt 8pt;background:#eee}
+ .wx{padding:0 8pt 4pt;gap:4pt}.wx div{padding:3pt;border-radius:0}.wx b{font-size:12pt}
+ .kv{padding:2.5pt 8pt;font-size:8.5pt;grid-template-columns:78pt 1fr;gap:6pt}.kv span{font-size:8pt}
+ .a-notes .kv{grid-template-columns:78pt 1fr}
+ .a-depts{break-before:page;column-count:2;column-gap:10pt;column-fill:balance}
+ .a-keys{display:none!important}
+ .a-notes{column-count:1}
+ .dept .row{display:grid!important;grid-template-columns:1fr auto;align-items:center}
+ .a-depts .ch{column-span:all}
+ .a-depts .dept{break-inside:avoid;display:block}
+ .dept summary{font-size:9pt}.dept .row{padding:1.5pt 8pt 1.5pt 10pt!important;border-top:0}.dept .row .tx b{font-size:8.5pt}.dept .row .tx span{font-size:7.5pt}.dept .pn{font-size:7.5pt}
+ .sc summary{padding:2pt 8pt!important}.sc .tx b{font-size:9pt}.sc .tx span{font-size:8pt}
+ .more{flex-direction:row;flex-wrap:wrap;gap:2pt 10pt;padding:0 8pt 3pt 44pt;font-size:8pt}
+ .tl div{padding:1pt 0}
+ .hero{padding:6pt 10pt}.hero h1{font-size:16pt}.calls b{font-size:13pt}
+ .a-cast .row{padding:2pt 8pt!important;font-size:8.5pt!important}
+ .a-keys .row{padding:2pt 8pt!important}
+ .card{break-inside:auto}
+ .a-cast .row b{display:inline!important}.a-cast .row b+span{display:inline!important;margin-left:4pt}.a-cast .row b+span::before{content:"· "}
+ .a-cast .row span[style*="flex:1"]{white-space:nowrap}
+ .a-cast .row span[style*="width:70px"]{width:44pt!important;font-size:7.5pt}
+ .a-cast .row span[style*="width:24px"]{width:10pt!important}
+ .pn{text-align:right;line-height:1.25}
+ .a-depts .pn{font-size:7pt}
+ .kv{padding:1.5pt 8pt}
+
+
+ .bar,.toast,.pbtn,.map,.foot,.acts,.mine,.go,.row .ic,.scr,.sc .more:empty{display:none!important}
+ .pn{display:inline;font-family:var(--m);font-size:8.5pt;white-space:nowrap}
+ .hero{background:#fff;color:#000;border:1.5pt solid #000;border-radius:0;padding:8pt 10pt;gap:6pt}
+ .hero small{color:#000}.hero h1{font-size:18pt}.hero .sub{color:#000;font-size:9.5pt}
+ .calls div{background:#fff;border:1pt solid #000;border-radius:0;padding:4pt 8pt}.calls span{color:#000}.calls b{font-size:15pt}
+ .card{border:1pt solid #000;border-radius:0;break-inside:avoid}
+ .ch{padding:4pt 8pt 2pt;font-size:8pt;color:#000}
+ .row,.sc summary,.dept summary{padding:3pt 8pt!important;gap:6pt;border-top:.5pt solid #999}
+ .row .tx span,.sc .tx span{font-size:8.5pt}
+ .sc summary .num{min-width:28pt;font-size:9pt}.strip{width:4pt}
+ .more{padding:0 8pt 4pt 44pt;font-size:8.5pt}
+ .dept[open] summary{background:#eee}.dept .row{padding-left:14pt!important}
+ .note{margin:2pt 8pt 6pt;padding:3pt 6pt;border:1pt solid #000;border-radius:0;font-size:8.5pt}
+ .top{font-size:8pt;color:#000}
+}
 </style>
 </head>
 <body>
 <div class="w">
- <div class="top"><b><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect x="3" y="12.5" width="26" height="15.5" rx="2" fill="#E9A94A"/><path d="M3.2 10 27.4 3.4l1.2 4.4L4.4 14.4z" fill="currentColor"/><path d="M8.6 8.6l3 4.4M14.6 7l3 4.4M20.6 5.4l3 4.4" stroke="#16181D" stroke-width="2.4"/></svg>Saltwater S2</b><span>Approved by Sterling · 11:42 AM</span></div>
+ <div class="top a-top"><b><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect x="3" y="12.5" width="26" height="15.5" rx="2" fill="#E9A94A"/><path d="M3.2 10 27.4 3.4l1.2 4.4L4.4 14.4z" fill="currentColor"/><path d="M8.6 8.6l3 4.4M14.6 7l3 4.4M20.6 5.4l3 4.4" stroke="#16181D" stroke-width="2.4"/></svg>Saltwater S2</b><span class="tr"><span class="appr">Approved by Sterling · 11:42 AM</span><button class="pbtn" id="print"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3M7 14h10v7H7z"/></svg>Print</button></span></div>
 
- <section class="hero">
+ <section class="hero a-hero">
   <div><small>Day 24 of 64 · Ep 204</small><h1>Thursday, November 19</h1><div class="sub">Pier Ten, Long Beach · Clear, 66° / 53° · Sunset 4:46 PM</div></div>
   <div class="calls"><div><span>Crew call</span><b>7:00a</b></div><div><span>Shooting</span><b>8:00a</b></div><div><span>Lunch</span><b>1:00p</b></div></div>
   <div class="mine"><div><span id="mineL">Your call · Camera</span><b id="mineT">6:30 AM</b></div><select id="dept" aria-label="Your department"></select></div>
  </section>
 
- <section class="card"><div class="ch">Where</div>
-  <a class="row" href="https://maps.google.com/?q=Long+Beach,+CA" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span class="tx"><b>Set: Pier Ten</b><span>Long Beach · tap for directions</span></span><span class="go">›</span></a>
+
+ <section class="card a-run"><div class="ch">Today’s run</div><div class="tl">
+  <div><b>5:30 AM</b><span>Transportation call · trucks to Pier Ten</span></div>
+  <div><b>6:00 AM</b><span>Electric pre-call · 2nd condor on site</span></div>
+  <div><b>6:30 AM</b><span>Walk-in breakfast, north lot · shuttle starts at Lot C</span></div>
+  <div class="hl"><b>7:00 AM</b><span>Crew call · safety meeting at basecamp</span></div>
+  <div><b>7:15 AM</b><span>Rehearse sc. 14 · first team to set</span></div>
+  <div class="hl"><b>8:00 AM</b><span>Shooting call</span></div>
+  <div class="hl"><b>1:00 PM</b><span>Lunch, 30 min · meal penalty after 1:00</span></div>
+  <div><b>2:00 PM</b><span>Night rig on the barge · fire safety walkthrough</span></div>
+  <div><b>4:46 PM</b><span>Sunset · night work from sc. 31</span></div>
+  <div><b>7:30 PM</b><span>Second meal</span></div>
+  <div><b>9:30 PM</b><span>Estimated wrap</span></div></div></section>
+ <section class="card a-wx"><div class="ch">Weather and tide</div>
+  <div class="wx"><div><span>7 AM</span><b>54°</b><i>Clear</i></div><div><span>1 PM</span><b>66°</b><i>Sunny</i></div><div><span>5 PM</span><b>61°</b><i>Clear</i></div><div><span>9 PM</span><b>55°</b><i>Clear</i></div></div>
+  <div class="kv"><span>Wind</span><b>W 8 to 12 mph, gusts 18 after 3 PM</b></div>
+  <div class="kv"><span>Tide</span><b>Low 9:48 AM · High 4:12 PM</b></div>
+  <div class="kv"><span>Sun</span><b>Rise 6:27 AM · Set 4:46 PM</b></div>
+  <div class="kv"><span>Rain</span><b>2%</b></div></section>
+ <section class="card a-where"><div class="ch">Where</div>
+  <a class="row" href="https://maps.google.com/?q=Long+Beach,+CA" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span class="tx"><b>Set: Pier Ten</b><span>Long Beach<span class="scr"> · tap for directions</span></span></span><span class="go">›</span></a>
   <a class="row" href="https://maps.google.com/?q=Long+Beach,+CA" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="11" rx="2"/><path d="M7 18v2M17 18v2M3 12h18"/></svg></span><span class="tx"><b>Crew parking: Lot C</b><span>Shuttle every 10 min from 6:30 AM</span></span><span class="go">›</span></a>
   <div class="map" aria-label="Map: Lot C, shuttle route to basecamp in the north lot, set at Pier Ten"><svg viewBox="0 0 600 220"><rect width="600" height="220" fill="#DDE9EE"/><path d="M0 150 Q150 130 300 150 T600 140 V220 H0z" fill="#9CC3D4"/><rect x="280" y="70" width="40" height="110" fill="#C9C2B2"/><rect x="40" y="40" width="120" height="70" rx="6" fill="#F4F2EC" stroke="#6B7280"/><rect x="380" y="40" width="130" height="60" rx="6" fill="#FBEFD9" stroke="#C9821F"/><path d="M160 75 C220 75 240 60 380 70" stroke="#2452C7" stroke-width="4" stroke-dasharray="10 8" fill="none"/><circle cx="300" cy="160" r="12" fill="#B03F0C"/><text x="100" y="80" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" fill="#16181D">Lot C</text><text x="445" y="76" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" fill="#7A4B06">Basecamp</text><text x="270" y="60" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="14" fill="#2452C7">shuttle</text><text x="335" y="200" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" fill="#16181D">Set</text></svg></div>
-  <a class="row" href="tel:+15625550190"><span class="ic" style="background:var(--warn-s);color:var(--warn)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span><span class="tx"><b>Nearest hospital: Harbor Medical Center</b><span>Emergency, open 24 hours · 2.1 mi, 7 min · tap to call</span></span><span class="go">›</span></a>
+  <a class="row" href="tel:+15625550190"><span class="ic" style="background:var(--warn-s);color:var(--warn)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span><span class="tx"><b>Nearest hospital: Harbor Medical Center</b><span>Emergency, open 24 hours · 2.1 mi, 7 min · <span class="scr">tap to call</span><span class="pn">(562) 555-0190</span></span></span><span class="go">›</span></a>
   <div class="note">Closed set. No visitors, no photos, nothing on social.</div>
  </section>
 
- <section class="card"><div class="ch">Scenes · 5 · 8 pages</div><div id="scenes"></div></section>
- <section class="card"><div class="ch">Cast</div><div id="cast"></div></section>
- <section class="card"><div class="ch">Departments · tap to see who</div><div id="depts"></div></section>
- <section class="card"><div class="ch">Key contacts</div><div id="keys"></div></section>
+ <section class="card a-scenes"><div class="ch">Scenes · 5 · 8 pages</div><div id="scenes"></div></section>
+ <section class="card a-cast"><div class="ch">Cast</div><div id="cast"></div></section>
+ <section class="card a-depts"><div class="ch">Departments<span class="scr"> · tap to see who</span></div><div id="depts"></div></section>
+
+ <section class="card a-meals"><div class="ch">Meals</div>
+  <div class="kv"><span>Breakfast · 6:30 AM</span><b>Walk-in, 100 crew and cast</b></div>
+  <div class="kv"><span>Lunch · 1:00 PM</span><b>164 · 86 crew, 14 cast, 60 BG, 4 guests</b></div>
+  <div class="kv"><span>Second meal · 7:30 PM</span><b>164</b></div>
+  <div class="kv"><span>Caterer</span><b>Lot & Ladle Catering</b></div></section>
+ <section class="card a-bg"><div class="ch">Background · 60</div>
+  <div class="kv"><span>Pier workers</span><b>40 · sc. 14, 15, 31</b></div>
+  <div class="kv"><span>Firefighters</span><b>12 · sc. 31, 32 · fitted Nov 17</b></div>
+  <div class="kv"><span>Onlookers</span><b>8 · sc. 31</b></div>
+  <div class="kv"><span>Report</span><b>10:00 AM, holding in the north lot</b></div>
+  <div class="kv"><span>Wardrobe check</span><b>10:15 AM · bring dark layers</b></div></section>
+ <section class="card a-equip"><div class="ch">Special equipment and vehicles</div>
+  <div class="kv"><span>Electric</span><b>2nd 80 ft condor · Coastline Grip & Lift · on site 6:00 AM</b></div>
+  <div class="kv"><span>SPFX</span><b>Fire barge with tender · 2 fire safety officers</b></div>
+  <div class="kv"><span>Marine</span><b>Safety boat with 2 divers, sc. 31 and 32</b></div>
+  <div class="kv"><span>Picture car</span><b>The buyer’s truck · on the pier by 9:00 AM</b></div>
+  <div class="kv"><span>Camera</span><b>2 bodies · Technocrane for sc. 31</b></div></section>
+ <section class="card a-notes"><div class="ch">Department notes</div>
+  <div class="kv"><span>Production</span><b>Two extra set PAs for the pier. Sc. 32 pulled forward from Day 25.</b></div>
+  <div class="kv"><span>Grip</span><b>Sandbags along the pier edge before 7 AM</b></div>
+  <div class="kv"><span>Electric</span><b>Night rig on the barge after lunch</b></div>
+  <div class="kv"><span>Props</span><b>The ledger, sc. 22pt · Marisol’s sale sign, sc. 14</b></div>
+  <div class="kv"><span>Wardrobe</span><b>Ren in the work jacket, continuity from 13 · wet doubles for 32</b></div>
+  <div class="kv"><span>Makeup & Hair</span><b>Soot and burns for Ren and Abby, sc. 31 and 32</b></div>
+  <div class="kv"><span>Locations</span><b>Police coverage after 10 PM · pier gate opens 5:30 AM</b></div>
+  <div class="kv"><span>Stunts</span><b>Double for Ren on standby, sc. 32</b></div></section>
+ <section class="card a-safety"><div class="ch">Safety</div>
+  <div class="note" style="margin-top:4px">Life vests for anyone within 6 ft of the pier edge after dark.</div>
+  <div class="kv"><span>Bulletins in effect</span><b>Working near water · open flame · night work · aerial lifts</b></div>
+  <div class="kv"><span>Fire safety</span><b>Walkthrough at 2:00 PM, everyone on the barge</b></div>
+  <div class="kv"><span>Radio</span><b>1 Production · 2 Short chat · 3 Grip · 4 Electric · 6 Camera · 7 SPFX · 8 Shuttles</b></div>
+  <div class="kv"><span>Set medic</span><b>Basecamp, next to the honeywagon</b></div></section>
+ <section class="card a-adv"><div class="ch">Advance schedule · Day 25 · Friday, Nov 20</div>
+  <div class="kv"><span>Crew call</span><b>About 7:00 AM · Stage 4, Burbank</b></div>
+  <div class="kv"><span>Sc. 40</span><b>INT. MARISOL’S KITCHEN, NIGHT · Marisol reads the letter · cast 3, 7 · 3/8</b></div>
+  <div class="kv"><span>Sc. 41</span><b>INT. MARISOL’S KITCHEN, NIGHT · Teo comes home · cast 3, 7 · 1 1/8</b></div>
+  <div class="kv"><span>Sc. 44</span><b>INT. BOATHOUSE, DAY · Ren hides the ledger · cast 1 · 5/8</b></div></section>
+ <section class="card a-keys"><div class="ch">Key contacts</div><div id="keys"></div></section>
  <p class="foot">Sample call sheet. Every name and number here is made up.</p>
 </div>
 <div class="bar"><div><button class="late" id="late">Running late</button><button class="confirm" id="conf">Confirm I’ll be there</button></div></div>
@@ -111,7 +233,8 @@ const SC=[['14','EXT. PIER TEN, DAY','Ren talks Marisol out of selling the boat'
  ['31','EXT. PIER TEN, NIGHT','The fire on the water','1, 2, 3, 6','2 1/8','#7FBF8A','SPFX: controlled fire on the barge. Fire safety officer on set. 60 background.'],
  ['32','EXT. PIER TEN, NIGHT','Abby pulls Ren out','1, 2','1 2/8','#7FBF8A','Pulled forward from Day 25. Stunt double for Ren on standby.']];
 const CAST=[['1','Ren','Jamie Cole','5:45 AM','6:00 AM','7:15 AM'],['2','Abby','Rae Monroe','2:30 PM','3:00 PM','4:30 PM'],['3','Marisol','Lena Ortiz','6:15 AM','6:30 AM','7:45 AM'],['6','The buyer','Paul Hart','8:30 AM','9:00 AM','10:30 AM']];
-const D=[['Production','6:30 AM',[['Dolav','Production manager','5550141'],['Dana Whitfield','1st AD','5550160'],['Kai Moreno','Key set PA','5550162']]],
+const D=[['Production','6:30 AM',[['Dolav','Production manager','5550141'],['Jess Tran','Production coordinator','5550143'],['Dana Whitfield','1st AD','5550160'],['Kai Moreno','Key set PA','5550162']]],
+ ['Locations','6:00 AM',[['Ana Ruiz','Location manager','5550170']]],
  ['Camera','6:30 AM',[['Hector Ruiz','1st AC','5550111'],['Nina Park','Camera operator','5550112']]],
  ['Electric','6:00 AM',[['Owen Blake','Gaffer','5550121'],['Tasha Greene','Best boy','5550122']]],
  ['Grip','6:30 AM',[['Luis Ortega','Key grip','5550131']]],
@@ -122,16 +245,23 @@ const D=[['Production','6:30 AM',[['Dolav','Production manager','5550141'],['Dan
  ['Background','10:00 AM',[['Holding, north lot','Check in with Kai','5550162']]]];
 const KEY=[['Dolav','Production manager','5550141','dolav'],['Dana Whitfield','1st AD','5550160','dana'],['Jess Tran','Production coordinator','5550143','jess'],['Ana Ruiz','Location manager','5550170','ana'],['Andre Simmons','Transportation captain','5550150','andre']];
 const tel=n=>'+1323'+n;
-const acts=(n,name,mail)=>`<span class="acts"><a href="sms:${tel(n)}" aria-label="Text ${name}">${I.text}</a><a href="tel:${tel(n)}" aria-label="Call ${name}">${I.call}</a>${mail?`<a href="mailto:${mail}@saltwater.example" aria-label="Email ${name}">${I.mail}</a>`:''}</span>`;
+const fmtn=n=>'(323) '+n.slice(0,3)+'-'+n.slice(3);
+const em=name=>/[a-z]/i.test(name)&&!/lot/i.test(name)?name.toLowerCase().replace(/[^a-z ]/g,'').trim().split(/\s+/).join('.')+'@saltwater.example':'';
+const acts=(n,name)=>{const m=em(name);return `<span class="pn">${fmtn(n)}${m?`<br>${m}`:''}</span><span class="acts"><a href="sms:${tel(n)}" aria-label="Text ${name}">${I.text}</a><a href="tel:${tel(n)}" aria-label="Call ${name}">${I.call}</a>${m?`<a href="mailto:${m}" aria-label="Email ${name}">${I.mail}</a>`:''}</span>`;};
 $('scenes').innerHTML=SC.map(s=>`<details class="sc"><summary><span class="strip" style="background:${s[5]}"></span><span class="num">${s[0]}</span><span class="tx"><b>${s[1]}</b><span>${s[2]}</span></span><span class="pg">${s[4]}</span></summary><div class="more"><span><b>Cast</b> ${s[3]}</span><span>${s[6]}</span></div></details>`).join('');
 $('cast').innerHTML=`<div class="row" style="font-size:12.5px;color:var(--mute);font-weight:600"><span style="width:24px">#</span><span style="flex:1">Role</span><span style="width:70px">Pickup</span><span style="width:70px">HMU</span><span style="width:70px">Set</span></div>`+CAST.map(c=>`<div class="row" style="font-size:14px"><span style="width:24px;font-family:var(--m)">${c[0]}</span><span style="flex:1;min-width:0"><b style="display:block">${c[1]}</b><span style="color:var(--mute);font-size:13px">${c[2]}</span></span><span style="width:70px">${c[3]}</span><span style="width:70px">${c[4]}</span><span style="width:70px">${c[5]}</span></div>`).join('');
 $('depts').innerHTML=D.map(d=>`<details class="dept"><summary>${d[0]}<span>${d[1]}</span></summary>${d[2].map(p=>`<div class="row"><span class="tx"><b>${p[0]}</b><span>${p[1]}</span></span>${acts(p[2],p[0])}</div>`).join('')}</details>`).join('');
-$('keys').innerHTML=KEY.map(k=>`<div class="row"><span class="tx"><b>${k[0]}</b><span>${k[1]}</span></span>${acts(k[2],k[0],k[3])}</div>`).join('');
+$('keys').innerHTML=KEY.map(k=>`<div class="row"><span class="tx"><b>${k[0]}</b><span>${k[1]}</span></span>${acts(k[2],k[0])}</div>`).join('');
 $('dept').innerHTML=D.map((d,i)=>`<option value="${i}" ${d[0]==='Camera'?'selected':''}>${d[0]}</option>`).join('');
 const q=new URLSearchParams(location.search).get('me');if(q){const i=D.findIndex(d=>d[0].toLowerCase().startsWith(q.toLowerCase()));if(i>=0)$('dept').value=i;}
 function mine(){const d=D[+$('dept').value];$('mineL').textContent='Your call · '+d[0];$('mineT').textContent=d[1];}
 $('dept').addEventListener('change',mine);mine();
 const toast=t=>{const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),2400);};
+let openBefore=[];
+function prep(){openBefore=[...document.querySelectorAll('details')].map(d=>d.open);document.querySelectorAll('details').forEach(d=>d.open=true);}
+function unprep(){document.querySelectorAll('details').forEach((d,i)=>d.open=!!openBefore[i]);}
+window.addEventListener('beforeprint',prep);window.addEventListener('afterprint',unprep);
+$('print').onclick=()=>{prep();window.print();};
 $('conf').onclick=()=>{$('conf').classList.add('done');$('conf').textContent='Confirmed ✓';toast('Dolav sees you’re confirmed.');};
 $('late').onclick=()=>toast('Tell Dolav how late: text the Saltwater number, (323) 555-0182.');
 })();
