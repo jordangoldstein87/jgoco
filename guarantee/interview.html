@@ -138,7 +138,7 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
   <div class="nda-body" id="ndab"></div>
 </div></div>
 
-<script src="logos.js?v=1795026681"></script>
+<script src="logos.js?v=1795026928"></script>
 <script>(function(){ let k = "stack"; try { k = localStorage.getItem("gd-logo") || "stack"; } catch (e) {}
   const L = GD_LOGOS[k] || GD_LOGOS.stack, c = L.colors;
   document.getElementById("gdLogo").innerHTML = L.lockup({ ...c, ink: "#ffffff", core: c.ink }, "iv").replace("<svg ", '<svg style="height:100%;width:auto" ');
@@ -148,7 +148,7 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
   // Three calls: hello, start, summary. The link token picks Amos's agent
   // (Mason, with the Guarantee Drywall questions); without a token the page offers the written questionnaire.
   const SCRIPT = "https://script.google.com/macros/s/AKfycbyR6DNkxGjEpLr56VBQMB_9HDKmVgr3YnFGhqguR9_KTmnniUDI3KuyMF65BJBMWxmG/exec";
-  const K = ""; // the link Jordan makes in the sheet carries ?k=
+  const K = "fe2f6eaf4aba4aacbdc9f30d548d6b5fe82299d9"; // Amos (Clients row 12); a ?k= on the link wins
   const k = new URLSearchParams(location.search).get("k") || K;
   const $ = (id) => document.getElementById(id);
   const go = $("go"), stop = $("stop"), face = $("face"), title = $("title"), say = $("say"), summary = $("summary");
