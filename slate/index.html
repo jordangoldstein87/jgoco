@@ -418,6 +418,13 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
 .cd .st.w{color:var(--over);border-color:rgba(255,155,99,.4)}
 .cd .st.d{color:var(--ok);border-color:rgba(98,212,155,.4)}
 @media (max-width:900px){.ct{grid-template-columns:1fr}.cd{grid-template-columns:40px 1fr}.cd .st{grid-column:2;justify-self:start}}
+.calsync{margin-top:28px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;background:var(--bg3);border:1px solid rgba(233,169,74,.45);border-radius:16px;padding:18px 22px}
+.cs-ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--amber-d);color:var(--amber-tx)}
+.calsync b{font-family:var(--display);font-size:20px;display:block;margin-bottom:4px}
+.calsync p{color:var(--soft);font-size:15.5px}
+.cs-logos{display:flex;gap:8px;flex-wrap:wrap}
+.cs-logos span{padding:7px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);font-weight:600;font-size:14px;white-space:nowrap}
+@media (max-width:900px){.calsync{grid-template-columns:1fr}}
 .stepper{margin-top:22px}
 
 .st-body{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:28px;align-items:center}
@@ -530,6 +537,7 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
   <div class="kick">Calendars</div>
   <h2>Every show on one calendar. <em>Every person’s week.</em></h2>
   <p class="lead">Shoot days, prep, post, dark days and network deadlines across the whole slate, with shows turned on and off. Or one person’s week: shoot days, meetings, deliveries and due dates, most of it added from mail and calls.</p>
+  <div class="calsync"><div class="cs-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></div><div><b>Synced with the calendar you already use.</b><p>Google Calendar or Outlook. Approved shoot days, deliveries, fittings and scouts show up in everyone’s own calendar on their phone, and meetings they book there show up on the show. No second calendar to keep.</p></div><div class="cs-logos"><span>Google Calendar</span><span>Outlook</span></div></div>
   <a class="screen" href="demo/#calendars"><img src="img/shots/month.jpg" alt="December calendar with all four sample shows" loading="lazy"></a>
   <a class="screen" style="margin-top:20px" href="demo/#calendars"><img src="img/shots/week.jpg" alt="Dolav's week with shoot days, meetings, deliveries and deadlines" loading="lazy"></a>
 </div></section>
@@ -674,7 +682,7 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
   <h2>Connect once. <em>It files everything after.</em></h2>
   <p class="lead">The line producer and each PM connect their own email. Anyone else at the company can too, along with Slack or Teams, their calendar, and Google Meet, so call notes come in ready to add to a show. It reads what arrives, works out which show it belongs to, and suggests what to do with it. Setting it up is the big lift. After that it learns from how your people work.</p>
   <div class="pipe"><div class="pp"><i>01</i><b>Connect</b><span>Email, Slack or Teams, calendar, Meet, and each show’s number.</span></div><div class="pp"><i>02</i><b>Read</b><span>New mail, attachments, texts and call notes as they arrive.</span></div><div class="pp"><i>03</i><b>Match</b><span>Which show: by sender, vendor, show code or subject.</span></div><div class="pp"><i>04</i><b>Suggest</b><span>Dates, costs, bookings, tracking numbers and deal changes.</span></div><div class="pp"><i>05</i><b>Approve</b><span>Only then does it reach the calendar, budget or crew.</span></div></div>
-  <div class="logos"><span>Gmail</span><span>Outlook</span><span>Slack</span><span>Microsoft Teams</span><span>Google Meet</span><span>Google Calendar</span><span>Text messages</span><span>ChatGPT</span><span>Claude</span><span>Excel and Google Sheets</span><span>Your accounting exports</span></div>
+  <div class="logos"><span>Gmail</span><span>Outlook</span><span>Slack</span><span>Microsoft Teams</span><span>Google Meet</span><span>Google Calendar</span><span>Outlook Calendar</span><span>Text messages</span><span>ChatGPT</span><span>Claude</span><span>Excel and Google Sheets</span><span>Your accounting exports</span></div>
   <a class="screen" href="demo/#connect"><img src="img/shots/connect.jpg" alt="Connections: the five steps, one email from start to finish, Meet notes and what it has learned" loading="lazy"></a>
 </div></section>
 
