@@ -404,6 +404,20 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
 @media (max-width:560px){.bs-res{grid-template-columns:1fr}}
 .scout{background:radial-gradient(80% 60% at 85% 0%,rgba(233,169,74,.16),transparent 70%),var(--bg2);border-top:1px solid rgba(233,169,74,.35);border-bottom:1px solid rgba(233,169,74,.35)}
 .scout .bsearch{border-color:rgba(233,169,74,.45);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.ct{display:grid;grid-template-columns:300px minmax(0,1fr);gap:22px;margin-top:22px;align-items:start}
+.ct-dest h3{font-size:20px;margin-bottom:12px}
+.cd{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:var(--bg3);margin-bottom:10px;transition:opacity .3s,border-color .3s,transform .3s}
+.cd.off{opacity:.38}
+.cd.on{border-color:rgba(233,169,74,.6);transform:translateX(4px)}
+.cd .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--bg2);color:var(--amber-tx)}
+.cd.on .ico{background:var(--amber-d)}
+.cd .ico svg{width:22px;height:22px}
+.cd b{display:block;font-size:15.5px}
+.cd span{color:var(--soft);font-size:14px}
+.cd .st{font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:99px;white-space:nowrap;background:var(--bg2);border:1px solid var(--line);color:var(--mute)}
+.cd .st.w{color:var(--over);border-color:rgba(255,155,99,.4)}
+.cd .st.d{color:var(--ok);border-color:rgba(98,212,155,.4)}
+@media (max-width:900px){.ct{grid-template-columns:1fr}.cd{grid-template-columns:40px 1fr}.cd .st{grid-column:2;justify-self:start}}
 .stepper{margin-top:22px}
 
 .st-body{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:28px;align-items:center}
@@ -628,6 +642,19 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
     <div class="phone"><div class="ph"><div class="ph-h"><b>Saltwater</b><small>(323) 555-0182</small></div><div class="msgs" id="aiSms"></div></div></div>
     <div class="pane"><div class="pane-h"><b>ChatGPT</b><span class="pill-ok">The Slate connected</span></div><div class="pane-m" id="aiGpt"></div></div>
     <div class="pane"><div class="pane-h"><b># saltwater-crew</b><span style="color:var(--mute);font-size:13px">38 people</span></div><div class="pane-m gm" id="aiGrp"></div></div>
+  </div>
+</div></section>
+
+<!-- ========== CREW TEXTS ========== -->
+<section class="scout" id="crewtext"><div class="w">
+  <div class="kick">Anyone on the crew can text it</div>
+  <h2>One text from set. <em>Everywhere it needs to be.</em></h2>
+  <p class="lead">Crew text the show’s number like they’d text the PM. The assistant answers them, then puts what they said where it belongs: the calendar, the call sheet, Sterling’s notes, the budget. Anything that changes the plan or costs money waits for the right person’s OK.</p>
+  <div class="try"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 3v10.5l-2-2a1.6 1.6 0 0 0-2.3 2.3L9.5 19A5 5 0 0 0 13 20.5h1.5A4.5 4.5 0 0 0 19 16v-4.5a1.5 1.5 0 0 0-3 0V11a1.5 1.5 0 0 0-3 0v-.5a1.5 1.5 0 0 0-3 0V3a1.5 1.5 0 0 0-3 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Try it · pick a text from the crew</div>
+  <div class="chips" id="ctChips"></div>
+  <div class="ct">
+    <div class="phone"><div class="ph"><div class="ph-h"><b>Saltwater</b><small>(323) 555-0182</small></div><div class="msgs" id="ctMsgs"></div></div></div>
+    <div class="ct-dest"><h3>Where it went</h3><div id="ctDest"></div></div>
   </div>
 </div></section>
 
@@ -954,6 +981,28 @@ $('bsGo').onclick=()=>{bsState=1;for(const k in bsDone)delete bsDone[k];bsRender
 $('bsRes').addEventListener('click',e=>{const b=e.target.closest('[data-bs]');if(b){bsDone[b.dataset.bs]=b.dataset.a;bsRender();}});
 if(new URLSearchParams(location.search).has('bs'))bsState=2;
 bsRender();
+
+/* ---------- crew texts ---------- */
+const CTI={cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',sheet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h4"/></svg>',notes:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>',money:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M16.5 7.5c0-1.7-2-3-4.5-3s-4.5 1.3-4.5 3 2 2.6 4.5 3 4.5 1.3 4.5 3-2 3-4.5 3-4.5-1.3-4.5-3"/></svg>',crew:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg>'};
+const CT=[
+ {who:'Hector Ruiz',role:'1st AC',msg:'B cam body is acting up. Bayline can swap it Thursday 6:30 AM at Pier Ten, no charge.',rep:'Got it, Hector. The swap is on Thursday’s calendar for Dolav to approve, and on the call sheet under Camera.',
+  d:{cal:['Bayline camera swap','Thu Nov 19, 6:30 AM · Pier Ten','w','Waiting on Dolav'],sheet:['Camera note, Day 24','B body swap at 6:30 AM, before crew call','w','With the calendar'],notes:['Sterling’s notes','Camera: B body swap Thursday, no charge','d','Added'],money:['Budget','No cost. Nothing to approve','','No change']}},
+ {who:'Owen Blake',role:'Gaffer',msg:'We need the generator 2 extra hours tonight for the barge. About $600.',rep:'Thanks, Owen. I sent the $600 to Sterling to approve and noted it for tomorrow’s hot costs.',
+  d:{money:['Approval for Sterling','Generator, 2 extra hours · $600 · 3200 Electric','w','Waiting on Sterling'],notes:['Sterling’s notes','Electric: generator overtime tonight, $600','d','Added'],sheet:['Hot costs, Day 23','Generator overtime, +$600','d','On tomorrow’s report'],cal:['Calendar','Nothing to add','','No change']}},
+ {who:'Mia Chen',role:'Costume designer',msg:'Maya lands early. Can her fitting move to Wednesday at 11?',rep:'Moved it for Dolav to confirm: Wednesday 11 AM, Stage 4 wardrobe. Maya’s schedule updates once it’s approved.',
+  d:{cal:['Fitting moved','Wed Nov 25, 11 AM · was Tue 2 PM','w','Waiting on Dolav'],crew:['Maya Hollis’s schedule','Fitting updated, sent to her when approved','w','With the calendar'],notes:['Sterling’s notes','Wardrobe: Maya’s fitting moves to Wednesday','d','Added'],money:['Budget','No cost','','No change']}},
+ {who:'Kai Moreno',role:'Key set PA',msg:'Out sick tomorrow, sorry. Leo can cover key PA.',rep:'Feel better, Kai. I asked Dolav to swap Leo in on tomorrow’s call sheet and let Leo know once it’s approved.',
+  d:{sheet:['Call sheet, Day 24','Leo Grant in as key PA for Kai','w','Waiting on Dolav'],crew:['Crew list','Kai out Thursday · Leo covering','w','With the call sheet'],notes:['Sterling’s notes','Production: Kai out sick Thursday, Leo covering','d','Added'],cal:['Calendar','Nothing to add','','No change']}}];
+const CTD=[['cal','Calendar'],['sheet','Call sheet'],['crew','Crew and schedules'],['notes','Sterling’s notes'],['money','Budget and approvals']];
+let ct=0,ctT=null;
+function ctShow(i){ct=i;const c=CT[i];
+ $('ctChips').innerHTML=CT.map((x,j)=>`<button class="chip ${j===i?'on':''}" data-ct="${j}"><b>${x.who}</b>, ${x.role}</button>`).join('');
+ $('ctMsgs').innerHTML=`<div class="bub me"><small style="color:#DCE4FF">${c.who}</small>${c.msg}</div><div class="bub them">…</div>`;
+ $('ctDest').innerHTML=CTD.map(([k,l])=>{const d=c.d[k];return `<div class="cd off" data-k="${k}"><span class="ico">${CTI[k]}</span><span><b>${d?d[0]:l}</b><span>${d?d[1]:'Nothing to add'}</span></span><span class="st ${d?d[2]:''}">${d?d[3]:'No change'}</span></div>`;}).join('');
+ clearTimeout(ctT);ctT=setTimeout(()=>{$('ctMsgs').lastElementChild.textContent=c.rep;
+  [...document.querySelectorAll('#ctDest .cd')].forEach((el,j)=>{const d=c.d[el.dataset.k];if(d&&d[2])setTimeout(()=>{el.classList.remove('off');el.classList.add('on');},250*j);});},700);}
+$('ctChips').addEventListener('click',e=>{const b=e.target.closest('[data-ct]');if(b)ctShow(+b.dataset.ct);});
+ctShow(0);
 /* ---------- assistant ---------- */
 const ASK=[
  {q:'How’s Saltwater tracking?',who:'Sterling',a:'Day 23 of 64. $12.2M spent and $4.17M committed. Estimated final is $26.5M, $234K over against the $26.3M budget (0.9%). Biggest movers: Cast, $148K over, and Locations, $64K over.',g:[['Sterling','@Slate how’s Saltwater tracking?']]},
