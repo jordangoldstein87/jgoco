@@ -245,6 +245,19 @@ footer{padding-block:40px 60px;color:var(--mute);font-size:14px;border-top:1px s
 .v-gpt .hd span{font-size:1.1cqw;color:#62D49B}
 .v-grp{display:flex;flex-direction:column;gap:1cqw;width:56cqw}
 .v-grp .bub{font-size:1.45cqw;max-width:80%}
+.vs{width:88%;display:flex;flex-direction:column;gap:1.8cqw}
+.vs-q{background:#F4F5F7;color:#14161B;border-radius:1.2cqw;padding:1.4cqw 1.8cqw;font-size:1.7cqw;box-shadow:0 2cqw 6cqw rgba(0,0,0,.5)}
+.vs-q span{font-family:var(--mono);font-size:1.1cqw;color:#7A4B06;margin-right:1cqw;text-transform:uppercase}
+.vs-sites{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2cqw}
+.vs-sites div{background:#171A20;border:1px solid #2A2E36;border-radius:1cqw;padding:1.1cqw 1.3cqw;color:#ECEEF2}
+.vs-sites b{display:block;font-size:1.5cqw}
+.vs-sites i{font-style:normal;font-size:1.2cqw;color:#62D49B;opacity:0}
+.sc.on .vs-sites i{animation:fadein .4s ease-out both;animation-delay:calc(var(--d) * 1s)}
+.vs-res{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4cqw}
+.vs-res div{background:#171A20;border:1px solid #2A2E36;border-radius:1.2cqw;overflow:hidden;color:#ECEEF2}
+.vs-res span{display:block;height:5.5cqw}
+.vs-res b{display:block;font-size:1.6cqw;padding:1cqw 1.3cqw 0}
+.vs-res small{display:block;font-size:1.15cqw;color:#9AA2AF;padding:.3cqw 1.3cqw 1.2cqw}
 .cbar{position:absolute;left:0;bottom:0;height:100%;background:#1E7448}
 .phoneshot{display:block;justify-self:center;width:min(360px,100%);border-radius:40px;padding:10px;background:#05060A;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.45)}
 .phoneshot img{display:block;width:100%;border-radius:30px}
@@ -751,6 +764,11 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
    <div class="bub them a" style="--d:2.6"><small>Owen Blake</small>Coastline says the 2nd condor lands 6 AM Thursday</div>
    <div class="bub them bot a" style="--d:3.6"><small>Slate</small>Added for Dolav to approve: condor delivery, Thu 6:00 AM.</div></div></div>
   <div class="sc" data-k="crew"><div style="width:90%;display:grid;grid-template-columns:1fr 1fr;gap:2.4cqw;align-items:center"><div class="shot z" style="transform:rotate(-1.5deg)"><img src="img/shots/crew.jpg" alt=""></div><div class="shot z" style="--d:.7"><img src="img/shots/locations.jpg" alt=""></div></div></div>
+  <div class="sc" data-k="scout"><div class="vs">
+   <div class="vs-q a"><span>Find</span>A desert motel for the pilot, 16+ rooms, power on site, under $5K a day, within 2.5 hours of Burbank</div>
+   <div class="vs-sites"><div class="p" style="--d:1.2"><b>Peerspace</b><i style="--d:3.4">2 match</i></div><div class="p" style="--d:1.5"><b>Giggster</b><i style="--d:3.8">1 match</i></div><div class="p" style="--d:1.8"><b>Film libraries</b><i style="--d:4.2">1 match</i></div><div class="p" style="--d:2.1"><b>Google Maps</b><i style="--d:4.6">Drive times</i></div></div>
+   <div class="vs-res"><div class="z" style="--d:5"><span style="background:linear-gradient(135deg,#B07A4F,#0F1115)"></span><b>High Desert Ranch House</b><small>Peerspace · 2 hr 15 min · 200A power</small></div><div class="z" style="--d:5.5"><span style="background:linear-gradient(135deg,#7B61C9,#0F1115)"></span><b>Starlite Court</b><small>Giggster · 18 rooms · 2 hr 5 min</small></div><div class="z" style="--d:6"><span style="background:linear-gradient(135deg,#2E8F9C,#0F1115)"></span><b>Old Route Motel</b><small>County film library · 22 rooms</small></div></div>
+  </div></div>
   <div class="sc" data-k="end"><div style="text-align:center"><svg class="p" viewBox="0 0 32 32" width="90" height="90" aria-hidden="true" style="margin-bottom:2cqw"><rect x="3" y="12.5" width="26" height="15.5" rx="2" fill="#E9A94A"/><path d="M3.2 10 27.4 3.4l1.2 4.4L4.4 14.4z" fill="#EEF0F3"/><path d="M8.6 8.6l3 4.4M14.6 7l3 4.4M20.6 5.4l3 4.4" stroke="#0A0B0E" stroke-width="2.4"/></svg><div class="big a" style="--d:.4">Less paperwork.<br><em>More production.</em></div></div></div>
   <div class="vcap" id="vcap"></div><div class="vbar" id="vbar"></div>
   <button class="vskip" id="vskip">Skip</button><button class="vx" id="vx" aria-label="Close video">×</button>
@@ -763,8 +781,8 @@ if(!/^[a-f0-9]{20,64}$/i.test(k))return;document.querySelectorAll('a[href^="inte
 (function(){
 const $=id=>document.getElementById(id);
 /* ---------- opening video ---------- */
-const NARR={"open":"Your company runs four shows on three networks. One line producer. A production manager on every show. And a mountain of paperwork.","today":"Today it lives in spreadsheets, inboxes and text threads. A budget here, hot costs there, receipts in envelopes, and a new call sheet every night.","one":"The Slate puts all of it in one place, built around how you already work. Every show gets its own dashboard.","budget":"Build the budget the way you do now. Your accounts, your fringes, your formulas. Add two shoot days, and the whole budget moves with it.","auto":"Then the money fills itself in. An invoice lands in someone's inbox. A receipt gets texted from set. Each one finds the right line, and waits for your OK.","callsheet":"Production managers get call sheets that build themselves. Send it out, and watch the crew confirm.","mail":"Emails turn into dates. Deliveries, tracking numbers, hotel check-ins. On the show's calendar, once you approve them.","assistant":"Every show gets its own number. Text it, or ask the same question in ChatGPT. Same assistant.","group":"Add it to the show's group chat. It answers there, and keeps track of what everyone said.","crew":"Every crew member and every location you've ever used, one search away.","end":"Less paperwork. More production. Scroll down and take a look."};
-const LEN={"open":8.31,"today":9.43,"one":6.92,"budget":7.55,"auto":10.06,"callsheet":5.2,"mail":7.42,"assistant":6.5,"group":5.09,"crew":4.26,"end":3.37};
+const NARR={"open":"Your company runs four shows on three networks. One line producer. A production manager on every show. And a mountain of paperwork.","today":"Today it lives in spreadsheets, inboxes and text threads. A budget here, hot costs there, receipts in envelopes, and a new call sheet every night.","one":"The Slate puts all of it in one place, built around how you already work. Every show gets its own dashboard.","budget":"Build the budget the way you do now. Your accounts, your fringes, your formulas. Add two shoot days, and the whole budget moves with it.","auto":"Then the money fills itself in. An invoice lands in someone's inbox. A receipt gets texted from set. Each one finds the right line, and waits for your OK.","callsheet":"Production managers get call sheets that build themselves. Send it out, and watch the crew confirm.","mail":"Emails turn into dates. Deliveries, tracking numbers, hotel check-ins. On the show's calendar, once you approve them.","assistant":"Every show gets its own number. Text it, or ask the same question in ChatGPT. Same assistant.","group":"Add it to the show's group chat. It answers there, and keeps track of what everyone said.","crew":"Every crew member and every location you've ever used, one search away.","scout":"Need a location? Just describe it. The assistant searches the rental sites and film libraries in your browser while you keep working, and brings back the best matches.","end":"Less paperwork. More production. Scroll down and take a look."};
+const LEN={"open":8.31,"today":9.43,"one":6.92,"budget":7.55,"auto":10.06,"callsheet":5.2,"mail":7.42,"assistant":6.5,"group":5.09,"crew":4.26,"scout":9.74,"end":3.37};
 const KEYS=Object.keys(NARR);const SC=[...document.querySelectorAll('.sc')];
 const HOLD={},START={};let TOTAL=0;
 KEYS.forEach(k=>{HOLD[k]=Math.max(LEN[k]+0.9,k==='auto'?8.5:k==='budget'?7:4.5);START[k]=TOTAL;TOTAL+=HOLD[k];});
