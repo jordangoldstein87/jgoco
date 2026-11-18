@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Tell Us How It Runs · The Slate</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one column of short questions, then uploads, then send. Dark, matching the walkthrough. */
+:root{--bg:#0F1115;--bg2:#15181E;--bg3:#1C2027;--ink:#EEF0F3;--soft:#BAC1CC;--mute:#8C95A3;--line:#2B3039;--amber:#E9A94A;--amber-d:#3A2B12;--amber-tx:#F3C77F;--ok:#62D49B;--err:#FF9B63;
+ --display:'Archivo','Helvetica Neue',Arial,sans-serif;--text:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--text);-webkit-font-smoothing:antialiased}
+.w{max-width:760px;margin:0 auto;padding:calc(36px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) 80px max(20px,env(safe-area-inset-left,0px))}
+.brand{display:flex;align-items:center;gap:10px;font:800 20px var(--display);text-decoration:none;color:inherit}
+h1{font:900 clamp(36px,7vw,56px)/1.02 var(--display);margin:30px 0 14px;letter-spacing:-.015em}
+h1 em{font-style:normal;color:var(--amber)}
+.lead{color:var(--soft);font-size:18px;margin:0 0 30px}
+fieldset{border:1px solid var(--line);border-radius:16px;padding:22px;margin:0 0 18px;background:var(--bg2)}
+legend{font:800 13px var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--amber-tx);padding:0 8px}
+label.q{display:grid;gap:7px;margin-bottom:18px;font-weight:600;font-size:16px}
+label.q:last-child{margin-bottom:0}
+label.q span{font-weight:400;color:var(--mute);font-size:14.5px}
+input[type=text],input[type=email],input[type=tel],input[type=number],textarea,select{font:400 16px var(--text);color:var(--ink);background:var(--bg3);border:1px solid var(--line);border-radius:11px;padding:11px 13px;width:100%}
+textarea{min-height:96px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--amber);outline-offset:1px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.checks label{display:flex;align-items:center;gap:8px;padding:8px 13px;border-radius:99px;border:1px solid var(--line);background:var(--bg3);font-size:15px;cursor:pointer}
+.checks input{accent-color:var(--amber)}
+.checks label:has(input:checked){border-color:var(--amber);background:var(--amber-d)}
+.qh{font-weight:600;font-size:16px;margin-bottom:8px}
+.drop{border:2px dashed var(--line);border-radius:14px;padding:26px;text-align:center;color:var(--soft);cursor:pointer;display:block}
+.drop.over{border-color:var(--amber);background:var(--amber-d)}
+.drop b{display:block;color:var(--ink);font-size:17px;margin-bottom:4px}
+.files{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.files li{display:flex;align-items:center;gap:10px;justify-content:space-between;background:var(--bg3);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:15px}
+.files li span{color:var(--mute);font-size:13.5px;white-space:nowrap}
+.files li.ok span{color:var(--ok)}.files li.bad span{color:var(--err)}
+.files button{background:none;border:0;color:var(--mute);font-size:20px;cursor:pointer;padding:0 4px}
+.note{font-size:14.5px;color:var(--mute);margin-top:12px}
+.send{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:26px}
+.go{border:0;border-radius:99px;background:var(--amber);color:#21160A;font:700 17px var(--text);padding:15px 30px;cursor:pointer}
+.go:disabled{opacity:.5;cursor:default}
+.msg{font-size:15.5px;color:var(--soft)}
+.msg.err{color:var(--err)}
+.done{display:none;text-align:center;padding:40px 0}
+.done.on{display:block}
+.done .tick{width:72px;height:72px;border-radius:50%;background:var(--amber);color:#21160A;display:grid;place-items:center;font-size:34px;margin:0 auto 18px}
+.alt{margin-top:30px;text-align:center;color:var(--mute)}
+.alt a{color:var(--amber-tx);font-weight:600}
+.hp{position:absolute;left:-9999px}
+@media (max-width:560px){.two{grid-template-columns:1fr}fieldset{padding:18px}}
+</style>
+</head>
+<body>
+<div class="w">
+<a class="brand" href="index.html"><svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect x="3" y="12.5" width="26" height="15.5" rx="2" fill="#E9A94A"/><path d="M3.2 10 27.4 3.4l1.2 4.4L4.4 14.4z" fill="#EEF0F3"/><path d="M8.6 8.6l3 4.4M14.6 7l3 4.4M20.6 5.4l3 4.4" stroke="#0F1115" stroke-width="2.4"/></svg>The Slate</a>
+<form id="f" novalidate>
+<h1>Tell us how <em>your office runs.</em></h1>
+<p class="lead">About 10 minutes. Answer what you can, skip the rest, and drop in a few of your spreadsheets if you’d like us to build from the real thing. Jordan reads every answer.</p>
+
+<fieldset><legend>You</legend>
+ <div class="two"><label class="q">Your name<input type="text" name="name" autocomplete="name" required></label><label class="q">Email<input type="email" name="email" autocomplete="email" required></label></div>
+ <div class="two"><label class="q">Phone <span>Optional</span><input type="tel" name="phone" autocomplete="tel"></label><label class="q">Your role<input type="text" name="role" value="Line producer"></label></div>
+ <label class="q">Company <span>Optional. Leave it out until there’s an NDA if you prefer.</span><input type="text" name="company" autocomplete="organization"></label>
+</fieldset>
+
+<fieldset><legend>Your slate</legend>
+ <div class="two"><label class="q">Shows a year, roughly<input type="number" name="shows" min="0" inputmode="numeric"></label><label class="q">Production managers on staff or hired per show<input type="text" name="pms"></label></div>
+ <div class="qh">Kinds of shows</div>
+ <div class="checks" data-name="kinds"><label><input type="checkbox" value="Scripted drama">Scripted drama</label><label><input type="checkbox" value="Comedy">Comedy</label><label><input type="checkbox" value="Docuseries">Docuseries</label><label><input type="checkbox" value="Unscripted">Unscripted</label><label><input type="checkbox" value="Pilots">Pilots</label><label><input type="checkbox" value="Specials">Specials</label></div>
+ <label class="q">Who’s involved on a typical show? <span>PMs, coordinators, accountants, PAs, network contacts</span><textarea name="team"></textarea></label>
+</fieldset>
+
+<fieldset><legend>Budgets</legend>
+ <div class="qh">What you build budgets in today</div>
+ <div class="checks" data-name="budget_tools"><label><input type="checkbox" value="My own Excel workbooks">My own Excel workbooks</label><label><input type="checkbox" value="Google Sheets">Google Sheets</label><label><input type="checkbox" value="Movie Magic Budgeting">Movie Magic Budgeting</label><label><input type="checkbox" value="Showbiz Budgeting">Showbiz Budgeting</label><label><input type="checkbox" value="Saturation">Saturation</label><label><input type="checkbox" value="Something else">Something else</label></div>
+ <label class="q">Walk us through how a new budget starts. <span>Does the network give you a number first? Do you start from a past show?</span><textarea name="budget_start"></textarea></label>
+ <label class="q">What do networks ask for once you’re shooting? <span>Hot costs, weekly cost reports, their own templates</span><textarea name="network_reports"></textarea></label>
+</fieldset>
+
+<fieldset><legend>Day to day</legend>
+ <div class="qh">What eats the most time each week</div>
+ <div class="checks" data-name="time_sinks"><label><input type="checkbox" value="Hot costs">Hot costs</label><label><input type="checkbox" value="Cost reports">Cost reports</label><label><input type="checkbox" value="Receipts and petty cash">Receipts and petty cash</label><label><input type="checkbox" value="POs and approvals">POs and approvals</label><label><input type="checkbox" value="Call sheets">Call sheets</label><label><input type="checkbox" value="Crew hiring and availability">Crew hiring and availability</label><label><input type="checkbox" value="Locations">Locations</label><label><input type="checkbox" value="Travel and hotels">Travel and hotels</label><label><input type="checkbox" value="Finding things in email">Finding things in email</label><label><input type="checkbox" value="COIs and paperwork">COIs and paperwork</label></div>
+ <label class="q">How do receipts get from set to accounting today?<textarea name="receipts"></textarea></label>
+ <label class="q">How does a call sheet get made and approved?<textarea name="callsheets"></textarea></label>
+ <div class="qh">Where the team talks</div>
+ <div class="checks" data-name="channels"><label><input type="checkbox" value="Gmail">Gmail</label><label><input type="checkbox" value="Outlook">Outlook</label><label><input type="checkbox" value="Slack">Slack</label><label><input type="checkbox" value="Microsoft Teams">Microsoft Teams</label><label><input type="checkbox" value="iMessage groups">iMessage groups</label><label><input type="checkbox" value="WhatsApp groups">WhatsApp groups</label><label><input type="checkbox" value="Google Meet">Google Meet</label><label><input type="checkbox" value="Zoom">Zoom</label></div>
+</fieldset>
+
+<fieldset><legend>What to build first</legend>
+ <label class="q">If one thing ran itself tomorrow, what would it be?<textarea name="first"></textarea></label>
+ <label class="q">Anything that has to stay done by a person? <span>Approvals, network calls, anything you’d never hand off</span><textarea name="human"></textarea></label>
+</fieldset>
+
+<fieldset><legend>Your spreadsheets</legend>
+ <p style="margin:0 0 14px;color:var(--soft)">The fastest way for us to understand your system is to see it. A budget, a hot cost sheet, a cost report, a PO log or petty cash envelope from a wrapped show is perfect. Strip out names or numbers if you like.</p>
+ <label class="drop" id="drop" for="fi"><b>Drop files here, or tap to choose</b>Excel, Google Sheets exports, PDFs or photos. Up to 10 files, 20 MB each.</label>
+ <input type="file" id="fi" multiple hidden accept=".xlsx,.xls,.xlsm,.csv,.numbers,.pdf,.png,.jpg,.jpeg,.heic,.docx">
+ <ul class="files" id="files"></ul>
+ <p class="note">Prefer to sign a mutual NDA first? Send the answers now and the files after; same page, same email.</p>
+</fieldset>
+
+<input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<div class="send"><button class="go" id="go" type="submit">Send to Jordan</button><span class="msg" id="msg" role="status"></span></div>
+</form>
+<div class="done" id="done"><div class="tick">✓</div><h1 style="margin-top:0">Thanks. <em>Got it.</em></h1><p class="lead" id="doneP">Jordan will read it and get back to you, usually the same day.</p><a class="brand" style="justify-content:center" href="index.html">Back to the walkthrough</a></div>
+<p class="alt">Rather talk than type? <a href="interview.html">Do it as a 15-minute voice interview</a></p>
+</div>
+<script>
+(function(){
+const SCRIPT="https://script.google.com/macros/s/AKfycbyR6DNkxGjEpLr56VBQMB_9HDKmVgr3YnFGhqguR9_KTmnniUDI3KuyMF65BJBMWxmG/exec";
+const post=b=>fetch(SCRIPT,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(b)}).then(r=>r.json()).catch(()=>({ok:false,why:"network"}));
+const f=document.getElementById("f"),fi=document.getElementById("fi"),drop=document.getElementById("drop"),list=document.getElementById("files"),msg=document.getElementById("msg"),go=document.getElementById("go");
+let picked=[];
+const size=n=>n>1e6?(n/1e6).toFixed(1)+" MB":Math.max(1,Math.round(n/1e3))+" KB";
+function show(){list.innerHTML=picked.map((p,i)=>`<li class="${p.st||""}"><b style="font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.file.name.replace(/</g,"&lt;")}</b><span>${p.st==="ok"?"Sent":p.st==="bad"?p.why:p.st==="up"?"Sending…":size(p.file.size)}</span>${p.st?"":`<button type="button" data-i="${i}" aria-label="Remove ${p.file.name.replace(/"/g,"")}">×</button>`}</li>`).join("");}
+function add(fl){for(const file of fl){if(picked.length>=10)break;if(file.size>20e6){picked.push({file,st:"bad",why:"Over 20 MB"});continue;}picked.push({file});}show();}
+fi.addEventListener("change",()=>{add(fi.files);fi.value="";});
+list.addEventListener("click",e=>{const b=e.target.closest("[data-i]");if(b){picked.splice(+b.dataset.i,1);show();}});
+["dragenter","dragover"].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add("over");}));
+["dragleave","drop"].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove("over");}));
+drop.addEventListener("drop",e=>add(e.dataTransfer.files));
+const b64=file=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(",")[1]);r.onerror=rej;r.readAsDataURL(file);});
+f.addEventListener("submit",async e=>{
+  e.preventDefault();const d=new FormData(f);const email=(d.get("email")||"").trim(),name=(d.get("name")||"").trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.textContent="Add your email so Jordan can write back.";msg.className="msg err";f.email.focus();return;}
+  const lines=[];f.querySelectorAll("label.q").forEach(l=>{const el=l.querySelector("input,textarea");if(!el||["name","email","phone"].includes(el.name))return;const v=el.value.trim();if(v)lines.push(l.childNodes[0].textContent.trim()+"\n"+v+"\n");});
+  f.querySelectorAll(".checks").forEach(c=>{const v=[...c.querySelectorAll("input:checked")].map(i=>i.value);if(v.length)lines.push(c.previousElementSibling.textContent.trim()+"\n"+v.join(", ")+"\n");});
+  const files=picked.filter(p=>!p.st);if(files.length)lines.push("Files coming with this: "+files.map(p=>p.file.name).join(", "));
+  go.disabled=true;msg.className="msg";msg.textContent="Sending…";
+  const r=await post({action:"form",form:"The Slate questionnaire",name,email,phone:d.get("phone")||"",page:location.href.split("?")[0],answers:lines.join("\n"),website:d.get("website")||""});
+  if(!r.ok){go.disabled=false;msg.className="msg err";msg.textContent=r.why==="email"?"That email doesn’t look right.":"That didn’t go through. Check your connection and try again.";return;}
+  let sent=0;
+  for(const p of files){p.st="up";show();try{const data=await b64(p.file);const u=await post({action:"upload",form:"The Slate questionnaire",name,email,filename:p.file.name,mime:p.file.type||"application/octet-stream",data,website:d.get("website")||""});p.st=u.ok?"ok":"bad";p.why=u.why==="big"?"Too large":"Didn’t send";if(u.ok)sent++;}catch(err){p.st="bad";p.why="Didn’t send";}show();}
+  f.hidden=true;document.getElementById("done").classList.add("on");
+  document.getElementById("doneP").textContent=files.length?(sent===files.length?`Your answers and ${sent} file${sent>1?"s":""} reached Jordan. He’ll get back to you, usually the same day.`:`Your answers reached Jordan, and ${sent} of ${files.length} files. He’ll ask for the rest by email.`):"Jordan will read it and get back to you, usually the same day.";
+  window.scrollTo(0,0);
+});
+})();
+</script>
+</body>
+</html>

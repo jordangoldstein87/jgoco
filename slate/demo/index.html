@@ -1,0 +1,1165 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex, nofollow"><style>html,body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>The Slate · Demo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a production-office app. A dark slate rail of shows on the left, the working sheet on the right. */
+:root{
+  --bg:#ECEEF1; --panel:#FBFBFC; --sunk:#F3F4F6; --ink:#14161B; --soft:#424955; --mute:#5F6774; --line:#D8DCE2; --line2:#E6E8EC;
+  --amber:#E3A23B; --amber-soft:#FBEFD9; --amber-tx:#7A4B06;
+  --blue:#2452C7; --on-blue:#FBFBFC; --blue-soft:#E3EAFB; --blue-tx:#1D44A8;
+  --over:#B03F0C; --over-soft:#FBE8DC; --under:#15659A; --under-soft:#DCEDF8; --ok:#1E7448; --ok-soft:#DDF1E5;
+  --rail:#15171C; --rail-hi:#23262D; --rail-line:#2A2E36; --rail-ink:#E9EBEF; --rail-mute:#9AA2AF;
+  --bubble:#E6E8EC; --bubble-ink:#14161B; --me:#2452C7; --me-ink:#FBFBFC;
+  --paper:#FDFCF8; --paper-ink:#23252B; --paper-line:#D9D6CC;
+  --display:'Archivo','Helvetica Neue',Arial,sans-serif; --text:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(20,22,27,.05),0 6px 20px rgba(20,22,27,.05);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D0F13; --panel:#15181E; --sunk:#1B1F26; --ink:#ECEEF2; --soft:#C3C9D3; --mute:#959DAB; --line:#2B3039; --line2:#22262E;
+  --amber:#EAAA4C; --amber-soft:#3A2A10; --amber-tx:#F3C77F;
+  --blue:#86A8FF; --on-blue:#0D0F13; --blue-soft:#1B2643; --blue-tx:#A9C0FF;
+  --over:#FF9B63; --over-soft:#3B2316; --under:#71C2F4; --under-soft:#13293A; --ok:#62D49B; --ok-soft:#133020;
+  --rail:#08090C; --rail-hi:#181B21; --rail-line:#20242B; --rail-ink:#E9EBEF; --rail-mute:#8F97A5;
+  --bubble:#262A32; --bubble-ink:#ECEEF2; --me:#3D66D6; --me-ink:#F4F6FA; --shadow:none; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D0F13; --panel:#15181E; --sunk:#1B1F26; --ink:#ECEEF2; --soft:#C3C9D3; --mute:#959DAB; --line:#2B3039; --line2:#22262E;
+  --amber:#EAAA4C; --amber-soft:#3A2A10; --amber-tx:#F3C77F;
+  --blue:#86A8FF; --on-blue:#0D0F13; --blue-soft:#1B2643; --blue-tx:#A9C0FF;
+  --over:#FF9B63; --over-soft:#3B2316; --under:#71C2F4; --under-soft:#13293A; --ok:#62D49B; --ok-soft:#133020;
+  --rail:#08090C; --rail-hi:#181B21; --rail-line:#20242B; --rail-ink:#E9EBEF; --rail-mute:#8F97A5;
+  --bubble:#262A32; --bubble-ink:#ECEEF2; --me:#3D66D6; --me-ink:#F4F6FA; --shadow:none; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--text);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--rail)}
+a{color:inherit;text-decoration:none}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:6px}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tn{font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+.app{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100%}
+/* rail */
+.rail{background:var(--rail);color:var(--rail-ink);position:sticky;top:0;height:100vh;overflow:auto;padding:20px 12px 20px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;padding:0 6px}
+.brand b{display:block;font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:.01em}
+.brand small{display:block;color:var(--rail-mute);font-size:12px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a,.sh{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;color:var(--rail-ink);font-weight:500}
+.nav a:hover,.sh:hover{background:var(--rail-hi)}
+.nav a.on,.sh.on{background:var(--rail-hi);box-shadow:inset 0 0 0 1px var(--rail-line)}
+.nav .badge{margin-left:auto}
+.rail-h{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--rail-mute);padding:0 10px}
+.shows{display:flex;flex-direction:column;gap:2px;margin-top:-12px}
+.sh .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh .ph{font-size:11px;color:var(--rail-mute)}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.me{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border-top:1px solid var(--rail-line)}
+.me b{display:block;font-weight:600}.me small{color:var(--rail-mute);font-size:12px}
+.av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--amber);color:#2A1A03;flex:none;font-size:13px}
+.demo{font-size:11.5px;color:var(--rail-mute);padding:0 10px}
+.badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--amber);color:#2A1A03;font-size:11.5px;font-weight:700;font-style:normal}
+/* main */
+.main{min-width:0;padding-block:28px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(0px,2vw,20px);display:flex;flex-direction:column;gap:22px}
+.vh{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.vh h1{font-size:32px;font-weight:800}
+.season{font-weight:600;color:var(--mute);font-size:20px}
+.eyebrow{display:flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-bottom:6px}
+.sub{color:var(--soft);margin-top:6px;max-width:68ch}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:var(--shadow);min-width:0}
+.panel h3{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;align-items:start}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;align-items:start}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.kpi small{color:var(--mute);font-size:12px;font-weight:600}
+.kpi b{font-family:var(--display);font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--soft)}
+a.kpi:hover{border-color:var(--blue)}
+.over{color:var(--over)}.under{color:var(--under)}.okc{color:var(--ok)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--sunk);color:var(--soft);border:1px solid var(--line2);white-space:nowrap}
+.ph-shoot{background:var(--amber-soft);color:var(--amber-tx);border-color:transparent}
+.ph-prep{background:var(--blue-soft);color:var(--blue-tx);border-color:transparent}
+.ph-post{background:var(--sunk);color:var(--soft)}
+.ph-bid{background:var(--sunk);color:var(--mute)}
+.p-ok{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.p-warn{background:var(--over-soft);color:var(--over);border-color:transparent}
+.p-blue{background:var(--blue-soft);color:var(--blue-tx);border-color:transparent}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:8px;border:1px solid var(--line);background:var(--panel);font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--soft)}
+.btn.pri{background:var(--blue);color:var(--on-blue);border-color:var(--blue)}
+.btn.pri:hover{filter:brightness(1.08)}
+.btn.sm{padding:4px 10px;font-size:12.5px}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--mute)}.soft{color:var(--soft)}
+.small{font-size:12.5px}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;transition:border-color .15s}
+.card:hover{border-color:var(--blue)}
+.c-top{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--soft);font-weight:600}
+.c-top .pill{margin-left:auto}
+.card h2{font-size:22px;font-weight:800}
+.c-sub{color:var(--mute);font-size:13px;margin-top:-8px}
+.c-prog{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--soft)}
+.bar{flex:1;height:6px;border-radius:99px;background:var(--line2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--amber);border-radius:99px}
+.c-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.c-nums small{display:block;font-size:11px;color:var(--mute);font-weight:600}
+.c-nums b{font-size:15px;font-variant-numeric:tabular-nums}
+.c-foot{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--soft);border-top:1px solid var(--line2);padding-top:10px;flex-wrap:wrap}
+/* lists */
+.list{display:flex;flex-direction:column}
+.li{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line2);align-items:flex-start}
+.li:first-child{border-top:0;padding-top:0}
+.li .t{font-size:12.5px;color:var(--mute);min-width:64px;font-variant-numeric:tabular-nums;padding-top:1px}
+.li b{font-weight:600}
+.li .grow{flex:1;min-width:0}
+.ic{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;flex:none}
+.ic svg{width:15px;height:15px}
+.ic.over{background:var(--over-soft)}.ic.warn{background:var(--amber-soft);color:var(--amber-tx)}.ic.info{background:var(--blue-soft);color:var(--blue-tx)}.ic.ok{background:var(--ok-soft);color:var(--ok)}
+/* tabs */
+.show-h .numbox{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:flex;flex-direction:column;gap:1px;min-width:220px}
+.numbox small{font-size:11px;color:var(--mute);font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.numbox b{font-size:19px}
+.numbox span{font-size:12px;color:var(--soft)}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs a{padding:9px 12px;font-weight:600;color:var(--mute);border-bottom:2px solid transparent;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.tabs a.on{color:var(--ink);border-color:var(--amber)}
+.tabs a:hover{color:var(--ink)}
+.tabbody{display:flex;flex-direction:column;gap:16px}
+/* tables */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{text-align:left;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--sunk);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--line2);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.acct{font-family:var(--mono);font-size:12.5px;color:var(--soft)}
+tr.grp td{background:var(--sunk);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+tr.sub td{font-weight:700;border-top:1px solid var(--line)}
+tr.tot td{font-weight:800;background:var(--sunk);font-size:14px}
+tr.click{cursor:pointer}
+tr.click:hover td{background:var(--sunk)}
+tr.click td:first-child::before{content:"▸";display:inline-block;width:14px;color:var(--mute);transition:transform .15s}
+tr.click.open td:first-child::before{transform:rotate(90deg)}
+tr.det>td{background:var(--sunk);padding:4px 12px 14px 38px}
+tr.det table{font-size:12.5px;background:var(--panel);border:1px solid var(--line2);border-radius:8px}
+tr.det th{background:transparent}
+/* globals */
+.glob{display:flex;gap:12px;flex-wrap:wrap}
+.step{display:flex;flex-direction:column;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:132px}
+.step label{font-size:11.5px;color:var(--mute);font-weight:600}
+.step div{display:flex;align-items:center;gap:8px}
+.step button{width:26px;height:26px;border-radius:7px;border:1px solid var(--line);background:var(--sunk);cursor:pointer;font-weight:700}
+.step b{font-size:18px;font-family:var(--display);min-width:30px;text-align:center;font-variant-numeric:tabular-nums}
+.step.chg{border-color:var(--amber)}
+.banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--amber-soft);color:var(--amber-tx);border-radius:10px;padding:10px 14px;font-weight:600}
+.banner .btn{margin-left:auto}
+/* ask bar */
+.ask{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.ask-h{display:flex;align-items:center;gap:8px;font-weight:700}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--sunk);font-size:13px;font-weight:500;cursor:pointer;text-align:left}
+.chip:hover{border-color:var(--blue)}
+.chip.on{background:var(--blue-soft);border-color:var(--blue);color:var(--blue-tx)}
+.answer{background:var(--sunk);border-radius:10px;padding:12px 14px;line-height:1.55;max-width:90ch}
+/* receipts */
+.rc{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;transition:opacity .3s}
+.rc.approved,.rc.returned{opacity:.72}
+.slip{background:var(--paper);color:var(--paper-ink);border:1px solid var(--paper-line);border-radius:4px;padding:10px 9px;font-family:var(--mono);font-size:10.5px;line-height:1.5;display:flex;flex-direction:column;gap:1px;transform:rotate(-1.2deg);box-shadow:0 2px 6px rgba(0,0,0,.08);align-self:start}
+.slip b{text-align:center;font-size:11.5px;margin-bottom:4px;letter-spacing:.04em;text-transform:uppercase}
+.slip span{display:flex;justify-content:space-between;gap:6px}
+.slip span i{font-style:normal;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.slip .tot{border-top:1px dashed var(--paper-line);margin-top:4px;padding-top:4px;font-weight:700}
+.rc-b{display:flex;flex-direction:column;gap:8px;min-width:0}
+.rc-h{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.amt{font-family:var(--display);font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.rc-h .m{font-weight:600;color:var(--soft)}
+.rc-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mute)}
+.rc-code{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mute);font-weight:600;flex-wrap:wrap}
+select,input[type=text],input[type=number],input[type=time],textarea{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 9px;max-width:100%}
+.flag{display:flex;gap:8px;align-items:flex-start;background:var(--over-soft);color:var(--over);border-radius:8px;padding:7px 10px;font-size:12.5px;font-weight:600}
+.flag svg{width:14px;height:14px;flex:none;margin-top:2px}
+.done{font-size:12.5px;font-weight:700;color:var(--ok)}
+.done.returned{color:var(--over)}
+.rc-list{display:flex;flex-direction:column;gap:12px}
+.grid-rc{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}
+/* phone */
+.phone{width:100%;max-width:310px;border-radius:38px;padding:10px;background:var(--rail);box-shadow:0 10px 40px rgba(0,0,0,.18);justify-self:center}
+.ph-scr{background:var(--panel);border-radius:29px;overflow:hidden;height:560px;display:flex;flex-direction:column}
+.ph-h{display:flex;align-items:center;gap:10px;padding:16px 14px 10px;border-bottom:1px solid var(--line2)}
+.ph-h b{display:block;font-size:14px}.ph-h small{font-size:11.5px;color:var(--mute);font-family:var(--mono)}
+.ph-av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;flex:none}
+.ph-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.bub{max-width:84%;padding:8px 12px;border-radius:18px;font-size:13px;line-height:1.42}
+.bub.me{align-self:flex-end;background:var(--me);color:var(--me-ink);border-bottom-right-radius:6px}
+.bub.them{align-self:flex-start;background:var(--bubble);color:var(--bubble-ink);border-bottom-left-radius:6px}
+.bub .slip{transform:none;font-size:9.5px;margin-bottom:6px;width:150px}
+.ph-who{font-size:10.5px;color:var(--mute);align-self:flex-end;margin-bottom:-5px}
+.typing{display:inline-flex;gap:4px;padding:11px 14px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--mute);animation:bl 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes bl{0%,100%{opacity:.25}50%{opacity:1}}
+/* gpt */
+.gpt{background:var(--panel);border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;min-height:580px;min-width:0}
+.gpt-h{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line2);flex-wrap:wrap}
+.gpt-h b{font-size:15px}
+.conn{margin-left:auto;font-size:12px;font-weight:600;color:var(--ok);background:var(--ok-soft);padding:3px 10px;border-radius:99px}
+.gpt-m{flex:1;padding:18px;display:flex;flex-direction:column;gap:14px;overflow-y:auto}
+.gq{align-self:flex-end;background:var(--sunk);padding:9px 14px;border-radius:18px;max-width:80%}
+.ga{line-height:1.6;max-width:62ch}
+.gpt-in{margin:12px 16px 16px;border:1px solid var(--line);border-radius:22px;padding:10px 16px;color:var(--mute)}
+.duo{display:grid;grid-template-columns:310px 150px minmax(0,1fr);gap:18px;align-items:center}
+.mem{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.mem .ln{width:100%;height:2px;background:linear-gradient(90deg,var(--line),var(--amber),var(--line))}
+.mem b{font-family:var(--display);font-size:16px}
+.mem span{font-size:12px;color:var(--soft)}
+/* mail */
+.mail{display:grid;grid-template-columns:minmax(260px,360px) minmax(0,1fr);gap:16px;align-items:start}
+.mlist{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mi{display:flex;flex-direction:column;gap:2px;padding:11px 14px;border-top:1px solid var(--line2);cursor:pointer;width:100%;text-align:left;background:none;border-left:3px solid transparent;border-right:0;border-bottom:0}
+.mi:first-child{border-top:0}
+.mi:hover{background:var(--sunk)}
+.mi.on{background:var(--blue-soft);border-left-color:var(--blue)}
+.mi .f{font-weight:700;display:flex;justify-content:space-between;gap:8px}
+.mi .f span{font-weight:500;font-size:12px;color:var(--mute)}
+.mi .s{font-size:13px;color:var(--soft);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.mi.unf{background:var(--amber-soft)}
+.mdet{display:flex;flex-direction:column;gap:14px}
+.note{border-left:3px solid var(--amber);padding:4px 0 4px 12px;line-height:1.6}
+.todo{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:9px 0;border-top:1px solid var(--line2);flex-wrap:wrap}
+.todo.did span{text-decoration:line-through;color:var(--mute)}
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.cal .dh{padding:8px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);background:var(--sunk);border-bottom:1px solid var(--line)}
+.cal .cd{min-height:104px;padding:6px;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);display:flex;flex-direction:column;gap:3px;min-width:0}
+.cal .cd:nth-child(7n){border-right:0}
+.cd .dn{font-size:12px;font-weight:700;color:var(--soft);display:flex;justify-content:space-between}
+.cd .dn i{font-style:normal;font-weight:600;color:var(--amber-tx);font-size:11px}
+.cd.today{background:var(--amber-soft)}
+.cd.off{background:var(--sunk)}
+.ev{font-size:11.5px;line-height:1.3;padding:3px 6px;border-radius:5px;background:var(--blue-soft);color:var(--blue-tx);font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.ev.ship{background:var(--ok-soft);color:var(--ok)}
+.ev.due{background:var(--over-soft);color:var(--over)}
+.ev.new{box-shadow:inset 0 0 0 1.5px var(--amber)}
+.sug{display:flex;flex-direction:column;gap:6px;padding:12px 0;border-top:1px solid var(--line2)}
+.sug:first-of-type{border-top:0;padding-top:0}
+.sug .src{font-size:12px;color:var(--mute)}
+/* call sheet */
+.cs{background:var(--paper);color:var(--paper-ink);border:1px solid var(--paper-line);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.cs-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start;border-bottom:2px solid var(--paper-ink);padding-bottom:14px}
+.cs-top h2{font-size:26px;font-weight:800}
+.cs-calls{display:grid;grid-template-columns:repeat(3,auto);gap:4px 18px;text-align:right}
+.cs-calls small{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;opacity:.7}
+.cs-calls b{font-family:var(--display);font-size:22px}
+.cs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.cs-box{border:1px solid var(--paper-line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;font-size:13px}
+.cs-box small{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;opacity:.65}
+.cs-box b{font-weight:700}
+.cs-box.empty{border-style:dashed}
+.cs table{font-size:12.5px;color:var(--paper-ink)}
+.cs th{background:transparent;color:var(--paper-ink);opacity:.7;border-color:var(--paper-line)}
+.cs td{border-color:var(--paper-line)}
+.cs .btn{background:var(--paper);color:var(--paper-ink);border-color:var(--paper-line)}
+.cs .btn.pri{background:#2452C7;color:#FBFBFC;border-color:#2452C7}
+.cs-h{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.conf{display:flex;flex-direction:column;gap:6px}
+.cbar{height:10px;border-radius:99px;background:var(--line2);overflow:hidden;display:flex}
+.cbar i{display:block;height:100%;background:var(--ok)}
+.cbar em{display:block;height:100%;background:var(--amber)}
+/* docs */
+.docs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.doc{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.doc h3{font-size:14px;font-weight:700;margin:0;font-family:var(--text);letter-spacing:0}
+.doc .di{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:5px 0;border-top:1px solid var(--line2)}
+.doc .di span{color:var(--mute);font-size:12px;white-space:nowrap}
+.gone{display:flex;gap:8px;flex-wrap:wrap}
+.gone span{font-size:12.5px;padding:4px 10px;border-radius:6px;background:var(--sunk);color:var(--mute);text-decoration:line-through}
+/* compose */
+.compose{display:flex;flex-direction:column;gap:10px}
+.compose textarea{width:100%;min-height:72px;resize:vertical;box-sizing:border-box}
+.sent{font-size:12.5px;color:var(--soft);display:flex;flex-direction:column;gap:4px}
+/* crew db */
+.cdb td .nm{font-weight:600}
+.av-s{width:28px;height:28px;font-size:11.5px}
+.avail{font-weight:600;font-size:12.5px}
+.chk{width:16px;height:16px;accent-color:var(--blue)}
+/* connections */
+.pipe{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.pp{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;position:relative}
+.pp .n{font-family:var(--mono);font-size:12px;color:var(--amber-tx);font-weight:600}
+.pp b{font-family:var(--display);font-size:16px}
+.pp p{font-size:13px;color:var(--soft)}
+.pp.lit{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-soft)}
+.cx{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.cxc{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.cxr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
+.learn{display:flex;gap:10px;padding:9px 0;border-top:1px solid var(--line2);font-size:13.5px}
+.learn:first-child{border-top:0}
+/* build */
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.col{background:var(--sunk);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.col h4{margin:0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.bi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:600}
+.req{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.req ul{margin:0;padding-left:18px;color:var(--soft);display:flex;flex-direction:column;gap:3px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.rule{display:flex;flex-direction:column;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
+.rule label{font-size:12.5px;font-weight:600;color:var(--soft)}
+/* timeline */
+.tl{display:flex;flex-direction:column;gap:0}
+.tli{display:grid;grid-template-columns:96px 14px minmax(0,1fr);gap:10px;padding-bottom:14px}
+.tli .when{font-size:12.5px;color:var(--mute);text-align:right;font-variant-numeric:tabular-nums}
+.tli .ln{position:relative}
+.tli .ln::before{content:"";position:absolute;left:5px;top:6px;bottom:-14px;width:2px;background:var(--line)}
+.tli:last-child .ln::before{display:none}
+.tli .ln i{position:absolute;left:0;top:3px;width:12px;height:12px;border-radius:50%;background:var(--amber)}
+.tli b{display:block}
+/* schedule strip */
+.strip{display:flex;height:34px;border-radius:8px;overflow:hidden;font-size:12px;font-weight:700;position:relative}
+.strip div{display:flex;align-items:center;padding:0 10px;white-space:nowrap;overflow:hidden}
+.strip .now{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--ink);border-radius:2px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:20;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+svg.chart{width:100%;height:auto;display:block}
+.bo{fill:var(--over)}.bu{fill:var(--under)}.ax{stroke:var(--line)}.axt{fill:var(--mute);font-size:11px;font-family:var(--text)}
+/* PM hub */
+.day{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
+.day .hr{display:grid;grid-template-columns:60px 1fr;height:40px;border-top:1px solid var(--line2);font-size:11.5px;color:var(--mute)}
+.day .hr:first-child{border-top:0}
+.day .hr span{padding:3px 8px;text-align:right}
+.day .blk{position:absolute;left:68px;right:10px;border-radius:7px;padding:5px 10px;font-size:12.5px;font-weight:600;overflow:hidden;border-left:3px solid currentColor}
+.day .now{position:absolute;left:60px;right:0;height:2px;background:var(--over)}
+.day .now::before{content:"";position:absolute;left:-5px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--over)}
+.b-shoot{background:var(--amber-soft);color:var(--amber-tx)}.b-meet{background:var(--blue-soft);color:var(--blue-tx)}.b-due{background:var(--over-soft);color:var(--over)}.b-ship{background:var(--ok-soft);color:var(--ok)}
+.todo2{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line2)}
+.todo2:first-child{border-top:0;padding-top:0}
+.todo2 .src2{font-size:11.5px;color:var(--mute)}
+.todo2.did b{text-decoration:line-through;color:var(--mute)}
+/* builder */
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.stp{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);text-align:left;cursor:pointer}
+.stp i{font-style:normal;font-family:var(--mono);font-size:11.5px;color:var(--mute)}
+.stp b{font-size:13.5px}
+.stp.on{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-soft)}
+.stp.done i{color:var(--ok)}
+.strip{display:grid;grid-template-columns:28px 64px minmax(0,1fr) 44px 70px 90px;gap:10px;align-items:center;padding:9px 12px;border-radius:6px;color:#1A1C21;font-size:13px;margin-bottom:5px;border:1px solid rgba(0,0,0,.08);cursor:pointer}
+.strip b{font-family:var(--mono)}
+.strip.off{opacity:.45}
+.s-de{background:#F6E7A6}.s-di{background:#F7F6F1}.s-ne{background:#BFE3C4}.s-ni{background:#BCD3F2}
+.dayb{background:var(--rail);color:var(--rail-ink);border-radius:6px;padding:7px 12px;font-weight:700;font-size:12.5px;margin:10px 0 5px;letter-spacing:.04em}
+.sugg{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:10px 12px;border:1px dashed var(--amber);border-radius:10px;background:var(--amber-soft);flex-wrap:wrap}
+.sugg.ok{border-style:solid;border-color:var(--ok);background:var(--ok-soft)}
+.sugg small{display:block;color:var(--mute);font-size:12px}
+.flowbar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+/* calendars */
+.mcal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.mcal .dh{padding:8px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);background:var(--sunk);border-bottom:1px solid var(--line)}
+.mcal .cd{min-height:118px;padding:5px;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);display:flex;flex-direction:column;gap:2px;min-width:0}
+.mcal .cd:nth-child(7n){border-right:0}
+.mcal .cd.out{background:var(--sunk)}
+.mcal .cd.out .dn{opacity:.4}
+.mch{font-size:11px;line-height:1.25;padding:2px 6px;border-radius:4px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}
+.mch.lite{background:transparent!important;color:var(--soft);border:1px dashed var(--line);font-weight:500}
+.mch.dl{background:var(--over-soft)!important;color:var(--over)}
+.legend{display:flex;gap:8px;flex-wrap:wrap}
+.legend button{display:flex;align-items:center;gap:7px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-size:13px;font-weight:600;cursor:pointer}
+.legend button.off{opacity:.4}
+.wk{display:grid;grid-template-columns:52px repeat(7,minmax(110px,1fr));border:1px solid var(--line);border-radius:12px;background:var(--panel);min-width:880px;position:relative}
+.wk .wh{padding:8px;font-size:12px;font-weight:700;color:var(--soft);border-bottom:1px solid var(--line);background:var(--sunk);text-align:center}
+.wk .wh.today{background:var(--amber-soft);color:var(--amber-tx)}
+.wk .tcol{position:relative}
+.wk .tl2{height:36px;border-top:1px solid var(--line2);font-size:10.5px;color:var(--mute);text-align:right;padding:2px 6px 0 0}
+.wk .dcol{position:relative;border-left:1px solid var(--line2)}
+.wk .dcol .slot{height:36px;border-top:1px solid var(--line2)}
+.wk .ev2{position:absolute;left:3px;right:3px;border-radius:6px;padding:3px 6px;font-size:11.5px;font-weight:600;line-height:1.25;overflow:hidden;border-left:3px solid currentColor}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{padding:6px 14px;border:0;background:var(--panel);font-weight:600;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg)}
+@media (max-width:900px){.steps{grid-template-columns:repeat(5,minmax(90px,1fr));overflow-x:auto}.strip{grid-template-columns:24px 50px minmax(0,1fr) 34px;}.strip .hide-s{display:none}.mcal .cd{min-height:84px}.mch{font-size:9.5px;padding:1px 3px}}
+@media (max-width:1080px){.duo{grid-template-columns:1fr}.mem{flex-direction:row}.mem .ln{width:40px}.grid-rc{grid-template-columns:1fr}.pipe{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .rail{position:sticky;top:env(safe-area-inset-top,0px);height:auto;flex-direction:row;align-items:center;overflow-x:auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));gap:14px;z-index:5}
+  .rail .rail-h,.rail .shows,.rail .me,.rail .demo,.brand small{display:none}
+  .nav{flex-direction:row}
+  .mail{grid-template-columns:1fr}
+  .board{grid-template-columns:1fr}
+  .cal .cd{min-height:80px}
+  .ev{font-size:10.5px}
+}
+@media (max-width:560px){.rc{grid-template-columns:1fr}.slip{max-width:200px}.c-nums{grid-template-columns:repeat(2,1fr)}.cs-top{grid-template-columns:1fr}.cs-calls{text-align:left}.cal .dh{font-size:9px;padding:6px 3px}.cal .cd{padding:3px}.pipe{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="rail" id="rail"></aside>
+  <main class="main"><div class="wrap" id="view"></div></main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const fmt=n=>(n<0?'−':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-US');
+const fmt2=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const mm=n=>{const a=Math.abs(n),s=n<0?'−':'';if(a>=1e6)return s+'$'+(a/1e6).toFixed(a>=1e7?1:2)+'M';if(a>=1e4)return s+'$'+Math.round(a/1e3)+'K';if(a>=1e3)return s+'$'+(a/1e3).toFixed(1)+'K';return s+'$'+Math.round(a);};
+const varTxt=v=>Math.abs(v)<1?'on budget':(v>0?mm(v)+' over':mm(-v)+' under');
+const cls=v=>v>0.5?'over':(v<-0.5?'under':'');
+const pct=x=>(Math.abs(x)*100).toFixed(1)+'%';
+const ICON={
+ warn:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2 1.5 13.5h13z"/><path d="M8 6.5v3.2M8 11.6v.1"/></svg>',
+ up:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 11 7 7l2.5 2.5L13 5"/><path d="M9.5 5H13v3.5"/></svg>',
+ mail:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1.8" y="3.5" width="12.4" height="9" rx="1.5"/><path d="m2.5 4.5 5.5 4 5.5-4"/></svg>',
+ cal:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg>',
+ ok:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9"><path d="m3 8.5 3 3 7-7"/></svg>',
+ text:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 3.5h11v7h-6l-3 2.5v-2.5h-2z"/></svg>',
+};
+const MARK='<svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect x="3" y="12.5" width="26" height="15.5" rx="2" style="fill:var(--amber)"/><path d="M3.2 10 27.4 3.4l1.2 4.4L4.4 14.4z" style="fill:var(--rail-ink)"/><path d="M8.6 8.6l3 4.4M14.6 7l3 4.4M20.6 5.4l3 4.4" style="stroke:var(--rail);stroke-width:2.4"/></svg>';
+
+/* ---------- budget engine (sample chart of accounts) ---------- */
+const FR={PT:{n:'Payroll taxes',r:.125},IA:{n:'IATSE',r:.23},TM:{n:'Teamsters',r:.26},SAG:{n:'SAG-AFTRA',r:.21},DGA:{n:'DGA',r:.195},WGA:{n:'WGA',r:.20}};
+const U={SD:g=>g.SD,EP:g=>g.EP,PW:g=>g.PW,WW:g=>g.WW,SW:g=>g.SD/5,PSW:g=>g.PW+g.SD/5+g.WW};
+const UL={SD:'Days',EP:'Eps',PW:'Weeks',WW:'Weeks',SW:'Weeks',PSW:'Weeks'};
+const GROUPS=[['atl','Above the line'],['prod','Production'],['post','Post production'],['oth','Other']];
+const ACCTS=[
+ {n:'1100',d:'Story & Writers',g:'atl',c:'wr',L:[['Writers room (6)',20,'Weeks',6,9500,['WGA','PT']],['Episode scripts','EP',0,1,38000,['WGA']],['Script services & research',1,'Allow',1,60000,[]]]},
+ {n:'1200',d:'Producers',g:'atl',c:'fee',L:[['Executive producers','EP',0,2,85000,[]],['Line producer','PSW',0,1,9800,['PT']],['Producer','PSW',0,1,7500,['PT']]]},
+ {n:'1300',d:'Directors',g:'atl',c:'fee',L:[['Episode directors','EP',0,1,62000,['DGA','PT']],['Director travel & living','EP',0,1,6000,[]]]},
+ {n:'1400',d:'Cast',g:'atl',c:'fee',L:[['Series regulars (5)','EP',0,5,95000,['SAG','PT']],['Recurring guest cast (3)','EP',0,3,18500,['SAG','PT']],['Day players','SD',0,2,1150,['SAG','PT']],['Stunt performers',18,'Days',3,1250,['SAG','PT']],['Casting director & office','PSW',0,1,8200,[]]]},
+ {n:'2000',d:'Production Staff',g:'prod',c:'lab',L:[['Production manager','PSW',0,1,6200,['DGA','PT']],['1st & 2nd ADs','SW',0,2,6400,['DGA','PT']],['Coordinator & APOC','PSW',0,2,2900,['IA','PT']],['Office PAs','PSW',0,3,1000,['PT']],['Set PAs','SD',0,6,280,['PT']]]},
+ {n:'2100',d:'Background',g:'prod',c:'lab',L:[['Background performers','SD',0,22,226,['SAG']],['Background casting',1,'Allow',1,36000,[]]]},
+ {n:'2200',d:'Art Department',g:'prod',c:'lab',L:[['Production designer','PSW',0,1,5400,['IA','PT']],['Art director & coordinator','PSW',0,2,3200,['IA','PT']],['Graphics & supplies','EP',0,1,7500,[]]]},
+ {n:'2300',d:'Set Construction',g:'prod',c:'buy',L:[['Construction crew','PSW',0,8,2600,['IA','PT']],['Materials','EP',0,1,72000,[]]]},
+ {n:'2350',d:'Stages & Facilities',g:'prod',c:'rent',L:[['Stage rental (2 stages)','PSW',0,2,14000,[]],['Power & utilities','PSW',0,1,3800,[]]]},
+ {n:'2500',d:'Set Operations',g:'prod',c:'lab',L:[['Key grip & grips','SD',0,6,720,['IA','PT']],['Craft service','SD',0,1,1650,['IA','PT']],['Grip package','SW',0,1,9800,[]],['Expendables','SD',0,1,380,[]]]},
+ {n:'2700',d:'Set Dressing',g:'prod',c:'buy',L:[['Set decorator & crew','PSW',0,5,2700,['IA','PT']],['Purchases & rentals','EP',0,1,44000,[]]]},
+ {n:'2800',d:'Props',g:'prod',c:'buy',L:[['Prop master & assistants','PSW',0,3,2600,['IA','PT']],['Purchases & rentals','EP',0,1,14500,[]]]},
+ {n:'2900',d:'Wardrobe',g:'prod',c:'buy',L:[['Costume designer & crew','PSW',0,5,2500,['IA','PT']],['Purchases & rentals','EP',0,1,32000,[]]]},
+ {n:'3100',d:'Makeup & Hair',g:'prod',c:'lab',L:[['Department heads & artists','SD',0,6,690,['IA','PT']],['Supplies','EP',0,1,6500,[]]]},
+ {n:'3200',d:'Electric',g:'prod',c:'rent',L:[['Gaffer & electricians','SD',0,7,760,['IA','PT']],['Lighting package','SW',0,1,14500,[]],['Condors & lifts',18,'Days',1,1450,[]]]},
+ {n:'3300',d:'Camera',g:'prod',c:'rent',L:[['Director of photography','SW',0,1,9500,['IA','PT']],['Camera crew','SD',0,8,700,['IA','PT']],['Camera package (2 bodies)','SW',0,1,18500,[]]]},
+ {n:'3400',d:'Production Sound',g:'prod',c:'rent',L:[['Mixer & boom operators','SD',0,3,780,['IA','PT']],['Sound package','SW',0,1,3200,[]]]},
+ {n:'3500',d:'Transportation',g:'prod',c:'rent',L:[['Drivers','SD',0,14,640,['TM','PT']],['Trucks & trailers','SW',0,1,26000,[]],['Fuel','SD',0,1,1100,[]]]},
+ {n:'3600',d:'Locations',g:'prod',c:'rent',L:[['Location manager & scouts','PSW',0,3,2800,['IA','PT']],['Site fees',36,'Days',1,6500,[]],['Permits & police',36,'Days',1,1850,[]],['Security','SD',0,1,1400,[]]]},
+ {n:'3700',d:'Travel & Lodging',g:'prod',c:'buy',L:[['Hotels, cast & crew','SW',0,1,9800,[]],['Airfare','EP',0,1,8500,[]],['Per diem','SW',0,12,350,[]]]},
+ {n:'3800',d:'Catering',g:'prod',c:'buy',L:[['Lunch, per head','SD',0,150,36,[]],['Breakfast, walk-in','SD',0,100,14,[]],['Second meals',20,'Days',150,24,[]]]},
+ {n:'4500',d:'Editorial',g:'post',c:'post',L:[['Editors & assistants',30,'Weeks',6,3600,['IA','PT']],['Edit suites & storage',30,'Weeks',1,6800,[]]]},
+ {n:'4700',d:'Visual Effects',g:'post',c:'post',L:[['VFX vendor','EP',0,1,145000,[]],['VFX supervisor',28,'Weeks',1,5200,['PT']]]},
+ {n:'4800',d:'Music & Sound',g:'post',c:'post',L:[['Composer package','EP',0,1,32000,[]],['Sound design & mix','EP',0,1,38000,[]],['Music clearances','EP',0,1,12000,[]]]},
+ {n:'6000',d:'Insurance & Legal',g:'oth',c:'fix',L:[['Production insurance package',1,'Allow',1,420000,[]],['Legal & clearances',1,'Allow',1,165000,[]]]},
+ {n:'6500',d:'General & Admin',g:'oth',c:'fix',L:[['Production office','PSW',0,1,9500,[]],['Phones, IT & equipment','PSW',0,1,2600,[]],['Accounting staff','PSW',0,2,3400,['PT']]]},
+];
+const ACT={shoot:{wr:.86,fee:.46,lab:.47,buy:.56,rent:.38,post:.1,fix:.82},prep:{wr:.6,fee:.15,lab:.12,buy:.22,rent:.06,post:0,fix:.55},post:{wr:1,fee:.96,lab:.98,buy:.99,rent:.99,post:.72,fix:.97}};
+const COM={shoot:{wr:.08,fee:.2,lab:.06,buy:.12,rent:.22,post:.18,fix:.05},prep:{wr:.3,fee:.25,lab:.05,buy:.2,rent:.3,post:.05,fix:.2},post:{wr:0,fee:.03,lab:.01,buy:0,rent:0,post:.2,fix:.02}};
+const PH={shoot:'Shooting',prep:'Prep',post:'Post',bid:'Bidding'};
+
+const SHOWS=[
+ {id:'saltwater',t:'Saltwater',season:'Season 2',fmt:'Drama · 8 × 60',net:'Northlight',netKind:'Streaming',ph:'shoot',col:'#2E8F9C',num:'(323) 555-0182',pm:'Dolav',where:'Los Angeles and Long Beach',g0:{EP:8,SD:64,PW:10,WW:4},rf:1,prog:23/64,progTxt:'Day 23 of 64',
+  v:{'3600':.092,'1400':.024,'3200':.051,'3500':.021,'2100':.06,'3800':.035,'3700':.04,'2300':-.038,'4700':-.03}},
+ {id:'longtable',t:'The Long Table',season:'Season 1',fmt:'Food docuseries · 6 × 45',net:'Harbor',netKind:'Premium cable',ph:'prep',col:'#C98A2E',num:'(213) 555-0119',pm:'Renee Park',where:'Los Angeles, Oaxaca and New Orleans',g0:{EP:6,SD:30,PW:6,WW:2},rf:.22,prog:.62,progTxt:'13 days to camera',
+  v:{'2800':.04,'3600':-.05,'6500':.02,'1400':-.015,'3700':.03},dn:{'1100':'Story Producers','1400':'Host & Featured Talent','2300':'Test Kitchen Build'},
+  ln:{'1100':['Story producers (6)','Episode outlines','Research & clearances'],'1400':['Host','Featured chefs','Featured guests','Specialty talent','Casting & talent office']}},
+ {id:'groundrules',t:'Ground Rules',season:'Season 3',fmt:'Single-camera comedy · 10 × 30',net:'Meridian',netKind:'Broadcast',ph:'post',col:'#7B61C9',num:'(818) 555-0134',pm:'Tom Ashby',where:'Burbank stages',g0:{EP:10,SD:50,PW:8,WW:3},rf:.6,prog:.8,progTxt:'Picture lock Dec 12',
+  v:{'4500':-.04,'4700':-.06,'2350':-.02,'1400':.012}},
+ {id:'desert',t:'Untitled Desert Project',season:'Pilot',fmt:'Drama pilot · 1 × 60',net:'Northlight',netKind:'Streaming',ph:'bid',col:'#B07A4F',num:'(310) 555-0157',pm:'Not assigned',where:'Joshua Tree and Palmdale',g0:{EP:1,SD:15,PW:6,WW:2},rf:.95,prog:.3,progTxt:'Budget due Nov 24',v:{}},
+];
+SHOWS.forEach(s=>{s.g={...s.g0};s.xa={};});
+const SHOW=Object.fromEntries(SHOWS.map(s=>[s.id,s]));
+
+function lineCalc(L,g,rf){const[d,q,u,x,r,f]=L;const qty=typeof q==='string'?U[q](g):q;const sub=qty*x*r*rf;const fr=f.reduce((s,k)=>s+FR[k].r,0);return{qty,unit:u||UL[q],sub,fringe:sub*fr,total:sub*(1+fr)};}
+function acctBudget(a,s,g){return a.L.reduce((t,L)=>t+lineCalc(L,g,s.rf).total,0);}
+function acctName(s,a){return (s.dn&&s.dn[a.n])||a.d;}
+function rows(s){return ACCTS.map(a=>{const locked=Math.round(acctBudget(a,s,s.g0));const work=Math.round(acctBudget(a,s,s.g));
+ const bid=s.ph==='bid';const act=bid?0:Math.round(locked*ACT[s.ph][a.c])+(s.xa[a.n]||0);const com=bid?0:Math.round(locked*COM[s.ph][a.c]);
+ const efc=Math.round(locked*(1+(s.v[a.n]||0)));return{a,n:a.n,d:acctName(s,a),g:a.g,locked,work,act,com,efc,var:efc-locked};});}
+function totals(s){const t={locked:0,work:0,act:0,com:0,efc:0};rows(s).forEach(r=>{for(const k in t)t[k]+=r[k];});t.var=t.efc-t.locked;return t;}
+function budgetWith(s,g){return ACCTS.reduce((t,a)=>t+acctBudget(a,s,g),0);}
+
+/* ---------- people ---------- */
+const PEOPLE=[
+ ['Sterling','Line producer','Producers',['saltwater','longtable','groundrules','desert'],'(310) 555-0100','Complete'],
+ ['Dolav','Production manager','Production office',['saltwater'],'(323) 555-0141','Complete'],
+ ['Jess Tran','Production coordinator','Production office',['saltwater'],'(323) 555-0143','Complete'],
+ ['Marcus Bell','Asst. production coordinator','Production office',['saltwater'],'(323) 555-0144','Complete'],
+ ['Leo Grant','Office PA','Production office',['saltwater'],'(323) 555-0145','Missing I-9'],
+ ['Priya Shah','Production accountant','Accounting',['saltwater','longtable'],'(323) 555-0150','Complete'],
+ ['Sam Ortiz','1st asst. accountant','Accounting',['saltwater'],'(323) 555-0151','Complete'],
+ ['Dana Whitfield','1st AD','Set',['saltwater'],'(323) 555-0160','Complete'],
+ ['Kai Moreno','Key set PA','Set',['saltwater'],'(323) 555-0162','Missing direct deposit'],
+ ['Ana Ruiz','Location manager','Locations',['saltwater'],'(323) 555-0170','Complete'],
+ ['Maya Hollis','Guest star, ep 205','Cast',['saltwater'],'via Westbrook Talent','Complete'],
+ ['Ben Okafor','Director, ep 206','Directors',['saltwater'],'(917) 555-0176','Complete'],
+ ['Claire Benton','Production finance','Network',['saltwater','desert'],'Northlight','—'],
+ ['Renee Park','Production manager','Production office',['longtable'],'(213) 555-0121','Complete'],
+ ['Omar Haddad','Production coordinator','Production office',['longtable'],'(213) 555-0123','Complete'],
+ ['Nate Cole','Current programming','Network',['longtable'],'Harbor','—'],
+ ['Tom Ashby','Post production manager','Production office',['groundrules'],'(818) 555-0131','Complete'],
+ ['Rosa Lin','Post coordinator','Production office',['groundrules'],'(818) 555-0133','Complete'],
+];
+const paperworkMissing=()=>PEOPLE.filter(p=>p[3].includes('saltwater')&&p[5].startsWith('Missing'));
+
+/* ---------- receipts ---------- */
+const RULES={limit:500,lunch:36};
+const RC=[
+ {id:'r1',show:'saltwater',who:'Dolav',role:'PM',m:'Smart & Final',amt:412.86,t:'7:42 AM',d:'Craft service restock for Day 23',acct:'2500',st:'pending',items:[['Water, 24-pack × 12',71.88],['Coffee, 5 lb × 4',119.96],['Fruit & snacks',168.43],['Ice × 10',29.90],['Tax',22.69]]},
+ {id:'r2',show:'saltwater',who:'Dolav',role:'PM',m:'Home Depot',amt:286.40,t:'8:05 AM',d:'Sandbags and sash cord for the pier night',acct:'2500',st:'pending',items:[['Sandbags × 20',159.80],['Sash cord × 4',51.96],['Zip ties & gaff',52.29],['Tax',22.35]]},
+ {id:'r3',show:'saltwater',who:'Dolav',role:'PM',m:'Shell',amt:94.12,t:'8:31 AM',d:'Fuel for the PA truck, from Kai',acct:'3500',st:'pending',items:[['Unleaded, 17.9 gal',94.12]],flags:['Same amount at Shell on Nov 16. Possible duplicate.']},
+ {id:'r4',show:'longtable',who:'Renee Park',role:'PM',m:'Restaurant Depot',amt:1284.50,t:'9:12 AM',d:'Ingredients for the test-kitchen shoot',acct:'2800',st:'pending',items:[['Proteins',642.10],['Produce',318.44],['Dry goods',241.06],['Tax',82.90]]},
+ {id:'r5',show:'groundrules',who:'Tom Ashby',role:'Post PM',m:'Best Buy',amt:478.48,t:'Yesterday',d:'Two 4TB drives for the edit bay',acct:'4500',st:'pending',items:[['4TB drive × 2',439.98],['Tax',38.50]]},
+];
+const DONE=[
+ {show:'saltwater',who:'Dolav',m:'Pier Ten Parking',amt:180,acct:'3600',t:'Today, 7:05 AM'},
+ {show:'saltwater',who:'Dolav',m:'Staples',amt:63.27,acct:'6500',t:'Nov 17'},
+ {show:'longtable',who:'Renee Park',m:'Smart & Final',amt:212.44,acct:'2800',t:'Nov 17'},
+ {show:'saltwater',who:'Dolav',m:'Shell',amt:94.12,acct:'3500',t:'Nov 16'},
+];
+const TH={
+ saltwater:[{o:1,slip:'r1',txt:'Craft restock for today'},{o:0,txt:'Got it. Smart & Final, $412.86, craft service for Day 23. Coded 2500 Set Operations. Sent to Sterling to approve.'},{o:1,slip:'r2',txt:'Sandbags + sash for the pier tonight'},{o:0,txt:'Got it. Home Depot, $286.40, coded 2500 Set Operations, expendables. Sent to Sterling.'},{o:1,slip:'r3',txt:'Kai’s fuel'},{o:0,txt:'Got it. Shell, $94.12, coded 3500 Transportation. A Shell receipt for the same amount came in Nov 16, so I flagged it for Sterling.'}],
+ longtable:[{o:1,slip:'r4',txt:'Test kitchen groceries'},{o:0,txt:()=>`Got it. Restaurant Depot, $1,284.50. That’s over the ${fmt(RULES.limit)} petty cash limit, so I started a PO for Sterling to approve.`}],
+ groundrules:[{o:1,slip:'r5',txt:'Drives for the bay'},{o:0,txt:'Got it. Best Buy, $478.48, coded 4500 Editorial. Sent to Sterling.'}],
+ desert:[]
+};
+
+/* ---------- mail ---------- */
+const MAIL={
+ saltwater:[
+  {id:'m0',unfiled:true,from:'Pacific Prop House',who:'Accounts',subj:'Invoice 4471: rentals, week of Nov 9',t:'9:40 AM',note:'Invoice for $2,180 in prop rentals. This vendor is new, so it isn’t matched to a show yet.'},
+  {id:'m1',from:'Coastline Grip & Lift',who:'Rick Alvarez',subj:'SW2 · 80 ft condor for Thursday pier night',t:'8:14 AM',by:['SW2 in the subject','Vendor on this show'],note:'Second condor confirmed for Thursday, Nov 19: $1,450 a day plus $350 delivery, on site 6:00 AM. They need a certificate of insurance naming the pier owner by 5 PM today.',todo:[['Ask the broker for the COI','draft'],['Add the delivery to the calendar','cal'],['Add $1,800 to Electric','efc']]},
+  {id:'m2',from:'Northlight Production Finance',who:'Claire Benton',subj:'Saltwater S2: weekly cost report due Friday',t:'7:30 AM',by:['Network contact','Show title'],note:'Network wants the cost report in their template by 5 PM Friday, with a written note on any account more than 5% over.',todo:[['Draft the cost report','draft'],['Draft variance notes','draft']]},
+  {id:'m7',from:'UPS',who:'Shipping notice',subj:'Your package from Bayline Camera Rentals has shipped',t:'7:12 AM',by:['Ship-to: Saltwater office'],note:'Camera sliders and rails. Tracking 1Z 84A W17 03 4471 2210, arriving Friday, Nov 20 by 10:30 AM at the production office.',todo:[['Add to shipments and calendar','cal']]},
+  {id:'m3',from:'Ana Ruiz',who:'Location manager',subj:'Signed: Bayside Café agreement',t:'Yesterday',by:['Ana is on this show'],note:'Countersigned. $6,500 site fee for 1 prep, 1 shoot and 1 strike day, Dec 2 to 4. Neighbor letters go out today.',todo:[['File to Documents, Locations','file'],['Add Dec 2 to 4 to the calendar','cal']]},
+  {id:'m4',from:'Westbrook Talent',who:'Lena Ford',subj:'Revised deal: guest star, episode 205',t:'Yesterday',by:['Episode 205','Cast on this show'],note:'Maya Hollis goes from 2 days at $6,000 to 3 days at $6,800. That adds $8,400 before fringe. Fitting moved to Tuesday, Nov 24 at 2 PM.',todo:[['Update the Cast estimate','efc'],['Add the fitting to the calendar','cal']]},
+  {id:'m8',from:'Hotels.com',who:'Booking confirmation',subj:'Confirmed: Harborview Hotel, Long Beach, Nov 23 to 27',t:'Yesterday',by:['Guest: Maya Hollis','Booked by Marcus Bell'],note:'King room for Maya Hollis, 4 nights, $1,036.40 total. Check-in 3 PM Monday, Nov 23. Confirmation 7731 0284 5519.',todo:[['File to Travel','travel'],['Send Maya her check-in details','draft']]},
+  {id:'m5',from:'Lot & Ladle Catering',who:'Gina Russo',subj:'Headcount for Thursday?',t:'9:02 AM',by:['Vendor on this show'],note:'Needs the final headcount by 3 PM for Day 24. Asked whether there’s a second meal.',todo:[['Send the headcount from the call sheet','cater']]},
+  {id:'m6',from:'Jess Tran',who:'Production coordinator',subj:'Day 24 call sheet, draft 2',t:'10:10 AM',by:['Jess is on this show'],note:'Call 7:00 AM at Pier Ten, Long Beach. 86 crew, 14 cast, 60 background. Night exterior after lunch.',todo:[['Open the call sheet','sheet']]},
+ ],
+ longtable:[{id:'l1',from:'Harbor Network',who:'Nate Cole',subj:'Episode order for the first block',t:'8:50 AM',by:['Network contact'],note:'Network wants Oaxaca to shoot first so episode 101 can go to marketing early.',todo:[['Swap the first two blocks in the schedule','draft']]},{id:'l2',from:'Omar Haddad',who:'Production coordinator',subj:'Test kitchen walkthrough Thursday',t:'Yesterday',by:['Omar is on this show'],note:'Walkthrough moved to Thursday at 10 AM. Gas line inspection passed.',todo:[['Add to the calendar','cal']]}],
+ groundrules:[{id:'g1',from:'Meridian Post',who:'Delivery desk',subj:'Final deliverables list, Season 3',t:'11:05 AM',by:['Network contact','Show title'],note:'Closed captions are now due with picture, not 10 days after.',todo:[['Update the post schedule','draft']]}],
+ desert:[{id:'d1',from:'Northlight Production Finance',who:'Claire Benton',subj:'Desert pilot: budget by Nov 24',t:'Monday',by:['Network contact'],note:'Network wants a first-pass budget by Nov 24 at 15 shoot days, with a 17-day option.',todo:[['Price the 17-day option','draft']]}],
+};
+
+/* ---------- calendar (Saltwater) ---------- */
+const CAL_START=new Date(2026,10,16); // Mon Nov 16
+const SHOOTDAY={'2026-11-16':21,'2026-11-17':22,'2026-11-18':23,'2026-11-19':24,'2026-11-20':25,'2026-11-23':26,'2026-11-24':27,'2026-11-25':28,'2026-11-30':29,'2026-12-01':30,'2026-12-02':31,'2026-12-03':32,'2026-12-04':33};
+const CAL=[
+ {d:'2026-11-18',t:'Pier Ten, Long Beach',k:''},{d:'2026-11-19',t:'Pier Ten, night ext.',k:''},
+ {d:'2026-11-20',t:'Cost report to Northlight, 5 PM',k:'due'},{d:'2026-11-23',t:'Stage 4, int. boathouse',k:''},
+ {d:'2026-11-26',t:'Thanksgiving, dark',k:''},{d:'2026-11-27',t:'Dark',k:''},
+ {d:'2026-11-30',t:'Table read, ep 207',k:''},{d:'2026-12-01',t:'Stage 4',k:''},
+];
+const SUG=[
+ {id:'s1',d:'2026-11-19',t:'Condor delivery, Pier Ten, 6 AM',k:'ship',src:'Coastline Grip & Lift, 8:14 AM'},
+ {id:'s2',d:'2026-11-20',t:'UPS: camera rails by 10:30 AM',k:'ship',src:'UPS shipping notice, 7:12 AM',track:'1Z 84A W17 03 4471 2210'},
+ {id:'s3',d:'2026-11-23',t:'Maya Hollis checks in, Harborview',k:'',src:'Hotels.com confirmation, yesterday'},
+ {id:'s4',d:'2026-11-24',t:'Fitting: Maya Hollis, 2 PM',k:'',src:'Westbrook Talent, yesterday'},
+ {id:'s5',d:'2026-12-02',t:'Bayside Café prep',k:'',src:'Ana Ruiz, yesterday'},
+ {id:'s6',d:'2026-12-03',t:'Bayside Café shoot',k:'',src:'Ana Ruiz, yesterday'},
+ {id:'s7',d:'2026-12-04',t:'Bayside Café strike',k:'',src:'Ana Ruiz, yesterday'},
+];
+const SHIP=[
+ ['Camera sliders & rails','UPS','1Z 84A W17 03 4471 2210','Arriving Fri 10:30 AM','p-blue'],
+ ['Wardrobe, ep 205 pulls','FedEx','7748 2210 9931','Delivered Tue, signed by Leo','p-ok'],
+ ['Picture car plates','USPS','9400 1118 9922 3801 4471','In transit, Mon','p-blue'],
+];
+
+/* ---------- travel ---------- */
+const TRAVEL=[
+ {id:'t1',who:'Maya Hollis',role:'Guest star, ep 205',kind:'Flight',what:'JFK → LGB, Mon Nov 23, 9:05 AM → 12:40 PM',conf:'Conf. QX7H2M · Seat 3C',cost:684.20,acct:'3700',src:'Airline confirmation, filed from Marcus Bell’s inbox',sent:false},
+ {id:'t2',who:'Maya Hollis',role:'Guest star, ep 205',kind:'Hotel',what:'Harborview Hotel, Long Beach · Nov 23 to 27 · King',conf:'Conf. 7731 0284 5519 · Check-in 3 PM',cost:1036.40,acct:'3700',src:'Hotels.com receipt, filed from Marcus Bell’s inbox',sent:false},
+ {id:'t3',who:'Ben Okafor',role:'Director, ep 206',kind:'Hotel',what:'Harborview Hotel, Long Beach · Nov 29 to Dec 12 · Suite',conf:'Conf. 7731 0291 1102 · Check-in 3 PM',cost:4820.00,acct:'3700',src:'Hotels.com receipt, filed from Jess Tran’s inbox',sent:true},
+ {id:'t4',who:'Ben Okafor',role:'Director, ep 206',kind:'Car',what:'Midsize SUV, LGB pickup Sun Nov 29, 4 PM',conf:'Conf. 88K2-1190',cost:612.75,acct:'3700',src:'Rental confirmation, filed from Jess Tran’s inbox',sent:false},
+];
+const SCHED={
+ 'Maya Hollis':[['Mon Nov 23, 9:05 AM','Flight JFK → LGB','Seat 3C. Driver meets at baggage claim.'],['Mon Nov 23, 3:00 PM','Check in, Harborview Hotel','Conf. 7731 0284 5519'],['Tue Nov 24, 2:00 PM','Wardrobe fitting','Stage 4 wardrobe trailer'],['Wed Nov 25, 6:30 AM','Pickup for Day 28','Hair & makeup 7:15, on set 8:30'],['Fri Nov 27, 11:00 AM','Check out, ride to LGB','Flight home booked by Marcus']],
+ 'Ben Okafor':[['Sun Nov 29, 4:00 PM','Pick up rental car, LGB','Conf. 88K2-1190'],['Sun Nov 29, 5:00 PM','Check in, Harborview Hotel','Suite through Dec 12'],['Mon Nov 30, 10:00 AM','Table read, ep 207','Production office, conference room'],['Tue Dec 1, 9:00 AM','Tech scout, Bayside Café','With Ana Ruiz and Dana Whitfield'],['Wed Dec 2, 7:00 AM','Prep day, Bayside Café','Shoot day is Dec 3']],
+};
+
+/* ---------- crew database ---------- */
+const CREW=[
+ ['Hector Ruiz','Camera','A-camera 1st AC','Local 600','Los Angeles','Saltwater S1',650],
+ ['Nina Park','Camera','Camera operator','Local 600','Los Angeles','Ground Rules S2',820],
+ ['Owen Blake','Electric','Gaffer','Local 728','Long Beach','Saltwater S2',780],
+ ['Tasha Greene','Electric','Best boy electric','Local 728','Los Angeles','The Long Table pilot',640],
+ ['Luis Ortega','Grip','Key grip','Local 80','Los Angeles','Saltwater S2',780],
+ ['Erin Walsh','Art','Art director','Local 800','Pasadena','Ground Rules S3',3200],
+ ['Devon Price','Locations','Location manager','Local 399','Los Angeles','Saltwater S1',2900],
+ ['Mia Chen','Wardrobe','Costume designer','Local 892','Los Angeles','Ground Rules S3',3600],
+ ['Andre Simmons','Transportation','Transportation captain','Local 399','Palmdale','Saltwater S1',710],
+ ['Grace Li','Production','Production coordinator','Non-union','Los Angeles','The Long Table',2600],
+ ['Sam Rivera','Sound','Production mixer','Local 695','Los Angeles','Saltwater S2',900],
+ ['Jo Bennett','Makeup & Hair','Makeup department head','Local 706','Los Angeles','Ground Rules S3',720],
+];
+const REPLIES=['Available, send the deal memo','Booked until Jan 20, open after','Available','Can do a hold, waiting on another show','Available, prefer Joshua Tree local hire','Booked through February'];
+
+/* ---------- hot costs ---------- */
+const HOT={day:22,date:'Tuesday, Nov 17',plan:412600,lines:[
+ ['Crew overtime','13.4-hour day against 12 planned, 71 crew',14280],
+ ['Meal penalty','Second meal 18 minutes late, 41 crew',1230],
+ ['Background','34 booked against 22 planned for the pier scene',3180],
+ ['Second condor','Added for the night exterior',1450],
+ ['Pier Ten overtime','Location held 2 hours past contract',1300],
+ ['Company move skipped','Stayed at Pier Ten all day',-2400]],
+ days:[2.1,-0.8,3.4,0,1.2,-2.6,4.8,0.6,-1.4,2.9,6.2,-0.4,4.2,-1.1,7.9,2.4,-3.0,11.6,0.8,5.5,-2.2,19.04]};
+const hotNet=()=>HOT.lines.reduce((a,l)=>a+l[2],0);
+const hotStd=()=>HOT.days.reduce((a,b)=>a+b,0)*1000;
+
+/* ---------- call sheet ---------- */
+const CS={day:24,date:'Thursday, November 19',crew:'7:00 AM',shoot:'8:00 AM',lunch:'1:00 PM',
+ set:'Pier Ten, Long Beach',park:'Lot C, shuttle every 10 min from 6:30',base:'Basecamp: Pier Ten north lot',
+ weather:'Clear, 66° / 53°',sun:'Sunrise 6:27 AM · Sunset 4:46 PM',hospital:null,
+ scenes:[['14','EXT. PIER TEN, DAY','Ren talks Marisol out of selling the boat','1, 3','D','2 3/8'],['15','EXT. PIER TEN, DAY','The buyer shows up early','1, 3, 6','D','1 4/8'],['22pt','INT. BOATHOUSE, DAY','Ren finds the ledger','1','D','6/8'],['31','EXT. PIER TEN, NIGHT','The fire on the water','1, 2, 3, 6','N','2 1/8']],
+ cast:[['1','Ren','5:45 AM','6:00 AM','7:15 AM'],['2','Abby','Hold','2:30 PM','4:30 PM'],['3','Marisol','6:15 AM','6:30 AM','7:45 AM'],['6','The buyer','8:30 AM','9:00 AM','10:30 AM']],
+ depts:[['Camera','6:30 AM','2nd condor on site 6:00 AM'],['Electric','6:00 AM','Night rig after lunch'],['Grip','6:30 AM','Sandbags on the pier edge'],['Props','6:45 AM','The ledger, sc. 22'],['Background','10:00 AM','60 for sc. 31, holding in the north lot'],['Catering','6:00 AM','Breakfast 6:30, lunch 1:00, second meal 7:30']],
+ conf:{yes:71,wait:23,total:100}};
+
+/* ---------- state ---------- */
+let view='slate',cur='saltwater',tab='overview',openAcct=null,bAns=null,askSel=0,mailSel={},calAdded={},calDismiss={},crewSel={},crewAsk=null,travPerson='Maya Hollis',reqs=[],catSent=false,csSent=false,hospTry=0,pipeStep=0;
+const CAT={crew:86,cast:14,bg:60,guests:4,bRate:14,sRate:24,second:true,call:7};
+const SENT=[];
+
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>el.classList.remove('on'),2600);}
+const pend=()=>RC.filter(r=>r.st==='pending');
+
+/* ---------- rail ---------- */
+function renderRail(){
+ const p=pend().length;
+ const nv=(k,l,b)=>`<a href="#${k}" class="${view===k?'on':''}">${l}${b?`<i class="badge">${b}</i>`:''}</a>`;
+ $('#rail').innerHTML=`<a class="brand" href="#slate">${MARK}<span><b>The Slate</b><small>Production office</small></span></a>
+ <nav class="nav">${nv('slate','Slate')}${nv('myday','PM hub')}${nv('calendars','Calendars')}${nv('approvals','Approvals',p)}${nv('crew','Crew')}${nv('locations','Locations')}${nv('assistant','Assistant')}${nv('connect','Connections')}${nv('build','Build')}</nav>
+ <div class="rail-h">Shows</div>
+ <div class="shows">${SHOWS.map(s=>`<a href="#${s.id}" class="sh ${view==='show'&&cur===s.id?'on':''}"><span class="dot" style="background:${s.col}"></span><span class="nm">${s.t}</span><span class="ph">${PH[s.ph]}</span></a>`).join('')}</div>
+ <div class="demo">Sample shows, people and numbers</div>
+ <div class="me"><span class="av">S</span><span><b>Sterling</b><small>Line producer</small></span></div>`;
+}
+
+/* ---------- slate ---------- */
+function kpi(l,v,f,c,href){const tag=href?'a':'div';return `<${tag} class="kpi" ${href?`href="${href}"`:''}><small>${l}</small><b class="${c||''}">${v}</b><span>${f}</span></${tag}>`;}
+function card(s){const t=totals(s);return `<a class="card" href="#${s.id}">
+ <div class="c-top"><span class="dot" style="background:${s.col}"></span>${s.net} · ${s.netKind}<span class="pill ph-${s.ph}">${PH[s.ph]}</span></div>
+ <h2>${s.t}</h2><div class="c-sub">${s.season} · ${s.fmt}</div>
+ <div class="c-prog"><div class="bar"><i style="width:${Math.round(s.prog*100)}%"></i></div><span>${s.progTxt}</span></div>
+ <div class="c-nums"><div><small>Budget</small><b>${mm(t.locked)}</b></div><div><small>Spent</small><b>${mm(t.act)}</b></div><div><small>Est. final</small><b>${mm(t.efc)}</b></div><div><small>Variance</small><b class="${cls(t.var)}">${s.ph==='bid'?'Draft':varTxt(t.var)}</b></div></div>
+ <div class="c-foot"><span>PM <b>${s.pm}</b></span><span class="num">${s.num}</span></div></a>`;}
+const TODAY=[['7:00 AM','saltwater','Day 23 call at Pier Ten, Long Beach'],['10:00 AM','longtable','Tech scout at the test kitchen'],['11:30 AM','groundrules','Network notes call, episode 307'],['3:00 PM','saltwater','Catering headcount due to Lot & Ladle'],['5:00 PM','saltwater','COI for the condor due to Coastline']];
+function vSlate(){
+ let B=0,E=0;SHOWS.forEach(s=>{if(s.ph!=='bid'){const t=totals(s);B+=t.locked;E+=t.efc;}});
+ const p=pend(),pa=p.reduce((a,r)=>a+r.amt,0);
+ return `<header class="vh"><div><div class="eyebrow">Wednesday, November 18</div><h1>Good morning, Sterling.</h1><p class="sub">Four shows across three networks. Saltwater is on Day 23, The Long Table starts in 13 days, Ground Rules locks picture Dec 12.</p></div></header>
+ <section class="kpis">${kpi('Budgets in production',mm(B),'3 shows, pilot not counted')}${kpi('Estimated final',mm(E),varTxt(E-B),cls(E-B))}${kpi('Waiting on you',p.length+' receipts',fmt2(pa)+' to approve','','#approvals')}${kpi('Mail filed this week','138','6 need a decision')}</section>
+ <section class="cards">${SHOWS.map(card).join('')}</section>
+ <section class="two"><div class="panel"><h3>Today</h3><div class="list">${TODAY.map(([t,sid,x])=>`<a class="li" href="#${sid}"><span class="t">${t}</span><span class="dot" style="background:${SHOW[sid].col};margin-top:6px"></span><span class="grow"><b>${SHOW[sid].t}</b><br><span class="soft">${x}</span></span></a>`).join('')}</div></div>
+ <div class="panel"><h3>Watch list</h3><div class="list">${watch('saltwater').concat(watch('longtable').slice(0,1)).map(watchLi).join('')}</div></div></section>`;
+}
+function watch(id){
+ const s=SHOW[id];
+ if(id==='saltwater'){const r=rows(s).find(x=>x.n==='3600');const miss=paperworkMissing();
+  return [['over',`Saltwater: Locations is ${pct(r.var/r.locked)} over`,'Pier Ten nights went 3 days past plan.'],['warn','Saltwater: COI for the condor due 5 PM','Coastline Grip & Lift needs it before Thursday.'],['warn',`Saltwater: ${miss.length} people missing start paperwork`,miss.map(p=>`${p[0]} (${p[5].replace('Missing ','')})`).join(', ')],['info','Saltwater: cost report due Friday','Northlight template, with notes on anything over 5%.']];}
+ if(id==='longtable')return [['warn','The Long Table: a $1,284.50 receipt needs a PO','Restaurant Depot, test-kitchen groceries.'],['info','The Long Table: network wants Oaxaca first','Schedule swap drafted for Renee.']];
+ if(id==='groundrules')return [['info','Ground Rules: captions now due with picture','Post schedule update drafted for Tom.']];
+ return [['info','Desert pilot: budget due to Northlight Nov 24','15 days, with a 17-day option.']];
+}
+function watchLi([k,t,x]){return `<div class="li"><span class="ic ${k==='over'?'over':k}">${k==='info'?ICON.cal:ICON.warn}</span><span class="grow"><b>${t}</b><br><span class="soft small">${x}</span></span></div>`;}
+
+/* ---------- receipts ---------- */
+function slip(r){return `<div class="slip" aria-hidden="true"><b>${r.m}</b>${r.items.map(([d,a])=>`<span><i>${d}</i><i>${fmt2(a)}</i></span>`).join('')}<span class="tot"><i>TOTAL</i><i>${fmt2(r.amt)}</i></span></div>`;}
+function rcCard(r){
+ const s=SHOW[r.show];const flags=[...(r.flags||[])];if(r.amt>RULES.limit)flags.unshift(`Over the ${fmt(RULES.limit)} petty cash limit. A PO is drafted for you to approve.`);
+ return `<article class="rc ${r.st}">${slip(r)}<div class="rc-b">
+  <div class="rc-h"><div><span class="amt">${fmt2(r.amt)}</span> <span class="m">${r.m}</span></div><span class="pill"><span class="dot" style="background:${s.col}"></span>${s.t}</span></div>
+  <p>${r.d}</p>
+  <div class="rc-meta"><span>From <b>${r.who}</b>, ${r.role}</span><span>Texted to ${s.num}, ${r.t}</span></div>
+  <label class="rc-code">Account <select data-act="recode" data-id="${r.id}" ${r.st!=='pending'?'disabled':''}>${ACCTS.map(a=>`<option value="${a.n}" ${a.n===r.acct?'selected':''}>${a.n} ${acctName(s,a)}</option>`).join('')}</select></label>
+  ${flags.map(f=>`<div class="flag">${ICON.warn}<span>${f}</span></div>`).join('')}
+  ${r.st==='pending'?`<div class="row"><button class="btn pri" data-act="approve" data-id="${r.id}">${ICON.ok.replace('<svg','<svg width="14" height="14"')} Approve</button><button class="btn" data-act="sendback" data-id="${r.id}">Send back</button></div>`:`<div class="done ${r.st}">${r.st==='approved'?'Approved. On the cost report and in Priya’s envelope.':'Sent back to '+r.who+'.'}</div>`}
+ </div></article>`;}
+function thread(id){const s=SHOW[id];const pm=s.pm==='Not assigned'?'PM':s.pm;
+ return `<div class="phone"><div class="ph-scr"><div class="ph-h"><span class="ph-av" style="background:${s.col}">${s.t[0]}</span><div><b>${s.t}</b><small>${s.num}</small></div></div>
+ <div class="ph-msgs">${(TH[id]||[]).map(m=>{const tx=typeof m.txt==='function'?m.txt():m.txt;return m.o?`<div class="bub me">${m.slip?slip(RC.find(r=>r.id===m.slip)):''}${tx}</div>`:`<div class="bub them">${tx}</div>`;}).join('')||'<p class="muted small" style="text-align:center;margin-top:40px">No texts yet. The number is live as soon as the show is.</p>'}</div></div></div>`;}
+function vApprovals(){
+ const p=pend();
+ const csCard=bStatus==='pending'?`<a class="panel" href="#builder" data-act="brole" data-r="sterling" style="display:flex;gap:14px;align-items:center;border-color:var(--amber)"><span class="ic warn">${ICON.cal}</span><span style="flex:1"><b>Call sheet, Saltwater Day 24</b><br><span class="soft small">From Dolav, 11:20 AM · ${csChanges().length} changes from the schedule</span></span><span class="btn sm pri">Review</span></a>`:'';
+ return `${csCard}<header class="vh"><div><div class="eyebrow">Receipts, POs and call sheets</div><h1>Waiting on you</h1><p class="sub">PMs text a photo of the receipt to their show’s number. It’s read, coded and sent here. Approve it and it lands on the cost report.</p></div></header>
+ <div class="grid-rc"><div class="rc-list">${RC.map(rcCard).join('')}
+  <div class="panel"><h3>Approved recently</h3><div class="tw" style="border:0"><table><tr><th>Show</th><th>Who</th><th>Where</th><th>Account</th><th class="r">Amount</th><th>When</th></tr>${DONE.map(d=>`<tr><td>${SHOW[d.show].t}</td><td>${d.who}</td><td>${d.m}</td><td class="acct">${d.acct}</td><td class="r">${fmt2(d.amt)}</td><td class="muted">${d.t}</td></tr>`).join('')}</table></div></div>
+ </div><div style="display:flex;flex-direction:column;gap:12px;align-items:center;position:sticky;top:20px">${thread('saltwater')}<p class="small muted" style="text-align:center;max-width:300px">Dolav’s phone. Sterling can also approve by replying YES to the text he gets.</p></div></div>`;
+}
+
+/* ---------- show view ---------- */
+const TABS=[['overview','Overview'],['calendar','Calendar'],['callsheet','Call sheet'],['budget','Budget'],['hot','Hot costs'],['receipts','Receipts'],['travel','Travel'],['mail','Mail'],['docs','Documents'],['people','People'],['catering','Catering']];
+function vShow(){
+ const s=SHOW[cur];const pc=RC.filter(r=>r.show===s.id&&r.st==='pending').length;const mc=(MAIL[s.id]||[]).length;
+ return `<header class="vh show-h"><div><div class="eyebrow"><span class="dot" style="background:${s.col}"></span>${s.net} · ${s.netKind} · <span class="pill ph-${s.ph}">${PH[s.ph]}</span></div><h1>${s.t} <span class="season">${s.season}</span></h1><p class="sub">${s.fmt} · ${s.where} · PM ${s.pm}</p></div>
+ <div class="numbox"><small>Show number</small><b class="num">${s.num}</b><span>Texts and receipts here file to ${s.t}</span></div></header>
+ <nav class="tabs">${TABS.map(([k,l])=>`<a href="#${s.id}${k==='overview'?'':'-'+k}" class="${tab===k?'on':''}">${l}${k==='receipts'&&pc?`<i class="badge">${pc}</i>`:''}${k==='mail'&&mc?`<span class="muted small">${mc}</span>`:''}</a>`).join('')}</nav>
+ <div class="tabbody">${(TV[tab]||TV.overview)(s)}</div>`;
+}
+const notShooting=(s,what)=>`<div class="panel"><h3>${what}</h3><p class="soft">${s.t} is in ${PH[s.ph].toLowerCase()}. ${what} starts on Day 1 of the shoot. Saltwater shows it running.</p><div class="row" style="margin-top:12px"><a class="btn" href="#saltwater-${tab}">Open Saltwater</a></div></div>`;
+const TV={};
+TV.overview=s=>{
+ const t=totals(s);const ppl=PEOPLE.filter(p=>p[3].includes(s.id));
+ const strip=s.id==='saltwater'?`<div class="panel"><h3>Schedule <span class="pill">Day 23 of 64</span></h3><div class="strip"><div style="flex:10;background:var(--blue-soft);color:var(--blue-tx)">Prep · 10 wks</div><div style="flex:12.8;background:var(--amber-soft);color:var(--amber-tx)">Shoot · 64 days</div><div style="flex:4;background:var(--sunk);color:var(--soft)">Wrap</div><div style="flex:20;background:var(--line2);color:var(--soft)">Post · 20 wks</div><span class="now" style="left:calc(${(10+12.8*23/64)/46.8*100}% - 1px)"></span></div></div>`:'';
+ const act=s.id==='saltwater'?[['10:10 AM','Jess Tran’s Day 24 call sheet draft filed'],['8:31 AM','Dolav texted a Shell receipt, flagged as a possible duplicate'],['8:14 AM','Coastline Grip & Lift email filed, condor delivery suggested for the calendar'],['7:30 AM','Northlight: cost report due Friday'],['6:10 AM',`Day 22 hot costs ready: ${fmt(hotNet())} over the day`]]:[['Today','Mail and receipts filing to '+s.t]];
+ return `<section class="kpis">${kpi('Budget',mm(t.locked),s.ph==='bid'?'First pass':'Locked v4')}${kpi('Spent',mm(t.act),s.ph==='bid'?'—':pct(t.act/t.locked)+' of budget')}${kpi('Committed',mm(t.com),'Open POs and deals')}${kpi('Estimated final',mm(t.efc),s.ph==='bid'?'Draft':varTxt(t.var),cls(t.var))}</section>
+ ${strip}
+ <section class="two"><div class="panel"><h3>Watch list</h3><div class="list">${watch(s.id).map(watchLi).join('')}</div></div>
+ <div class="panel"><h3>Latest</h3><div class="list">${act.map(([t,x])=>`<div class="li"><span class="t">${t}</span><span class="grow">${x}</span></div>`).join('')}</div></div></section>
+ <div class="panel"><h3>People on ${s.t} <a class="btn sm" href="#${s.id}-people">All people</a></h3><div class="row">${ppl.map(p=>`<span class="pill" style="padding:5px 11px"><b style="color:var(--ink)">${p[0]}</b> ${p[1]}</span>`).join('')}</div></div>`;
+};
+/* calendar */
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+TV.calendar=s=>{
+ if(s.id!=='saltwater')return notShooting(s,'Calendar');
+ const days=[];for(let i=0;i<21;i++){const d=new Date(CAL_START);d.setDate(d.getDate()+i);days.push(d);}
+ const evs=CAL.concat(SUG.filter(x=>calAdded[x.id]).map(x=>({...x,new:1})));
+ const cells=days.map(d=>{const k=iso(d);const sd=SHOOTDAY[k];const off=d.getDay()===0||d.getDay()===6;
+  return `<div class="cd ${k==='2026-11-18'?'today':''} ${off?'off':''}"><div class="dn"><span>${d.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>${sd?`<i>Day ${sd}</i>`:''}</div>${evs.filter(e=>e.d===k).map(e=>`<div class="ev ${e.k} ${e.new?'new':''}" title="${e.t}">${e.t}</div>`).join('')}</div>`;}).join('');
+ const open=SUG.filter(x=>!calAdded[x.id]&&!calDismiss[x.id]);
+ return `<div class="grid-rc" style="grid-template-columns:minmax(0,1fr) 330px"><div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+  <div class="cal">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>`<div class="dh">${x}</div>`).join('')}${cells}</div>
+  <div class="panel"><h3>Shipments</h3><div class="tw" style="border:0"><table><tr><th>What</th><th>Carrier</th><th>Tracking</th><th>Status</th></tr>${SHIP.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td class="num small">${x[2]}</td><td><span class="pill ${x[4]}">${x[3]}</span></td></tr>`).join('')}</table></div></div>
+ </div>
+ <div class="panel" style="position:sticky;top:20px"><h3>Found in email <span class="badge">${open.length}</span></h3>
+  ${open.length?open.map(x=>`<div class="sug"><b>${x.t}</b><span class="small soft">${new Date(x.d+'T12:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}${x.track?' · '+x.track:''}</span><span class="src">From: ${x.src}</span><div class="row"><button class="btn pri sm" data-act="caladd" data-id="${x.id}">Add to calendar</button><button class="btn sm" data-act="caldis" data-id="${x.id}">Dismiss</button></div></div>`).join(''):'<p class="soft">All caught up. New dates from email show up here first.</p>'}
+  ${open.length>1?`<button class="btn" style="margin-top:12px;width:100%;justify-content:center" data-act="caladdall">Add all ${open.length}</button>`:''}
+ </div></div>`;
+};
+/* call sheet */
+TV.callsheet=s=>{
+ if(s.id!=='saltwater')return notShooting(s,'Call sheets');
+ const c=CS,h=c.hospital;
+ return `<div class="row" style="justify-content:space-between"><div><h2 style="font-size:20px">Day 24 call sheet</h2><p class="soft small">Built from the schedule, crew list, locations and cast. Dolav reviews, then it goes out by text and email.</p></div>
+  <div class="row"><a class="btn" href="#builder">Build step by step</a><button class="btn" data-act="csmsg">Message a department</button><button class="btn pri" data-act="cssend" ${csSent?'disabled':''}>${csSent?'Sent to 100 people':'Send to cast & crew'}</button></div></div>
+ <div class="grid-rc" style="grid-template-columns:minmax(0,1fr) 300px">
+ <div class="cs">
+  <div class="cs-top"><div><div class="cs-h">Saltwater · Season 2 · Ep 204</div><h2>${c.date}</h2><div class="small" style="opacity:.75">Day ${c.day} of 64 · PM Dolav (323) 555-0141 · 1st AD Dana Whitfield</div></div>
+   <div class="cs-calls"><small>Crew call</small><small>Shooting</small><small>Lunch</small><b>${c.crew.replace(' AM','a')}</b><b>${c.shoot.replace(' AM','a')}</b><b>${c.lunch.replace(' PM','p')}</b></div></div>
+  <div class="cs-grid">
+   <div class="cs-box"><small>Set</small><b>${c.set}</b><span>${c.base}</span></div>
+   <div class="cs-box"><small>Crew parking</small><b>${c.park}</b></div>
+   <div class="cs-box"><small>Weather</small><b>${c.weather}</b><span>${c.sun}</span></div>
+   ${h?`<div class="cs-box"><small>Nearest hospital</small><b>${h[0]}</b><span>${h[1]}</span></div>`:`<div class="cs-box empty"><small>Nearest hospital</small><span>Not set yet</span><button class="btn sm" data-act="hosp" style="align-self:flex-start;margin-top:4px">${hospTry?'Searching…':'Find nearest ER'}</button></div>`}
+  </div>
+  <div><div class="cs-h" style="margin-bottom:6px">Scenes</div><div style="overflow-x:auto"><table><tr><th>Sc.</th><th>Set</th><th>Cast</th><th>D/N</th><th class="r">Pgs</th></tr>${c.scenes.map(x=>`<tr><td><b>${x[0]}</b></td><td><b>${x[1]}</b><br><span style="opacity:.75">${x[2]}</span></td><td>${x[3]}</td><td>${x[4]}</td><td class="r">${x[5]}</td></tr>`).join('')}</table></div></div>
+  <div class="two" style="gap:14px"><div><div class="cs-h" style="margin-bottom:6px">Cast</div><table><tr><th>#</th><th>Role</th><th>Pickup</th><th>HMU</th><th>Set</th></tr>${c.cast.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td></tr>`).join('')}</table></div>
+  <div><div class="cs-h" style="margin-bottom:6px">Departments</div><table><tr><th>Dept</th><th>Call</th><th>Note</th></tr>${c.depts.map(x=>`<tr><td>${x[0]}</td><td style="white-space:nowrap">${x[1]}</td><td>${x[2]}</td></tr>`).join('')}</table></div></div>
+ </div>
+ <div style="display:flex;flex-direction:column;gap:14px;position:sticky;top:20px">
+  <div class="panel conf"><h3>Confirmations</h3><div class="cbar"><i style="width:${c.conf.yes}%"></i><em style="width:${c.conf.wait}%"></em></div><div class="small soft"><b class="okc">${c.conf.yes} confirmed</b> · ${c.conf.wait} waiting · ${c.conf.total-c.conf.yes-c.conf.wait} not sent</div><button class="btn sm" data-act="nudge" style="align-self:flex-start">Text the ${c.conf.wait} who haven’t answered</button></div>
+  <div class="panel compose" id="compose"><h3>Message the crew</h3><select id="cmpTo"><option>Everyone on Day 24</option><option>Camera (9)</option><option>Electric (8)</option><option>Grip (7)</option><option>Transportation (14)</option><option>Background (60)</option></select><textarea id="cmpTx">Day 24: 2nd condor lands at Pier Ten at 6:00 AM. Keep the north lot clear until it’s in.</textarea><button class="btn pri" data-act="cmpsend" style="align-self:flex-start">Send as text</button>${SENT.length?`<div class="sent">${SENT.map(x=>`<span>${ICON.ok.replace('<svg','<svg width="12" height="12"')} ${x}</span>`).join('')}</div>`:''}</div>
+ </div></div>`;
+};
+/* budget */
+function bAsks(s){const t=totals(s);
+ return [
+  ['Why is Locations over?',()=>{const r=rows(s).find(x=>x.n==='3600');return `Locations is at ${fmt(r.efc)} estimated against ${fmt(r.locked)} budgeted, ${fmt(r.var)} over (${pct(r.var/r.locked)}). Most of it is Pier Ten: three extra night shoots and longer police coverage. Bayside Café came in at $6,500, inside plan.`;}],
+  ['What if we add two shoot days?',()=>{const g={...s.g0,SD:s.g0.SD+2};const d=budgetWith(s,g)-t.locked;return `Two more shoot days adds ${fmt(d)}, mostly crew labor, equipment weeks and catering. That takes the budget to ${mm(t.locked+d)}. Use the Shoot days control above to make it a working copy.`;}],
+  ['Draft the network cost report',()=>{const o=rows(s).filter(r=>r.var/r.locked>.05);return `Drafted in Northlight’s template: ${ACCTS.length} accounts with budget, actual, committed, estimated final and variance. ${o.length} accounts are more than 5% over and need a note: ${o.map(r=>`${r.d} (${pct(r.var/r.locked)})`).join(', ')}. The notes are written. Read them before it goes.`;}],
+  ['Start the pilot budget from this one',()=>{const d=SHOW.desert,dt=totals(d);return `Started Untitled Desert Project v1 from Saltwater’s accounts and rates: 1 episode, 15 shoot days, 6 prep weeks. First pass is ${mm(dt.locked)} before contingency. It’s on the Desert pilot’s Budget tab.`;}],
+ ];}
+TV.budget=s=>{
+ const R=rows(s);const t=totals(s);const chg=['EP','SD','PW','WW'].some(k=>s.g[k]!==s.g0[k]);
+ const stepper=(k,l)=>`<div class="step ${s.g[k]!==s.g0[k]?'chg':''}"><label>${l}</label><div><button data-act="g-" data-k="${k}" aria-label="Fewer ${l}">−</button><b>${s.g[k]}</b><button data-act="g+" data-k="${k}" aria-label="More ${l}">+</button></div></div>`;
+ const A=bAsks(s);
+ let body='';GROUPS.forEach(([g,gl])=>{const gr=R.filter(r=>r.g===g);if(!gr.length)return;const st={locked:0,work:0,act:0,com:0,efc:0};gr.forEach(r=>{for(const k in st)st[k]+=r[k];});
+  body+=`<tr class="grp"><td colspan="${chg?8:7}">${gl}</td></tr>`;
+  gr.forEach(r=>{const op=openAcct===r.n;
+   body+=`<tr class="click ${op?'open':''}" data-act="acct" data-n="${r.n}"><td class="acct">${r.n}</td><td>${r.d}</td><td class="r">${fmt(r.locked)}</td>${chg?`<td class="r ${cls(r.work-r.locked)}">${fmt(r.work)}</td>`:''}<td class="r">${fmt(r.act)}</td><td class="r">${fmt(r.com)}</td><td class="r">${fmt(r.efc)}</td><td class="r ${cls(r.var)}">${s.ph==='bid'?'—':varTxt(r.var)}</td></tr>`;
+   if(op){const lns=r.a.L.map((L,i)=>{const c=lineCalc(L,s.g,s.rf);const nm=(s.ln&&s.ln[r.n]&&s.ln[r.n][i])||L[0];return `<tr><td>${nm}</td><td class="r">${+c.qty.toFixed(1)}</td><td>${c.unit}</td><td class="r">${L[3]}</td><td class="r">${fmt(L[4]*s.rf)}</td><td class="r">${fmt(c.sub)}</td><td>${L[5].map(k=>FR[k].n).join(', ')||'—'}</td><td class="r"><b>${fmt(c.total)}</b></td></tr>`;}).join('');
+    body+=`<tr class="det"><td colspan="${chg?8:7}"><div style="overflow-x:auto"><table><tr><th>Detail</th><th class="r">Amount</th><th>Units</th><th class="r">X</th><th class="r">Rate</th><th class="r">Subtotal</th><th>Fringes</th><th class="r">Total</th></tr>${lns}</table></div></td></tr>`;}
+  });
+  body+=`<tr class="sub"><td></td><td>Total ${gl.toLowerCase()}</td><td class="r">${fmt(st.locked)}</td>${chg?`<td class="r">${fmt(st.work)}</td>`:''}<td class="r">${fmt(st.act)}</td><td class="r">${fmt(st.com)}</td><td class="r">${fmt(st.efc)}</td><td class="r ${cls(st.efc-st.locked)}">${s.ph==='bid'?'—':varTxt(st.efc-st.locked)}</td></tr>`;});
+ body+=`<tr class="tot"><td></td><td>Grand total</td><td class="r">${fmt(t.locked)}</td>${chg?`<td class="r">${fmt(t.work)}</td>`:''}<td class="r">${fmt(t.act)}</td><td class="r">${fmt(t.com)}</td><td class="r">${fmt(t.efc)}</td><td class="r ${cls(t.var)}">${s.ph==='bid'?'—':varTxt(t.var)}</td></tr>`;
+ return `<div class="row" style="justify-content:space-between"><div><h2 style="font-size:20px">Top sheet</h2><p class="soft small">${s.ph==='bid'?'First pass':'Locked v4'} · ${ACCTS.length} accounts · click any account for its detail lines</p></div><div class="row"><span class="pill">Excel</span><span class="pill">PDF</span><span class="pill">${s.net} template</span></div></div>
+ <div class="glob">${stepper('EP','Episodes')}${stepper('SD','Shoot days')}${stepper('PW','Prep weeks')}${stepper('WW','Wrap weeks')}<div class="step" style="min-width:220px"><label>Fringes</label><span class="small soft">${Object.values(FR).map(f=>`${f.n} ${(f.r*100).toFixed(1)}%`).join(' · ')}</span></div></div>
+ ${chg?`<div class="banner">Working copy: ${fmt(t.work)}, ${varTxt(t.work-t.locked).replace('over','more').replace('under','less')} than locked v4.<button class="btn sm" data-act="greset">Back to v4</button></div>`:''}
+ <div class="ask"><div class="ask-h">Ask this budget</div><div class="chips">${A.map(([q],i)=>`<button class="chip ${bAns===i?'on':''}" data-act="bask" data-i="${i}">${q}</button>`).join('')}</div>${bAns!==null?`<div class="answer">${A[bAns][1]()}</div>`:''}</div>
+ <div class="tw"><table style="min-width:${chg?860:780}px"><tr><th>Acct</th><th>Description</th><th class="r">Budget</th>${chg?'<th class="r">Working</th>':''}<th class="r">Actual</th><th class="r">Committed</th><th class="r">Est. final</th><th class="r">Variance</th></tr>${body}</table></div>`;
+};
+/* hot costs */
+TV.hot=s=>{
+ if(s.id!=='saltwater')return notShooting(s,'Hot costs');
+ const net=hotNet(),std=hotStd();const D=HOT.days;const mx=Math.max(...D.map(Math.abs));const W=660,H=200,pad=34,bw=(W-pad-10)/D.length;const zero=H/2+10;const sc=(H/2-20)/mx;
+ const bars=D.map((v,i)=>{const h=Math.abs(v)*sc;const y=v>=0?zero-h:zero;return `<rect x="${(pad+i*bw+2).toFixed(1)}" y="${y.toFixed(1)}" width="${(bw-4).toFixed(1)}" height="${Math.max(h,1).toFixed(1)}" rx="2" class="${v>=0?'bo':'bu'}"/>`;}).join('');
+ const tk=Math.round(mx);
+ return `<section class="kpis">${kpi('Day '+HOT.day+' plan',fmt(HOT.plan),HOT.date)}${kpi('Day '+HOT.day+' actual',fmt(HOT.plan+net),'From the production report and timecards')}${kpi('Day '+HOT.day,fmt(net)+' over','4.6% over the day','over')}${kpi('Season to date',mm(std)+' over','22 shoot days','over')}</section>
+ <section class="two"><div class="panel"><h3>What moved yesterday <span class="pill p-ok">Ready 6:10 AM</span></h3><div class="list">${HOT.lines.map(l=>`<div class="li"><span class="grow"><b>${l[0]}</b><br><span class="soft small">${l[1]}</span></span><b class="tn ${cls(l[2])}">${l[2]>0?'+':''}${fmt(l[2])}</b></div>`).join('')}<div class="li"><span class="grow"><b>Net</b></span><b class="tn over">+${fmt(net)}</b></div></div></div>
+ <div class="panel"><h3>Daily variance, Days 1 to 22</h3><svg class="chart" viewBox="0 0 ${W} ${H+20}" role="img" aria-label="Daily variance bars, Day 22 the largest at $19,040 over"><line x1="${pad}" x2="${W-10}" y1="${zero}" y2="${zero}" class="ax"/><text x="${pad-6}" y="${zero+4}" text-anchor="end" class="axt">0</text><text x="${pad-6}" y="${zero-tk*sc+4}" text-anchor="end" class="axt">+${tk}K</text><line x1="${pad}" x2="${W-10}" y1="${zero-tk*sc}" y2="${zero-tk*sc}" class="ax" stroke-dasharray="3 4"/>${bars}<text x="${pad+bw/2}" y="${H+16}" text-anchor="middle" class="axt">1</text><text x="${pad+(D.length-0.5)*bw}" y="${H+16}" text-anchor="middle" class="axt">22</text></svg>
+ <p class="soft small" style="margin-top:8px"><b class="over">Orange is over</b>, <b class="under">blue is under</b> the day’s plan. Six of the last ten days ran past 12 hours, all pier or night work. Days 28 to 31 are pier nights too.</p></div></section>`;
+};
+/* receipts tab */
+TV.receipts=s=>{const mine=RC.filter(r=>r.show===s.id);const dn=DONE.filter(d=>d.show===s.id);
+ return `<div class="grid-rc"><div class="rc-list">${mine.length?mine.map(rcCard).join(''):'<div class="panel"><p class="soft">No receipts waiting.</p></div>'}
+ ${dn.length?`<div class="panel"><h3>Approved</h3>${dn.map(d=>`<div class="li"><span class="grow"><b>${d.m}</b> · ${d.who}</span><span class="acct">${d.acct}</span><b class="tn">${fmt2(d.amt)}</b></div>`).join('')}</div>`:''}</div>
+ ${thread(s.id)}</div>`;};
+/* travel */
+TV.travel=s=>{
+ if(s.id!=='saltwater')return `<div class="panel"><h3>Travel</h3><p class="soft">${s.id==='longtable'?'Oaxaca and New Orleans bookings start filing here once Renee’s team confirms flights.':'No travel booked yet.'}</p><div class="row" style="margin-top:12px"><a class="btn" href="#saltwater-travel">Open Saltwater travel</a></div></div>`;
+ const tot=TRAVEL.reduce((a,t)=>a+t.cost,0);const ppl=Object.keys(SCHED);
+ return `<section class="kpis">${kpi('Booked travel',fmt2(tot),TRAVEL.length+' bookings, all coded 3700')}${kpi('People traveling','2','Guest star and the ep 206 director')}${kpi('Sent to travelers',TRAVEL.filter(t=>t.sent).length+' of '+TRAVEL.length,'Check-in and flight details')}</section>
+ <div class="tw"><table style="min-width:820px"><tr><th>Who</th><th>Type</th><th>Booking</th><th class="r">Cost</th><th></th></tr>${TRAVEL.map(t=>`<tr><td><b>${t.who}</b><br><span class="muted small">${t.role}</span></td><td><span class="pill">${t.kind}</span></td><td>${t.what}<br><span class="small num muted">${t.conf}</span><br><span class="small muted">${t.src}</span></td><td class="r">${fmt2(t.cost)}</td><td class="r">${t.sent?`<span class="done">Sent to ${t.who.split(' ')[0]}</span>`:`<button class="btn sm" data-act="trsend" data-id="${t.id}">Send to ${t.who.split(' ')[0]}</button>`}</td></tr>`).join('')}</table></div>
+ <div class="panel"><h3>Personal schedules <span class="row">${ppl.map(p=>`<button class="chip ${travPerson===p?'on':''}" data-act="trp" data-p="${p}">${p}</button>`).join('')}</span></h3>
+ <p class="soft small" style="margin-bottom:14px">Built from bookings, the call sheet, fittings and meetings. Updates as new mail comes in.</p>
+ <div class="tl">${SCHED[travPerson].map(([w,t,x])=>`<div class="tli"><span class="when">${w}</span><span class="ln"><i></i></span><span><b>${t}</b><span class="soft small">${x}</span></span></div>`).join('')}</div>
+ <div class="row"><button class="btn pri" data-act="schsend">Send ${travPerson.split(' ')[0]} this schedule</button></div></div>`;
+};
+/* mail */
+TV.mail=s=>{const L=MAIL[s.id]||[];const sel=mailSel[s.id]||(L.find(m=>!m.unfiled)||L[0]||{}).id;const m=L.find(x=>x.id===sel);
+ return `<div class="mail"><div class="mlist">${L.map(x=>`<button class="mi ${x.id===sel?'on':''} ${x.unfiled?'unf':''}" data-act="msel" data-id="${x.id}"><span class="f">${x.from}<span>${x.t}</span></span><span class="s">${x.subj}</span>${x.unfiled?'<span class="small" style="color:var(--amber-tx);font-weight:600">Which show is this for?</span>':''}</button>`).join('')}</div>
+ <div class="panel mdet">${m?(m.unfiled?`<div><div class="eyebrow">Not filed yet</div><h3 style="margin:0">${m.subj}</h3><p class="soft small">${m.from} · ${m.who} · ${m.t}</p></div><div class="note">${m.note}</div><div><p class="small soft" style="margin-bottom:8px">Pick once. Mail from this vendor files there from now on.</p><div class="row">${SHOWS.slice(0,3).map(x=>`<button class="btn" data-act="mfile" data-id="${m.id}" data-to="${x.id}"><span class="dot" style="background:${x.col}"></span>${x.t}</button>`).join('')}</div></div>`
+ :`<div><div class="eyebrow">${ICON.mail.replace('<svg','<svg width="13" height="13"')} Filed to ${s.t}</div><h3 style="margin:0">${m.subj}</h3><p class="soft small">${m.from} · ${m.who} · ${m.t}</p></div><div class="row">${(m.by||[]).map(b=>`<span class="pill">${b}</span>`).join('')}</div><div class="note">${m.note}</div><div>${(m.todo||[]).map((d,i)=>`<div class="todo ${m['did'+i]?'did':''}"><span>${d[0]}</span>${m['did'+i]?'<span class="done">Done</span>':`<button class="btn sm ${i===0?'pri':''}" data-act="mtodo" data-id="${m.id}" data-i="${i}">${d[1]==='draft'?'Draft it':d[1]==='cal'?'Add':d[1]==='cater'?'Open catering':d[1]==='sheet'?'Open':d[1]==='travel'?'File':d[1]==='efc'?'Update':'File'}</button>`}</div>`).join('')}</div><button class="btn" style="align-self:flex-start" data-act="reply">Reply from The Slate</button>`):'<p class="soft">No mail yet.</p>'}</div></div>`;};
+/* docs */
+const DOCS={saltwater:[
+ ['Budget',[['Locked budget v4','Oct 2'],['Working copy','Today'],['Network cost report, wk 11','Draft']]],
+ ['Schedule',[['One-liner, white','Nov 13'],['Day out of days','Nov 13'],['Day 24 call sheet','Draft 2']]],
+ ['Scripts',[['Ep 201 to 208, blue revisions','Nov 16'],['Ep 205, yellow pages','Nov 17']]],
+ ['Locations',[['Pier Ten agreement','Signed'],['Bayside Café agreement','Signed yesterday'],['Long Beach permit, Nov 19','Approved']]],
+ ['Deals & paperwork',[['Maya Hollis, revised deal, ep 205','Yesterday'],['Crew deal memos','86 of 88'],['Start packets','2 missing']]],
+ ['Insurance',[['Production package certificate','Active'],['Coastline Grip & Lift COI','Requested'],['Harborview Hotel COI','Expires Dec 31']]],
+]};
+TV.docs=s=>{const D=DOCS[s.id]||DOCS.saltwater.slice(0,2);
+ return `<div class="panel"><h3>One place for every document</h3><p class="soft" style="margin-bottom:12px">Attachments from mail, texts and uploads land in the right folder by themselves. Everyone on the show sees the current version.</p><div class="gone"><span>budget_v4_FINAL_final.xlsx</span><span>hot costs NOV.xlsx</span><span>PO log (2).xlsx</span><span>PC envelope Dolav.pdf</span><span>crew list 11-12.xlsx</span><span>catering count.xlsx</span><span>COI tracker.xlsx</span><span>travel grid.xlsx</span></div></div>
+ <div class="docs">${D.map(([h,items])=>`<div class="doc"><h3>${h}</h3>${items.map(([n,st])=>`<div class="di"><b style="font-weight:500">${n}</b><span>${st}</span></div>`).join('')}</div>`).join('')}</div>`;};
+/* people */
+TV.people=s=>{const P=PEOPLE.filter(p=>p[3].includes(s.id));
+ return `<div class="row" style="justify-content:space-between"><p class="soft">Attach someone once. Their mail, texts and receipts file to ${s.t} from then on.</p><button class="btn pri" data-act="padd">Attach someone</button></div>
+ <div id="paddf" hidden class="panel"><div class="row"><input type="text" id="pn" placeholder="Name" aria-label="Name"><input type="text" id="pr" placeholder="Role" aria-label="Role"><input type="text" id="pp" placeholder="Phone or email" aria-label="Phone or email"><button class="btn pri" data-act="psave">Add to ${s.t}</button></div></div>
+ <div class="tw"><table style="min-width:720px"><tr><th>Name</th><th>Role</th><th>Group</th><th>Contact</th><th>Paperwork</th><th>Also on</th></tr>${P.map(p=>`<tr><td><b>${p[0]}</b></td><td>${p[1]}</td><td class="muted">${p[2]}</td><td class="num small">${p[4]}</td><td>${p[5]==='—'?'<span class="muted">—</span>':`<span class="pill ${p[5]==='Complete'?'p-ok':'p-warn'}">${p[5]}</span>`}</td><td class="small soft">${p[3].filter(x=>x!==s.id).map(x=>SHOW[x].t).join(', ')||'—'}</td></tr>`).join('')}</table></div>`;};
+/* catering */
+TV.catering=s=>{
+ if(s.id!=='saltwater')return notShooting(s,'Catering');
+ const tot=CAT.crew+CAT.cast+CAT.bg+CAT.guests;const bf=(CAT.crew+CAT.cast)*CAT.bRate,lu=tot*RULES.lunch,se=CAT.second?tot*CAT.sRate:0,est=bf+lu+se;
+ const plan=150*36+100*14+(CAT.second?150*24:0);const call=CAT.call;const t12=h=>{const hh=Math.floor(h),mi=Math.round((h-hh)*60);const ap=hh>=12&&hh<24?'PM':'AM';const h12=((hh+11)%12)+1;return h12+':'+String(mi).padStart(2,'0')+' '+ap;};
+ const inp=(k,l)=>`<div class="step"><label for="c-${k}">${l}</label><input type="number" id="c-${k}" data-act="cat" data-k="${k}" value="${CAT[k]}" min="0" style="width:90px"></div>`;
+ return `<div class="row" style="justify-content:space-between"><div><h2 style="font-size:20px">Day 24 · Thursday, Nov 19</h2><p class="soft small">Counts come from the call sheet. Change anything and the order updates.</p></div></div>
+ <div class="glob">${inp('crew','Crew')}${inp('cast','Cast')}${inp('bg','Background')}${inp('guests','Guests')}<div class="step"><label for="c-call">Crew call</label><select id="c-call" data-act="catcall">${[5,6,7,8,9].map(h=>`<option value="${h}" ${h===call?'selected':''}>${t12(h)}</option>`).join('')}</select></div><div class="step"><label for="c-second">Second meal</label><select id="c-second" data-act="catsec"><option value="1" ${CAT.second?'selected':''}>Yes, 12+ hour day</option><option value="0" ${!CAT.second?'selected':''}>No</option></select></div></div>
+ <section class="kpis">${kpi('Headcount',tot,`${CAT.crew} crew · ${CAT.cast} cast · ${CAT.bg} BG · ${CAT.guests} guests`)}${kpi('Estimate',fmt(est),`Breakfast ${fmt(bf)} · Lunch ${fmt(lu)}${CAT.second?' · 2nd meal '+fmt(se):''}`)}${kpi('Budgeted for the day',fmt(plan),'From account 3800')}${kpi('Difference',fmt(Math.abs(est-plan))+(est>plan?' over':' under'),'',est>plan?'over':'under')}</section>
+ <section class="two"><div class="panel"><h3>Meal times</h3><div class="tl"><div class="tli"><span class="when">${t12(call-.5)}</span><span class="ln"><i></i></span><span><b>Breakfast</b><span class="soft small">Walk-in, ${CAT.crew+CAT.cast} crew and cast</span></span></div><div class="tli"><span class="when">${t12(call+6)}</span><span class="ln"><i></i></span><span><b>Lunch, no later than</b><span class="soft small">Six hours after crew call. Later than this is a meal penalty.</span></span></div>${CAT.second?`<div class="tli"><span class="when">${t12(call+12.5)}</span><span class="ln"><i></i></span><span><b>Second meal</b><span class="soft small">Six hours after lunch ends</span></span></div>`:''}</div></div>
+ <div class="panel"><h3>Order to Lot & Ladle Catering</h3><div class="note" style="margin-bottom:12px">Hi Gina, final for Thursday, Day 24: ${tot} for lunch at ${t12(call+6)} (${CAT.crew} crew, ${CAT.cast} cast, ${CAT.bg} background, ${CAT.guests} guests). Walk-in breakfast for ${CAT.crew+CAT.cast} at ${t12(call-.5)}.${CAT.second?` Second meal for ${tot} at ${t12(call+12.5)}.`:''} Pier Ten, Long Beach, north lot. Thanks, Jess</div>
+ <button class="btn pri" data-act="catsend" ${catSent?'disabled':''}>${catSent?'Sent to Lot & Ladle':'Send to Lot & Ladle'}</button></div></section>`;
+};
+
+/* ---------- crew database ---------- */
+function vCrew(){
+ const n=Object.keys(crewSel).filter(k=>crewSel[k]).length;
+ return `<header class="vh"><div><div class="eyebrow">Everyone you’ve worked with</div><h1>Crew</h1><p class="sub">Every person from every show, with their department, rate and last show. Pick people and ask if they’re free, by text, in one go.</p></div></header>
+ <div class="panel"><div class="row" style="justify-content:space-between"><div class="row"><select id="crewFor" aria-label="Project"><option>Untitled Desert Project · prep Jan 5, shoot Feb 1 to 19</option><option>The Long Table · New Orleans block, Feb 22 to Mar 6</option></select></div>
+ <div class="row"><span class="soft">${n} selected</span><button class="btn pri" data-act="crewask" ${n?'':'disabled'}>Ask who’s available</button></div></div>
+ ${crewAsk?`<div class="note" style="margin-top:12px">Texted ${crewAsk.n} people: “Hi, it’s Sterling’s office. Are you free for a Northlight pilot, prep Jan 5, shoot Feb 1 to 19 in Joshua Tree? Reply YES, NO or HOLD.”</div>`:''}</div>
+ <div class="tw"><table style="min-width:900px"><tr><th></th><th>Name</th><th>Department</th><th>Position</th><th>Union</th><th>Based in</th><th>Last show</th><th class="r">Last rate</th><th>Availability</th></tr>${CREW.map((c,i)=>{const rep=crewAsk&&crewAsk.rep[i];return `<tr><td><input type="checkbox" class="chk" data-act="crewchk" data-i="${i}" ${crewSel[i]?'checked':''} aria-label="Select ${c[0]}"></td><td><b>${c[0]}</b></td><td>${c[1]}</td><td>${c[2]}</td><td class="muted">${c[3]}</td><td>${c[4]}</td><td class="soft">${c[5]}</td><td class="r">${c[6]>1500?fmt(c[6])+'/wk':fmt(c[6])+'/day'}</td><td class="avail">${rep===undefined?'<span class="muted">—</span>':rep===null?'<span class="muted">Waiting…</span>':`<span class="${rep.startsWith('Available')?'okc':rep.startsWith('Can')?'':'over'}">${rep}</span>`}</td></tr>`;}).join('')}</table></div>`;
+}
+
+/* ---------- PM hub (Dolav) ---------- */
+const hm=m=>{const h=Math.floor(m/60),mi=((m%60)+60)%60;const ap=h>=12&&h<24?'PM':'AM';const h12=((h+11)%12)+1;return h12+':'+String(mi).padStart(2,'0')+' '+ap;};
+const TODAY_PM=[[5.5,6.5,'Crew parking opens, Lot C','b-meet'],[7,19.5,'Day 23 shoot · Pier Ten','b-shoot'],[9,9.5,'Call with Coastline: condor','b-meet'],[13,13.5,'Lunch · meal penalty at 1:00','b-due'],[15,15.25,'Catering headcount due','b-due'],[17,17.25,'COI due to Coastline','b-due'],[19.75,20.5,'Send Day 24 call sheet','b-meet']];
+const TODOS=[['Send Day 24 call sheet','Starts from the schedule. 2 of 5 steps done.','builder'],['COI for the condor, by 5 PM','From Coastline Grip & Lift email, 8:14 AM','x'],['Catering headcount to Lot & Ladle by 3 PM','From Gina Russo email, 9:02 AM','cater'],['Price a condor for Days 28 to 31','From yesterday’s Meet call with Sterling','x'],['Kai’s direct deposit form','Start paperwork, 6 days late','x'],['Approve 12 PA timecards','Week ending Nov 15','x']];
+let todoDone={};
+const CREWTX=[['6:41 AM','Kai Moreno','Running 10 min late, in the PA truck'],['7:58 AM','Owen Blake','Condor confirmed for Thursday 6 AM'],['9:20 AM','Dana Whitfield','We’re 2 scenes ahead. Could pick up 32 today'],['10:05 AM','Leo Grant','Is there a parking pass for the office lot?']];
+function vMyday(){
+ const mine=RC.filter(r=>r.who==='Dolav');const ap=mine.filter(r=>r.st==='approved').length;const open=TODOS.filter((t,i)=>!todoDone[i]).length;
+ const S=5,E=22,H=40;const nowY=(11.75-S)*H;
+ return `<header class="vh"><div><div class="eyebrow"><span class="dot" style="background:${SHOW.saltwater.col}"></span>Saltwater · Day 23 of 64 · Wednesday, Nov 18</div><h1>Good morning, Dolav.</h1><p class="sub">The production manager’s day: what’s on set, what’s due, what came in overnight, and tomorrow’s call sheet already started.</p></div></header>
+ <section class="kpis">${kpi('On set now','Day 23','Pier Ten · 2 scenes ahead')}${kpi('Tomorrow’s call sheet',(bStep>=4&&bSent?'Sent':'Step '+(bStep+1)+' of 5'),bSent?'71 of 100 confirmed':'Started from the schedule','','#builder')}${kpi('My receipts today',mine.length,ap?ap+' approved by Sterling':'Waiting on Sterling','','#saltwater-receipts')}${kpi('To-dos',open,'Pulled from mail, texts and calls')}</section>
+ <section class="two" style="grid-template-columns:minmax(300px,1fr) minmax(0,1.3fr)">
+  <div class="panel"><h3>Today</h3><div class="day">${Array.from({length:E-S},(_,i)=>`<div class="hr"><span>${hm((S+i)*60).replace(':00','')}</span><span></span></div>`).join('')}
+   ${TODAY_PM.map(([a,b,t,c],i)=>`<div class="blk ${c}" style="top:${(a-S)*H+2}px;height:${Math.max((b-a)*H-4,20)}px;${i===0||i===1?'':'left:110px;'}${i===1?'right:auto;width:44px;writing-mode:vertical-rl;text-orientation:mixed;padding:8px 4px;':''}">${t}</div>`).join('')}
+   <div class="now" style="top:${nowY}px"></div></div></div>
+  <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+   <div class="panel"><h3>To-dos <span class="pill">${open} open</span></h3>${TODOS.map((t,i)=>`<div class="todo2 ${todoDone[i]?'did':''}"><input type="checkbox" class="chk" data-act="todo" data-i="${i}" ${todoDone[i]?'checked':''} aria-label="Done: ${t[0]}"><span style="flex:1;min-width:0"><b>${t[0]}</b><br><span class="src2">${t[1]}</span></span>${t[2]==='builder'?'<a class="btn sm pri" href="#builder">Continue</a>':t[2]==='cater'?'<a class="btn sm" href="#saltwater-catering">Open</a>':''}</div>`).join('')}</div>
+   <div class="panel"><h3>Texts to the show number</h3><div class="list">${CREWTX.map(([t,w,x])=>`<div class="li"><span class="t">${t}</span><span class="grow"><b>${w}</b><br><span class="soft">${x}</span></span></div>`).join('')}</div></div>
+  </div></section>`;
+}
+
+/* ---------- call sheet builder ---------- */
+const STRIPS=[
+ {sc:'14',set:'EXT. PIER TEN',x:'Ren talks Marisol out of selling the boat',dn:'D',pg:19,cast:'1, 3',c:'s-de',day:24},
+ {sc:'15',set:'EXT. PIER TEN',x:'The buyer shows up early',dn:'D',pg:12,cast:'1, 3, 6',c:'s-de',day:24},
+ {sc:'22pt',set:'INT. BOATHOUSE',x:'Ren finds the ledger',dn:'D',pg:6,cast:'1',c:'s-di',day:24},
+ {sc:'31',set:'EXT. PIER TEN',x:'The fire on the water',dn:'N',pg:17,cast:'1, 2, 3, 6',c:'s-ne',day:24},
+ {sc:'32',set:'EXT. PIER TEN',x:'Abby pulls Ren out',dn:'N',pg:10,cast:'1, 2',c:'s-ne',day:25},
+ {sc:'40',set:'INT. MARISOL’S KITCHEN',x:'Marisol reads the letter',dn:'N',pg:3,cast:'3, 7',c:'s-ni',day:25},
+];
+const pgs=e=>{const w=Math.floor(e/8),r=e%8;return (w?w+' ':'')+(r?r+'/8':'')||'0';};
+const CASTREL=[['1','Ren',-75,-60,15],['2','Abby',450,480,570],['3','Marisol',-45,-30,45],['6','The buyer',90,120,210],['7','Teo',null,null,null]];
+const DEPTREL=[['Camera',-30],['Electric',-60],['Grip',-30],['Props',-15],['Background',180],['Catering',-60]];
+const SUGG=[['2nd condor on site 6:00 AM','Electric','Coastline Grip & Lift email, 8:14 AM'],['Sandbags along the pier edge','Grip','Dolav’s Home Depot receipt note'],['Police coverage after 10 PM','Locations','Pier Ten agreement'],['Two extra set PAs for the pier','Production','#saltwater-crew, 10:22 AM']];
+let bStep=2,bOn={0:1,1:1,2:1,3:1},bCall=420,bOk={},bHosp=false,bSent=false,bConf=0,bRole='dolav',bStatus='draft',bNote='';
+function csChanges(sel,pg){const c=[];
+ if(bOn[4])c.push(['Scene 32 pulled forward from Day 25','+1 2/8 pages, adds Abby at 2:30 PM','+$0, saves part of Day 25']);
+ if(!bOn[2])c.push(['Scene 22pt moved off the day','Boathouse scene pushed to Day 25','—']);
+ if(bOk[3])c.push(['Two extra set PAs','Asked for in #saltwater-crew','+$630 with fringe']);
+ if(bOk[0])c.push(['2nd condor, 6:00 AM','Coastline Grip & Lift','+$1,800, already in Electric']);
+ if(bCall!==420)c.push(['Crew call moved to '+hm(bCall),'Lunch moves to '+hm(bCall+360),'Watch the 12-hour mark']);
+ return c;}
+function dolavPanel(){
+ const btn=bStatus==='approved'?(bSent?`<div class="cbar"><i style="width:${bConf}%"></i></div><b class="okc small">${bConf} of 100 confirmed</b>`:'<button class="btn pri" data-act="bsend">Send to cast & crew</button>')
+  :bStatus==='pending'?'<p class="small"><b>Sent to Sterling 11:20 AM.</b> You’ll get a text when he approves.</p><button class="btn sm" data-act="brole" data-r="sterling">See Sterling’s view</button>'
+  :`${bStatus==='changes'?`<div class="flag">${ICON.warn}<span>Sterling: “${bNote}”</span></div>`:''}<button class="btn pri" data-act="bsubmit">Send to Sterling for approval</button>`;
+ return `<div class="panel conf"><h3>${bStatus==='approved'?'Approved, ready to send':'Approval'}</h3>${bHosp?'':'<div class="flag">'+ICON.warn+'<span>No hospital on the sheet yet.</span></div>'}<p class="small soft">${bStatus==='approved'?'Text and email to 100 cast and crew, from the Saltwater number and Dolav’s address.':'Sterling sees this exact sheet, with every change from the schedule and what it costs.'}</p>${btn}</div>`;}
+function sterlingPanel(sel,pg){const c=csChanges(sel,pg);
+ return `<div class="panel"><h3>What changed from the schedule</h3>${c.length?c.map(x=>`<div class="todo2"><span class="ic warn">${ICON.up}</span><span style="flex:1;min-width:0"><b>${x[0]}</b><br><span class="src2">${x[1]}</span><br><b class="small tn" style="color:var(--amber-tx)">${x[2]}</b></span></div>`).join(''):'<p class="soft small">Matches the schedule.</p>'}</div>
+ <div class="panel"><h3>Day 24 cost check</h3><p class="small soft">Labor, equipment and catering for the day as built: <b style="color:var(--ink)">$418,900</b> against a $412,600 plan. Pier nights have run 1.4 hours over on average; this sheet wraps at 7:30 PM.</p></div>
+ <div class="panel conf"><h3>Your call</h3>${bStatus==='pending'?`<div class="row"><button class="btn pri" data-act="bapprove">Approve</button><button class="btn" data-act="bchange">Ask for a change</button></div><p class="small muted">Or reply YES to the text from the Saltwater number.</p>`:bStatus==='approved'?'<span class="done">You approved this at 11:42 AM. Dolav can send it.</span>':bStatus==='changes'?'<span class="done returned">Sent back to Dolav with your note.</span>':'<p class="small soft">Dolav hasn’t sent this for approval yet. You’re seeing the live draft.</p>'}</div>`;}
+function vBuilder(){
+ const STEPS=['Scenes','Cast & calls','Location & safety','Department notes','Review & send'];
+ const sel=STRIPS.filter((s,i)=>bOn[i]);const pg=sel.reduce((a,s)=>a+s.pg,0);const cast=[...new Set(sel.flatMap(s=>s.cast.split(', ')))].sort((a,b)=>a-b);
+ let body='';
+ if(bStep===0){body=`<div class="panel"><h3>Pick scenes from the schedule <span class="pill">${sel.length} scenes · ${pgs(pg)} pages</span></h3><p class="soft small" style="margin-bottom:10px">The one-liner already has Day 24. Dana’s 2 scenes ahead, so you can pull scene 32 forward.</p>
+  ${[24,25].map(d=>`<div class="dayb">END OF DAY ${d===24?'23':'24'} · DAY ${d} · ${d===24?'THU NOV 19':'FRI NOV 20'}</div>`+STRIPS.map((s,i)=>s.day!==d?'':`<div class="strip ${s.c} ${bOn[i]?'':'off'}" data-act="strip" data-i="${i}"><input type="checkbox" class="chk" ${bOn[i]?'checked':''} tabindex="-1" aria-label="Scene ${s.sc}"><b>${s.sc}</b><span><b style="font-family:var(--text)">${s.set}, ${s.dn==='D'?'DAY':'NIGHT'}</b> · ${s.x}</span><span>${s.dn}</span><span class="hide-s">${pgs(s.pg)} pgs</span><span class="hide-s">Cast ${s.cast}</span></div>`).join('')).join('')}</div>`;}
+ if(bStep===1){body=`<div class="panel"><h3>Cast and department calls</h3><div class="row" style="margin-bottom:14px"><label class="small soft" for="bcall"><b>General crew call</b></label><select id="bcall" data-act="bcall">${[360,390,420,450,480,540].map(m=>`<option value="${m}" ${m===bCall?'selected':''}>${hm(m)}</option>`).join('')}</select><span class="small soft">Every time below moves with it. Lunch is ${hm(bCall+360)}.</span></div>
+  <div class="two" style="gap:16px"><div class="tw"><table><tr><th>#</th><th>Cast</th><th>Pickup</th><th>HMU</th><th>On set</th></tr>${CASTREL.filter(c=>cast.includes(c[0])).map(c=>`<tr><td>${c[0]}</td><td>${c[1]}</td><td>${hm(bCall+c[2])}</td><td>${hm(bCall+c[3])}</td><td>${hm(bCall+c[4])}</td></tr>`).join('')}</table></div>
+  <div class="tw"><table><tr><th>Department</th><th>Call</th></tr>${DEPTREL.map(d=>`<tr><td>${d[0]}</td><td>${hm(bCall+d[1])}</td></tr>`).join('')}</table></div></div></div>`;}
+ if(bStep===2){body=`<div class="panel"><h3>Location and safety</h3><div class="cs-grid">${[['Set','Pier Ten, Long Beach','From the schedule'],['Basecamp','Pier Ten north lot','From the location file'],['Crew parking','Lot C, shuttle every 10 min','From the location file'],['Weather','Clear, 66° / 53°','Forecast for Thursday'],['Sun','Sunrise 6:27 AM · Sunset 4:46 PM','Night work starts after lunch']].map(([k,v,s])=>`<div class="cs-box" style="border-color:var(--line)"><small>${k}</small><b>${v}</b><span class="small muted">${s}</span></div>`).join('')}
+  ${bHosp?`<div class="cs-box" style="border-color:var(--ok)"><small>Nearest hospital</small><b>Harbor Medical Center, emergency</b><span class="small muted">2.1 mi · 7 min · open 24 hours</span></div>`:`<div class="cs-box empty" style="border-color:var(--amber)"><small>Nearest hospital</small><span>Not set for Pier Ten yet</span><button class="btn sm pri" data-act="bhosp" style="align-self:flex-start;margin-top:4px">Find nearest ER</button></div>`}</div></div>`;}
+ if(bStep===3){body=`<div class="panel"><h3>Department notes <span class="pill">${Object.keys(bOk).length} of ${SUGG.length} added</span></h3><p class="soft small" style="margin-bottom:12px">Found in today’s mail, texts and the crew group chat. Add the ones that belong on the sheet.</p><div style="display:flex;flex-direction:column;gap:8px">${SUGG.map((s,i)=>`<div class="sugg ${bOk[i]?'ok':''}"><span><b>${s[1]}:</b> ${s[0]}<small>From ${s[2]}</small></span>${bOk[i]?'<span class="done">On the sheet</span>':`<button class="btn sm" data-act="bok" data-i="${i}">Add to sheet</button>`}</div>`).join('')}</div></div>`;}
+ if(bStep===4){body=`<div class="grid-rc" style="grid-template-columns:minmax(0,1fr) 360px"><div class="cs"><div class="cs-top"><div><div class="cs-h">Saltwater · Season 2</div><h2>Thursday, November 19</h2><div class="small" style="opacity:.75">Day 24 of 64 · ${sel.length} scenes · ${pgs(pg)} pages · cast ${cast.join(', ')}</div></div><div class="cs-calls"><small>Crew call</small><small>Lunch</small><small>Sunset</small><b>${hm(bCall).replace(' AM','a').replace(' PM','p')}</b><b>${hm(bCall+360).replace(' AM','a').replace(' PM','p')}</b><b>4:46p</b></div></div>
+  <table><tr><th>Sc.</th><th>Set</th><th>D/N</th><th class="r">Pgs</th></tr>${sel.map(s=>`<tr><td><b>${s.sc}</b></td><td>${s.set} · ${s.x}</td><td>${s.dn}</td><td class="r">${pgs(s.pg)}</td></tr>`).join('')}</table>
+  <div class="cs-grid"><div class="cs-box"><small>Set</small><b>Pier Ten, Long Beach</b></div><div class="cs-box ${bHosp?'':'empty'}"><small>Nearest hospital</small><b>${bHosp?'Harbor Medical Center, 2.1 mi':'Not set'}</b></div><div class="cs-box"><small>Notes</small><span>${Object.keys(bOk).map(i=>SUGG[i][0]).join(' · ')||'None added'}</span></div></div></div>
+  <div style="display:flex;flex-direction:column;gap:12px">${bRole==='sterling'?sterlingPanel(sel,pg):dolavPanel()}</div></div>`;}
+ return `<header class="vh"><div><div class="eyebrow"><span class="dot" style="background:${SHOW.saltwater.col}"></span>Saltwater · shared call sheet · ${bStatus==='approved'?'<span class="pill p-ok">Approved by Sterling</span>':bStatus==='pending'?'<span class="pill ph-shoot">Waiting on Sterling</span>':bStatus==='changes'?'<span class="pill p-warn">Sterling asked for a change</span>':'<span class="pill">Draft</span>'}</div><h1>${bRole==='sterling'?'Dolav’s Day 24 call sheet':'Build tomorrow’s call sheet'}</h1><p class="sub">${bRole==='sterling'?'The same sheet Dolav is building, with what changed and what it costs.':'Five steps, most of them already filled in from the schedule, the crew list, the location file and today’s mail. Sterling approves it before it goes out.'}</p></div>
+ <div class="seg" role="group" aria-label="Whose view"><button class="${bRole==='dolav'?'on':''}" data-act="brole" data-r="dolav">Dolav’s view</button><button class="${bRole==='sterling'?'on':''}" data-act="brole" data-r="sterling">Sterling’s view</button></div></header>
+ <div class="steps">${STEPS.map((s,i)=>`<button class="stp ${i===bStep?'on':''} ${i<bStep?'done':''}" data-act="bstep" data-i="${i}"><i>${i<bStep?'✓ Done':'Step '+(i+1)}</i><b>${s}</b></button>`).join('')}</div>
+ ${body}
+ <div class="flowbar"><button class="btn" data-act="bprev" ${bStep===0?'disabled':''}>Back</button>${bStep<4?`<button class="btn pri" data-act="bnext">Next: ${STEPS[bStep+1]}</button>`:''}</div>`;
+}
+
+/* ---------- calendars ---------- */
+let calMode='month',calOff={};
+const SHOWCAL=(d)=>{const k=iso(d),dow=d.getDay(),wd=dow>0&&dow<6,out=[];const t=+d;const D=(y,m,dd)=>+new Date(y,m,dd);
+ const dark=[D(2026,10,26),D(2026,10,27),D(2026,11,24),D(2026,11,25),D(2026,11,28),D(2026,11,29),D(2026,11,30),D(2026,11,31),D(2027,0,1)];
+ if(wd&&t<=D(2027,0,30))out.push(['saltwater',dark.includes(t)?'Dark':'Shoot · Saltwater',dark.includes(t)?'lite':'']);
+ if(t>=D(2026,11,1)&&t<=D(2026,11,18)&&wd)out.push(['longtable',t<=D(2026,11,11)?'Shoot · Oaxaca':'Shoot · New Orleans','']);
+ else if(t<D(2026,11,1)&&t>=D(2026,10,16)&&wd)out.push(['longtable','Prep · Long Table','lite']);
+ if(t<=D(2026,11,12)&&wd)out.push(['groundrules','Edit · Ground Rules','lite']);
+ if(k==='2026-12-12')out.push(['groundrules','Picture lock','dl']);if(t>=D(2026,11,14)&&t<=D(2026,11,18)&&wd)out.push(['groundrules','Mix · Ground Rules','']);if(k==='2026-12-22')out.push(['groundrules','Delivery to Meridian','dl']);
+ if(k==='2026-11-24')out.push(['desert','Budget due to Northlight','dl']);if(k==='2026-12-09')out.push(['desert','Greenlight decision','dl']);if(t>=D(2027,0,4)&&wd)out.push(['desert','Prep · Desert pilot','lite']);
+ if(dow===5&&t<=D(2027,0,29)&&!dark.includes(t))out.push(['saltwater','Cost report due','dl']);
+ return out.filter(e=>!calOff[e[0]]);};
+const WEEK=[[0,6.5,19,'Day 21 · Stage 4','b-shoot'],[1,7,20.4,'Day 22 · Pier Ten','b-shoot'],[2,7,19.5,'Day 23 · Pier Ten','b-shoot'],[3,7,19.5,'Day 24 · Pier Ten night','b-shoot'],[4,7,18,'Day 25 · Pier Ten','b-shoot'],
+ [1,19,20,'Production meeting','b-meet'],[2,9,9.5,'Coastline call','b-meet'],[2,15,15.5,'Catering count due','b-due'],[2,17,17.5,'COI due','b-due'],[3,6,6.75,'Condor delivery','b-ship'],[4,10,10.5,'UPS: camera rails','b-ship'],[4,17,17.5,'Cost report due','b-due'],[5,10,13,'Tech scout · Bayside Café','b-meet'],[6,16,17,'Week 13 one-liner out','b-meet']];
+function vCalendars(){
+ const legend=`<div class="legend">${SHOWS.map(s=>`<button class="${calOff[s.id]?'off':''}" data-act="calshow" data-id="${s.id}"><span class="dot" style="background:${s.col}"></span>${s.t}</button>`).join('')}</div>`;
+ let body='';
+ if(calMode==='month'){const first=new Date(2026,11,1);const start=new Date(first);start.setDate(1-((first.getDay()+6)%7));const cells=[];for(let i=0;i<35;i++){const d=new Date(start);d.setDate(start.getDate()+i);cells.push(d);}
+  body=`<div class="row" style="justify-content:space-between"><h2 style="font-size:20px">December 2026 · every show</h2>${legend}</div><div class="mcal">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>`<div class="dh">${x}</div>`).join('')}${cells.map(d=>`<div class="cd ${d.getMonth()!==11?'out':''}"><div class="dn"><span>${d.getDate()}</span></div>${SHOWCAL(d).map(([id,t,k])=>`<div class="mch ${k}" style="background:${SHOW[id].col}" title="${t}">${t}</div>`).join('')}</div>`).join('')}</div>`;}
+ else{const S=6,E=21,H=36;const days=['Mon 16','Tue 17','Wed 18','Thu 19','Fri 20','Sat 21','Sun 22'];
+  body=`<div class="row" style="justify-content:space-between"><h2 style="font-size:20px">Dolav’s week · Nov 16 to 22</h2><span class="pill">Shoot days, meetings, deliveries and deadlines</span></div><div style="overflow-x:auto"><div class="wk"><div class="wh"></div>${days.map((d,i)=>`<div class="wh ${i===2?'today':''}">${d}</div>`).join('')}
+  <div class="tcol">${Array.from({length:E-S},(_,i)=>`<div class="tl2">${hm((S+i)*60).replace(':00','')}</div>`).join('')}</div>
+  ${days.map((_,di)=>`<div class="dcol">${Array.from({length:E-S},()=>'<div class="slot"></div>').join('')}${WEEK.filter(w=>w[0]===di).map(w=>{const sh=w[4]==='b-shoot';return `<div class="ev2 ${w[4]}" style="top:${(w[1]-S)*H}px;height:${Math.max((w[2]-w[1])*H-2,18)}px;${sh?'right:auto;width:28%;':'left:32%;'}" title="${w[3]}">${sh?'':w[3]}</div>`;}).join('')}</div>`).join('')}</div></div>
+  <p class="small soft">Amber columns are shoot days, ${WEEK.filter(w=>w[4]==='b-shoot').map(w=>w[3].split(' · ')[0]).join(', ')}. Everything else came from mail, the call sheet and Meet notes.</p>`;}
+ return `<header class="vh"><div><div class="eyebrow">Calendars</div><h1>Every show, every date</h1><p class="sub">Shoot days, prep, post, network deadlines, deliveries and fittings in one calendar. Turn shows on and off, or switch to one person’s week.</p></div><div class="seg"><button class="${calMode==='month'?'on':''}" data-act="calmode" data-m="month">Month</button><button class="${calMode==='week'?'on':''}" data-act="calmode" data-m="week">Dolav’s week</button></div></header>${body}`;
+}
+
+/* ---------- locations database ---------- */
+const LOCS=[
+ {id:'pier',n:'Pier Ten',type:'Waterfront',city:'Long Beach',used:'Saltwater S1, S2',fee:'$6,500/day',power:'Tie-in, 400A',park:'Lot C, 80 cars',rest:'On site',doc:['Agreement signed','Permit Nov 19'],coi:'On file',who:'Harbor ops office',note:'Night work needs police coverage after 10 PM. Gate opens 5:30 AM.',tags:['water','night','industrial'],col:'#2E8F9C'},
+ {id:'bay',n:'Bayside Café',type:'Restaurant',city:'San Pedro',used:'Saltwater S2',fee:'$6,500/day',power:'House power only',park:'Street, 20 spots',rest:'On site',doc:['Agreement signed Nov 17'],coi:'Requested',who:'Owner, via Ana Ruiz',note:'Closed Mondays. Neighbor letters needed 48 hours ahead.',tags:['interior','diner'],col:'#C26B4A'},
+ {id:'motel',n:'Sunspot Motor Lodge',type:'Motel',city:'Twentynine Palms',used:'Scouted for the pilot',fee:'$4,200/day',power:'Generator needed',park:'Dirt lot, 40 cars',rest:'Rooms 1 to 4',doc:['Scout photos, Nov 12'],coi:'—',who:'Owner',note:'Owner will close all 16 rooms for a week. 2 hours 20 min from Burbank.',tags:['desert','exterior','night'],col:'#C99A4A'},
+ {id:'ranch',n:'Rocking R Ranch',type:'Ranch',city:'Acton',used:'Ground Rules S2',fee:'$5,000/day',power:'Tie-in, 200A',park:'Field, 120 cars',rest:'Honeywagons',doc:['Agreement 2025','Film permit, county'],coi:'Expired',who:'Ranch manager',note:'Wind after 2 PM most of the year. Horses on site.',tags:['desert','exterior','barn'],col:'#9C7B4F'},
+ {id:'kitchen',n:'Arts District test kitchen',type:'Kitchen',city:'Los Angeles',used:'The Long Table S1',fee:'$2,800/day',power:'3-phase, 200A',park:'Garage across the street',rest:'On site',doc:['Agreement signed','Gas inspection passed'],coi:'On file',who:'Omar Haddad',note:'Commercial hood and two ranges. Freight elevator to the loading dock.',tags:['interior','kitchen'],col:'#7B61C9'},
+ {id:'stage',n:'Stage 4, Burbank',type:'Stage',city:'Burbank',used:'Ground Rules S1 to S3, Saltwater S2',fee:'$14,000/week',power:'Stage power',park:'Lot, 150 cars',rest:'On site',doc:['Stage rental through Feb'],coi:'On file',who:'Studio ops',note:'Boathouse set standing through Jan 30.',tags:['stage','interior'],col:'#5F6774'},
+ {id:'mesa',n:'Lucerne dry lake overlook',type:'Open land',city:'Lucerne Valley',used:'Scouted for the pilot',fee:'BLM permit',power:'Generator needed',park:'Shoulder, 30 cars',rest:'Honeywagons',doc:['BLM application, draft'],coi:'—',who:'BLM field office',note:'Permit takes about 30 days. No cell service past the gate.',tags:['desert','exterior','road'],col:'#B07A4F'},
+ {id:'house',n:'Craftsman on Mariposa',type:'House',city:'Pasadena',used:'Saltwater S1',fee:'$3,800/day',power:'Tie-in, 100A',park:'Church lot, 2 blocks',rest:'Honeywagon',doc:['Agreement 2025'],coi:'On file',who:'Homeowner',note:'Quiet hours after 9 PM. Owner wants a PA on the porch.',tags:['house','interior','exterior'],col:'#3F7F5B'},
+];
+let locSel='pier',locQ='',locHit=null;
+function vLocations(){
+ const qq=locQ.toLowerCase();const L=LOCS.filter(l=>!qq||[l.n,l.type,l.city,l.used,l.note,...l.tags].join(' ').toLowerCase().includes(qq));
+ const s=LOCS.find(l=>l.id===locSel)||LOCS[0];
+ return `<header class="vh"><div><div class="eyebrow">Every place you’ve scouted or shot</div><h1>Locations</h1><p class="sub">Across every show: contacts, fees, power, parking, agreements and insurance on file, and notes from the people who were there.</p></div></header>
+ <div class="ask"><div class="ask-h">Find a location</div><div class="row"><input type="text" id="locq" value="${locQ}" placeholder="Search by name, city, or what you need" style="flex:1;min-width:220px" aria-label="Search locations"><button class="btn" data-act="locclear">Clear</button></div>
+ <div class="chips"><button class="chip ${locHit?'on':''}" data-act="lochit">A desert motel for the pilot, power on site, under 2.5 hours from Burbank</button></div>
+ ${locHit?`<div class="answer">Two close matches. <b>Sunspot Motor Lodge</b> in Twentynine Palms was scouted for the pilot on Nov 12: 16 rooms, 2 hours 20 minutes from Burbank, but it needs a generator. <b>Rocking R Ranch</b> in Acton has a 200A tie-in and was used on Ground Rules, but it isn’t a motel and its certificate of insurance has expired. Want me to ask the Sunspot owner about late January?</div>`:''}</div>
+ <div class="mail" style="grid-template-columns:minmax(260px,380px) minmax(0,1fr)"><div class="mlist">${L.map(l=>`<button class="mi ${l.id===s.id?'on':''}" data-act="locsel" data-id="${l.id}"><span class="f">${l.n}<span>${l.type}</span></span><span class="s">${l.city} · ${l.used}</span></button>`).join('')||'<p class="soft" style="padding:14px">Nothing matches. Try a city or a kind of place.</p>'}</div>
+ <div class="panel mdet"><div style="height:150px;border-radius:10px;background:linear-gradient(135deg,${s.col},var(--rail));display:flex;align-items:flex-end;padding:14px;color:#F4F6FA"><div><div style="font-family:var(--display);font-size:24px;font-weight:800">${s.n}</div><div style="opacity:.85">${s.type} · ${s.city}</div></div></div>
+  <div class="cs-grid">${[['Used on',s.used],['Fee',s.fee],['Power',s.power],['Parking',s.park],['Restrooms',s.rest],['Contact',s.who]].map(([k,v])=>`<div class="cs-box" style="border-color:var(--line)"><small>${k}</small><b>${v}</b></div>`).join('')}</div>
+  <div class="row">${s.doc.map(d=>`<span class="pill p-blue">${d}</span>`).join('')}<span class="pill ${s.coi==='On file'?'p-ok':s.coi==='Expired'?'p-warn':''}">COI: ${s.coi}</span>${s.tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div>
+  <div class="note">${s.note}</div>
+  <div class="row"><button class="btn pri" data-act="locuse">Add to a show</button><button class="btn" data-act="locask">Ask the contact about dates</button></div></div></div>`;
+}
+
+/* ---------- assistant ---------- */
+const GROUP=[
+ {w:'Dana Whitfield',t:'Heads up, we’re losing light at 4:46 tomorrow. Night work on 31 starts right after lunch.'},
+ {w:'Kai Moreno',t:'@Slate what’s call tomorrow?'},
+ {w:'Slate',t:'Day 24 is 7:00 AM crew call at Pier Ten, Long Beach. Park in Lot C, shuttle from 6:30. Lunch at 1:00.'},
+ {w:'Owen Blake',t:'Coastline says the 2nd condor lands 6 AM Thursday'},
+ {w:'Slate',t:'Got it. Condor delivery Thursday 6:00 AM at Pier Ten is waiting for Dolav to add to the calendar.'},
+ {w:'Dolav',t:'Approved. @Slate add 2 extra PAs to the call sheet for the pier'},
+ {w:'Slate',t:'Done. Two extra set PAs on the Day 24 call sheet. Set PAs is now 8 for the day.'},
+];
+const ASK=[
+ {who:'Dolav',q:'📷 Receipt: Smart & Final',slip:'r1',a:()=>'Got it, Dolav. Smart & Final, $412.86, craft service for Day 23. Coded 2500 Set Operations and sent to Sterling to approve.'},
+ {who:'Sterling',q:'How’s Saltwater tracking?',a:()=>{const s=SHOW.saltwater,t=totals(s);const R=rows(s).filter(r=>r.var>0).sort((a,b)=>b.var-a.var).slice(0,2);return `Day 23 of 64. ${mm(t.act)} spent and ${mm(t.com)} committed. Estimated final is ${mm(t.efc)}, ${varTxt(t.var)} against the ${mm(t.locked)} budget (${pct(t.var/t.locked)}). Biggest movers: ${R.map(r=>`${r.d}, ${varTxt(r.var)}`).join(' and ')}.`;}},
+ {who:'Sterling',q:'What did hot costs look like yesterday?',a:()=>`Day 22 came in ${fmt(hotNet())} over a ${fmt(HOT.plan)} day. Overtime was most of it: a 13.4-hour day for 71 crew, $14,280. Background ran 12 over for the pier scene. Season to date you’re ${mm(hotStd())} over the daily plan.`},
+ {who:'Dolav',q:'Build tomorrow’s call sheet.',a:()=>'Day 24 is drafted: crew call 7:00 AM at Pier Ten, 4 scenes, 6 3/4 pages, 4 cast. Weather and sunset are filled in. Nearest hospital isn’t set for Pier Ten yet; want me to find it? Send it when you’re ready.'},
+ {who:'Sterling',q:'Text camera: Day 24 call is 7 AM at Pier Ten.',a:()=>'Drafted to the 9 people in Camera: “Day 24 call is 7:00 AM at Pier Ten, Long Beach. Park in Lot C, shuttle runs from 6:30.” Send it?'},
+ {who:'Sterling',q:'Who’s missing start paperwork?',a:()=>{const m=paperworkMissing();return `${m.length} on Saltwater: ${m.map(p=>`${p[0]}, ${p[5].replace('Missing ','missing ')}`).join(' and ')}. Want me to text them the link?`;}},
+ {who:'Sterling',q:'When does Maya land, and where is she staying?',a:()=>'Maya Hollis lands at Long Beach Monday, Nov 23 at 12:40 PM (seat 3C) and checks into the Harborview Hotel at 3 PM, confirmation 7731 0284 5519. Her fitting is Tuesday at 2 PM. Want me to send her the whole schedule?'},
+ {who:'Sterling',q:'How’s the whole slate doing?',a:()=>{const s=SHOWS.filter(x=>x.ph!=='bid');const p=pend();return s.map(x=>`${x.t} is ${varTxt(totals(x).var)}`).join(', ')+`. The Desert pilot is a first pass at ${mm(totals(SHOW.desert).locked)}. ${p.length} receipts are waiting on you, ${fmt2(p.reduce((a,r)=>a+r.amt,0))}.`;}},
+];
+function vAssistant(){
+ const s=SHOW.saltwater;
+ return `<header class="vh"><div><div class="eyebrow">One assistant</div><h1>Text it. Or ask ChatGPT. Same assistant.</h1><p class="sub">Every show has its own number. Text it a receipt from set, ask it how the show is tracking, or ask the same question in ChatGPT at night. It knows the budgets, receipts, mail, crew and call sheets, and nothing goes out without your OK.</p></div></header>
+ <div class="chips">${ASK.map((a,i)=>`<button class="chip ${askSel===i?'on':''}" data-act="ask" data-i="${i}"><b>${a.who}:</b> ${a.q}</button>`).join('')}</div>
+ <div class="duo">
+  <div class="phone"><div class="ph-scr"><div class="ph-h"><span class="ph-av" style="background:${s.col}">S</span><div><b>Saltwater</b><small>${s.num}</small></div></div><div class="ph-msgs" id="smsPane"></div></div></div>
+  <div class="mem"><div class="ln"></div><b>One memory</b><span>Budgets · Receipts · Mail · Crew · Call sheets · Travel</span><div class="ln"></div></div>
+  <div class="gpt"><div class="gpt-h"><span class="dot" style="background:var(--ink)"></span><b>ChatGPT</b><span class="conn">The Slate connected</span></div><div class="gpt-m" id="gptPane"></div><div class="gpt-in">Ask anything</div></div>
+ </div>
+ <div class="panel"><h3>In the show’s group chat <span class="pill">Saltwater crew · 38 people</span></h3><p class="soft small" style="margin-bottom:12px">Add the assistant to the show’s group in Slack, Teams or iMessage. It answers there, and turns what people say into calendar items, receipts and notes for someone to approve.</p>
+ <div style="display:flex;flex-direction:column;gap:8px;max-width:640px">${GROUP.map(m=>m.w==='Slate'?`<div class="bub them" style="max-width:80%;background:var(--amber-soft);color:var(--ink)"><b style="color:var(--amber-tx)">Slate</b><br>${m.t}</div>`:`<div class="bub them" style="max-width:80%"><b>${m.w}</b><br>${m.t}</div>`).join('')}</div></div>
+ <div class="panel"><h3>Every show has its own number</h3><div class="tw" style="border:0"><table><tr><th>Show</th><th>Number</th><th>Who texts it</th></tr>${SHOWS.map(x=>`<tr><td><span class="dot" style="background:${x.col}"></span> <b>${x.t}</b></td><td class="num">${x.num}</td><td class="soft">${x.pm==='Not assigned'?'Sterling, until a PM is hired':x.pm+', Sterling and the coordinators'}</td></tr>`).join('')}</table></div><p class="soft small" style="margin-top:10px">A receipt texted to the Saltwater number only ever touches Saltwater. The number retires when the show wraps. It works in Claude too.</p></div>`;
+}
+function playAsk(i){const a=ASK[i];const sms=$('#smsPane'),g=$('#gptPane');if(!sms)return;
+ const sl=a.slip?slip(RC.find(r=>r.id===a.slip)):'';const q=a.q.replace('📷 ','');
+ sms.innerHTML=`<span class="ph-who">${a.who}</span><div class="bub me">${sl}${a.slip?'Craft restock for today':q}</div><div class="bub them typing"><i></i><i></i><i></i></div>`;
+ g.innerHTML=`<div class="gq">${sl}${a.slip?'Craft restock receipt for Saltwater':q}</div><div class="ga muted">Thinking…</div>`;
+ clearTimeout(playAsk.h);playAsk.h=setTimeout(()=>{const ans=a.a();sms.lastElementChild.outerHTML=`<div class="bub them">${ans}</div>`;g.lastElementChild.outerHTML=`<div class="ga">${ans}</div>`;},650);}
+
+/* ---------- connections ---------- */
+const PIPE=[['Connect','Each person connects their own email, Slack or Teams, and calendar. Meet recordings and the show numbers come in too.'],['Read','New messages, attachments, texts and call notes are read as they arrive.'],['Match','It works out which show each one belongs to from who sent it, the vendor, the show code or the subject.'],['Suggest','Dates, receipts, bookings, tracking numbers and deal changes become suggestions on that show.'],['Approve','You or your PM approve. Only then does it reach the calendar, the budget or the crew.']];
+const CXP=[
+ ['Sterling','Line producer',[['Gmail','Connected'],['Google Calendar','Connected'],['Google Meet notes','Connected'],['Slack','Connected']]],
+ ['Dolav','Production manager',[['Gmail','Connected'],['Saltwater number','Texting'],['Google Meet notes','Connected']]],
+ ['Jess Tran','Production coordinator',[['Outlook','Connected'],['Microsoft Teams','Connected']]],
+ ['Priya Shah','Production accountant',[['Outlook','Connected'],['Accounting exports','Weekly']]],
+ ['Marcus Bell','APOC',[['Gmail','Connected'],['Travel bookings','Filing']]],
+ ['Renee Park','Production manager',[['Gmail','Invite sent']]],
+];
+const LEARNED=[['Pacific Prop House','files to Saltwater','You picked it once, Nov 18'],['Claire Benton','is Northlight production finance','From her signature'],['Anything with “SW2”','is Saltwater Season 2','From 40 emails'],['Coastline Grip & Lift','needs a COI before every delivery','From 3 past orders'],['Receipts from Shell','go to 3500 Transportation, fuel','From 22 approvals'],['Marcus Bell','books travel for guest cast','From 6 bookings']];
+function vConnect(){
+ return `<header class="vh"><div><div class="eyebrow">How it works</div><h1>Connect once. It files everything after.</h1><p class="sub">Anyone at the company can connect their own email, Slack or Teams. It reads what comes in, works out which show it belongs to, and puts it there. Setting it up is the big lift. After that it keeps learning from how your people work.</p></div></header>
+ <div class="pipe">${PIPE.map(([b,p],i)=>`<div class="pp ${pipeStep===i?'lit':''}"><span class="n">0${i+1}</span><b>${b}</b><p>${p}</p></div>`).join('')}</div>
+ <div class="panel"><h3>Example: one email, start to finish</h3><div class="tl">
+  <div class="tli"><span class="when">8:14 AM</span><span class="ln"><i></i></span><span><b>Coastline Grip & Lift emails Dolav</b><span class="soft small">“SW2 · 80 ft condor for Thursday pier night”</span></span></div>
+  <div class="tli"><span class="when">8:14 AM</span><span class="ln"><i></i></span><span><b>Matched to Saltwater</b><span class="soft small">SW2 in the subject, and Coastline is already a vendor on the show.</span></span></div>
+  <div class="tli"><span class="when">8:15 AM</span><span class="ln"><i></i></span><span><b>Three suggestions</b><span class="soft small">Delivery Thursday 6 AM on the calendar. $1,800 on Electric. A COI request to the broker, drafted.</span></span></div>
+  <div class="tli"><span class="when">8:40 AM</span><span class="ln"><i></i></span><span><b>Dolav approves two, Sterling approves the money</b><span class="soft small">The calendar, the estimate and the call sheet update. The broker gets the request.</span></span></div>
+ </div></div>
+ <section class="two"><div class="panel"><h3>Meeting notes, filed</h3><p class="small soft" style="margin-bottom:10px">Google Meet, yesterday 4:00 PM · Sterling, Dolav, Ana Ruiz · 32 min</p><div class="note" style="margin-bottom:10px">Agreed to add a third pier night if Northlight approves the overage. Ana to confirm police coverage for Dec 3. Dolav to price a second condor for Days 28 to 31.</div>
+  ${[['Add “Northlight approval: 3rd pier night” to Saltwater','cal'],['Task for Ana: police coverage, Dec 3','task'],['Task for Dolav: price condor, Days 28 to 31','task']].map((x,i)=>`<div class="todo ${calAdded['meet'+i]?'did':''}"><span>${x[0]}</span>${calAdded['meet'+i]?'<span class="done">Added</span>':`<button class="btn sm" data-act="meet" data-i="${i}">Add</button>`}</div>`).join('')}</div>
+ <div class="panel"><h3>What it has learned</h3>${LEARNED.map(([a,b,c])=>`<div class="learn"><span class="ic ok">${ICON.ok}</span><span class="grow"><b>${a}</b> ${b}<br><span class="small muted">${c}</span></span></div>`).join('')}</div></section>
+ <div><h2 style="font-size:20px;margin-bottom:12px">Who’s connected</h2><div class="cx">${CXP.map(([n,r,c])=>`<div class="cxc"><div><b>${n}</b> <span class="muted small">${r}</span></div>${c.map(([a,st])=>`<div class="cxr"><span>${a}</span><span class="pill ${st==='Invite sent'?'':'p-ok'}">${st}</span></div>`).join('')}</div>`).join('')}</div></div>`;
+}
+
+/* ---------- build ---------- */
+const PLANS={
+ 'Add a mileage log for PAs':['A Mileage tab on every show','PAs text the trip; it works out the miles at your rate','Goes to the PM, then to you, like receipts'],
+ 'Track box rentals and kit fees':['Kit and box rental per person, per week','Pulled from deal memos','Weekly total on the cost report'],
+ 'Remind me 30 days before a COI expires':['Reads every certificate that comes in by mail','Lists vendor, coverage and expiry','Texts you and the coordinator at 30 and 7 days'],
+ 'Show each PM’s petty cash float':['Float issued, receipts in, cash on hand, per PM','Flags a float with no receipts in 7 days'],
+};
+function vBuild(){
+ return `<header class="vh"><div><div class="eyebrow">Yours to grow</div><h1>Built for how you work. It keeps growing.</h1><p class="sub">We build it from your spreadsheets. After that, ask for anything in plain English and you get a preview on your real show before it goes live. Small rules you can change yourself.</p></div></header>
+ <div class="panel"><h3>Ask for a change</h3><div class="compose"><textarea id="reqTx" placeholder="Describe what you want, the way you’d tell your coordinator"></textarea><div class="chips">${Object.keys(PLANS).map(k=>`<button class="chip" data-act="reqchip">${k}</button>`).join('')}</div><button class="btn pri" data-act="reqsend" style="align-self:flex-start">Send request</button></div></div>
+ ${reqs.map(r=>`<div class="req"><div class="row" style="justify-content:space-between"><b>${r.t}</b><span class="pill ${r.st==='Preview ready'?'p-ok':'p-blue'}">${r.st}</span></div><ul>${r.plan.map(p=>`<li>${p}</li>`).join('')}</ul></div>`).join('')}
+ <div class="board"><div class="col"><h4>Live</h4>${['Receipt texting and approvals','Hot costs every morning','Mail filed by show','Call sheets from the schedule','Catering from the call sheet','Travel filed from confirmations'].map(x=>`<div class="bi">${x}</div>`).join('')}</div>
+ <div class="col"><h4>In preview</h4>${['Northlight cost report template','Crew availability by text'].map(x=>`<div class="bi">${x}</div>`).join('')}</div>
+ <div class="col"><h4>Up next</h4>${['Box rental tracker','COI expiry reminders','Payroll export for Priya'].map(x=>`<div class="bi">${x}</div>`).join('')}</div></div>
+ <div class="panel"><h3>Rules you change yourself</h3><div class="rules">
+  <div class="rule"><label for="r-limit">Petty cash limit, before a PO is needed</label><input type="number" id="r-limit" data-act="rule" data-k="limit" value="${RULES.limit}" min="0" step="50"></div>
+  <div class="rule"><label for="r-lunch">Catering lunch rate, per head</label><input type="number" id="r-lunch" data-act="rule" data-k="lunch" value="${RULES.lunch}" min="0"></div>
+  <div class="rule"><label>Who approves receipts</label><select aria-label="Who approves receipts"><option>Sterling, every receipt</option><option>PM under $250, Sterling over</option></select></div>
+ </div></div>`;
+}
+
+/* ---------- router ---------- */
+const V={slate:vSlate,myday:vMyday,builder:vBuilder,calendars:vCalendars,approvals:vApprovals,crew:vCrew,locations:vLocations,assistant:vAssistant,connect:vConnect,build:vBuild,show:vShow};
+function route(){const h=(location.hash||'#slate').slice(1);
+ if(V[h]&&h!=='show'){view=h;}else{const [sid,tb]=h.split('-');if(SHOW[sid]){view='show';cur=sid;tab=tb&&TV[tb]?tb:'overview';}else view='slate';}
+ render();window.scrollTo(0,0);}
+function render(){renderRail();$('#view').innerHTML=V[view]();if(view==='assistant')playAsk(askSel);}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el)return;const a=el.dataset.act,id=el.dataset.id;
+ if(a==='approve'||a==='sendback'){const r=RC.find(x=>x.id===id);r.st=a==='approve'?'approved':'returned';const s=SHOW[r.show];const fn=r.who.split(' ')[0];
+  if(a==='approve'){s.xa[r.acct]=(s.xa[r.acct]||0)+r.amt;TH[r.show].push({o:0,txt:`${fn}, Sterling approved ${r.m}, ${fmt2(r.amt)}. It’s on the cost report.`});toast(`Approved ${fmt2(r.amt)}. On the ${s.t} cost report under ${r.acct}.`);}
+  else{TH[r.show].push({o:0,txt:`${fn}, Sterling sent back ${r.m}, ${fmt2(r.amt)}: “Looks like a duplicate of the 16th. Can you check?”`});toast(`Sent back to ${r.who}.`);}
+  render();return;}
+ if(a==='acct'){openAcct=openAcct===el.dataset.n?null:el.dataset.n;render();return;}
+ if(a==='g+'||a==='g-'){const s=SHOW[cur];const k=el.dataset.k;s.g[k]=Math.max(1,s.g[k]+(a==='g+'?1:-1));render();return;}
+ if(a==='greset'){const s=SHOW[cur];s.g={...s.g0};render();return;}
+ if(a==='bask'){bAns=+el.dataset.i;render();return;}
+ if(a==='ask'){askSel=+el.dataset.i;document.querySelectorAll('[data-act=ask]').forEach((c,i)=>c.classList.toggle('on',i===askSel));playAsk(askSel);return;}
+ if(a==='msel'){mailSel[cur]=id;render();return;}
+ if(a==='mfile'){const L=MAIL[cur];const i=L.findIndex(m=>m.id===id);const m=L.splice(i,1)[0];delete m.unfiled;m.by=['You picked it once'];m.todo=[['Log against the PO','file']];MAIL[el.dataset.to].unshift(m);mailSel[cur]=null;toast(`Filed to ${SHOW[el.dataset.to].t}. ${m.from} files there from now on.`);render();return;}
+ if(a==='mtodo'){const m=(MAIL[cur]||[]).find(x=>x.id===id);const i=+el.dataset.i;const k=m.todo[i][1];
+  if(k==='cater'){location.hash=cur+'-catering';return;} if(k==='sheet'){location.hash=cur+'-callsheet';return;}
+  m['did'+i]=1;if(k==='cal'){({m1:['s1'],m7:['s2'],m3:['s5','s6','s7'],m4:['s4']}[m.id]||[]).forEach(x=>calAdded[x]=1);}
+  if(m.id==='m8'&&k==='draft'){TRAVEL[1].sent=true;}
+  toast(k==='draft'?'Drafted. It’s waiting for your OK.':k==='cal'?'Added to the Saltwater calendar.':k==='efc'?'Estimate updated.':'Filed.');render();return;}
+ if(a==='reply'){toast('Reply opens here, sent from your own address.');return;}
+ if(a==='caladd'){calAdded[id]=1;toast('Added to the Saltwater calendar.');render();return;}
+ if(a==='caldis'){calDismiss[id]=1;render();return;}
+ if(a==='caladdall'){SUG.forEach(x=>{if(!calDismiss[x.id])calAdded[x.id]=1;});toast('All added to the Saltwater calendar.');render();return;}
+ if(a==='hosp'){if(hospTry)return;hospTry=1;render();setTimeout(()=>{CS.hospital=['Harbor Medical Center, emergency','2.1 mi · 7 min from Pier Ten · open 24 hours'];hospTry=0;render();toast('Nearest ER added to the call sheet.');},1100);return;}
+ if(a==='cssend'){csSent=true;toast('Call sheet sent by text and email to 100 people.');render();return;}
+ if(a==='nudge'){CS.conf.yes+=15;CS.conf.wait-=15;toast('Texted 23 people. 15 confirmed so far.');render();return;}
+ if(a==='csmsg'){const c=$('#compose');c&&c.scrollIntoView({behavior:'smooth',block:'center'});$('#cmpTx')&&$('#cmpTx').focus();return;}
+ if(a==='cmpsend'){const to=$('#cmpTo').value;SENT.unshift(`Sent to ${to}`);toast(`Texted ${to}.`);render();return;}
+ if(a==='trsend'){const t=TRAVEL.find(x=>x.id===id);t.sent=true;toast(`${t.kind} details sent to ${t.who}.`);render();return;}
+ if(a==='trp'){travPerson=el.dataset.p;render();return;}
+ if(a==='schsend'){toast(`${travPerson}’s schedule sent by text and email.`);return;}
+ if(a==='padd'){const f=$('#paddf');f.hidden=!f.hidden;if(!f.hidden)$('#pn').focus();return;}
+ if(a==='psave'){const n=$('#pn').value.trim(),r=$('#pr').value.trim()||'Crew',p=$('#pp').value.trim()||'—';if(!n){$('#pn').focus();return;}PEOPLE.push([n,r,'Added',[cur],p,'Start packet sent']);toast(`${n} is on ${SHOW[cur].t}. A start packet went out.`);render();return;}
+ if(a==='catsend'){catSent=true;toast('Headcount sent to Lot & Ladle Catering.');render();return;}
+ if(a==='crewask'){const sel=Object.keys(crewSel).filter(k=>crewSel[k]).map(Number);crewAsk={n:sel.length,rep:{}};sel.forEach(i=>crewAsk.rep[i]=null);render();
+  sel.forEach((i,j)=>setTimeout(()=>{crewAsk.rep[i]=REPLIES[(i+j)%REPLIES.length];if(view==='crew')render();},700+j*650));return;}
+ if(a==='todo'){return;}
+ if(a==='strip'){const i=+el.dataset.i;bOn[i]=!bOn[i];render();return;}
+ if(a==='bstep'){bStep=+el.dataset.i;render();return;}
+ if(a==='bnext'){bStep=Math.min(4,bStep+1);render();return;}
+ if(a==='bprev'){bStep=Math.max(0,bStep-1);render();return;}
+ if(a==='bhosp'){el.textContent='Searching…';el.disabled=true;setTimeout(()=>{bHosp=true;CS.hospital=['Harbor Medical Center, emergency','2.1 mi · 7 min from Pier Ten · open 24 hours'];render();toast('Nearest ER added to the call sheet.');},1000);return;}
+ if(a==='bok'){bOk[el.dataset.i]=1;render();return;}
+ if(a==='brole'){bRole=el.dataset.r;if(bRole==='sterling')bStep=4;if(el.tagName==='A'){e.preventDefault();location.hash='builder';return;}render();return;}
+ if(a==='bsubmit'){bStatus='pending';toast('Sent to Sterling. He gets a text from the Saltwater number.');render();return;}
+ if(a==='bapprove'){bStatus='approved';toast('Approved. Dolav can send it to the crew.');render();return;}
+ if(a==='bchange'){bStatus='changes';bNote='Can we push scene 32 back to Friday? Abby’s 2:30 call puts us near 12 hours.';bRole='dolav';bOn[4]=0;toast('Sent back to Dolav with your note.');render();return;}
+ if(a==='bsend'){bSent=true;bConf=0;csSent=true;render();const iv=setInterval(()=>{bConf=Math.min(71,bConf+7);if(view==='builder')render();if(bConf>=71)clearInterval(iv);},350);toast('Day 24 call sheet sent to 100 people.');return;}
+ if(a==='calmode'){calMode=el.dataset.m;render();return;}
+ if(a==='calshow'){calOff[id]=!calOff[id];render();return;}
+ if(a==='locsel'){locSel=id;render();return;}
+ if(a==='lochit'){locHit=!locHit;if(locHit)locSel='motel';render();return;}
+ if(a==='locclear'){locQ='';locHit=null;render();return;}
+ if(a==='locuse'){toast('Added to Untitled Desert Project. Ana gets the agreement and COI checklist.');return;}
+ if(a==='locask'){toast('Drafted to the contact. It’s waiting for your OK.');return;}
+ if(a==='meet'){calAdded['meet'+el.dataset.i]=1;toast('Added to Saltwater.');render();return;}
+ if(a==='reqchip'){$('#reqTx').value=el.textContent;return;}
+ if(a==='reqsend'){const t=$('#reqTx').value.trim();if(!t){$('#reqTx').focus();return;}const r={t,st:'Scoping',plan:PLANS[t]||['We read it and scope it with you','A preview on your real show','Live when you say so']};reqs.unshift(r);render();setTimeout(()=>{r.st='Preview ready';if(view==='build')render();},1400);return;}
+});
+document.addEventListener('change',e=>{const el=e.target;const a=el.dataset.act;
+ if(a==='recode'){const r=RC.find(x=>x.id===el.dataset.id);r.acct=el.value;toast(`Recoded to ${el.value}. It’ll code ${r.m} this way next time.`);return;}
+ if(a==='crewchk'){crewSel[el.dataset.i]=el.checked;render();return;}
+ if(a==='todo'){todoDone[el.dataset.i]=el.checked;render();return;}
+ if(a==='bcall'){bCall=+el.value;render();return;}
+ if(a==='catcall'){CAT.call=+el.value;render();return;}
+ if(a==='catsec'){CAT.second=el.value==='1';render();return;}
+ if(a==='rule'){RULES[el.dataset.k]=Math.max(0,+el.value||0);toast(el.dataset.k==='limit'?`Saved. Receipts over ${fmt(RULES.limit)} now need a PO.`:`Saved. Lunch is ${fmt(RULES.lunch)} a head from Day 25.`);return;}
+ if(a==='cat'){CAT[el.dataset.k]=Math.max(0,+el.value||0);render();const f=$('#c-'+el.dataset.k);f&&f.focus();return;}
+});
+document.addEventListener('input',e=>{if(e.target.id==='locq'){locQ=e.target.value;const p=e.target.selectionStart;render();const f=$('#locq');f.focus();f.setSelectionRange(p,p);}});
+window.addEventListener('hashchange',route);
+setInterval(()=>{if(view==='connect'){pipeStep=(pipeStep+1)%PIPE.length;document.querySelectorAll('.pp').forEach((p,i)=>p.classList.toggle('lit',i===pipeStep));}},1800);
+const Q=new URLSearchParams(location.search);
+if(Q.has('open'))openAcct=Q.get('open');if(Q.has('bask'))bAns=+Q.get('bask');if(Q.has('lochit')){locHit=true;locSel='motel';}
+if(Q.has('ask'))askSel=+Q.get('ask');if(Q.has('hosp'))CS.hospital=['Harbor Medical Center, emergency','2.1 mi · 7 min from Pier Ten · open 24 hours'];
+if(Q.has('crew')){[0,2,4,10].forEach(i=>crewSel[i]=true);crewAsk={n:4,rep:{0:REPLIES[0],2:REPLIES[1],4:REPLIES[2],10:null}};}
+if(Q.has('cal')){calAdded.s1=1;calAdded.s2=1;}
+if(Q.has('step'))bStep=+Q.get('step');if(Q.has('bfill')){bHosp=true;bOk={0:1,2:1};bOn[4]=1;}if(Q.has('bsent')){bSent=true;bConf=71;bStatus='approved';}
+if(Q.has('pending')){bStatus='pending';bStep=4;bHosp=true;bOk={0:1,3:1};bOn[4]=1;}if(Q.has('lp'))bRole='sterling';
+if(Q.has('week'))calMode='week';
+route();
+})();
+</script>
+
+</body>
+</html>
