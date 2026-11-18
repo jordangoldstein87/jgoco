@@ -358,6 +358,11 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
 .ps-done{color:var(--ok);font-weight:600;align-self:center}
 .ps-nav{display:flex;justify-content:space-between;margin-top:20px}
 @media (max-width:900px){.ps-tabs{grid-template-columns:repeat(5,minmax(64px,1fr));overflow-x:auto}.ps-tabs::before{display:none}.ps-f,.ps-two{grid-template-columns:1fr}.ps-row{grid-template-columns:24px 1fr}.ps-row select,.ps-row .found{grid-column:2}.cr{grid-template-columns:1fr auto}.cr .st{grid-column:1}}
+.locsrc{margin-top:24px;background:var(--bg3);border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+.locsrc h3{font-size:20px;margin-bottom:6px}
+.ls-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+.ls-grid .srcr:nth-child(2){border-top:0}
+@media (max-width:900px){.ls-grid{grid-template-columns:1fr}.ls-grid .srcr:nth-child(2){border-top:1px solid var(--line)}}
 .stepper{margin-top:22px}
 
 .st-body{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:28px;align-items:center}
@@ -580,6 +585,7 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
   <div class="cleanup"><div><b>One cleanup, and it’s all in.</b><p>Once email and drives are connected, it goes back through years of old messages, call sheets, crew lists, deal memos and location agreements. It finds every person and place you’ve worked with, merges the duplicates, and hands you one list to approve. After that, new shows keep it current on their own.</p></div>
    <div class="cl-k"><div><b>1,284</b><span>people found</span></div><div><b>212</b><span>locations found</span></div><div><b>96</b><span>duplicates merged</span></div></div></div>
   <div class="split" style="margin-top:40px;grid-template-columns:1fr 1fr"><a class="screen" href="demo/#crew"><img src="img/shots/crew.jpg" alt="Crew database with availability replies coming in by text" loading="lazy"></a><a class="screen" href="demo/#locations"><img src="img/shots/locations.jpg" alt="Locations database answering a search for a desert motel for the pilot" loading="lazy"></a></div>
+  <div class="locsrc"><h3>Where locations come from</h3><div class="ls-grid"><div class="srcr"><b>Your own location history</b><span class="how api">Connected</span><p>Email, location agreements, scout photos, call sheets. Every place you’ve scouted or shot, with fees, contacts, power and parking, pulled out of what you already have.</p></div><div class="srcr"><b>Google Maps</b><span class="how api">API</span><p>Places, Street View, drive times. Finds the nearest ER for a new set, drive time from basecamp, parking and a street-level look before anyone scouts.</p></div><div class="srcr"><b>Weather, tide and sun</b><span class="how api">API</span><p>National Weather Service, NOAA tides, sunrise and sunset. Free public data. Fills the call sheet’s forecast, tide table and sunset on its own.</p></div><div class="srcr"><b>Peerspace and Giggster</b><span class="how imp">Search and import</span><p>Rentable homes, studios and venues. No public API. We search the listing, and the booking confirmation email files the location, dates and fee to the show.</p></div><div class="srcr"><b>Film commission libraries</b><span class="how imp">Search and import</span><p>Location galleries run on Reel-Scout and similar. Commissions send location packages by link. Those links come in by email and land on the show.</p></div><div class="srcr"><b>FilmLA and local permit offices</b><span class="how req">Tracked from email</span><p>Permit applications and status. No public API. Permit confirmations and riders are read from email and put on the calendar and the location’s file.</p></div></div></div>
 </div></section>
 
 <!-- ========== HOW IT CONNECTS ========== -->
