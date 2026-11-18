@@ -363,6 +363,34 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
 .ls-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
 .ls-grid .srcr:nth-child(2){border-top:0}
 @media (max-width:900px){.ls-grid{grid-template-columns:1fr}.ls-grid .srcr:nth-child(2){border-top:1px solid var(--line)}}
+.bsearch{margin-top:24px;background:var(--bg3);border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+.bs-h h3{font-size:22px;color:var(--amber);margin-bottom:6px}
+.bs-h p{color:var(--soft);max-width:78ch}
+.bs-q{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:22px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.bs-q span{font-family:var(--mono);font-size:12px;color:var(--amber-tx);text-transform:uppercase}
+.bs-q b{flex:1;min-width:260px;font-weight:500}
+.bs-run{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.bs-site{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
+.bs-site b{display:block;font-size:15px}
+.bs-site span{color:var(--mute)}
+.bs-site.run span{color:var(--amber-tx)}
+.bs-site.done{border-color:rgba(98,212,155,.4)}.bs-site.done span{color:var(--ok)}
+.bs-res{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}
+.bs-card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.bs-img{height:96px}
+.bs-card div.t{padding:12px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
+.bs-card b{font-size:16px}
+.bs-card small{color:var(--mute);font-size:12.5px;font-family:var(--mono)}
+.bs-card p{color:var(--soft);font-size:14px}
+.bs-card .acts{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.bs-card button{padding:6px 12px;border-radius:99px;font-size:13px;font-weight:600;border:1px solid var(--amber);background:var(--amber);color:#21160A;cursor:pointer}
+.bs-card button.alt{background:none;color:var(--amber-tx)}
+.bs-card .ok{color:var(--ok);font-weight:600;font-size:13px}
+@media (max-width:1100px){.bs-res{grid-template-columns:1fr 1fr}}
+@media (max-width:900px){.bs-run{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.bs-res{grid-template-columns:1fr}}
+.scout{background:radial-gradient(80% 60% at 85% 0%,rgba(233,169,74,.16),transparent 70%),var(--bg2);border-top:1px solid rgba(233,169,74,.35);border-bottom:1px solid rgba(233,169,74,.35)}
+.scout .bsearch{border-color:rgba(233,169,74,.45);box-shadow:0 20px 60px rgba(0,0,0,.35)}
 .stepper{margin-top:22px}
 
 .st-body{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:28px;align-items:center}
@@ -517,6 +545,19 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
   <div class="ps-nav"><button class="btn" id="psPrev">Back</button><button class="btn pri" id="psNext">Next</button></div>
 </div></section>
 
+<!-- ========== LOCATION SCOUTING ========== -->
+<section class="scout" id="scouting"><div class="w">
+  <div class="kick">Location scouting</div>
+  <h2>Describe the place. <em>It goes and looks.</em></h2>
+  <p class="lead">Every place you’ve ever scouted or shot is searchable the way you’d describe it. For everything else, the assistant searches Peerspace, Giggster, film commission galleries and maps in your browser while you keep working, and brings back drive times, power, the nearest ER, sunset and permit notes with each one.</p>
+  <div class="bsearch"><div class="bs-h"><div><h3>No API? The assistant uses your browser.</h3><p>Ask from the hub and keep working. Claude in Chrome or ChatGPT’s agent opens each site in your browser, signed in as you, searches it the way you would, and brings back what it found for you to approve. Nothing is booked or sent without your OK.</p></div></div>
+   <div class="try"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 3v10.5l-2-2a1.6 1.6 0 0 0-2.3 2.3L9.5 19A5 5 0 0 0 13 20.5h1.5A4.5 4.5 0 0 0 19 16v-4.5a1.5 1.5 0 0 0-3 0V11a1.5 1.5 0 0 0-3 0v-.5a1.5 1.5 0 0 0-3 0V3a1.5 1.5 0 0 0-3 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Try it · run the search</div>
+   <div class="bs-q"><span>Find</span><b id="bsQ">A desert motel or ranch for the pilot, 16+ rooms, power on site, Jan 25 to Feb 19, under $5,000 a day, within 2.5 hours of Burbank</b><button class="btn pri" id="bsGo">Run the search</button></div>
+   <div class="bs-run" id="bsRun"></div><div class="bs-res" id="bsRes"></div></div>
+  <a class="screen" style="margin-top:28px" href="demo/#locations"><img src="img/shots/locations.jpg" alt="Locations database answering a search for a desert motel for the pilot" loading="lazy"></a>
+  <div class="locsrc"><h3>Where locations come from</h3><div class="ls-grid"><div class="srcr"><b>Your own location history</b><span class="how api">Connected</span><p>Email, location agreements, scout photos, call sheets. Every place you’ve scouted or shot, with fees, contacts, power and parking, pulled out of what you already have.</p></div><div class="srcr"><b>Google Maps</b><span class="how api">API</span><p>Places, Street View, drive times. Finds the nearest ER for a new set, drive time from basecamp, parking and a street-level look before anyone scouts.</p></div><div class="srcr"><b>Weather, tide and sun</b><span class="how api">API</span><p>National Weather Service, NOAA tides, sunrise and sunset. Free public data. Fills the call sheet’s forecast, tide table and sunset on its own.</p></div><div class="srcr"><b>Peerspace and Giggster</b><span class="how imp">Browser search</span><p>Rentable homes, studios and venues. No public API, so the assistant searches them in your browser, signed in as you. Booking emails then file the location, dates and fee to the show.</p></div><div class="srcr"><b>Film commission libraries</b><span class="how imp">Browser search</span><p>Location galleries run on Reel-Scout and similar. The assistant searches the public galleries for you, and packages a commission sends by link land on the show.</p></div><div class="srcr"><b>FilmLA and local permit offices</b><span class="how req">Tracked from email</span><p>Permit applications and status. No public API. Permit confirmations and riders are read from email and put on the calendar and the location’s file.</p></div></div></div>
+</div></section>
+
 <!-- ========== RECEIPTS ========== -->
 <section class="alt" id="receipts"><div class="w">
   <div class="kick">Receipts by text</div>
@@ -584,8 +625,7 @@ a.phoneshot::after{content:"Open the call sheet ↗";position:absolute;left:50%;
   <p class="lead">Every crew member from every show, with their department, rate and last show. Pick ten people and ask if they’re free, by text, in one go. And every location you’ve scouted or shot, with fees, power, parking, agreements and insurance on file, searchable the way you’d describe it.</p>
   <div class="cleanup"><div><b>One cleanup, and it’s all in.</b><p>Once email and drives are connected, it goes back through years of old messages, call sheets, crew lists, deal memos and location agreements. It finds every person and place you’ve worked with, merges the duplicates, and hands you one list to approve. After that, new shows keep it current on their own.</p></div>
    <div class="cl-k"><div><b>1,284</b><span>people found</span></div><div><b>212</b><span>locations found</span></div><div><b>96</b><span>duplicates merged</span></div></div></div>
-  <div class="split" style="margin-top:40px;grid-template-columns:1fr 1fr"><a class="screen" href="demo/#crew"><img src="img/shots/crew.jpg" alt="Crew database with availability replies coming in by text" loading="lazy"></a><a class="screen" href="demo/#locations"><img src="img/shots/locations.jpg" alt="Locations database answering a search for a desert motel for the pilot" loading="lazy"></a></div>
-  <div class="locsrc"><h3>Where locations come from</h3><div class="ls-grid"><div class="srcr"><b>Your own location history</b><span class="how api">Connected</span><p>Email, location agreements, scout photos, call sheets. Every place you’ve scouted or shot, with fees, contacts, power and parking, pulled out of what you already have.</p></div><div class="srcr"><b>Google Maps</b><span class="how api">API</span><p>Places, Street View, drive times. Finds the nearest ER for a new set, drive time from basecamp, parking and a street-level look before anyone scouts.</p></div><div class="srcr"><b>Weather, tide and sun</b><span class="how api">API</span><p>National Weather Service, NOAA tides, sunrise and sunset. Free public data. Fills the call sheet’s forecast, tide table and sunset on its own.</p></div><div class="srcr"><b>Peerspace and Giggster</b><span class="how imp">Search and import</span><p>Rentable homes, studios and venues. No public API. We search the listing, and the booking confirmation email files the location, dates and fee to the show.</p></div><div class="srcr"><b>Film commission libraries</b><span class="how imp">Search and import</span><p>Location galleries run on Reel-Scout and similar. Commissions send location packages by link. Those links come in by email and land on the show.</p></div><div class="srcr"><b>FilmLA and local permit offices</b><span class="how req">Tracked from email</span><p>Permit applications and status. No public API. Permit confirmations and riders are read from email and put on the calendar and the location’s file.</p></div></div></div>
+  <div class="split" style="margin-top:40px;grid-template-columns:1fr"><a class="screen" href="demo/#crew"><img src="img/shots/crew.jpg" alt="Crew database with availability replies coming in by text" loading="lazy"></a></div>
 </div></section>
 
 <!-- ========== HOW IT CONNECTS ========== -->
@@ -841,7 +881,7 @@ const crewSt={};
 const SRC=[['Your own crew history','Email, call sheets, deal memos, crew lists','api','Connected','Everyone you’ve worked with, searchable by role, rate and last show.'],
  ['Union availability lists','IATSE and Teamsters locals','req','Requested','Most locals share availability lists with producers by email or an online login. The request goes out for you and the list comes back in.'],
  ['ProductionList','Productions, companies and crew credits','api','API','Has a licensed API and a Claude connector. Shows what else is shooting in your window and who’s on it.'],
- ['Staff Me Up, ProductionHUB, Mandy','Job posts and freelancer search','imp','Post and import','No public API found. We post the job, and applicants come in by email, where they’re filed to the show.'],
+ ['Staff Me Up, ProductionHUB, Mandy','Job posts and freelancer search','imp','Browser search','No public API, so the assistant searches and posts in your browser, signed in as you. Applicants come in by email and file to the show.'],
  ['Payroll and start paperwork','Wrapbook, Cast & Crew, Entertainment Partners','imp','Hand-off','Hired crew go to your payroll company’s start paperwork. Wrapbook has an API; the others connect through exports or a partner agreement.']];
 function psRender(){
  $('psTabs').innerHTML=PS.map((t,i)=>`<button class="${i===ps?'on':''} ${i<ps?'done':''}" data-ps="${i}"><em>${i+1}</em><span>${t}</span></button>`).join('');
@@ -880,6 +920,22 @@ $('psCreate').onclick=()=>{psMade=true;psRender();};
 {const u=new URLSearchParams(location.search);if(u.has('ps'))ps=+u.get('ps');if(u.has('hired')){crewSt[0]='hired';crewSt[1]='free';crewSt[3]='hired';crewSt[4]='hired';crewSt[6]='asked';}}
 $('stR').addEventListener('input',()=>{if(ps===4)psRender();});
 psRender();
+
+/* ---------- browser search ---------- */
+const BS_SITES=[['Peerspace','12 listings checked','2 match'],['Giggster','18 listings checked','1 match'],['Film commission galleries','3 libraries checked','1 match'],['Google Maps','Drive times and power checked','All 4 checked']];
+const BS_RES=[['Sunspot Motor Lodge','Already in your Locations','Twentynine Palms · 16 rooms · 2 hr 20 min','$4,200 a day, needs a generator. Owner offered late January.','#C99A4A'],
+ ['High Desert Ranch House','Peerspace','Pioneertown · main house plus 6 cabins · 2 hr 15 min','$3,600 a day. 200A service, open Feb 2 to 16.','#B07A4F'],
+ ['Starlite Court','Giggster','Yucca Valley · 18 rooms, closed for filming · 2 hr 5 min','$4,900 a day. Power on site. Host replies within 2 hours.','#7B61C9'],
+ ['Old Route Motel','County film library','Newberry Springs · 22 rooms · 2 hr 10 min','Rate on request. Has hosted 3 features. Permit through the county.','#2E8F9C']];
+let bsState=0;const bsDone={};
+function bsRender(){
+ $('bsRun').innerHTML=bsState===0?'':BS_SITES.map((x,i)=>`<div class="bs-site ${bsState===2||i<bsState-1?'done':'run'}"><b>${x[0]}</b><span>${bsState===2?x[1]+' · '+x[2]:'Searching in your browser…'}</span></div>`).join('');
+ $('bsRes').innerHTML=bsState===2?BS_RES.map((r,i)=>`<div class="bs-card"><div class="bs-img" style="background:linear-gradient(135deg,${r[4]},#0F1115)"></div><div class="t"><small>${r[1]}</small><b>${r[0]}</b><p>${r[2]}</p><p>${r[3]}</p><div class="acts">${bsDone[i]?'<span class="ok">✓ '+bsDone[i]+'</span>':`<button data-bs="${i}" data-a="Saved to Locations">Save to Locations</button><button class="alt" data-bs="${i}" data-a="Message drafted for your OK">Ask the host</button>`}</div></div></div>`).join(''):'';
+ $('bsGo').textContent=bsState===2?'Run it again':bsState===1?'Searching…':'Run the search';$('bsGo').disabled=bsState===1;}
+$('bsGo').onclick=()=>{bsState=1;for(const k in bsDone)delete bsDone[k];bsRender();setTimeout(()=>{bsState=2;bsRender();},1800);};
+$('bsRes').addEventListener('click',e=>{const b=e.target.closest('[data-bs]');if(b){bsDone[b.dataset.bs]=b.dataset.a;bsRender();}});
+if(new URLSearchParams(location.search).has('bs'))bsState=2;
+bsRender();
 /* ---------- assistant ---------- */
 const ASK=[
  {q:'How’s Saltwater tracking?',who:'Sterling',a:'Day 23 of 64. $12.2M spent and $4.17M committed. Estimated final is $26.5M, $234K over against the $26.3M budget (0.9%). Biggest movers: Cast, $148K over, and Locations, $64K over.',g:[['Sterling','@Slate how’s Saltwater tracking?']]},
