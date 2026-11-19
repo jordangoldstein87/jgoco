@@ -40,14 +40,15 @@ window.BS = {
 
   /* the opening video: one narrated line per scene (rendered by tools/narrate.mjs into img/vo/) */
   video: {
-    scenes: [["open", 7], ["today", 7], ["logo", 5], ["site", 6], ["chat", 7], ["book", 6], ["listings", 6], ["ads", 6], ["assistant", 7], ["health", 6], ["end", 5]],
+    scenes: [["open", 7], ["today", 7], ["logo", 5], ["site", 6], ["chat", 7], ["book", 6], ["channels", 6.5], ["listings", 6], ["ads", 6], ["assistant", 7], ["health", 6], ["end", 5]],
     narr: {
       open: "Doctor Geer. Twenty-five years. Two practices. A Sciton Luminary who trains other physicians, and a protocol you invented called The Big Reset.",
       today: "But online, nothing finds you. Your own name and domain returned nothing. Your strongest reviews sit on the wrong listing. And not one button on your site books an appointment.",
-      logo: "So we start with the mark. Four ways to draw a best self.",
+      logo: "Then your own logo, drawn properly. Same mark, same colours, just cleaned up.",
       site: "Then a website built the way your practice actually works.",
       chat: "With a knowledge base behind it. Every question you have answered a thousand times, answered again at eleven at night, with the source.",
       book: "And the thing your site has never had. A patient picks a time and books it.",
+      channels: "Most people never reach your website. They book from Google, from Instagram, from a maps app. All of it lands on one calendar.",
       listings: "Every listing claimed, merged and pointed at Westlake Village.",
       ads: "Then we buy the searches you are missing, with the cost of every keyword on the table first.",
       assistant: "One assistant, three doors. Text it, chat it on the site, or ask it in ChatGPT. It knows your schedule, your devices and your books, and nothing goes out without your OK.",
@@ -80,6 +81,24 @@ window.BS = {
       ["Three supplement stores at once",
         "Fullscript, Designs for Health and Metagenics all sit in your menu, splitting the same orders between them."],
     ],
+  },
+
+  /* booking from the places patients actually start. Verified in research/booking-channels.md:
+     "live" means real open times on that platform, "button" means a tracked Book button that
+     lands on her real calendar. The difference is deliberate, because Google is moving beauty
+     and medical bookings to a redirect rather than live slots inside search. */
+  channels: {
+    h: "Book from wherever they find you.",
+    p: "Most people never reach a website. They book from Google, from Instagram, from a maps app. One calendar behind all of it, so nothing is ever double booked.",
+    rows: [
+      ["Google Search and Maps", "A Book button on your profile, tracked, landing on your calendar.", "button"],
+      ["Instagram and Facebook", "Book without ever leaving the app.", "live"],
+      ["Zocdoc", "Real open times. They also show inside Yelp.", "live"],
+      ["Yelp", "A Book button. Real times there only come through Zocdoc.", "button"],
+      ["Apple Maps", "A Book link on the place card.", "button"],
+      ["Your site, the chat, the text line", "Real open times, taken on the spot.", "live"],
+    ],
+    honest: "Two things worth being straight about. Google is moving beauty and medical bookings to a tracked Book button rather than live slots inside search, so a button is what we would build there. And live times on Yelp exist only through Zocdoc, which is the medical side. Everywhere else lands on the same calendar.",
   },
 
   /* the framing that matters: this is a tool for the person at the desk, not a telling-off */

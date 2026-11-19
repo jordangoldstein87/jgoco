@@ -32,6 +32,14 @@
   $("todayStats").innerHTML = BS.today.stats.map(([n, t, s]) =>
     `<div class="t-c rise"><b>${esc(n)}</b><strong>${esc(t)}</strong><span>${esc(s)}</span></div>`).join("");
 
+  /* ---------- booking from every platform ---------- */
+  const CH = BS.channels;
+  $("chH").textContent = CH.h;
+  $("chP").textContent = CH.p;
+  $("chGrid").innerHTML = CH.rows.map(([n, dsc, k]) =>
+    `<div class="ch-c rise"><span class="ch-p ${k}">${k === "live" ? "Live times" : "Book button"}</span><b>${esc(n)}</b><span>${esc(dsc)}</span></div>`).join("");
+  $("chHonest").textContent = CH.honest;
+
   /* ---------- who this is for ---------- */
   const TM = BS.team;
   $("tmH").textContent = TM.h;

@@ -23,7 +23,7 @@ p{margin:0 0 1em}
 .w{max-width:1200px;margin:0 auto;padding:0 32px}
 section{padding:clamp(72px,8vw,118px) 0}
 h2{font-size:clamp(32px,4.4vw,56px)}
-.kick{display:inline-block;font:600 12.5px var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--acc);margin:0 0 18px;padding:7px 14px;background:#21ae921f;border-radius:999px}
+.kick{display:inline-block;font:600 16px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:#fff;margin:0 0 24px;padding:12px 24px;background:var(--acc);border-radius:999px;box-shadow:0 6px 18px #21ae9233}
 .lead{font-size:clamp(18px,1.5vw,21px);color:var(--mut);max-width:680px;margin:18px 0 0}
 .smp{display:inline-block;font:600 10px var(--ui);letter-spacing:.14em;text-transform:uppercase;background:#12343f12;color:var(--mut);border-radius:4px;padding:4px 8px;vertical-align:middle}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:15px 28px;font:500 15px var(--ui);text-decoration:none;white-space:nowrap;transition:.25s;box-shadow:0 8px 24px #12343f26}
@@ -68,6 +68,14 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 .t-m span{font-size:14.5px;color:var(--mut);line-height:1.55}
 .t-q{margin-top:52px;font:500 clamp(24px,3vw,38px)/1.2 var(--dis);color:var(--ink);max-width:22ch;border-left:3px solid var(--acc);padding-left:26px}
 
+.ch-g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px}
+.ch-c{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.ch-c b{display:block;font:500 16px var(--ui);color:var(--ink);margin-bottom:6px}
+.ch-c>span:last-child{font-size:14.5px;color:var(--mut);line-height:1.55;display:block}
+.ch-p{display:inline-block;font:600 10px var(--ui);letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:4px 9px;margin-bottom:10px}
+.ch-p.live{background:var(--acc);color:#fff}
+.ch-p.button{background:#12343f14;color:var(--mut)}
+
 /* who this is for */
 .tm-two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:44px}
 .tm-c{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px 30px}
@@ -88,7 +96,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 /* generic cards */
 .sec-w{background:var(--card)}
 .sec-d{background:var(--ink);color:#fff}
-.sec-d h2,.sec-d h3{color:#fff}.sec-d .lead{color:#ffffffc4}.sec-d .kick{color:var(--mint)}
+.sec-d h2,.sec-d h3{color:#fff}.sec-d .lead{color:#ffffffc4}.sec-d .kick{background:var(--mint);color:var(--ink);box-shadow:none}
 .sec-m{background:var(--mist)}
 
 /* logo before/after */
@@ -362,7 +370,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 .c-c b{font:500 23px var(--dis);color:var(--ink);display:block;margin-bottom:8px}
 .c-c p{margin:0;color:var(--mut);font-size:16px;line-height:1.6}
 .n-sec{background:var(--deep);color:#fff;text-align:center}
-.n-sec h2{color:#fff}.n-sec .lead{color:#ffffffc4;margin-left:auto;margin-right:auto}
+.n-sec h2{color:#fff}.n-sec .kick{background:var(--mint);color:var(--ink)}.n-sec .lead{color:#ffffffc4;margin-left:auto;margin-right:auto}
 .n-st{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:left;margin:44px 0}
 .n-st div{background:#ffffff10;border-radius:18px;padding:24px}
 .n-st b{font:500 30px var(--dis);color:var(--mint);display:block;margin-bottom:6px}
@@ -388,7 +396,8 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 .v-prog{height:4px;background:#ffffff1a}.v-prog i{display:block;height:100%;width:0;background:var(--acc);transition:width .6s}
 .v-big{font:400 clamp(38px,7.4vw,96px)/1.04 var(--dis)}
 .v-big em{font-style:italic;color:var(--mint)}
-.v-k{font:600 clamp(12px,1.3vw,15px) var(--ui);letter-spacing:.22em;text-transform:uppercase;color:var(--mint);margin-bottom:26px}
+.v-k{display:inline-block;font:600 clamp(17px,2vw,26px) var(--ui);letter-spacing:.09em;text-transform:uppercase;color:var(--deep);background:var(--mint);border-radius:999px;padding:13px 30px;margin-bottom:34px}
+.v-sub{font:500 clamp(13px,1.3vw,16px) var(--ui);letter-spacing:.16em;text-transform:uppercase;color:#ffffff8c;margin-top:26px}
 .v-row{display:flex;gap:40px;justify-content:center;margin-top:34px;flex-wrap:wrap}
 .v-row span{font:300 17px var(--ui);color:#ffffffc4}.v-row b{display:block;font:500 48px var(--dis);color:#fff}
 .v-bg{position:absolute;inset:-4%;display:grid;grid-template-columns:repeat(4,1fr);opacity:.26}
@@ -400,7 +409,10 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 .v-lg{display:grid;justify-items:center;gap:22px}.v-lg svg{width:min(460px,86%);height:auto}
 .v-dev{position:relative;width:min(880px,92%);margin:0 auto;padding-right:12%}
 .v-dev img{width:100%;border-radius:12px;border:10px solid #1d2027;display:block}
-.v-phn{position:absolute;right:0;bottom:-24px;width:24%;border:8px solid #111;border-radius:26px;overflow:hidden}
+.v-lap{position:relative;width:100%;aspect-ratio:16/10;border-radius:12px;border:10px solid #1d2027;overflow:hidden;background:#fff}
+.v-lap iframe{position:absolute;top:0;left:0;width:1440px;height:900px;border:0;transform-origin:0 0}
+.v-phn{position:absolute;right:0;bottom:-24px;width:24%;border:8px solid #111;border-radius:26px;overflow:hidden;aspect-ratio:390/800;background:#fff}
+.v-phn iframe{position:absolute;top:0;left:0;width:390px;height:800px;border:0;transform-origin:0 0}
 .v-tiles{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:900px;margin:0 auto}
 .v-tiles span{background:#ffffff14;border-radius:14px;padding:15px 22px;font:500 20px var(--ui);display:flex;gap:10px;align-items:center}
 .v-tiles i{font-style:normal;color:#2fbf71}
@@ -453,7 +465,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   .rv{grid-template-columns:1fr}.rv-l{border-right:0}.rv-d{padding:22px}
   .au-g{grid-template-columns:1fr}.au-ph{position:static;max-width:320px;margin:0 auto}
   .hl-k{grid-template-columns:1fr 1fr}
-  .tm-two{grid-template-columns:1fr}.tm-m{padding:22px}.tm-m .mr{grid-template-columns:1fr;gap:4px}
+  .tm-two,.ch-g{grid-template-columns:1fr}.tm-m{padding:22px}.tm-m .mr{grid-template-columns:1fr;gap:4px}
   .ad-r{grid-template-columns:1fr auto;gap:4px 12px}
   .ad-r span{grid-column:1/-1;font-size:13px}
   .ad-r.h{display:none}
@@ -518,7 +530,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   <p class="lead">Not a new mark. The figure, the lotus, the colours and the order are all yours. Twenty-five years of recognition stays exactly where it is.</p>
   <div class="lg-two">
     <div class="lg-c"><div class="lab">What you have today</div>
-      <div class="lg-st"><img src="img/work/logo-current.png?v=1795119205" alt="Current logo"></div>
+      <div class="lg-st"><img src="img/work/logo-current.png?v=1795122663" alt="Current logo"></div>
       <p>Ten petals hand-drawn at different widths, a sketched double waterline, and a wordmark with uneven tracking. It holds up on a desktop header and falls apart below about forty pixels.</p>
     </div>
     <div class="lg-c"><div class="lab">Cleaned up</div>
@@ -569,6 +581,10 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   <p style="margin-top:30px;display:flex;gap:12px;flex-wrap:wrap">
     <a class="btn a" href="website.html#book" target="_blank">Try the booking panel</a>
     <a class="btn o" href="website.html#answers" target="_blank">Open the knowledge base</a></p>
+  <h3 style="font-size:clamp(24px,2.8vw,34px);margin-top:62px" id="chH"></h3>
+  <p class="lead" style="margin-top:12px" id="chP"></p>
+  <div class="ch-g" id="chGrid"></div>
+  <p class="tm-n" id="chHonest" style="margin-top:20px"></p>
 </div></section>
 
 <section class="sec-d" id="listings"><div class="w">
@@ -712,12 +728,12 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   <div class="v-prog"><i id="vBar"></i></div>
 </div>
 
-<script src="logos.js?v=1795119205"></script>
-<script src="data.js?v=1795119205"></script>
-<script src="kb.js?v=1795119205"></script>
-<script src="forms.js?v=1795119205"></script>
-<script src="pitch.js?v=1795119205"></script>
-<script src="music.js?v=1795119205"></script>
-<script src="video.js?v=1795119205"></script>
+<script src="logos.js?v=1795122663"></script>
+<script src="data.js?v=1795122663"></script>
+<script src="kb.js?v=1795122663"></script>
+<script src="forms.js?v=1795122663"></script>
+<script src="pitch.js?v=1795122663"></script>
+<script src="music.js?v=1795122663"></script>
+<script src="video.js?v=1795122663"></script>
 </body>
 </html>
