@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Invoice · JGoCo</title>
+<link rel="icon" type="image/png" href="../img/favicon.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<!--
+  A client's invoice. The link carries the invoice's random id (?id=...); this page asks the
+  JGoCo Apps Script for that invoice and draws it. Nothing about any invoice is in this file.
+  Cards are paid right here with Square's card form (the card number never touches JGoCo:
+  Square turns it into a one-time token, and the Apps Script charges that token).
+-->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{font-family:Inter,-apple-system,Helvetica,Arial,sans-serif;color:#111;background:#000;padding:28px 16px 48px;-webkit-font-smoothing:antialiased}
+.bar{max-width:760px;margin:0 auto 22px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.bar img{height:56px;max-width:52%}
+.acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.acts button{border:0;background:#fff;color:#111;border-radius:999px;padding:10px 16px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.acts button.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px #fff}
+.acts button:disabled{opacity:.5;cursor:default}
+.page{max-width:760px;margin:0 auto;background:#fff;border-radius:16px;padding:36px}
+.top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.plogo{display:none;height:34px;margin-bottom:10px}
+.doc .plogo{display:block}
+.from{font-size:13px;color:#6b6b6b;line-height:1.5}
+h1{font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#6b6b6b;font-weight:700}
+.meta{text-align:right;font-size:14px;line-height:1.6}
+.cols{margin:28px 0;font-size:14px;line-height:1.55}
+.cols b,.howto>b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6b6b6b;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+td{padding:11px 0;border-bottom:1px solid #eee;vertical-align:top}
+td.n{text-align:right;white-space:nowrap;padding-left:12px}
+tr.t td{font-weight:900;border-top:2px solid #111;border-bottom:0;font-size:17px}
+tr.sub td{color:#6b6b6b;font-size:14px;border-bottom:0;padding:6px 0}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+.opt{border:1px solid #e8e8e8;border-radius:12px;padding:18px}
+.opt small{display:block;color:#6b6b6b;font-size:13px;line-height:1.45}
+.opt b{display:block;font-size:24px;font-weight:900;margin:6px 0}
+.opt pre{white-space:pre-wrap;font:inherit;font-size:13px;line-height:1.5;margin-top:8px}
+.fee{margin-top:8px;font-size:13px;line-height:1.6}
+.fee div{display:flex;justify-content:space-between;gap:10px}
+.fee .tot{font-weight:900;border-top:1px solid #e8e8e8;margin-top:4px;padding-top:4px}
+.btn{display:inline-block;margin-top:12px;background:#ffd400;color:#111;font:inherit;font-weight:900;border:0;border-radius:999px;padding:12px 20px;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:default}
+.cardform{margin-top:16px;border:1px solid #e8e8e8;border-radius:12px;padding:18px}
+.cardform label{display:block;font-size:13px;color:#6b6b6b;margin:0 0 6px}
+.cardform input{width:100%;font:inherit;font-size:15px;border:1px solid #ccc;border-radius:8px;padding:11px 12px;margin-bottom:14px}
+#card{min-height:90px}
+.err{color:#b3261e;font-size:14px;margin-top:10px;line-height:1.45}
+.fine{color:#6b6b6b;font-size:12px;line-height:1.5;margin-top:10px}
+.paid{margin-top:22px;background:#e3f4ea;color:#0a7d3c;font-weight:900;border-radius:12px;padding:14px 18px}
+.note{margin-top:22px;font-size:13px;color:#6b6b6b;line-height:1.5}
+.msg{text-align:center;color:#6b6b6b;font-size:15px;padding:30px 0;line-height:1.5}
+.toast{max-width:760px;margin:14px auto 0;background:#ffd400;color:#111;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:600;line-height:1.45}
+.howto{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.howto>div{border:1px solid #e8e8e8;border-radius:12px;padding:16px;font-size:13px;line-height:1.5}
+.howto>div b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6b6b6b;margin-bottom:6px}
+.howto pre{white-space:pre-wrap;font:inherit}
+#docwrap{position:fixed;left:-10000px;top:0;width:760px;background:#fff}
+#docwrap .page{border-radius:0;padding:0}
+@media(max-width:560px){.pay,.howto{grid-template-columns:1fr}.page{padding:22px}.meta{text-align:left}.bar{align-items:flex-start}.bar img{height:34px}.acts button{padding:9px 12px;font-size:13px}}
+@media print{body{background:#fff;padding:0}.bar,.btn,.cardform,.toast{display:none}.page{border:0;padding:0}.plogo{display:block}}
+</style>
+</head>
+<body>
+<div class="bar"><img src="../img/jgoco-logo-yellow.png" alt="JGoCo"><div class="acts" id="acts" hidden><button id="ap" type="button" class="ghost">Send to A/P</button><button id="pdf" type="button">Download PDF</button></div></div>
+<div class="page" id="page"><p class="msg">Loading your invoice…</p></div>
+<div id="toast"></div>
+<div id="docwrap" aria-hidden="true"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+<script>
+const SCRIPT = "https://script.google.com/macros/s/AKfycbw4vSWuqiNiEPP4DDematxgcepF3twbcm9x7d5Qiy3zzLiuo1vaL9C7bL_xK8SCAAEu/exec";
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const usd = (c) => "$" + ((Number(c) || 0) / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+// A plain date (2026-12-03) is that day; a timestamp (paid at) is shown in the reader's own time zone.
+const longDate = (s) => (s ? new Date(String(s).length > 10 ? s : s + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) : "");
+const pctOf = (fee, base) => (base > 0 ? Math.round((fee * 1000) / base) / 10 : 0);
+const id = new URLSearchParams(location.search).get("id") || "";
+const link = location.origin + location.pathname + "?id=" + encodeURIComponent(id);
+let D = null; // { invoice, wire, square }
+let pdfJob = null;
+
+const toast = (html) => { $("#toast").innerHTML = html ? `<div class="toast">${html}</div>` : ""; };
+const gone = () => { $("#page").innerHTML = `<p class="msg">This invoice isn't available. If you think that's a mistake, email <a href="mailto:jordan@jgoco.me">jordan@jgoco.me</a>.</p>`; };
+
+// The invoice itself: same for the page and the PDF.
+function body(inv) {
+  const b = inv.billTo || {}, f = inv.from || {};
+  const place = [b.city, b.state].filter(Boolean).join(", ");
+  const paid = inv.status === "paid";
+  const cardFeePaid = paid && inv.paidVia === "card" && inv.paidFeeCents > 0;
+  return `
+<div class="top"><div><img class="plogo" src="../img/jgoco-logo.png" alt="JGoCo"><div class="from">${esc(f.name || "JGoCo")}<br>${esc(f.email || "")}<br>jgoco.me</div></div>
+<div class="meta"><h1>Invoice ${esc(inv.number)}</h1>Issued ${esc(longDate(inv.issued))}<br>Due ${esc(longDate(inv.due))}</div></div>
+<div class="cols"><b>Bill to</b>${esc(b.name)}${b.line1 ? "<br>" + esc(b.line1) : ""}${place ? "<br>" + esc(place) + " " + esc(b.postalCode || "") : ""}${b.email ? "<br>" + esc(b.email) : ""}</div>
+<table>${(inv.lines || []).map((l) => `<tr><td>${esc(l.description)}</td><td class="n">${usd(l.amountCents)}</td></tr>`).join("")}
+<tr class="t"><td>Total</td><td class="n">${usd(inv.wireCents)}</td></tr>
+${cardFeePaid ? `<tr class="sub"><td>Credit card fee (${pctOf(inv.paidFeeCents, inv.wireCents)}%)</td><td class="n">${usd(inv.paidFeeCents)}</td></tr><tr class="t"><td>Paid by card</td><td class="n">${usd(inv.paidCents)}</td></tr>` : ""}</table>
+${paid ? `<div class="paid">Paid${inv.paidVia ? " by " + esc(inv.paidVia) : ""}${inv.paidCard ? " (" + esc(inv.paidCard) + ")" : ""}${inv.paidAt ? " on " + esc(longDate(inv.paidAt)) : ""}. Thank you.</div>` : ""}`;
+}
+
+function feeBox(inv) {
+  return `<div class="fee"><div><span>Invoice</span><span>${usd(inv.wireCents)}</span></div><div><span>Credit card fee (${pctOf(inv.feeCents, inv.wireCents)}%)</span><span>${usd(inv.feeCents)}</span></div><div class="tot"><span>Credit card total</span><span>${usd(inv.cardCents)}</span></div></div>`;
+}
+
+function draw() {
+  const inv = D.invoice;
+  document.title = `Invoice ${inv.number} · JGoCo`;
+  const paid = inv.status === "paid";
+  const sq = D.square;
+  $("#page").innerHTML = body(inv) + (paid ? "" : `
+<div class="pay">
+<div class="opt"><small>Pay by wire or bank transfer</small><b>${usd(inv.wireCents)}</b><small>No fee.</small><pre>${esc(D.wire || "Reply to this invoice for bank details.")}</pre><pre>Reference: Invoice ${esc(inv.number)}</pre></div>
+<div class="opt"><small>Pay by card</small><b>${usd(inv.feeCents ? inv.cardCents : inv.wireCents)}</b>${inv.feeCents ? feeBox(inv) + `<small style="margin-top:8px">Debit cards pay ${usd(inv.wireCents)}, no fee.</small>` : ""}
+${sq ? `<button class="btn" id="showCard" type="button">Pay by card</button>` : `<small style="margin-top:8px">Card payment isn't available right now. Please pay by bank transfer.</small>`}</div>
+</div>
+<div class="cardform" id="cardform" hidden>
+<label for="email">Email for your receipt</label><input id="email" type="email" autocomplete="email" value="${esc((inv.billTo || {}).email || "")}">
+<label>Card</label><div id="card"></div>
+<button class="btn" id="payBtn" type="button" disabled>Pay</button>
+<div class="err" id="payErr" role="alert"></div>
+<p class="fine">Credit cards are charged ${usd(inv.cardCents)}, including the ${usd(inv.feeCents)} card fee. Debit and prepaid cards are charged ${usd(inv.wireCents)}. Payments are processed by Square; your card number never reaches JGoCo.</p>
+</div>`) + (inv.note ? `<p class="note">${esc(inv.note)}</p>` : "");
+
+  // The PDF copy: the invoice plus how to pay, with no buttons.
+  $("#docwrap").innerHTML = `<div class="page doc">${body(inv)}${paid ? "" : `
+<div class="howto"><div><b>Wire or bank transfer · ${usd(inv.wireCents)}</b><pre>${esc(D.wire || "Reply to this invoice for bank details.")}</pre><pre style="margin-top:6px">Reference: Invoice ${esc(inv.number)}</pre></div>
+<div><b>Card · online</b>Pay at:<br>${esc(link)}<br><br>${inv.feeCents ? `Credit cards: ${usd(inv.cardCents)} (includes a ${pctOf(inv.feeCents, inv.wireCents)}% card fee of ${usd(inv.feeCents)}).<br>Debit cards: ${usd(inv.wireCents)}, no fee.` : `${usd(inv.wireCents)}`}</div></div>`}
+${inv.note ? `<p class="note">${esc(inv.note)}</p>` : ""}</div>`;
+
+  $("#acts").hidden = false;
+  pdfJob = null;
+  setTimeout(() => pdfFile().catch(() => {}), 700); // ready before they press, so sharing keeps the tap
+  $("#showCard")?.addEventListener("click", openCard);
+}
+
+// --- PDF and Send to A/P ------------------------------------------------------------------------
+const fileName = () => `JGoCo-Invoice-${String(D.invoice.number).replace(/[^\w-]+/g, "")}.pdf`;
+function pdfFile() {
+  if (pdfJob) return pdfJob;
+  pdfJob = (async () => {
+    for (let i = 0; i < 50 && !window.html2pdf; i++) await new Promise((r) => setTimeout(r, 100));
+    if (!window.html2pdf) throw new Error("pdf");
+    await document.fonts?.ready;
+    const blob = await window.html2pdf().set({ margin: [0.55, 0.6], image: { type: "jpeg", quality: 0.96 }, html2canvas: { scale: 2, backgroundColor: "#ffffff", useCORS: true }, jsPDF: { unit: "in", format: "letter", orientation: "portrait" } }).from($("#docwrap .page")).outputPdf("blob");
+    return new File([blob], fileName(), { type: "application/pdf" });
+  })();
+  pdfJob.catch(() => { pdfJob = null; });
+  return pdfJob;
+}
+function save(file) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(file);
+  a.download = file.name;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+}
+async function busy(btn, label, fn) {
+  const was = btn.textContent;
+  btn.disabled = true; btn.textContent = label;
+  try { await fn(); } finally { btn.disabled = false; btn.textContent = was; }
+}
+$("#pdf").addEventListener("click", (e) => busy(e.currentTarget, "Making PDF…", async () => {
+  try { save(await pdfFile()); } catch { window.print(); }
+}));
+$("#ap").addEventListener("click", (e) => busy(e.currentTarget, "Preparing…", async () => {
+  const inv = D.invoice;
+  const subject = `JGoCo invoice ${inv.number}: ${usd(inv.wireCents)}${inv.status === "paid" ? " (paid)" : ", due " + longDate(inv.due)}`;
+  const text = inv.status === "paid"
+    ? `Hi,\n\nAttached is JGoCo invoice ${inv.number} for ${usd(inv.wireCents)}, marked paid, for your records.\n\nThank you.`
+    : `Hi,\n\nAttached is JGoCo invoice ${inv.number} for ${usd(inv.wireCents)}, due ${longDate(inv.due)}.\n\nPay by wire or bank transfer (details are in the PDF), or by card online:\n${link}\n${inv.feeCents ? `Credit cards add a ${pctOf(inv.feeCents, inv.wireCents)}% fee; debit cards and bank transfers pay ${usd(inv.wireCents)}.\n` : ""}\nThank you.`;
+  let file = null;
+  try { file = await pdfFile(); } catch {}
+  if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file], title: subject, text }); toast(""); return; }
+    catch (err) { if (err && err.name === "AbortError") return; }
+  }
+  // No way to hand a file to the email app here: save it, then open a ready email to attach it to.
+  if (file) save(file);
+  location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+  toast(file ? `The PDF (${esc(file.name)}) is in your Downloads. Attach it to the email that just opened, and add your accounts payable address.` : `Your email should open with the invoice link. Use Download PDF to attach a copy.`);
+}));
+
+// --- Card payment ---------------------------------------------------------------------------
+let cardEl = null;
+const loadScript = (src) => new Promise((ok, no) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+async function openCard() {
+  const form = $("#cardform");
+  form.hidden = false;
+  $("#showCard").hidden = true;
+  form.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (cardEl) return;
+  const sq = D.square, inv = D.invoice;
+  try {
+    if (!window.Square) await loadScript(sq.sandbox ? "https://sandbox.web.squarecdn.com/v1/square.js" : "https://web.squarecdn.com/v1/square.js");
+    const payments = window.Square.payments(sq.appId, sq.locationId);
+    cardEl = await payments.card();
+    await cardEl.attach("#card");
+    const btn = $("#payBtn");
+    btn.textContent = `Pay ${usd(inv.cardCents)}`;
+    btn.disabled = false;
+    btn.addEventListener("click", pay);
+  } catch (err) {
+    $("#payErr").textContent = "The card form didn't load. Refresh to try again, or pay by bank transfer.";
+  }
+}
+async function pay() {
+  const inv = D.invoice, btn = $("#payBtn"), errEl = $("#payErr");
+  errEl.textContent = "";
+  const email = $("#email").value.trim();
+  btn.disabled = true; btn.textContent = "Paying…";
+  try {
+    const details = { amount: (inv.cardCents / 100).toFixed(2), currencyCode: "USD", intent: "CHARGE", customerInitiated: true, sellerKeyedIn: false, billingContact: email ? { email } : {} };
+    let t;
+    try { t = await cardEl.tokenize(details); } catch { t = await cardEl.tokenize(); }
+    if (!t || t.status !== "OK") throw new Error((t && t.errors && t.errors[0] && t.errors[0].message) || "Check the card details and try again.");
+    const res = await (await fetch(SCRIPT, { method: "POST", body: JSON.stringify({ action: "invoice-pay", id, token: t.token, attempt: crypto.randomUUID(), email }) })).json();
+    if (!res.ok) throw new Error(res.why || "The payment didn't go through.");
+    await load();
+    toast(res.already ? "This invoice was already paid. Thank you." : `Paid ${usd(res.paidCents)}${res.feeCents ? ` (includes the ${usd(res.feeCents)} credit card fee)` : ""}. Thank you!`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (err) {
+    errEl.textContent = err.message;
+    btn.disabled = false; btn.textContent = `Pay ${usd(inv.cardCents)}`;
+  }
+}
+
+async function load() {
+  const res = await fetch(`${SCRIPT}?action=invoice-data&id=${encodeURIComponent(id)}`);
+  const data = await res.json();
+  if (!data.ok || !data.invoice) return gone();
+  D = data;
+  cardEl = null;
+  draw();
+}
+
+(async () => {
+  if (!/^[A-Za-z0-9_-]{20,64}$/.test(id)) return gone();
+  try { await load(); } catch { $("#page").innerHTML = `<p class="msg">Couldn't load the invoice just now. Refresh to try again.</p>`; }
+})();
+</script>
+</body>
+</html>
