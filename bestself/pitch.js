@@ -29,8 +29,8 @@
   /* ---------- today ---------- */
   $("todayH").textContent = BS.today.h;
   $("todayP").textContent = BS.today.p;
-  $("todayStats").innerHTML = BS.today.stats.map(([n, t, s]) =>
-    `<div class="t-c rise"><b>${esc(n)}</b><strong>${esc(t)}</strong><span>${esc(s)}</span></div>`).join("");
+  $("todayStats").innerHTML = BS.today.stats.map(([cat, n, t, s]) =>
+    `<div class="t-c rise"><em>${esc(cat)}</em><b>${esc(n)}</b><strong>${esc(t)}</strong><span>${esc(s)}</span></div>`).join("");
 
   /* ---------- booking from every platform ---------- */
   const CH = BS.channels;

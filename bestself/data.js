@@ -61,11 +61,12 @@ window.BS = {
     h: "Here is what we found.",
     p: "You are a board-certified OB-GYN who trains other doctors on these lasers. The medicine is extraordinary. The way it is found is not.",
     /* [the number, what it means in one line, then the plain explanation] */
+    /* [category, the number, what it means, the plain explanation] */
     stats: [
-      ["0 of 10", "You did not come up", "We searched ten ways. Your website never appeared."],
-      ["130 vs 12", "Reviews on the wrong name", "Most sit on Camarillo. Only twelve on Best Self."],
-      ["463", "A competitor is far ahead", "One med spa nearby has 463. You have twelve."],
-      ["0", "Nobody can book online", "Seventy-eight buttons. Not one of them books."],
+      ["Search", "0 of 10", "You did not come up", "We searched ten ways. Your website never appeared once."],
+      ["Reviews", "130 vs 12", "Yours are on the wrong name", "Most sit on the Camarillo listing. Only twelve on Best Self."],
+      ["Competitors", "463 reviews", "One med spa, ten minutes away", "That is their review count. Yours is twelve."],
+      ["Booking online", "0 ways", "Nobody can book with you", "Seventy-eight buttons on the site. Not one of them books."],
     ],
     more: [
       ["Your email may be going to junk",
