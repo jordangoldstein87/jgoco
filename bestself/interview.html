@@ -138,7 +138,7 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
   <div class="nda-body" id="ndab"></div>
 </div></div>
 
-<script src="logos.js?v=1795123528"></script>
+<script src="logos.js?v=1795124373"></script>
 <script>(function(){
   const L = BS_LOGOS.bsma, c = L.colors;
   document.getElementById("bsLogo").innerHTML = L.lockup({ ...c, ink: "#ffffff" }, "iv").replace("<svg ", '<svg style="height:100%;width:auto" ');
@@ -149,7 +149,7 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
   // Three calls: hello, start, summary. The link token picks Dr. Geer's agent
   // (Mason, with the Best Self Medical Arts questions); without a token the page offers the written questionnaire.
   const SCRIPT = "https://script.google.com/macros/s/AKfycbyR6DNkxGjEpLr56VBQMB_9HDKmVgr3YnFGhqguR9_KTmnniUDI3KuyMF65BJBMWxmG/exec";
-  const K = ""; // no agent yet: add her Clients row token here, or pass ?k= on the link
+  const K = ""; // Dr. Geer, from her Clients row. Baked in so the pitch link is the only link.
   const k = new URLSearchParams(location.search).get("k") || K;
   const $ = (id) => document.getElementById(id);
   const go = $("go"), stop = $("stop"), face = $("face"), title = $("title"), say = $("say"), summary = $("summary");
@@ -160,7 +160,7 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
   const show = (h, p) => { title.textContent = h; say.textContent = p; };
   // hotel and public Wi-Fi often hold every request until its sign-in page is done
   const NET = "Check your connection. On hotel or public Wi-Fi, open any website first to finish the Wi-Fi sign-in, or switch to your phone's hotspot, then try again.";
-  const waiting = () => { show(`${host} is almost ready`, "Jordan will send your private link. Or answer in writing below, it takes about 10 minutes."); go.disabled = true; };
+  const waiting = () => { show(`${host} is almost ready`, "The voice option is being switched on. In the meantime the written questions below take about ten minutes."); go.disabled = true; };
 
   if (!/^[a-f0-9]{40}$/.test(k)) waiting();
   else ask("hello").then((r) => {

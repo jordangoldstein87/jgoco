@@ -77,6 +77,31 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 .ch-p.live{background:var(--acc);color:#fff}
 .ch-p.button{background:#12343f14;color:var(--mut)}
 
+/* what it connects to */
+.cx-lab{text-align:center;margin-top:44px}
+.cx-lab b{display:block;font:600 11.5px var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.cx-lab span{display:block;max-width:520px;margin:10px auto 0;font-size:15px;color:var(--mut);line-height:1.6}
+.cx-have{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;justify-content:center}
+.cx-t{background:#fff;border:1.5px dashed #c9d3d6;border-radius:14px;padding:14px 18px;min-width:168px}
+.cx-t b{display:block;font:500 15px var(--ui);color:var(--ink)}
+.cx-t span{font-size:13px;color:var(--mut)}
+.cx-flow{display:grid;place-items:center;padding:22px 0 18px}
+.cx-flow i{display:block;width:2px;height:30px;background:linear-gradient(var(--line),var(--acc))}
+.cx-flow em{font-style:normal;font:600 11px var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--acc);margin-top:10px}
+.cx-hub{background:var(--ink);color:#fff;border-radius:var(--r);padding:28px 32px;display:flex;align-items:center;gap:24px;max-width:560px;margin:0 auto;box-shadow:var(--shh)}
+.cx-hub .m{width:76px;flex:none;background:#fff;border-radius:18px;padding:8px}
+.cx-hub .m svg{width:100%;height:auto;display:block}
+.cx-hub b{display:block;font:500 26px var(--dis)}
+.cx-hub span{font-size:15px;color:#ffffffc4}
+.cx-out{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+.cx-o{background:#fff;border:1px solid var(--line);border-top:3px solid var(--acc);border-radius:16px;padding:20px 22px}
+.cx-o b{display:block;font:500 17px var(--ui);color:var(--ink);margin-bottom:4px}
+.cx-o span{font-size:14.5px;color:var(--mut);line-height:1.55}
+.cx-note{margin-top:22px;font-size:15px;color:var(--mut);text-align:center}
+.cx-rep{background:var(--mint);border-radius:18px;padding:26px 30px;margin-top:28px}
+.cx-rep b{display:block;font:500 20px var(--dis);color:var(--ink);margin-bottom:6px}
+.cx-rep p{margin:0;font-size:15.5px;color:#2a4b52;line-height:1.62}
+
 /* who this is for */
 .tm-two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:44px}
 .tm-c{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px 30px}
@@ -473,7 +498,8 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   .rv{grid-template-columns:1fr}.rv-l{border-right:0}.rv-d{padding:22px}
   .au-g{grid-template-columns:1fr}.au-ph{position:static;max-width:320px;margin:0 auto}
   .hl-k{grid-template-columns:1fr 1fr}
-  .tm-two,.ch-g,.n-two{grid-template-columns:1fr}.tm-m{padding:22px}.tm-m .mr{grid-template-columns:1fr;gap:4px}
+  .tm-two,.ch-g,.n-two,.cx-out{grid-template-columns:1fr}
+  .cx-hub{flex-direction:column;text-align:center;padding:22px}.tm-m{padding:22px}.tm-m .mr{grid-template-columns:1fr;gap:4px}
   .ad-r{grid-template-columns:1fr auto;gap:4px 12px}
   .ad-r span{grid-column:1/-1;font-size:13px}
   .ad-r.h{display:none}
@@ -494,7 +520,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 <div class="top" id="top"><span class="tlg" id="topLogo"></span>
   <nav>
     <a href="#today">Today</a><a href="#team">Your team</a><a href="#logo">Logo</a><a href="#site">Website</a><a href="#book">The new site</a>
-    <a href="#listings">Listings</a><a href="#reviews">Reviews</a>
+    <a href="#connect">Connects to</a><a href="#listings">Listings</a><a href="#reviews">Reviews</a>
     <a href="#auto">Marketing</a><a href="#ads">Ads</a><a href="#ai">Assistant</a><a href="#tools">Back office</a>
     <a href="#health">Numbers</a><a href="#next">Next</a>
   </nav>
@@ -538,7 +564,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   <p class="lead">Not a new mark. The figure, the lotus, the colours and the order are all yours. Twenty-five years of recognition stays exactly where it is.</p>
   <div class="lg-two">
     <div class="lg-c"><div class="lab">What you have today</div>
-      <div class="lg-st"><img src="img/work/logo-current.png?v=1795123528" alt="Current logo"></div>
+      <div class="lg-st"><img src="img/work/logo-current.png?v=1795124373" alt="Current logo"></div>
       <p>Ten petals hand-drawn at different widths, a sketched double waterline, and a wordmark with uneven tracking. It holds up on a desktop header and falls apart below about forty pixels.</p>
     </div>
     <div class="lg-c"><div class="lab">Cleaned up</div>
@@ -595,8 +621,22 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   <p class="tm-n" id="chHonest" style="margin-top:20px"></p>
 </div></section>
 
+<section id="connect"><div class="w">
+  <div class="kick">6 &nbsp;What it connects to</div>
+  <h2 id="cxH"></h2>
+  <p class="lead" id="cxP"></p>
+  <div class="cx-lab rise"><b id="cxHaveT"></b><span id="cxHaveS"></span></div>
+  <div class="cx-have" id="cxHave"></div>
+  <div class="cx-flow"><i></i><em>All of it into one place</em></div>
+  <div class="cx-hub"><span class="m" id="cxMark"></span><div><b>One place</b><span>Your calendar, your charts, your books and your inbox, side by side.</span></div></div>
+  <div class="cx-out" id="cxOut"></div>
+  <p class="cx-note" id="cxNote"></p>
+  <div class="cx-rep" id="cxRep"></div>
+</div></section>
+
+
 <section class="sec-d" id="listings"><div class="w">
-  <div class="kick">6 &nbsp;Getting found</div>
+  <div class="kick">7 &nbsp;Getting found</div>
   <h2>Every listing, fixed<br>and kept in one place.</h2>
   <p class="lead">Four different sets of hours are live right now, and not one listing is claimed.</p>
   <div class="li-g">
@@ -621,7 +661,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 </div></section>
 
 <section id="reviews"><div class="w">
-  <div class="kick">7 &nbsp;Reviews and social</div>
+  <div class="kick">8 &nbsp;Reviews and social</div>
   <h2>One inbox. Every platform. Answered safely.</h2>
   <p class="lead">Every platform in one inbox, with the reply already drafted.</p>
   <div class="rv">
@@ -636,7 +676,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 
 
 <section id="auto"><div class="w">
-  <div class="kick">8 &nbsp;Marketing</div>
+  <div class="kick">9 &nbsp;Marketing</div>
   <h2>It works while you are treating.</h2>
   <p class="lead">Eight things that bring in work. Tap one to see it.</p>
   <div class="au-g">
@@ -649,7 +689,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 </div></section>
 
 <section class="sec-m" id="ads"><div class="w">
-  <div class="kick">9 &nbsp;Paid search</div>
+  <div class="kick">10 &nbsp;Paid search</div>
   <h2>What the clicks actually cost.</h2>
   <p class="lead" id="adsLive"></p>
   <div class="ad-t" id="adsTable"></div>
@@ -657,7 +697,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 </div></section>
 
 <section class="sec-d" id="ai"><div class="w">
-  <div class="kick">10 &nbsp;Your assistant</div>
+  <div class="kick">11 &nbsp;Your assistant</div>
   <h2>Text it. Chat it on the site.<br>Or ask ChatGPT. <em style="font-style:normal;color:var(--mint)">Same assistant.</em></h2>
   <p class="lead">Its own number. It knows your schedule, your books and your recall list. Nothing goes out without your OK.</p>
   <div class="ai-chips" id="aiChips"></div>
@@ -679,14 +719,15 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 </div></section>
 
 <section class="sec-w" id="tools"><div class="w">
-  <div class="kick">11 &nbsp;Back office tools</div>
+  <div class="kick">12 &nbsp;Back office tools</div>
   <h2>Tools that make your<br>team’s life easier.</h2>
   <p class="lead" id="toolsNote"></p>
   <div class="pts" style="margin-top:46px" id="toolsSimple"></div>
 </div></section>
 
+
 <section id="health"><div class="w">
-  <div class="kick">12 &nbsp;Your numbers</div>
+  <div class="kick">13 &nbsp;Your numbers</div>
   <h2>Two companies.<br>Two sets of books. One view.</h2>
   <p class="lead" id="hlQb"></p>
   <div class="hl-tabs" id="hlTabs"></div>
@@ -740,12 +781,12 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   <div class="v-prog"><i id="vBar"></i></div>
 </div>
 
-<script src="logos.js?v=1795123528"></script>
-<script src="data.js?v=1795123528"></script>
-<script src="kb.js?v=1795123528"></script>
-<script src="forms.js?v=1795123528"></script>
-<script src="pitch.js?v=1795123528"></script>
-<script src="music.js?v=1795123528"></script>
-<script src="video.js?v=1795123528"></script>
+<script src="logos.js?v=1795124373"></script>
+<script src="data.js?v=1795124373"></script>
+<script src="kb.js?v=1795124373"></script>
+<script src="forms.js?v=1795124373"></script>
+<script src="pitch.js?v=1795124373"></script>
+<script src="music.js?v=1795124373"></script>
+<script src="video.js?v=1795124373"></script>
 </body>
 </html>

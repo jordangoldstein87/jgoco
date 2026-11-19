@@ -40,6 +40,18 @@
     `<div class="ch-c rise"><span class="ch-p ${k}">${k === "live" ? "Live times" : "Book button"}</span><b>${esc(n)}</b><span>${esc(dsc)}</span></div>`).join("");
   $("chHonest").textContent = CH.honest;
 
+  /* ---------- what it connects to ---------- */
+  const CX = BS.connect;
+  $("cxH").innerHTML = CX.h;
+  $("cxP").textContent = CX.p;
+  $("cxHaveT").textContent = CX.haveT;
+  $("cxHaveS").textContent = CX.haveS;
+  $("cxMark").innerHTML = L.mark(col, "cxmark");
+  $("cxHave").innerHTML = CX.have.map(([t, s]) => `<div class="cx-t rise"><b>${esc(t)}</b><span>${esc(s)}</span></div>`).join("");
+  $("cxOut").innerHTML = CX.out.map(([t, s]) => `<div class="cx-o rise"><b>${esc(t)}</b><span>${esc(s)}</span></div>`).join("");
+  $("cxNote").textContent = CX.note;
+  $("cxRep").innerHTML = `<b>${esc(CX.replace.t)}</b><p>${esc(CX.replace.p)}</p>`;
+
   /* ---------- who this is for ---------- */
   const TM = BS.team;
   $("tmH").textContent = TM.h;

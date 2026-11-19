@@ -496,6 +496,36 @@ window.BS = {
     ],
   },
 
+  /* what the hub plugs into. The point of this section is that nothing gets thrown out. */
+  connect: {
+    h: "You already have the tools.<br><em>None of them talk to each other.</em>",
+    p: "A patient books in one place, pays in another, and gets charted in a third. Nothing tells the others it happened, so somebody retypes it. That somebody is your front desk.",
+    haveT: "What you use today",
+    haveS: "Ten separate logins. Ten separate places to look. Not one of them tells the next one anything.",
+    have: [
+      ["Google Workspace", "Mail and calendar"],
+      ["QuickBooks", "Both sets of books"],
+      ["Your card processor", "Payments and deposits"],
+      ["Your EHR", "Charts and notes"],
+      ["Your lab", "Orders and results"],
+      ["Fullscript", "Supplements"],
+      ["Google Business", "Both locations"],
+      ["Instagram and Facebook", "Posts and messages"],
+      ["The Sciton Joule", "As a bookable room, so its open hours show"],
+      ["Your phone number", "Missed calls and texts"],
+    ],
+    out: [
+      ["One calendar", "Every appointment, both offices, every device."],
+      ["One inbox", "Reviews, messages and new inquiries in a single list."],
+      ["One set of numbers", "Both companies, together or apart."],
+    ],
+    note: "Nothing gets thrown out. Where something genuinely cannot connect, we say so rather than pretend.",
+    replace: {
+      t: "And where something is worth replacing",
+      p: "Some of what you have is quietly costing you, and we would look at it with you rather than rule on it. Three supplement dispensaries competing for the same order. A mailing list whose own terms prohibit health data. A payment page that cannot take a deposit. Each one is a short conversation, not a project.",
+    },
+  },
+
   /* add-ons, once we know how the practice really runs. Ordered by payoff. */
   addons: [
     { k: "Staff", t: "Who is allowed to run which device", lvl: "Biggest",

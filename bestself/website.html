@@ -91,10 +91,16 @@ p{margin:0 0 1em}
 
 /* concerns */
 .cn-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:38px}
-.cn{background:var(--mist);border:1px solid #4795c126;border-radius:14px;padding:16px 20px;text-align:left;transition:.22s;flex:1 1 230px;min-width:0}
-.cn:hover{background:#fff;border-color:var(--acc);box-shadow:var(--sh);transform:translateY(-2px)}
+.cn{position:relative;cursor:pointer;background:var(--mist);border:1px solid #4795c126;border-radius:14px;padding:16px 46px 16px 20px;text-align:left;transition:.22s;flex:1 1 230px;min-width:0}
+.cn:hover,.cn:focus-visible{background:#fff;border-color:var(--acc);box-shadow:var(--sh);transform:translateY(-2px)}
 .cn b{display:block;font-size:15.5px;font-weight:500;color:var(--ink)}
 .cn small{display:block;font-size:12.5px;color:var(--mut);margin-top:3px}
+.cn .ic{position:absolute;top:15px;right:15px;width:19px;height:19px;color:var(--acc);opacity:.4;transition:.22s}
+.cn .ic svg{width:100%;height:100%;display:block}
+.cn:hover .ic{opacity:1;transform:scale(1.1)}
+.cn-hint{display:inline-flex;align-items:center;gap:9px;margin-top:30px;padding:9px 16px 9px 12px;background:var(--mint);border-radius:999px;font-size:13.5px;color:var(--ink);font-weight:500}
+.cn-hint svg{width:17px;height:17px;color:var(--acc);flex:none}
+.cn-grid{margin-top:16px}
 
 /* services */
 .sv{background:var(--paper)}
@@ -345,7 +351,7 @@ p{margin:0 0 1em}
 </header>
 
 <section class="hero" id="top">
-  <div class="hero-img"><img src="img/work/hero.jpg?v=1795123528" alt="Laser treatment at Best Self Medical Arts"></div>
+  <div class="hero-img"><img src="img/work/hero.jpg?v=1795124373" alt="Laser treatment at Best Self Medical Arts"></div>
   <div class="w">
     <p class="eye">Westlake Village &nbsp;·&nbsp; Camarillo &nbsp;·&nbsp; Since 1999</p>
     <h1>Medicine and <em>artistry,</em> from one physician.</h1>
@@ -362,8 +368,8 @@ p{margin:0 0 1em}
 
 <section class="sec dr" id="about"><div class="w dr-g">
   <div class="dr-ph rise">
-    <img src="img/work/geer.png?v=1795123528" alt="Dr. Cheryl Harris Geer">
-    <div class="dr-in"><img src="img/work/geer-oprah.jpg?v=1795123528" alt="Dr. Geer with Oprah Winfrey"><span>With Oprah Winfrey</span></div>
+    <img src="img/work/geer.png?v=1795124373" alt="Dr. Cheryl Harris Geer">
+    <div class="dr-in"><img src="img/work/geer-oprah.jpg?v=1795124373" alt="Dr. Geer with Oprah Winfrey"><span>With Oprah Winfrey</span></div>
   </div>
   <div class="rise">
     <p class="eye">Meet your physician</p>
@@ -383,6 +389,7 @@ p{margin:0 0 1em}
   <p class="eye rise">Where to start</p>
   <h2 class="rise">What brings people in.</h2>
   <p class="lead rise">Most people arrive with a thing that bothers them rather than a treatment in mind. Start here and the right treatment follows.</p>
+  <div class="cn-hint rise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.8-.8L3 21l1.9-4.8A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5Z"/></svg>Tap any of these and the assistant answers it, right here.</div>
   <div class="cn-grid" id="cnGrid"></div>
 </div></section>
 
@@ -410,8 +417,8 @@ p{margin:0 0 1em}
   <h2 class="rise">Skin, side by side.</h2>
   <p class="lead rise">Drag the handle. Every result here is shown honestly, with the same light, the same angle and the same camera.</p>
   <div class="ba rise" id="ba">
-    <img class="bef" src="img/work/hero.jpg?v=1795123528" alt="Before">
-    <img class="aft" src="img/work/hero.jpg?v=1795123528" alt="After">
+    <img class="bef" src="img/work/hero.jpg?v=1795124373" alt="Before">
+    <img class="aft" src="img/work/hero.jpg?v=1795124373" alt="After">
     <span class="ba-l b">Before</span><span class="ba-l a">After</span>
     <div class="ba-h" id="baH" role="slider" aria-label="Before and after" tabindex="0" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
   </div>
@@ -543,10 +550,10 @@ p{margin:0 0 1em}
 </script>
 <script type="application/ld+json" id="faqLd"></script>
 
-<script src="logos.js?v=1795123528"></script>
-<script src="data.js?v=1795123528"></script>
-<script src="kb.js?v=1795123528"></script>
-<script src="forms.js?v=1795123528"></script>
+<script src="logos.js?v=1795124373"></script>
+<script src="data.js?v=1795124373"></script>
+<script src="kb.js?v=1795124373"></script>
+<script src="forms.js?v=1795124373"></script>
 <script>
 (function(){
   const C=BS.co, q=new URLSearchParams(location.search);
@@ -574,7 +581,7 @@ p{margin:0 0 1em}
 
   /* ---------- trust, concerns, services, gallery, pricing, reviews ---------- */
   $('trust').innerHTML=BS.credentials.map(([b,s,x])=>`<div><b>${b}</b><span>${s}<br>${x}</span></div>`).join('');
-  $('cnGrid').innerHTML=BS.concerns.map(([t,s])=>`<button class="cn rise" data-q="${esc(t)}"><b>${esc(t)}</b><small>${esc(s)}</small></button>`).join('');
+  $('cnGrid').innerHTML=BS.concerns.map(([t,s])=>`<button class="cn rise" data-q="${esc(t)}" aria-label="Ask the assistant about ${esc(t)}"><b>${esc(t)}</b><small>${esc(s)}</small><i class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.8-.8L3 21l1.9-4.8A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5Z"/></svg></i></button>`).join('');
   $('svGrid').innerHTML=BS.services.slice(0,5).map(([t,p,img],i)=>`<a class="sv-c rise${i===3?' big':''}" href="#book"><img src="img/work/${img}" alt="${esc(t)}" loading="lazy"><div><b>${esc(t)}</b><span>${esc(p)}</span></div></a>`).join('');
   $('gal').innerHTML=BS.work.slice(1,5).map(([f,t,k])=>`<figure><img src="img/work/${f}" alt="${esc(t)}" loading="lazy"><figcaption>${esc(t)}<span>${esc(k)}</span></figcaption></figure>`).join('');
   $('prT').innerHTML=BS.prices.map(([t,p,n])=>`<div class="pr-r"><b>${esc(t)}</b><em>${esc(p)}</em><span>${esc(n)}</span></div>`).join('');
@@ -696,6 +703,9 @@ p{margin:0 0 1em}
   function bub(who,html){const d=document.createElement('div');d.className='ch-r '+who;d.innerHTML=html;$('chM').appendChild(d);$('chM').scrollTop=$('chM').scrollHeight;return d}
   function typing(){const d=document.createElement('div');d.className='ch-ty';d.innerHTML='<i></i><i></i><i></i>';$('chM').appendChild(d);$('chM').scrollTop=$('chM').scrollHeight;return d}
   function toBottom(){const m=$('chM');requestAnimationFrame(()=>{m.scrollTop=m.scrollHeight;setTimeout(()=>{m.scrollTop=m.scrollHeight},60)})}
+  /* a long answer should start at its first line, not its last */
+  function startOf(el){const m=$('chM');const go=()=>{if(el.offsetHeight>m.clientHeight*0.62)m.scrollTop=el.offsetTop-12};
+    requestAnimationFrame(go);setTimeout(go,90)}
   function sugg(list){$('chSug').innerHTML=list.map(s=>`<button class="${s.go?'go':''}" data-q="${esc(s.q||s)}" ${s.go?'data-go="1"':''}>${esc(s.t||s.q||s)}</button>`).join('');toBottom()}
   function topicName(t){const f=KB.topics.find(x=>x[0]===t);return f?f[1]:''}
   function answer(text){
@@ -708,11 +718,12 @@ p{margin:0 0 1em}
       return;
     }
     const e=best.e;
-    bub('them',esc(e.a)
+    const d=bub('them',esc(e.a)
       +`<span class="ch-src">From the practice knowledge base · <b>${esc(topicName(e.t))}</b></span>`
       +(e.todo?'<span class="ch-todo">This answer is still a draft awaiting Dr. Geer’s sign-off.</span>':''));
     const rel=ranked.slice(1,4).filter(x=>x.s>1.6).map(x=>x.e.q);
     sugg([{q:'book',t:'Book a consultation',go:1},...rel]);
+    startOf(d);
   }
   function send(text){
     text=String(text||'').trim(); if(!text||chBusy) return;
