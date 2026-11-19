@@ -97,14 +97,30 @@
   .stat div b { font-weight: 900; font-size: 22px; }
   @media (max-width: 560px) { td.ai { display: none; } .ai-sub { display: inline; } }
 
-  nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; display: grid; grid-template-columns: repeat(5, 1fr); background: var(--card); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+  /* Invoices */
+  .lines { display: grid; gap: 8px; }
+  .line { display: grid; grid-template-columns: minmax(0, 1fr) 130px 36px; gap: 8px; align-items: center; }
+  .line input { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); font-size: 16px; }
+  .line input:focus { outline: 2px solid var(--bolt); border-color: var(--ink); }
+  .x { border: 1px solid var(--line); background: var(--card); border-radius: 10px; height: 44px; cursor: pointer; font-weight: 900; color: var(--muted); }
+  .pill.sent { background: #e8f0ff; color: #1d4ed8; }
+  .pill.paid { background: #e3f4ea; color: var(--go); }
+  .pill.void { background: #f3f3f3; color: #999; text-decoration: line-through; }
+  .pill.draft { background: #fff4bf; color: #6b5800; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .actions .btn { padding: 11px 16px; font-size: 15px; }
+  .linkbox { display: flex; gap: 8px; align-items: center; }
+  .linkbox input { flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; font-size: 14px; background: #f7f7f7; }
+  @media (max-width: 480px) { .line { grid-template-columns: minmax(0, 1fr) 100px 36px; } }
+
+  nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; display: grid; grid-template-columns: repeat(6, 1fr); background: var(--card); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
   nav.tabs button { border: 0; background: none; padding: 12px 4px 14px; font-weight: 600; font-size: 13px; color: var(--muted); cursor: pointer; border-top: 3px solid transparent; }
   nav.tabs button.on { color: var(--ink); border-top-color: var(--bolt); }
 
   @media (min-width: 900px) {
     :root { --gutter: 32px; }
     .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    nav.tabs { position: sticky; top: 50px; bottom: auto; max-width: 1100px; margin: 0 auto; grid-template-columns: repeat(5, max-content); gap: 6px; background: none; border: 0; padding: 14px var(--gutter) 0; }
+    nav.tabs { position: sticky; top: 50px; bottom: auto; max-width: 1100px; margin: 0 auto; grid-template-columns: repeat(6, max-content); gap: 6px; background: none; border: 0; padding: 14px var(--gutter) 0; }
     nav.tabs button { border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; background: var(--card); }
     nav.tabs button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
     .app { padding-bottom: 40px; }
@@ -133,6 +149,7 @@
   <nav class="tabs" id="tabs">
     <button class="on" data-tab="home">Home</button>
     <button data-tab="accounts">Accounts</button>
+    <button data-tab="invoices">Invoices</button>
     <button data-tab="expenses">Expenses</button>
     <button data-tab="reference">Reference</button>
     <button data-tab="work">Projects</button>
@@ -152,7 +169,7 @@
   const monthName = (m) => new Date(m + "-15").toLocaleDateString("en-US", { month: "long", year: "numeric" });
   const fromB64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
 
-  let sealed, data, cryptoKey, settings, editing = null, saveNote = "", tab = "home", month;
+  let sealed, data, cryptoKey, settings, editing = null, saveNote = "", tab = "home", month, invEditing = null, invDraft = null;
 
   async function deriveKey(pass, salt, iterations) {
     const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass), "PBKDF2", false, ["deriveKey"]);
@@ -235,9 +252,11 @@
     if (!b) return;
     tab = b.dataset.tab;
     editing = null;
+    invEditing = null;
     saveNote = "";
     render();
     window.scrollTo({ top: 0 });
+    if (tab === "invoices") refreshPaid();
   });
 
   function show() {
@@ -247,6 +266,8 @@
     $("#updated").textContent = "Updated " + when.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
     month = [...new Set(data.rows.map((r) => r.month))].sort().reverse()[0];
     settings = structuredClone(data.settings);
+    settings.invoices ??= [];
+    settings.timeLog ??= [];
     render();
     pullSettings();
   }
@@ -290,8 +311,9 @@
 
   function render() {
     document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === tab));
-    $("#view").innerHTML = { home, accounts, expenses, reference, work }[tab]();
+    $("#view").innerHTML = { home, accounts, invoices, expenses, reference, work }[tab]();
     if (tab === "accounts" || tab === "expenses") { wireAccounts(); showPricingFields(); }
+    if (tab === "invoices") wireInvoices();
     $("#view").querySelectorAll("[data-month]").forEach((b) => b.addEventListener("click", () => { month = b.dataset.month; render(); }));
     $("#view").querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => { tab = b.dataset.go; render(); window.scrollTo({ top: 0 }); }));
   }
@@ -344,7 +366,8 @@
         <div class="fields">
           ${field("Hourly rate ($)", "d_rate", d.hourlyRate, "number", "step=1 min=0")}
           ${field("AI markup (%)", "d_markup", pct(d.aiMarkup), "number", "step=1 min=0")}
-          ${field("Card fee (%)", "d_fee", d.cardFeePercent, "number", "step=0.1 min=0")}
+          ${field("Square fee (%)", "d_fee", d.cardFeePercent, "number", "step=0.1 min=0")}
+          ${field("Square fee per charge (¢)", "d_fixed", d.cardFeeFixedCents ?? 30, "number", "step=1 min=0")}
           ${field("My AI plan per month ($)", "d_subs", d.aiSubscriptionMonthly ?? "", "number", 'step=1 min=0 placeholder="Claude plan plus other AI apps"')}
           ${pricingFields("d", d.aiPricing, false)}
           <label>Live system AI markup<select id="d_apimarkup">${[["0.1", "10%"], ["0.15", "15%"], ["0.2", "20%"]].map(([v, t]) => `<option value="${v}"${String(d.apiMarkup ?? 0.1) === v ? " selected" : ""}>${t}</option>`).join("")}</select></label>
@@ -468,7 +491,7 @@
     });
     $("#defaults")?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: numOrNull("d_fee") ?? settings.defaults.cardFeePercent, billHours: val("d_hours"), aiPricing: readPricing("d") ?? settings.defaults.aiPricing, aiSubscriptionMonthly: numOrNull("d_subs"), apiMarkup: Number(val("d_apimarkup")) };
+      settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: numOrNull("d_fee") ?? settings.defaults.cardFeePercent, cardFeeFixedCents: numOrNull("d_fixed") ?? settings.defaults.cardFeeFixedCents ?? 30, billHours: val("d_hours"), aiPricing: readPricing("d") ?? settings.defaults.aiPricing, aiSubscriptionMonthly: numOrNull("d_subs"), apiMarkup: Number(val("d_apimarkup")) };
       await saveSettings("Defaults saved.");
     });
     $("#acct")?.addEventListener("submit", async (e) => {
@@ -525,7 +548,8 @@
           const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(b.iv) }, cryptoKey, fromB64(b.data));
           const s = JSON.parse(new TextDecoder().decode(plain));
           if (s?.accounts && (!settings.updatedAt || s.updatedAt > settings.updatedAt)) {
-            settings = s;
+            // Money Machine's numbers and statuses only arrive with a publish, so keep those.
+            settings = { ...s, invoices: s.invoices ?? settings.invoices ?? [], timeLog: s.timeLog ?? settings.timeLog ?? [], moneyMachine: settings.moneyMachine ?? [] };
             if (!editing) render();
           }
           break;
@@ -545,6 +569,298 @@
       <div class="eyebrow">Invoice draft · ${esc(d.from)} to ${esc(d.to)} · due ${esc(d.dueDate)}</div>
       <table>${d.lines.map((l) => `<tr><td>${esc(l.description)}</td><td class="n">${cents(l.amountCents)}</td></tr>`).join("")}<tr class="total"><td>Total</td><td class="n">${cents(w.totalCents)}</td></tr></table>
       <div class="pay"><div><small>Wire or bank transfer</small><b>${cents(w.payment.wireCents)}</b></div><div><small>Card, plus ${w.payment.feePercent}%</small><b>${cents(w.payment.cardCents)}</b></div></div></div>`;
+  }
+
+  // ------------------------------------------------------------------------------------------
+  // Invoices. Kept inside the encrypted settings, so they save and sync like everything else.
+  // Two prices: the card price is the regular price and covers Square's real fee; paying by
+  // wire or bank transfer gets a discount back to the base. That's a discount, not a card
+  // surcharge, so debit cards and card-network surcharge rules don't come into it.
+  const today = () => new Date().toLocaleDateString("en-CA");
+  const addDaysIso = (iso, n) => { const d = new Date(iso + "T12:00:00"); d.setDate(d.getDate() + n); return d.toLocaleDateString("en-CA"); };
+  const rid = (n = 24) => { const a = crypto.getRandomValues(new Uint8Array(n)); return btoa(String.fromCharCode(...a)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); };
+  const feePct = () => Number(settings.defaults.cardFeePercent ?? 3.3);
+  const feeFixed = () => Number(settings.defaults.cardFeeFixedCents ?? 30);
+  // Same rule as paymentOptions() in tracker/invoice.mjs.
+  const cardOf = (base) => (base > 0 ? Math.ceil((base + feeFixed()) / (1 - feePct() / 100)) : 0);
+  const baseOf = (inv) => inv.lines.reduce((t, l) => t + (Number(l.amountCents) || 0), 0);
+  const invList = () => settings.invoices ?? [];
+  // What Money Machine says about an invoice, when it has one with the same id.
+  const mmOf = (inv) => (settings.moneyMachine ?? []).find((m) => m.id === inv.id);
+  const statusOf = (inv) => (mmOf(inv)?.status === "paid" && inv.status !== "void" ? "paid" : inv.status);
+  // One numbering with Money Machine: plain integers after the highest either side has used.
+  function nextNumber() {
+    const nums = [...invList(), ...(settings.moneyMachine ?? [])].map((i) => Number(i.number)).filter((n) => Number.isFinite(n) && n > 0);
+    return String(Math.max(1111, ...nums) + 1);
+  }
+  const billToOf = (name) => {
+    const a = acct(name);
+    return a ? { name: a.label, email: a.email ?? "", line1: a.address?.line1 ?? "", city: a.address?.city ?? "", state: a.address?.state ?? "", postalCode: a.address?.postalCode ?? "" } : { name: "", email: "", line1: "", city: "", state: "", postalCode: "" };
+  };
+  const logFor = (name, m) => (settings.timeLog ?? []).filter((e) => e.account === name && (e.date ?? "").slice(0, 7) === m);
+
+  // The lines an account's month adds up to: tracked plus logged hours, AI, their API bill,
+  // pass-through, costs logged by hand, and the Service Fee.
+  function accountLines(name, m) {
+    const r = data.rows.find((x) => x.client === name && x.month === m);
+    const logged = logFor(name, m);
+    const hours = (r ? hoursOf(r) : 0) + logged.filter((e) => e.kind === "hours").reduce((t, e) => t + (Number(e.hours) || 0), 0);
+    const rate = rateOf(name);
+    const c = (n) => Math.round(n * 100);
+    const lines = [
+      { description: `Development · ${monthName(m)} · ${hours.toFixed(2)} h × $${rate}`, amountCents: c(hours * rate) },
+      { description: `AI used to build it · ${monthName(m)}`, amountCents: r ? c(aiBilled(r)) : 0 },
+      { description: `AI in your live system · ${monthName(m)} API bill + management`, amountCents: c(liveOf(name, m)) },
+      { description: `Pass-through costs · ${monthName(m)}`, amountCents: r ? c(r.passThrough ?? 0) : 0 },
+      ...logged.filter((e) => e.kind === "cost").map((e) => ({ description: e.note || "Cost", amountCents: Math.round(Number(e.amountCents) || 0) })),
+      { description: `Service Fee · upkeep, minor bugs and fixes · ${monthName(m)}`, amountCents: c(acct(name)?.retainer ?? 0) },
+    ];
+    return lines.filter((l) => l.amountCents > 0);
+  }
+
+  function newInvoice(kind, from) {
+    const issued = today();
+    const inv = { id: "inv_" + rid(9), publicId: rid(24), number: nextNumber(), kind, account: null, month: kind === "account" ? month : null, billTo: billToOf(null), issued, due: issued, lines: [{ description: "", amountCents: 0 }], status: "draft", note: "" };
+    if (from) Object.assign(inv, from);
+    return inv;
+  }
+
+  function invoices() {
+    if (invEditing) return invoiceForm();
+    const list = [...invList()].sort((a, b) => Number(b.number) - Number(a.number));
+    const open = list.filter((i) => statusOf(i) === "sent");
+    const owed = open.reduce((t, i) => t + baseOf(i), 0);
+    const paidM = list.filter((i) => statusOf(i) === "paid" && (i.paidAt ?? "").slice(0, 7) === today().slice(0, 7)).reduce((t, i) => t + baseOf(i), 0);
+    const drafts = data.drafts.filter((d) => !list.some((i) => i.fromDraft === d.client + ":" + d.from));
+    return `<div class="top" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2>Invoices</h2>
+        <div class="actions"><button class="btn" id="newQuick" type="button"><img src="../img/bolt-black.png" alt="">Quick invoice</button><button class="btn dark" id="newAcctInv" type="button">From an account</button></div></div>
+      ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
+      <div class="tiles"><div class="tile"><span>Waiting to be paid</span><b>${cents(owed)}</b><span>${open.length} invoice${open.length === 1 ? "" : "s"}</span></div><div class="tile"><span>Paid this month</span><b>${cents(paidM)}</b><span>bank-transfer price</span></div></div>
+      ${drafts.length ? `<div class="card"><div class="eyebrow">Drafts from your Mac</div>${drafts.map((d, i) => `<div class="row" style="margin-top:10px"><span class="name">${esc(label(d.client))} · ${esc(d.from)} to ${esc(d.to)}</span><span class="num">${cents(d.working.totalCents)}</span><span class="sub"><button class="btn ghost" data-fromdraft="${i}" type="button" style="padding:8px 14px;margin-top:6px">Make it an invoice</button></span></div>`).join("")}</div>` : ""}
+      <div class="list">${list.length ? list.map((i) => {
+        const st = statusOf(i);
+        return `<button class="card section" data-inv="${esc(i.id)}"><span class="top"><b style="font-size:19px">#${esc(i.number)} · ${esc(i.billTo?.name || "No client yet")}</b><b>${cents(baseOf(i))}</b></span>
+          <p><span class="pill ${st}" style="margin-left:0">${st}${st === "paid" && i.paidVia ? " · " + esc(i.paidVia) : ""}${st === "paid" && mmOf(i)?.status === "paid" && i.status !== "paid" ? " · Money Machine" : ""}</span> Issued ${esc(i.issued)} · due ${esc(i.due)} · card ${cents(cardOf(baseOf(i)))}</p></button>`;
+      }).join("") : '<p class="empty">No invoices yet. Make a quick one, or build one from an account\'s month.</p>'}</div>
+      <p class="lead">Card price covers Square's ${feePct()}% + ${cents(feeFixed())}. Bank transfer gets the discount back to the base. Change the rate on Accounts, under Defaults.</p>`;
+  }
+
+  function invoiceForm() {
+    const inv = invDraft;
+    const st = statusOf(inv);
+    const base = baseOf(inv), card = cardOf(base);
+    const clients = settings.accounts.filter((a) => a.type === "client" || a.type === "pitch");
+    const locked = st === "paid" || st === "void";
+    const b = inv.billTo;
+    const acctPanel = inv.kind === "account" && inv.account ? (() => {
+      const m = inv.month ?? month, r = data.rows.find((x) => x.client === inv.account && x.month === m);
+      const logged = logFor(inv.account, m);
+      return `<div class="card"><div class="eyebrow">${esc(label(inv.account))} · ${esc(monthName(m))}</div>
+        <div class="stat"><div><small>Tracked hours</small><b>${r ? hoursOf(r).toFixed(1) : "0.0"}</b></div><div><small>Logged hours</small><b>${logged.filter((e) => e.kind === "hours").reduce((t, e) => t + Number(e.hours || 0), 0).toFixed(1)}</b></div><div><small>AI at API price</small><b>${money0(r ? r.aiCost : 0)}</b></div><div><small>Your real AI cost</small><b>${plan() && r ? money0(realCost(r.aiCost, m)) : "·"}</b></div><div><small>Their API bill</small><b>${money0(Number(acct(inv.account)?.apiUsage?.[m]) || 0)}</b></div></div>
+        ${logged.length ? `<table style="margin-top:10px">${logged.map((e) => `<tr><td>${esc(e.date)} · ${esc(e.note || (e.kind === "hours" ? "Time" : "Cost"))}</td><td class="n">${e.kind === "hours" ? Number(e.hours).toFixed(2) + " h" : cents(e.amountCents)}</td><td class="n" style="width:40px"><button class="x" data-unlog="${esc(e.id)}" type="button" title="Remove">×</button></td></tr>`).join("")}</table>` : ""}
+        <div class="fields" style="margin-top:12px">
+          <label>Log<select id="l_kind"><option value="hours">Hours</option><option value="cost">A cost (their software, etc.)</option></select></label>
+          ${field("Date", "l_date", m === today().slice(0, 7) ? today() : (() => { const d = new Date(m + "-01T12:00:00"); d.setMonth(d.getMonth() + 1, 0); return d.toLocaleDateString("en-CA"); })(), "date")}
+          ${field("Hours, or cost ($)", "l_amt", "", "number", 'step=0.01 min=0')}
+          ${field("Note", "l_note", "", "text", 'placeholder="Call with the owner"')}
+        </div>
+        <div class="actions" style="margin-top:10px"><button class="btn ghost" id="logIt" type="button">Add to the log</button><button class="btn dark" id="fillAcct" type="button">Fill lines from this month</button></div></div>`;
+    })() : "";
+    return `<button class="btn ghost" id="invBack" type="button" style="justify-self:start">Back to invoices</button>
+      <h2>Invoice #${esc(inv.number)} <span class="pill ${st}">${st}</span></h2>
+      ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
+      ${inv.pageUrl ? `<div class="card"><div class="eyebrow">Send the client this link</div><div class="linkbox" style="margin-top:8px"><input id="pageLink" readonly value="${esc(inv.pageUrl)}"><button class="btn" id="copyLink" type="button">Copy</button></div>
+        <div class="links"><a class="btn ghost" href="${esc(inv.pageUrl)}" target="_blank" rel="noopener">Open their page</a>${inv.cardUrl ? `<a class="btn ghost" href="${esc(inv.cardUrl)}" target="_blank" rel="noopener">Square checkout</a>` : ""}${b.email ? `<a class="btn ghost" href="mailto:${esc(b.email)}?subject=${encodeURIComponent("Invoice " + inv.number + " from JGoCo")}&body=${encodeURIComponent("Hi,\n\nHere's invoice " + inv.number + " for " + cents(card) + " (" + cents(base) + " by bank transfer). You can view it, download a PDF and pay here:\n" + inv.pageUrl + "\n\nThank you!")}">Email it</a>` : ""}</div>
+        ${inv.cardWhy ? `<p class="lead" style="margin-top:8px">No card link yet: ${esc(inv.cardWhy)}</p>` : ""}</div>` : ""}
+      ${acctPanel}
+      <form class="card form" id="invForm">
+        ${group("Bill to", inv.kind === "account" ? "Pick the account; its billing details fill in." : "Pick an account, or type someone new.", `
+          <label>Account<select id="i_acct"${locked ? " disabled" : ""}><option value="">Someone new</option>${clients.map((a) => `<option value="${esc(a.name)}"${inv.account === a.name ? " selected" : ""}>${esc(a.label)}</option>`).join("")}</select></label>
+          ${inv.kind === "account" ? `<label>Month<select id="i_month">${[...new Set(data.rows.map((r) => r.month))].sort().reverse().map((m) => `<option value="${m}"${(inv.month ?? month) === m ? " selected" : ""}>${esc(monthName(m))}</option>`).join("")}</select></label>` : ""}
+          ${field("Name or business", "i_name", b.name)}
+          ${field("Email", "i_email", b.email, "email")}
+          ${field("Street address", "i_line1", b.line1)}
+          ${field("City", "i_city", b.city)}
+          ${field("State", "i_state", b.state)}
+          ${field("ZIP", "i_zip", b.postalCode)}`)}
+        ${group("Dates", "Due on receipt unless you change it.", `
+          ${field("Issued", "i_issued", inv.issued, "date")}
+          ${field("Due", "i_due", inv.due, "date")}`)}
+        <section class="group"><h3>Lines</h3><p>At the bank-transfer price. The card price is worked out below.</p>
+          <div class="lines">${inv.lines.map((l, i) => `<div class="line"><input data-ld="${i}" value="${esc(l.description)}" placeholder="What it's for"${locked ? " disabled" : ""}><input data-la="${i}" type="number" step="0.01" min="0" value="${l.amountCents ? (l.amountCents / 100).toFixed(2) : ""}" placeholder="0.00"${locked ? " disabled" : ""}><button class="x" data-lx="${i}" type="button" title="Remove line"${locked ? " disabled" : ""}>×</button></div>`).join("")}</div>
+          ${locked ? "" : `<button class="btn ghost" id="addLine" type="button" style="justify-self:start">Add a line</button>`}
+          <div class="pay"><div><small>Bank transfer or wire</small><b id="t_wire">${cents(base)}</b><small id="t_save">Saves ${cents(card - base)}</small></div><div><small>Card (invoice price)</small><b id="t_card">${cents(card)}</b><small>Covers Square's ${feePct()}% + ${cents(feeFixed())}</small></div></div>
+        </section>
+        ${group("Note", "Optional. Shows at the bottom of their page.", `<label style="grid-column:1/-1">Note<input id="i_note" value="${esc(inv.note ?? "")}" placeholder="Thanks for the work this month."></label>`)}
+        <div class="actions">
+          ${locked ? "" : `<button class="btn dark" type="submit">Save</button><button class="btn" id="sendInv" type="button"><img src="../img/bolt-black.png" alt="">${inv.pageUrl ? "Update their page" : "Make their link"}</button>`}
+          ${st === "sent" ? `<button class="btn ghost" id="paidWire" type="button">Mark paid by wire</button><button class="btn ghost" id="checkPaid" type="button">Check for card payment</button>` : ""}
+          ${st !== "void" && st !== "paid" ? `<button class="btn ghost" id="voidInv" type="button">Void</button>` : ""}
+          ${st === "draft" && !inv.pageUrl ? `<button class="btn ghost" id="delInv" type="button">Delete draft</button>` : ""}
+        </div>
+      </form>`;
+  }
+
+  // Reads the form into the invoice being edited, without saving.
+  function readInvoiceForm() {
+    const inv = invDraft;
+    if (!$("#invForm")) return inv;
+    inv.account = val("i_acct") || null;
+    if ($("#i_month")) inv.month = val("i_month");
+    inv.billTo = { name: val("i_name"), email: val("i_email"), line1: val("i_line1"), city: val("i_city"), state: val("i_state"), postalCode: val("i_zip") };
+    inv.issued = val("i_issued") || inv.issued;
+    inv.due = val("i_due") || inv.due;
+    inv.note = val("i_note");
+    inv.lines = inv.lines.map((l, i) => ({ description: document.querySelector(`[data-ld="${i}"]`)?.value.trim() ?? l.description, amountCents: Math.round((Number(document.querySelector(`[data-la="${i}"]`)?.value) || 0) * 100) }));
+    return inv;
+  }
+
+  async function storeInvoice(inv, note) {
+    inv.lines = inv.lines.filter((l) => l.description || l.amountCents);
+    if (!inv.lines.length) inv.lines = [{ description: "", amountCents: 0 }];
+    settings.invoices = invList().some((i) => i.id === inv.id) ? invList().map((i) => (i.id === inv.id ? structuredClone(inv) : i)) : [...invList(), structuredClone(inv)];
+    await saveSettings(note);
+  }
+
+  // The client's copy: lines at the card price (spread in proportion), so the invoice total is
+  // the regular price and bank transfer reads as the discount.
+  function clientCopy(inv) {
+    const base = baseOf(inv), card = cardOf(base);
+    const lines = inv.lines.filter((l) => l.amountCents > 0);
+    let left = card;
+    const priced = lines.map((l, i) => {
+      const c = i === lines.length - 1 ? left : Math.round((l.amountCents * card) / base);
+      left -= c;
+      return { description: l.description, amountCents: c };
+    });
+    return { publicId: inv.publicId, number: inv.number, issued: inv.issued, due: inv.due, billTo: inv.billTo, lines: priced, wireCents: base, cardCents: card, status: inv.status === "draft" ? "sent" : inv.status, from: settings.defaults.invoiceFrom ?? { name: "JGoCo", email: "jordan@jgoco.me" }, note: inv.note, discountNote: `Bank transfer price: you save ${cents(card - base)} by paying this way. No card fees.` };
+  }
+
+  async function sheetCall(body) {
+    const res = await (await fetch(data.sheetUrl, { method: "POST", body: JSON.stringify({ ...body, key: data.invoiceKey }) })).json();
+    if (!res.ok) throw new Error(res.why === "key" ? "The Apps Script doesn't have the invoice key yet (OFFICE_KEY)." : res.why || "didn't work");
+    return res;
+  }
+
+  async function sendInvoice() {
+    const inv = readInvoiceForm();
+    if (!inv.billTo.name) return toast("Add who it's for first.");
+    if (!(baseOf(inv) > 0)) return toast("Add at least one line with an amount.");
+    saveNote = "Making their page and the Square link…";
+    render();
+    try {
+      const res = await sheetCall({ action: "invoice-publish", invoice: clientCopy(inv) });
+      inv.pageUrl = res.url;
+      inv.cardUrl = res.cardUrl ?? null;
+      inv.cardWhy = res.cardUrl ? null : res.why ? res.why.replace(/^square: /, "Square said: ") : "Square isn't connected yet (SQUARE_TOKEN).";
+      if (inv.status === "draft") { inv.status = "sent"; inv.sentAt = new Date().toISOString(); }
+      await storeInvoice(inv, `Invoice #${inv.number} is ready. Copy the link and send it.`);
+    } catch (e) {
+      toast("Couldn't make the link: " + e.message);
+    }
+  }
+
+  async function setStatus(status, paidVia) {
+    const inv = readInvoiceForm();
+    try {
+      if (inv.pageUrl) await sheetCall({ action: "invoice-set", id: inv.publicId, status, paidVia, paidAt: today() });
+    } catch (e) {
+      return toast("Couldn't update their page: " + e.message);
+    }
+    inv.status = status;
+    inv.paidVia = status === "paid" ? paidVia : null;
+    inv.paidAt = status === "paid" ? today() : null;
+    await storeInvoice(inv, status === "paid" ? `#${inv.number} marked paid by ${paidVia}.` : `#${inv.number} ${status === "void" ? "voided" : "updated"}.`);
+  }
+
+  // Asks Square (through the sheet) whether any sent invoice has been paid by card.
+  async function refreshPaid(loud) {
+    const open = invList().filter((i) => i.status === "sent" && i.pageUrl);
+    if (!open.length || !data.invoiceKey) return loud && toast("Nothing waiting on a card payment.");
+    try {
+      const res = await sheetCall({ action: "invoice-status", ids: open.map((i) => i.publicId) });
+      let changed = 0;
+      settings.invoices = invList().map((i) => {
+        const s = res.statuses?.[i.publicId];
+        if (s && s.status === "paid" && i.status !== "paid") { changed++; return { ...i, status: "paid", paidVia: s.paidVia || "card", paidAt: s.paidAt || new Date().toISOString() }; }
+        return i;
+      });
+      if (invDraft) invDraft = structuredClone(settings.invoices.find((i) => i.id === invDraft.id) ?? invDraft);
+      if (changed) await saveSettings(`${changed} invoice${changed > 1 ? "s" : ""} paid by card.`);
+      else if (loud) toast("No card payment yet.");
+    } catch (e) {
+      if (loud) toast("Couldn't check: " + e.message);
+    }
+  }
+
+  function wireInvoices() {
+    const open = (inv) => { invDraft = inv; invEditing = inv.id; saveNote = ""; render(); window.scrollTo({ top: 0 }); };
+    $("#newQuick")?.addEventListener("click", () => open(newInvoice("quick")));
+    $("#newAcctInv")?.addEventListener("click", () => {
+      const first = settings.accounts.find((a) => a.type === "client");
+      const inv = newInvoice("account", first ? { account: first.name, billTo: billToOf(first.name) } : {});
+      if (first) { inv.lines = accountLines(first.name, inv.month); if (!inv.lines.length) inv.lines = [{ description: "", amountCents: 0 }]; inv.due = addDaysIso(inv.issued, acct(first.name)?.termsDays ?? 0); }
+      open(inv);
+    });
+    document.querySelectorAll("[data-fromdraft]").forEach((btn) => btn.addEventListener("click", () => {
+      const d = data.drafts.filter((x) => !invList().some((i) => i.fromDraft === x.client + ":" + x.from))[Number(btn.dataset.fromdraft)];
+      // Due counts from today: the draft's own due date was set when it was drafted.
+      open(newInvoice("account", { account: d.client, month: d.from.slice(0, 7), billTo: billToOf(d.client), due: addDaysIso(today(), acct(d.client)?.termsDays ?? 0), fromDraft: d.client + ":" + d.from, lines: d.lines.map((l) => ({ description: l.description, amountCents: l.amountCents })) }));
+    }));
+    document.querySelectorAll("[data-inv]").forEach((btn) => btn.addEventListener("click", () => open(structuredClone(invList().find((i) => i.id === btn.dataset.inv)))));
+    if (!$("#invForm")) return;
+    const recalc = () => {
+      readInvoiceForm();
+      const base = baseOf(invDraft), card = cardOf(base);
+      $("#t_wire").textContent = cents(base); $("#t_card").textContent = cents(card); $("#t_save").textContent = "Saves " + cents(card - base);
+    };
+    document.querySelectorAll("[data-la],[data-ld]").forEach((el) => el.addEventListener("input", recalc));
+    $("#invBack").addEventListener("click", () => { invEditing = null; invDraft = null; saveNote = ""; render(); });
+    $("#addLine")?.addEventListener("click", () => { readInvoiceForm(); invDraft.lines.push({ description: "", amountCents: 0 }); render(); });
+    document.querySelectorAll("[data-lx]").forEach((btn) => btn.addEventListener("click", () => { readInvoiceForm(); invDraft.lines.splice(Number(btn.dataset.lx), 1); if (!invDraft.lines.length) invDraft.lines.push({ description: "", amountCents: 0 }); render(); }));
+    $("#i_acct")?.addEventListener("change", () => {
+      readInvoiceForm();
+      if (invDraft.account) { invDraft.billTo = billToOf(invDraft.account); invDraft.due = addDaysIso(invDraft.issued, acct(invDraft.account)?.termsDays ?? 0); }
+      render();
+    });
+    $("#i_month")?.addEventListener("change", () => { readInvoiceForm(); render(); });
+    $("#fillAcct")?.addEventListener("click", () => {
+      readInvoiceForm();
+      const lines = accountLines(invDraft.account, invDraft.month ?? month);
+      if (!lines.length) return toast("Nothing tracked or logged for that month yet.");
+      invDraft.lines = lines;
+      saveNote = "Lines filled from the account. Check them, then save.";
+      render();
+    });
+    $("#logIt")?.addEventListener("click", async () => {
+      readInvoiceForm();
+      const kind = val("l_kind"), amt = Number(val("l_amt"));
+      if (!(amt > 0)) return toast(kind === "hours" ? "How many hours?" : "How much was it?");
+      const entry = { id: "log_" + rid(8), account: invDraft.account, kind, date: val("l_date") || today(), note: val("l_note") };
+      if (kind === "hours") entry.hours = amt; else entry.amountCents = Math.round(amt * 100);
+      settings.timeLog = [...(settings.timeLog ?? []), entry];
+      await saveSettings(kind === "hours" ? `Logged ${amt} h.` : `Logged a ${cents(entry.amountCents)} cost.`);
+    });
+    document.querySelectorAll("[data-unlog]").forEach((btn) => btn.addEventListener("click", async () => {
+      readInvoiceForm();
+      settings.timeLog = (settings.timeLog ?? []).filter((e) => e.id !== btn.dataset.unlog);
+      await saveSettings("Removed from the log.");
+    }));
+    $("#invForm").addEventListener("submit", async (e) => { e.preventDefault(); await storeInvoice(readInvoiceForm(), `Invoice #${invDraft.number} saved.`); });
+    $("#sendInv")?.addEventListener("click", sendInvoice);
+    $("#paidWire")?.addEventListener("click", () => setStatus("paid", "wire"));
+    $("#checkPaid")?.addEventListener("click", () => refreshPaid(true));
+    $("#voidInv")?.addEventListener("click", () => { if (confirmVoid()) setStatus("void"); });
+    $("#delInv")?.addEventListener("click", async () => { settings.invoices = invList().filter((i) => i.id !== invDraft.id); invEditing = null; invDraft = null; await saveSettings("Draft deleted."); });
+    $("#copyLink")?.addEventListener("click", async () => { try { await navigator.clipboard.writeText(invDraft.pageUrl); toast("Link copied."); } catch { $("#pageLink").select(); } });
+  }
+  // A second press within a few seconds confirms, so nothing pops a browser dialog.
+  let voidArmed = 0;
+  function confirmVoid() {
+    if (Date.now() - voidArmed < 5000) return true;
+    voidArmed = Date.now();
+    toast("Press Void again to confirm. Their link will stop working.");
+    return false;
   }
 
   function expenses() {
