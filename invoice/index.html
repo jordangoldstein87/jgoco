@@ -52,6 +52,7 @@ tr.sub td{color:#6b6b6b;font-size:14px;border-bottom:0;padding:6px 0}
 .btn{display:inline-block;margin-top:12px;background:#ffd400;color:#111;font:inherit;font-weight:900;border:0;border-radius:999px;padding:12px 20px;cursor:pointer}
 .btn:disabled{opacity:.55;cursor:default}
 .cardform{margin-top:16px;border:1px solid #e8e8e8;border-radius:12px;padding:18px}
+.back{display:inline-block;background:none;border:0;font:inherit;font-size:14px;font-weight:700;color:#111;cursor:pointer;padding:0;margin-bottom:16px;border-bottom:2px solid #ffd400}
 .cardform label{display:block;font-size:13px;color:#6b6b6b;margin:0 0 6px}
 .cardform input{width:100%;font:inherit;font-size:15px;border:1px solid #ccc;border-radius:8px;padding:11px 12px;margin-bottom:14px}
 #card{min-height:90px}
@@ -125,6 +126,7 @@ function draw() {
 ${sq ? `<button class="btn" id="showCard" type="button">Pay by card</button>` : `<small style="margin-top:8px">Card payment isn't available right now. Please pay by bank transfer.</small>`}</div>
 </div>
 <div class="cardform" id="cardform" hidden>
+<button class="back" id="cardBack" type="button">← Back to payment options</button>
 <label for="email">Email for your receipt</label><input id="email" type="email" autocomplete="email" value="${esc((inv.billTo || {}).email || "")}">
 <label>Card</label><div id="card"></div>
 <button class="btn" id="payBtn" type="button" disabled>Pay</button>
@@ -142,6 +144,15 @@ ${inv.note ? `<p class="note">${esc(inv.note)}</p>` : ""}</div>`;
   pdfJob = null;
   setTimeout(() => pdfFile().catch(() => {}), 700); // ready before they press, so sharing keeps the tap
   $("#showCard")?.addEventListener("click", openCard);
+  $("#cardBack")?.addEventListener("click", closeCard);
+}
+
+// Back to the two ways to pay. The card form stays loaded, so reopening is instant.
+function closeCard() {
+  $("#cardform").hidden = true;
+  $("#showCard").hidden = false;
+  $("#payErr").textContent = "";
+  $(".pay").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 // --- PDF and Send to A/P ------------------------------------------------------------------------
