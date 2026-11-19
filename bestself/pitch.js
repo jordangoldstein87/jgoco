@@ -103,7 +103,7 @@
       <label>Her reply</label><textarea id="rvT">${esc(v.draft)}</textarea>
       <div class="rv-b"><button class="btn sm" id="rvP">${live ? "Post reply to " + v.src : "Copy and open " + v.src}</button><button class="btn sm o" id="rvR">Rewrite</button></div>
       <div class="rv-n" id="rvN">${done.has(i) ? "Posted." : ""}</div>
-      <div class="rv-hip"><b>Why these replies are careful.</b> Two enforcement actions, for $23,000 and $30,000, were over information revealed in review responses. Simply confirming that someone was a patient counts as a disclosure. Every draft thanks the person without confirming care, and nothing posts without her pressing the button.</div>`;
+      <div class="rv-hip"><b>Why these replies are careful.</b> Confirming someone is a patient counts as a disclosure. Two practices were fined $23,000 and $30,000 over it. Nothing posts until you press the button.</div>`;
     $("rvP").onclick = () => {
       done.add(i); $("rvN").textContent = live ? "Posted to " + v.src + "." : "Copied. " + v.src + " opened to paste it.";
       rvList(); const n = BS.reviews.findIndex((x, j) => !done.has(j));

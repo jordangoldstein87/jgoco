@@ -199,16 +199,16 @@ window.BS = {
 
   /* every listing, and what the back office can really do with it */
   listings: [
-    ["Google", "Business Profile", "live", "Hours, photos, services and replies from one place. Both offices."],
-    ["Healthgrades", "Physician profile", "assist", "Ninety-nine ratings, unclaimed, and it never says Westlake Village."],
-    ["Birdeye", "Two profiles", "assist", "130 reviews on one, 12 on the other. Merged into one brand."],
-    ["Yelp", "Business page", "assist", "Three reviews, three years old, still showing a Claim It button."],
-    ["Zocdoc", "Provider profile", "assist", "A 4.5 rating and no way to book. Turn it on or take it down."],
-    ["RealSelf", "Provider profile", "assist", "Forty-four providers listed for HALO near you. You train people on it."],
-    ["Apple Maps", "Business Connect", "sync", "Name, hours and photos kept matching Google."],
-    ["Bing", "Places", "sync", "Copied from Google. It feeds ChatGPT search too."],
-    ["Facebook", "Business Page", "live", "Posts and replies, with consent on file for anything with a patient."],
-    ["Instagram", "Business account", "live", "Your results, posted on a schedule you approve."],
+    ["Google", "Business Profile", "live", "Hours, photos and replies from one place."],
+    ["Healthgrades", "Physician profile", "assist", "Ninety-nine ratings, unclaimed, and it never says Westlake."],
+    ["Birdeye", "Two profiles", "assist", "130 reviews on one, 12 on the other. Merged."],
+    ["Yelp", "Business page", "assist", "Three reviews, three years old, still unclaimed."],
+    ["Zocdoc", "Provider profile", "assist", "A 4.5 rating and no way to book."],
+    ["RealSelf", "Provider profile", "assist", "Forty-four providers listed for HALO near you."],
+    ["Apple Maps", "Business Connect", "sync", "Kept matching Google."],
+    ["Bing", "Places", "sync", "Copied from Google. It feeds ChatGPT too."],
+    ["Facebook", "Business Page", "live", "Posts and replies, with consent on file."],
+    ["Instagram", "Business account", "live", "Your results, on a schedule you approve."],
   ],
 
   /* SAMPLE reviews for the inbox mock. Replies never confirm that someone is a patient. */
@@ -223,19 +223,19 @@ window.BS = {
 
   /* automated marketing, ranked by payoff */
   autos: [
-    { k: "review", t: "Ask every visit for a review", when: "A visit is marked complete", what: "A text the next morning with the link to the Best Self profile, so new reviews land on the brand that does the lasers instead of the old one.", fact: "Setiba has 463 reviews. Best Self Medical Arts has 12.", src: "Checked Nov 19, 2026", on: true,
+    { k: "review", t: "Ask every visit for a review", when: "A visit is marked complete", what: "A text the next morning, pointed at the right profile.", fact: "Setiba has 463 reviews. Best Self Medical Arts has 12.", src: "Checked Nov 19, 2026", on: true,
       sms: ["Hi, it's Best Self Medical Arts. Thank you for coming in yesterday. If you have a minute, a short review helps other people in the Conejo Valley find us:", "g.page/best-self-medical-arts/review"] },
-    { k: "missed", t: "Missed call, instant text back", when: "A call goes unanswered", what: "Within a minute: a text saying the front desk is with a patient, asking what they need. No voicemail, no lost caller.", fact: "About 1 in 4 calls to a practice go unanswered.", src: "Industry call studies", on: true,
+    { k: "missed", t: "Missed call, instant text back", when: "A call goes unanswered", what: "A text back within a minute. No voicemail, no lost caller.", fact: "About 1 in 4 calls to a practice go unanswered.", src: "Industry call studies", on: true,
       sms: ["Sorry we missed you, the front desk is with a patient. This is Best Self Medical Arts. What can we help with? You can also book any time at bestselfmedicalarts.com/book"] },
-    { k: "lead", t: "Every inquiry answered in minutes", when: "A website form, chat or Instagram message", what: "A real first reply with the next three open consult times, so nobody waits until Monday.", fact: "Replying within the hour: about 7x the odds of a real conversation.", src: "Harvard Business Review", on: true,
+    { k: "lead", t: "Every inquiry answered in minutes", when: "A website form, chat or Instagram message", what: "A real reply with the next three open times.", fact: "Replying within the hour: about 7x the odds of a real conversation.", src: "Harvard Business Review", on: true,
       sms: ["Thanks for reaching out to Best Self Medical Arts. Dr. Geer has consult openings Thu 2:40, Fri 10:20 and Mon 9:00. Want me to hold one for you?"] },
-    { k: "noshow", t: "Confirm and remind, cut the no-shows", when: "Five days, two days and the night before", what: "A confirmation they can reschedule from in one tap, plus the prep instructions for their specific treatment.", fact: "Seven no-shows last month, about $11,400 of chair time.", src: "Sample", on: true,
+    { k: "noshow", t: "Confirm and remind, cut the no-shows", when: "Five days, two days and the night before", what: "Confirm or move it in one tap, with the prep instructions.", fact: "Seven no-shows last month, about $11,400 of chair time.", src: "Sample", on: true,
       sms: ["Reminder: HALO with Dr. Geer tomorrow at 10:20, 32129 Lindero Canyon Rd, Suite 205. No retinoids or sun today. Reply C to confirm or R to move it."] },
-    { k: "recall", t: "Bring people back on schedule", when: "A treatment series or recheck is due", what: "Hormone rechecks at ninety days, BBL on the Forever Young schedule, annual exams, the second and third diVa sessions. The reasons people drift away.", fact: "", src: "", on: true,
+    { k: "recall", t: "Bring people back on schedule", when: "A treatment series or recheck is due", what: "Rechecks, BBL intervals, annual exams, the next session in a series.", fact: "", src: "", on: true,
       sms: ["Hi, it's Best Self. You're due for your 90-day hormone recheck with Dr. Geer. Here are the next openings, pick any one: bestselfmedicalarts.com/book"] },
-    { k: "reply", t: "Every review answered", when: "A new review on any platform", what: "A reply drafted in your voice that thanks the person without ever confirming they are a patient. You approve it before it posts.", fact: "89% of people expect an owner to respond to reviews.", src: "BrightLocal", on: true },
-    { k: "post", t: "One result, posted everywhere", when: "You have a case worth showing", what: "Caption written, consent checked and on file, then it posts to Google, Instagram and Facebook once you tap OK.", fact: "", src: "", on: false },
-    { k: "winback", t: "Win back the ones who drifted", when: "Twelve months since the last visit", what: "A short note from Dr. Geer, not a coupon, aimed at the open hours on the Joule next week.", fact: "", src: "", on: false,
+    { k: "reply", t: "Every review answered", when: "A new review on any platform", what: "Drafted in your voice, and it never confirms anyone is a patient.", fact: "89% of people expect an owner to respond to reviews.", src: "BrightLocal", on: true },
+    { k: "post", t: "One result, posted everywhere", when: "You have a case worth showing", what: "Caption written, consent checked, posted once you tap OK.", fact: "", src: "", on: false },
+    { k: "winback", t: "Win back the ones who drifted", when: "Twelve months since the last visit", what: "A short note from you, not a coupon, aimed at next week's open hours.", fact: "", src: "", on: false,
       sms: ["Hi, it's Best Self Medical Arts. It's been about a year. Dr. Geer wanted to check in and see how you're feeling. No pressure at all, but if you'd like to come in, here's the calendar."] },
   ],
 
@@ -269,10 +269,7 @@ window.BS = {
       { q: "📷 Receipt photo: Sciton consumables order", img: true, a: "Got it. $2,418.40 to Sciton: two HALO tips and BBL HERO gel. Filed under clinical supplies, tagged to the laser line, and synced to QuickBooks. Laser consumables are now 14% of laser revenue this month, which is about where you want it." },
       { q: "How are we doing this month?", a: "Good month. $148,600 collected, up 9% on October. Lasers are carrying it at a 58% margin. Three things to look at: the Joule was idle 41% of last week, you had seven no-shows worth about $11,400, and 61 inquiries produced 38 booked consults, so a third of the people who raised a hand never got on the calendar." },
       { q: "How full is the Joule next week?", a: "59% booked. Monday and Thursday are nearly full, Tuesday afternoon and Friday morning are wide open, which is 16 hours. At your average laser ticket that's roughly $9,000 of capacity sitting there. The recall list has 18 people due for BBL and 6 mid-HALO series. Want me to text that group with just those two windows?" },
-      { q: "Who hasn't been in for a year?", a: "Forty-two people, and 11 of them are hormone patients who stopped refilling, which is usually a scheduling problem rather than a decision. I've drafted a short note from you for those 11 and a separate one for the 31 aesthetics patients. Nothing sends until you read both." },
       { q: "Any new reviews?", a: "Two. A five-star on Google about HALO and sun damage, and a two-star on Healthgrades about an hour-long wait. Both have replies drafted. Neither reply confirms anyone is a patient, and the Healthgrades one asks them to call the practice manager instead of going back and forth in public. Want to read them?" },
-      { q: "What does a HALO series run, and what's included?", a: "From your own posted pricing: HALO full face from $1,500 a session. The series most people do is one HALO plus two BBL HERO at $500 each, so $2,500, with the follow-up photos and the aftercare kit included. That is the national average you published on the blog, not your current fee schedule, so tell me your real numbers and I'll use those from now on." },
-      { q: "Text the 2:40 consult that we're running 20 minutes behind.", a: "Drafted: \"Hi, it's Best Self Medical Arts. Dr. Geer is running about 20 minutes behind, so plan on 3:00. Sorry about that, and thank you for your patience.\" Send it?" },
       { q: "Which hormone patients are due for a recheck?", a: "Nine are past 90 days, four of them past 120. I have the lab orders ready for all nine and a text that offers each of them the next three openings. Say the word and I'll send the texts, but the lab orders need your signature first." },
     ],
   },
@@ -280,7 +277,7 @@ window.BS = {
   /* practice health. Two companies, two sets of books, both connected to QuickBooks.
      The assistant reads each one and adds them up. (SAMPLE) */
   health: {
-    qb: "Both companies connect to QuickBooks. Best Self Medical Arts and Center for Women's Well Being stay separate sets of books, the way your accountant needs them. The assistant reads both and can show you either one or the two together.",
+    qb: "Both connect to QuickBooks and stay separate, the way your accountant needs them. See either one, or the two together.",
     ents: [["both", "Both companies"], ["bs", "Best Self · Westlake"], ["cw", "Women's Well Being · Camarillo"]],
     books: {
       both: "Best Self Medical Arts, LLC + Center for Women's Well Being",
@@ -349,20 +346,16 @@ window.BS = {
         ["One company earns the reviews, the other gets them.", "A hundred and thirty reviews sit on the Camarillo profile at 3.9 stars. Twelve sit on Best Self at 5.0. Every review from here on should land on the company the patient was actually treated by."],
         ["Westlake is 74% of the money and 100% of the risk.", "Camarillo is steady and insurance-backed. Westlake is bigger, cash-pay and swings with how full the Joule is. Worth watching them apart, not blended."],
         ["The Joule was idle 41% of last week.", "That is roughly 16 open hours on the most expensive thing either company owns. The recall and win-back texts aim straight at those hours."],
-        ["Seven no-shows, about $11,400.", "None of them got a text the night before. Confirmations usually cut that in half on their own."],
-        ["A third of inquiries never got booked.", "Sixty-one people raised a hand and 38 got on the calendar. That is reply speed, not demand."],
       ],
       bs: [
         ["Facials earn 30%. Lasers earn 58%.", "Facials are 8% of revenue and a lot of chair time. Keep them as how people meet you, not as what you sell."],
         ["Five no-shows cost about $9,100.", "Laser blocks are long and expensive to leave empty. A deposit on a card on file ends most of this."],
         ["Forty-four inquiries, 23 consults.", "Half the people who asked never got on the calendar. Most of that gap is answering after hours."],
-        ["Men's vitality is quietly the second-best line.", "Fifty percent margin on 18% of revenue, with almost nothing on the site aimed at finding more of it."],
       ],
       cw: [
         ["$6,300 of insurance is over 60 days.", "Older than 60 days is where claims start getting written off. These are worth chasing this week."],
         ["Nine hormone rechecks are due, four badly.", "Rechecks are the recurring revenue in this company and the easiest thing to let slip."],
         ["Gynecology earns 43% and takes 29% of the time.", "It is the lower-margin half, and it is also what brings people in who later become Westlake patients."],
-        ["This company is invisible online.", "Camarillo appears nowhere in the visible copy on the website, so the 130 reviews it earned point at directories instead of at you."],
       ],
     },
   },
