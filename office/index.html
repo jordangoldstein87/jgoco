@@ -366,8 +366,7 @@
         <div class="fields">
           ${field("Hourly rate ($)", "d_rate", d.hourlyRate, "number", "step=1 min=0")}
           ${field("AI markup (%)", "d_markup", pct(d.aiMarkup), "number", "step=1 min=0")}
-          ${field("Square fee (%)", "d_fee", d.cardFeePercent, "number", "step=0.1 min=0")}
-          ${field("Square fee per charge (¢)", "d_fixed", d.cardFeeFixedCents ?? 30, "number", "step=1 min=0")}
+          ${field("Credit card fee (%, max 3)", "d_fee", d.cardFeePercent ?? 3, "number", "step=0.1 min=0 max=3")}
           ${field("My AI plan per month ($)", "d_subs", d.aiSubscriptionMonthly ?? "", "number", 'step=1 min=0 placeholder="Claude plan plus other AI apps"')}
           ${pricingFields("d", d.aiPricing, false)}
           <label>Live system AI markup<select id="d_apimarkup">${[["0.1", "10%"], ["0.15", "15%"], ["0.2", "20%"]].map(([v, t]) => `<option value="${v}"${String(d.apiMarkup ?? 0.1) === v ? " selected" : ""}>${t}</option>`).join("")}</select></label>
@@ -491,7 +490,7 @@
     });
     $("#defaults")?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: numOrNull("d_fee") ?? settings.defaults.cardFeePercent, cardFeeFixedCents: numOrNull("d_fixed") ?? settings.defaults.cardFeeFixedCents ?? 30, billHours: val("d_hours"), aiPricing: readPricing("d") ?? settings.defaults.aiPricing, aiSubscriptionMonthly: numOrNull("d_subs"), apiMarkup: Number(val("d_apimarkup")) };
+      settings.defaults = { ...settings.defaults, hourlyRate: numOrNull("d_rate") ?? settings.defaults.hourlyRate, aiMarkup: numOrNull("d_markup", 100) ?? settings.defaults.aiMarkup, cardFeePercent: Math.min(3, numOrNull("d_fee") ?? settings.defaults.cardFeePercent ?? 3), billHours: val("d_hours"), aiPricing: readPricing("d") ?? settings.defaults.aiPricing, aiSubscriptionMonthly: numOrNull("d_subs"), apiMarkup: Number(val("d_apimarkup")) };
       await saveSettings("Defaults saved.");
     });
     $("#acct")?.addEventListener("submit", async (e) => {
@@ -573,16 +572,16 @@
 
   // ------------------------------------------------------------------------------------------
   // Invoices. Kept inside the encrypted settings, so they save and sync like everything else.
-  // Two prices: the card price is the regular price and covers Square's real fee; paying by
-  // wire or bank transfer gets a discount back to the base. That's a discount, not a card
-  // surcharge, so debit cards and card-network surcharge rules don't come into it.
+  // The invoice shows the price. Paying by credit card adds a fee (at most 3%) on the payment
+  // page; debit cards and bank transfers pay the invoice price.
   const today = () => new Date().toLocaleDateString("en-CA");
   const addDaysIso = (iso, n) => { const d = new Date(iso + "T12:00:00"); d.setDate(d.getDate() + n); return d.toLocaleDateString("en-CA"); };
   const rid = (n = 24) => { const a = crypto.getRandomValues(new Uint8Array(n)); return btoa(String.fromCharCode(...a)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); };
-  const feePct = () => Number(settings.defaults.cardFeePercent ?? 3.3);
-  const feeFixed = () => Number(settings.defaults.cardFeeFixedCents ?? 30);
-  // Same rule as paymentOptions() in tracker/invoice.mjs.
-  const cardOf = (base) => (base > 0 ? Math.ceil((base + feeFixed()) / (1 - feePct() / 100)) : 0);
+  // Credit cards add a fee on top of the invoice price, capped at 3% (Visa's surcharge limit).
+  // Debit cards pay the invoice price; the Apps Script drops the fee when Square says debit.
+  // Same rule as paymentOptions() in tracker/invoice.mjs and cardFee() in consult-sheet.gs.
+  const feePct = () => Math.min(3, Math.max(0, Number(settings.defaults.cardFeePercent ?? 3)));
+  const cardOf = (base) => (base > 0 ? base + Math.round((base * feePct()) / 100) : 0);
   const baseOf = (inv) => inv.lines.reduce((t, l) => t + (Number(l.amountCents) || 0), 0);
   const invList = () => settings.invoices ?? [];
   // What Money Machine says about an invoice, when it has one with the same id.
@@ -642,7 +641,7 @@
         return `<button class="card section" data-inv="${esc(i.id)}"><span class="top"><b style="font-size:19px">#${esc(i.number)} · ${esc(i.billTo?.name || "No client yet")}</b><b>${cents(baseOf(i))}</b></span>
           <p><span class="pill ${st}" style="margin-left:0">${st}${st === "paid" && i.paidVia ? " · " + esc(i.paidVia) : ""}${st === "paid" && mmOf(i)?.status === "paid" && i.status !== "paid" ? " · Money Machine" : ""}</span> Issued ${esc(i.issued)} · due ${esc(i.due)} · card ${cents(cardOf(baseOf(i)))}</p></button>`;
       }).join("") : '<p class="empty">No invoices yet. Make a quick one, or build one from an account\'s month.</p>'}</div>
-      <p class="lead">Card price covers Square's ${feePct()}% + ${cents(feeFixed())}. Bank transfer gets the discount back to the base. Change the rate on Accounts, under Defaults.</p>`;
+      <p class="lead">Invoices show your price. Credit cards add a ${feePct()}% fee on top; debit cards and bank transfers pay the invoice price. Change the rate on Accounts, under Defaults.</p>`;
   }
 
   function invoiceForm() {
@@ -670,7 +669,7 @@
       <h2>Invoice #${esc(inv.number)} <span class="pill ${st}">${st}</span></h2>
       ${saveNote ? `<div class="private">${esc(saveNote)}</div>` : ""}
       ${inv.pageUrl ? `<div class="card"><div class="eyebrow">Send the client this link</div><div class="linkbox" style="margin-top:8px"><input id="pageLink" readonly value="${esc(inv.pageUrl)}"><button class="btn" id="copyLink" type="button">Copy</button></div>
-        <div class="links"><a class="btn ghost" href="${esc(inv.pageUrl)}" target="_blank" rel="noopener">Open their page</a>${inv.cardUrl ? `<a class="btn ghost" href="${esc(inv.cardUrl)}" target="_blank" rel="noopener">Square checkout</a>` : ""}${b.email ? `<a class="btn ghost" href="mailto:${esc(b.email)}?subject=${encodeURIComponent("Invoice " + inv.number + " from JGoCo")}&body=${encodeURIComponent("Hi,\n\nHere's invoice " + inv.number + " for " + cents(card) + " (" + cents(base) + " by bank transfer). You can view it, download a PDF and pay here:\n" + inv.pageUrl + "\n\nThank you!")}">Email it</a>` : ""}</div>
+        <div class="links"><a class="btn ghost" href="${esc(inv.pageUrl)}" target="_blank" rel="noopener">Open their page</a>${inv.cardUrl ? `<a class="btn ghost" href="${esc(inv.cardUrl)}" target="_blank" rel="noopener">Square checkout</a>` : ""}${b.email ? `<a class="btn ghost" href="mailto:${esc(b.email)}?subject=${encodeURIComponent("Invoice " + inv.number + " from JGoCo")}&body=${encodeURIComponent("Hi,\n\nHere's invoice " + inv.number + " for " + cents(base) + ". You can view it, download a PDF and pay here:\n" + inv.pageUrl + "\n\nThank you!")}">Email it</a>` : ""}</div>
         ${inv.cardWhy ? `<p class="lead" style="margin-top:8px">No card link yet: ${esc(inv.cardWhy)}</p>` : ""}</div>` : ""}
       ${acctPanel}
       <form class="card form" id="invForm">
@@ -689,7 +688,7 @@
         <section class="group"><h3>Lines</h3><p>At the bank-transfer price. The card price is worked out below.</p>
           <div class="lines">${inv.lines.map((l, i) => `<div class="line"><input data-ld="${i}" value="${esc(l.description)}" placeholder="What it's for"${locked ? " disabled" : ""}><input data-la="${i}" type="number" step="0.01" min="0" value="${l.amountCents ? (l.amountCents / 100).toFixed(2) : ""}" placeholder="0.00"${locked ? " disabled" : ""}><button class="x" data-lx="${i}" type="button" title="Remove line"${locked ? " disabled" : ""}>×</button></div>`).join("")}</div>
           ${locked ? "" : `<button class="btn ghost" id="addLine" type="button" style="justify-self:start">Add a line</button>`}
-          <div class="pay"><div><small>Bank transfer or wire</small><b id="t_wire">${cents(base)}</b><small id="t_save">Saves ${cents(card - base)}</small></div><div><small>Card (invoice price)</small><b id="t_card">${cents(card)}</b><small>Covers Square's ${feePct()}% + ${cents(feeFixed())}</small></div></div>
+          <div class="pay"><div><small>Invoice price (bank transfer, debit)</small><b id="t_wire">${cents(base)}</b><small id="t_save">No fee</small></div><div><small>Credit card</small><b id="t_card">${cents(card)}</b><small>Adds a ${feePct()}% card fee</small></div></div>
         </section>
         ${group("Note", "Optional. Shows at the bottom of their page.", `<label style="grid-column:1/-1">Note<input id="i_note" value="${esc(inv.note ?? "")}" placeholder="Thanks for the work this month."></label>`)}
         <div class="actions">
@@ -722,18 +721,11 @@
     await saveSettings(note);
   }
 
-  // The client's copy: lines at the card price (spread in proportion), so the invoice total is
-  // the regular price and bank transfer reads as the discount.
+  // The client's copy: lines at the invoice price. The card fee shows only when they pay by card.
   function clientCopy(inv) {
     const base = baseOf(inv), card = cardOf(base);
-    const lines = inv.lines.filter((l) => l.amountCents > 0);
-    let left = card;
-    const priced = lines.map((l, i) => {
-      const c = i === lines.length - 1 ? left : Math.round((l.amountCents * card) / base);
-      left -= c;
-      return { description: l.description, amountCents: c };
-    });
-    return { publicId: inv.publicId, number: inv.number, issued: inv.issued, due: inv.due, billTo: inv.billTo, lines: priced, wireCents: base, cardCents: card, status: inv.status === "draft" ? "sent" : inv.status, from: settings.defaults.invoiceFrom ?? { name: "JGoCo", email: "jordan@jgoco.me" }, note: inv.note, discountNote: `Bank transfer price: you save ${cents(card - base)} by paying this way. No card fees.` };
+    const priced = inv.lines.filter((l) => l.amountCents > 0).map((l) => ({ description: l.description, amountCents: l.amountCents }));
+    return { publicId: inv.publicId, number: inv.number, issued: inv.issued, due: inv.due, billTo: inv.billTo, lines: priced, wireCents: base, cardCents: card, status: inv.status === "draft" ? "sent" : inv.status, from: settings.defaults.invoiceFrom ?? { name: "JGoCo", email: "jordan@jgoco.me" }, note: inv.note };
   }
 
   async function sheetCall(body) {
@@ -812,7 +804,7 @@
     const recalc = () => {
       readInvoiceForm();
       const base = baseOf(invDraft), card = cardOf(base);
-      $("#t_wire").textContent = cents(base); $("#t_card").textContent = cents(card); $("#t_save").textContent = "Saves " + cents(card - base);
+      $("#t_wire").textContent = cents(base); $("#t_card").textContent = cents(card); $("#t_save").textContent = "No fee";
     };
     document.querySelectorAll("[data-la],[data-ld]").forEach((el) => el.addEventListener("input", recalc));
     $("#invBack").addEventListener("click", () => { invEditing = null; invDraft = null; saveNote = ""; render(); });
