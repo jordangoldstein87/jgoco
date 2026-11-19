@@ -527,6 +527,29 @@ window.BS = {
     },
   },
 
+  /* the voice interview, inline on the page. One place to paste her token. */
+  talk: {
+    /* Jordan's Clients backend. Same one Original Mechanical's call page uses. */
+    script: "https://script.google.com/macros/s/AKfycbyR6DNkxGjEpLr56VBQMB_9HDKmVgr3YnFGhqguR9_KTmnniUDI3KuyMF65BJBMWxmG/exec",
+    /* ── PASTE HER 40-CHARACTER TOKEN HERE ────────────────────────────────────
+       It comes from Dr. Geer's row in the Clients sheet, which needs an agent
+       first. Empty means the page quietly offers the written questions instead,
+       so nothing is ever broken for her. ──────────────────────────────────── */
+    k: "",
+    h: "Talk it through",
+    p: "About fifteen minutes, out loud, instead of a form. Mason asks one question at a time, so the plan fits your practice and not a template.",
+    go: "Start the interview",
+    topics: [
+      "The two practices, and how your week splits between them",
+      "Who does what, and who can run the laser",
+      "How a patient books today, from the first call to the chair",
+      "The chart: intake, consents, photographs, and what happens after",
+      "What you wish ran itself",
+    ],
+    safe: "Your voice is not recorded, only written notes. Mason never asks about fees or what anyone is paid. Please do not name individual patients.",
+    soon: "The voice option is being switched on. The written questions below take about ten minutes in the meantime.",
+  },
+
   /* lines that earn without her in the room. No prices here: her fee schedule is not in yet. */
   earn: {
     h: "Where more comes from,<br><em>without more of you.</em>",

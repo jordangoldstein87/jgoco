@@ -417,6 +417,31 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 .n-in input:focus{outline:2px solid var(--acc)}
 .n-msg{margin:0;font-size:15px;min-height:20px}.n-msg.ok{color:#5fe39a}.n-msg.err{color:#ffb4a8}
 .n-from{margin-top:40px;font-size:14px;opacity:.6}
+.iv{background:#ffffff10;border-radius:22px;padding:40px 32px;max-width:760px;margin:44px auto 26px;display:grid;justify-items:center}
+.iv-face{width:104px;height:104px;border-radius:50%;background:#fff;display:grid;place-items:center;padding:14px;transition:.3s;box-shadow:0 0 0 0 #21ae9200}
+.iv-face svg{width:100%;height:auto;display:block}
+.iv-face.speaking{box-shadow:0 0 0 14px #21ae9226;transform:scale(1.04)}
+.iv h3{margin:22px 0 0;font:500 clamp(24px,2.6vw,31px) var(--dis);color:#fff}
+.iv>p{margin:10px 0 0;max-width:520px;color:#ffffffc4;font-size:16px;line-height:1.6;text-align:center}
+.iv .btn{margin-top:24px}
+.iv [hidden]{display:none}
+.iv .btn.o{background:transparent;border:1px solid #ffffff4d;color:#fff}
+.iv .btn.off{opacity:.45;cursor:default}
+.iv-sum{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:9px;text-align:left;max-width:560px}
+.iv-sum li{background:#ffffff12;border-radius:12px;padding:12px 16px;font-size:15px;color:#ffffffdd;line-height:1.5}
+.iv-tp{list-style:none;counter-reset:t;margin:30px 0 0;padding:26px 0 0;border-top:1px solid #ffffff1f;display:grid;gap:11px;text-align:left;width:100%;max-width:560px}
+.iv-tp li{counter-increment:t;display:grid;grid-template-columns:26px 1fr;gap:12px;font-size:15px;color:#ffffffc9;line-height:1.5}
+.iv-tp li::before{content:counter(t);font:500 15px var(--dis);color:var(--mint)}
+.iv-pv{margin:22px 0 0;font-size:13.5px;color:#ffffff8c;max-width:560px;text-align:center;line-height:1.55}
+.n-w{max-width:760px;margin:0 auto 28px;text-align:left;background:#ffffff10;border-radius:20px;overflow:hidden}
+.n-w summary{cursor:pointer;list-style:none;padding:24px 28px;display:grid;gap:4px}
+.n-w summary::-webkit-details-marker{display:none}
+.n-w summary::after{content:"Open the questions \2193";font:500 15px var(--ui);color:var(--mint);margin-top:8px}
+.n-w[open] summary::after{content:"Close \2191"}
+.n-w summary b{font:500 22px var(--dis);color:#fff}
+.n-w summary span{color:#ffffffb8;font-size:15.5px;line-height:1.55}
+.n-wb{background:#fff;border-radius:16px;margin:0 14px 14px}
+.n-wb iframe{display:block;width:100%;height:1200px;border:0;border-radius:16px}
 
 .n-two{display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left;margin:0 0 28px}
 .n-opt{background:#fff;color:var(--txt);border-radius:20px;padding:26px 28px;text-decoration:none;display:grid;gap:6px;transition:transform .2s}
@@ -576,7 +601,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   <p class="lead">Not a new mark. The figure, the lotus, the colours and the order are all yours. Twenty-five years of recognition stays exactly where it is.</p>
   <div class="lg-two">
     <div class="lg-c"><div class="lab">What you have today</div>
-      <div class="lg-st"><img src="img/work/logo-current.png?v=1795124791" alt="Current logo"></div>
+      <div class="lg-st"><img src="img/work/logo-current.png?v=1795125443" alt="Current logo"></div>
       <p>Ten petals hand-drawn at different widths, a sketched double waterline, and a wordmark with uneven tracking. It holds up on a desktop header and falls apart below about forty pixels.</p>
     </div>
     <div class="lg-c"><div class="lab">Cleaned up</div>
@@ -769,16 +794,24 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 
 <section class="n-sec" id="next"><div class="w">
   <h2>Let's get you found.</h2>
-  <p class="lead">Three things to start, then a short call.</p>
-  <div class="n-st">
-    <div><b>1</b><span>Claim both Google profiles. Nothing else in local search works until this is done.</span></div>
-    <div><b>2</b><span>Check the Fullscript margin setting. It is free and it takes five minutes.</span></div>
-    <div><b>3</b><span>Send us your real fee schedule, so the pricing on the site is yours and not a benchmark.</span></div>
+  <p class="lead">Tell us how the practice runs, out loud or in writing. Then a short call.</p>
+
+  <div class="iv">
+    <div class="iv-face" id="ivFace"><span id="ivMark"></span></div>
+    <h3 id="ivT">Talk it through</h3>
+    <p id="ivS">About fifteen minutes, out loud. Mason asks one question at a time.</p>
+    <button class="btn a" id="ivGo" type="button">Start the interview</button>
+    <button class="btn o" id="ivStop" type="button" hidden>End the call</button>
+    <ul class="iv-sum" id="ivSum" hidden></ul>
+    <ol class="iv-tp" id="ivTopics"></ol>
+    <p class="iv-pv" id="ivSafe"></p>
   </div>
-  <div class="n-two">
-    <a class="n-opt" href="questionnaire.html"><b>Answer a few questions</b><span>About ten minutes, typed, at your own pace. Skip anything you would rather say out loud.</span><em>Open the questionnaire &rarr;</em></a>
-    <a class="n-opt" href="interview.html"><b>Talk it through instead</b><span>About fifteen minutes, out loud. An interviewer asks one question at a time.</span><em>Start the voice interview &rarr;</em></a>
-  </div>
+
+  <details class="n-w">
+    <summary><b>Rather answer in writing?</b><span>About ten minutes, typed, at your own pace. Skip anything you would rather say out loud.</span></summary>
+    <div class="n-wb"><iframe id="nQf" src="questionnaire.html" title="The written questions" loading="lazy"></iframe></div>
+  </details>
+
   <form class="n-f" id="nForm" novalidate>
     <b>Set up a call</b>
     <div class="n-in">
@@ -801,12 +834,13 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   <div class="v-prog"><i id="vBar"></i></div>
 </div>
 
-<script src="logos.js?v=1795124791"></script>
-<script src="data.js?v=1795124791"></script>
-<script src="kb.js?v=1795124791"></script>
-<script src="forms.js?v=1795124791"></script>
-<script src="pitch.js?v=1795124791"></script>
-<script src="music.js?v=1795124791"></script>
-<script src="video.js?v=1795124791"></script>
+<script src="logos.js?v=1795125443"></script>
+<script src="data.js?v=1795125443"></script>
+<script src="kb.js?v=1795125443"></script>
+<script src="forms.js?v=1795125443"></script>
+<script src="pitch.js?v=1795125443"></script>
+<script src="music.js?v=1795125443"></script>
+<script src="video.js?v=1795125443"></script>
+<script src="talk.js?v=1795125443"></script>
 </body>
 </html>

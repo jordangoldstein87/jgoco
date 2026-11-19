@@ -41,6 +41,19 @@
   $("chHonest").textContent = CH.honest;
 
   /* ---------- what it connects to ---------- */
+  const TK = BS.talk;
+  $("ivMark").innerHTML = L.mark(col, "ivmark");
+  $("ivT").textContent = TK.h;
+  $("ivS").textContent = TK.p;
+  $("ivGo").textContent = TK.go;
+  $("ivTopics").innerHTML = TK.topics.map((x) => `<li>${esc(x)}</li>`).join("");
+  $("ivSafe").textContent = TK.safe;
+  /* the written questions sit in a frame, so it has to be told how tall they are */
+  addEventListener("message", (e) => {
+    if (e.source === $("nQf").contentWindow && e.data && e.data.bsHeight)
+      $("nQf").style.height = Math.max(640, e.data.bsHeight) + "px";
+  });
+
   const EA = BS.earn;
   $("erH").innerHTML = EA.h;
   $("erP").textContent = EA.p;
