@@ -138,7 +138,7 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
   <div class="nda-body" id="ndab"></div>
 </div></div>
 
-<script src="logos.js?v=1795126469"></script>
+<script src="logos.js?v=1795127418"></script>
 <script>(function(){
   const L = BS_LOGOS.bsma, c = L.colors;
   document.getElementById("bsLogo").innerHTML = L.lockup({ ...c, ink: "#ffffff" }, "iv").replace("<svg ", '<svg style="height:100%;width:auto" ');
@@ -168,7 +168,8 @@ main { max-width: 640px; margin: 0 auto; padding: 34px 20px 70px; display: grid;
     host = String(r.host || host).replace(/[<>&"]/g, "");
     title.textContent = `Talk with ${host}`; document.title = `Talk with ${host}`;
     document.querySelectorAll(".host").forEach(e => e.textContent = host);
-    const first = String(r.name || "").trim().split(/\s+/)[0];
+    const w = String(r.name || "").trim().split(/\s+/);
+    const first = /^(Dr|Mr|Ms|Mrs|Prof)\.?$/i.test(w[0]) ? w.slice(0, 2).join(" ") : w[0];
     if (first) $("hi").innerHTML = `Hi ${first.replace(/[<>&"]/g, "")}. Tell us how the <em>practice</em> runs.`;
     if (r.returning) { go.textContent = "Pick up where we left off"; say.textContent = `${host} remembers what you covered last time.`; }
     ndaState = r.nda || "none";
