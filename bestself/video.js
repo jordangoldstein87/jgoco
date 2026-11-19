@@ -46,27 +46,33 @@
       <div class="v-cal">${slots.map((s, i) => `<span class="v-pop ${i === 5 ? "on" : ""}" style="animation-delay:${0.3 + i * 0.16}s">${s}</span>`).join("")}</div>
       <div class="v-sub v-in d5">Picked and booked, at eleven at night</div></div>`; },
 
-    channels: () => `<div class="v-c"><div class="v-k v-in">7 &middot; Book from anywhere</div>
+    channels: () => `<div class="v-c"><div class="v-k v-in">5 &middot; Book from anywhere</div>
       <div class="v-tiles">${BS.channels.rows.map(([n, , k], i) =>
         `<span class="v-pop" style="animation-delay:${0.25 + i * 0.22}s">${n}<i>${k === "live" ? "\u25cf" : "\u2192"}</i></span>`).join("")}</div>
       <div class="v-sub v-in d5">One calendar behind all of it</div></div>`,
 
-    listings: () => `<div class="v-c"><div class="v-k v-in">6 · Getting found</div>
+    connect: () => `<div class="v-c"><div class="v-k v-in">6 &middot; What it connects to</div>
+      <div class="v-tiles v-dis">${BS.connect.have.map(([n], i) =>
+        `<span class="v-pop" style="animation-delay:${0.15 + i * 0.13}s">${n}</span>`).join("")}</div>
+      <div class="v-join v-pop" style="animation-delay:2.2s"><i></i><em>One place</em></div>
+      <div class="v-sub v-in d5">Nothing thrown out. Nothing retyped.</div></div>`,
+
+    listings: () => `<div class="v-c"><div class="v-k v-in">7 &middot; Getting found</div>
       <div class="v-tiles">${BS.listings.map(([n], i) => `<span class="v-pop" style="animation-delay:${0.25 + i * 0.2}s">${n}<i>✓</i></span>`).join("")}</div></div>`,
 
-    ads: () => `<div class="v-c"><div class="v-k v-in">9 · What the clicks cost</div>
+    ads: () => `<div class="v-c"><div class="v-k v-in">10 &middot; What the clicks cost</div>
       <div class="v-bars">${BS.ads.kw.slice(0, 5).map(([k, c], i) => {
         const w = [88, 62, 44, 36, 70][i];
         return `<div class="v-in d${i + 1}"><span>${k}</span><p><i style="width:${w}%;background:${["#21AE92", "#4795C1", "#6FBBDA", "#9B7CC8", "#C86FB4"][i]}"></i></p><b>${c.split(" ")[0]}</b></div>`;
       }).join("")}</div></div>`,
 
-    assistant: () => { const S = BS.ai.sheet; return `<div class="v-c"><div class="v-k v-in">10 &middot; Your assistant</div><div class="v-split">
+    assistant: () => { const S = BS.ai.sheet; return `<div class="v-c"><div class="v-k v-in">11 &middot; Your assistant</div><div class="v-split">
       <div class="v-sms v-in"><div class="v-me">Run tomorrow. Confirm everyone and tell me the gaps.</div>
       <div class="v-them v-pop" style="animation-delay:1.2s">Texted all five. Confirmed 11 of 13. Two gaps left, 1:20 and 4:00.</div></div>
       <div class="v-sheet v-in d1"><b>Day sheet · ${S.day} · ${S.call}</b>
       ${S.rows.map(([n, t, stt, tm, k], i) => `<div><span>${n}</span><em class="v-st ${k}" style="animation-delay:${2.1 + i * 0.7}s">${stt}</em></div>`).join("")}</div></div></div>`; },
 
-    health: () => `<div class="v-c"><div class="v-k v-in">12 · Your numbers</div>
+    health: () => `<div class="v-c"><div class="v-k v-in">13 &middot; Your numbers</div>
       <div class="v-bars">${BS.health.jobs.both.slice(0, 5).map(([n, k, c, cost], i) => {
         const m = Math.round((1 - cost / c) * 100);
         return `<div class="v-in d${i + 1}"><span>${n}</span><p><i style="width:${m * 1.6}%;background:${m >= 50 ? "#2fbf71" : m >= 38 ? "#f2b230" : "#e05252"}"></i></p><b>${m}%</b></div>`;

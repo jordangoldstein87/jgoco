@@ -101,6 +101,14 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 .cx-rep{background:var(--mint);border-radius:18px;padding:26px 30px;margin-top:28px}
 .cx-rep b{display:block;font:500 20px var(--dis);color:var(--ink);margin-bottom:6px}
 .cx-rep p{margin:0;font-size:15.5px;color:#2a4b52;line-height:1.62}
+.er-l{margin-top:46px;border-top:1px solid var(--line)}
+.er-r{display:grid;grid-template-columns:1fr 1.55fr;gap:30px;padding:26px 2px;border-bottom:1px solid var(--line);align-items:start}
+.er-r b{display:block;font:500 clamp(19px,2vw,23px) var(--dis);color:var(--ink);line-height:1.25}
+.er-r em{display:block;margin-top:9px;font:600 11.5px var(--ui);font-style:normal;letter-spacing:.13em;text-transform:uppercase;color:var(--acc)}
+.er-r p{margin:0;font-size:15.5px;color:var(--mut);line-height:1.64}
+.er-n{background:var(--mint);border-radius:18px;padding:26px 30px;margin-top:30px}
+.er-n b{display:block;font:500 20px var(--dis);color:var(--ink);margin-bottom:6px}
+.er-n p{margin:0;font-size:15.5px;color:#2a4b52;line-height:1.62}
 
 /* who this is for */
 .tm-two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:44px}
@@ -470,6 +478,10 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 .v-cal span.on{background:var(--acc);color:var(--deep)}
 .v-in{animation:vin .8s both}.d1{animation-delay:.3s}.d2{animation-delay:.6s}.d3{animation-delay:.9s}.d4{animation-delay:1.2s}.d5{animation-delay:1.5s}
 @keyframes vin{from{opacity:0;transform:translateY(18px)}}
+.v-tiles.v-dis span{background:transparent;border:1.5px dashed #ffffff45;color:#ffffffbf;font-size:18px;padding:13px 19px}
+.v-join{display:grid;place-items:center;margin-top:30px}
+.v-join i{display:block;width:2px;height:36px;background:linear-gradient(#ffffff1f,var(--acc))}
+.v-join em{font-style:normal;margin-top:16px;background:var(--acc);color:#fff;border-radius:999px;padding:13px 34px;font:500 clamp(18px,2vw,24px) var(--ui)}
 .v-pop{animation:vpop .45s both}@keyframes vpop{from{opacity:0;transform:scale(.85)}}
 .vid.paused *{animation-play-state:paused!important}
 .cap .vid *{animation-duration:0s!important;animation-delay:0s!important}
@@ -498,7 +510,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   .rv{grid-template-columns:1fr}.rv-l{border-right:0}.rv-d{padding:22px}
   .au-g{grid-template-columns:1fr}.au-ph{position:static;max-width:320px;margin:0 auto}
   .hl-k{grid-template-columns:1fr 1fr}
-  .tm-two,.ch-g,.n-two,.cx-out{grid-template-columns:1fr}
+  .tm-two,.ch-g,.n-two,.cx-out,.er-r{grid-template-columns:1fr}
   .cx-hub{flex-direction:column;text-align:center;padding:22px}.tm-m{padding:22px}.tm-m .mr{grid-template-columns:1fr;gap:4px}
   .ad-r{grid-template-columns:1fr auto;gap:4px 12px}
   .ad-r span{grid-column:1/-1;font-size:13px}
@@ -522,7 +534,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
     <a href="#today">Today</a><a href="#team">Your team</a><a href="#logo">Logo</a><a href="#site">Website</a><a href="#book">The new site</a>
     <a href="#connect">Connects to</a><a href="#listings">Listings</a><a href="#reviews">Reviews</a>
     <a href="#auto">Marketing</a><a href="#ads">Ads</a><a href="#ai">Assistant</a><a href="#tools">Back office</a>
-    <a href="#health">Numbers</a><a href="#next">Next</a>
+    <a href="#health">Numbers</a><a href="#earn">More revenue</a><a href="#next">Next</a>
   </nav>
 </div>
 
@@ -564,7 +576,7 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   <p class="lead">Not a new mark. The figure, the lotus, the colours and the order are all yours. Twenty-five years of recognition stays exactly where it is.</p>
   <div class="lg-two">
     <div class="lg-c"><div class="lab">What you have today</div>
-      <div class="lg-st"><img src="img/work/logo-current.png?v=1795124373" alt="Current logo"></div>
+      <div class="lg-st"><img src="img/work/logo-current.png?v=1795124791" alt="Current logo"></div>
       <p>Ten petals hand-drawn at different widths, a sketched double waterline, and a wordmark with uneven tracking. It holds up on a desktop header and falls apart below about forty pixels.</p>
     </div>
     <div class="lg-c"><div class="lab">Cleaned up</div>
@@ -747,6 +759,14 @@ h2{font-size:clamp(32px,4.4vw,56px)}
 
 
 
+<section class="sec-w" id="earn"><div class="w">
+  <div class="kick">14 &nbsp;Where more comes from</div>
+  <h2 id="erH"></h2>
+  <p class="lead" id="erP"></p>
+  <div class="er-l" id="erList"></div>
+  <div class="er-n" id="erNote"></div>
+</div></section>
+
 <section class="n-sec" id="next"><div class="w">
   <h2>Let's get you found.</h2>
   <p class="lead">Three things to start, then a short call.</p>
@@ -781,12 +801,12 @@ h2{font-size:clamp(32px,4.4vw,56px)}
   <div class="v-prog"><i id="vBar"></i></div>
 </div>
 
-<script src="logos.js?v=1795124373"></script>
-<script src="data.js?v=1795124373"></script>
-<script src="kb.js?v=1795124373"></script>
-<script src="forms.js?v=1795124373"></script>
-<script src="pitch.js?v=1795124373"></script>
-<script src="music.js?v=1795124373"></script>
-<script src="video.js?v=1795124373"></script>
+<script src="logos.js?v=1795124791"></script>
+<script src="data.js?v=1795124791"></script>
+<script src="kb.js?v=1795124791"></script>
+<script src="forms.js?v=1795124791"></script>
+<script src="pitch.js?v=1795124791"></script>
+<script src="music.js?v=1795124791"></script>
+<script src="video.js?v=1795124791"></script>
 </body>
 </html>

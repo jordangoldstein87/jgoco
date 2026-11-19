@@ -40,7 +40,7 @@ window.BS = {
 
   /* the opening video: one narrated line per scene (rendered by tools/narrate.mjs into img/vo/) */
   video: {
-    scenes: [["open", 7], ["today", 7], ["logo", 5], ["site", 6], ["chat", 7], ["book", 6], ["channels", 6.5], ["listings", 6], ["ads", 6], ["assistant", 7], ["health", 6], ["end", 5]],
+    scenes: [["open", 7], ["today", 7], ["logo", 5], ["site", 6], ["chat", 7], ["book", 6], ["channels", 6.5], ["connect", 8], ["listings", 6], ["ads", 6], ["assistant", 7], ["health", 6], ["end", 5]],
     narr: {
       open: "Doctor Geer. Twenty-five years. Two practices. A Sciton Luminary who trains other physicians, and a protocol you invented called The Big Reset.",
       today: "But online, nothing finds you. Your own name and domain returned nothing. Your strongest reviews sit on the wrong listing. And not one button on your site books an appointment.",
@@ -49,6 +49,7 @@ window.BS = {
       chat: "With a knowledge base behind it. Every question you have answered a thousand times, answered again at eleven at night, with the source.",
       book: "And the thing your site has never had. A patient picks a time and books it.",
       channels: "Most people never reach your website. They book from Google, from Instagram, from a maps app. All of it lands on one calendar.",
+      connect: "Each of those is a separate login that tells the next one nothing. We wire them together, so all of it lands in one place.",
       listings: "Every listing claimed, merged and pointed at Westlake Village.",
       ads: "Then we buy the searches you are missing, with the cost of every keyword on the table first.",
       assistant: "One assistant, three doors. Text it, chat it on the site, or ask it in ChatGPT. It knows your schedule, your devices and your books, and nothing goes out without your OK.",
@@ -523,6 +524,30 @@ window.BS = {
     replace: {
       t: "And where something is worth replacing",
       p: "Some of what you have is quietly costing you, and we would look at it with you rather than rule on it. Three supplement dispensaries competing for the same order. A mailing list whose own terms prohibit health data. A payment page that cannot take a deposit. Each one is a short conversation, not a project.",
+    },
+  },
+
+  /* lines that earn without her in the room. No prices here: her fee schedule is not in yet. */
+  earn: {
+    h: "Where more comes from,<br><em>without more of you.</em>",
+    p: "Almost everything that earns here needs you personally. That is the ceiling. These are the lines that do not, and each one is work your team can carry while you are in the other room.",
+    rows: [
+      ["Laser hair removal and BBL", "A laser-qualified RN, supervised",
+       "California lets you delegate a medical laser to an RN, NP or PA under your supervision. Never to an unlicensed esthetician. One qualified nurse turns the Joule's empty hours into bookable ones without adding a day to your week."],
+      ["Facials, peels and dermaplaning", "A licensed esthetician",
+       "Entirely outside your chair, and the natural first visit for someone who is not ready for a laser yet. It is also how a new patient meets the practice before they meet you."],
+      ["Supplements", "Nobody. It refills itself.",
+       "You have three dispensaries competing for the same order. Consolidate to one, turn on scheduled refills, and it earns while the office is closed."],
+      ["Medical-grade skincare", "The front desk, or the website",
+       "Post-procedure skincare is already part of your protocol. Sold online, the reorder stops needing a phone call."],
+      ["Memberships and packages", "Bought online, redeemed over a year",
+       "A prepaid series for the treatments people already repeat. Paid once, used slowly, and it evens out the quiet months."],
+      ["Hormone follow-ups and labs", "An NP, supervised",
+       "The Big Reset's check-ins and refills are a cadence, not a consultation. Most of them do not need to be you."],
+    ],
+    note: {
+      t: "What would make this real",
+      p: "Which of these is actually worth doing depends on your fee schedule and your supervision setup, and we have neither yet. Send the fee schedule and tell us who on the team holds which licence, and we will put real numbers against every line above instead of guessing at them.",
     },
   },
 

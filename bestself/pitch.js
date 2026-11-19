@@ -41,6 +41,13 @@
   $("chHonest").textContent = CH.honest;
 
   /* ---------- what it connects to ---------- */
+  const EA = BS.earn;
+  $("erH").innerHTML = EA.h;
+  $("erP").textContent = EA.p;
+  $("erList").innerHTML = EA.rows.map(([t, who, p]) =>
+    `<div class="er-r rise"><div><b>${esc(t)}</b><em>${esc(who)}</em></div><p>${esc(p)}</p></div>`).join("");
+  $("erNote").innerHTML = `<b>${esc(EA.note.t)}</b><p>${esc(EA.note.p)}</p>`;
+
   const CX = BS.connect;
   $("cxH").innerHTML = CX.h;
   $("cxP").textContent = CX.p;
